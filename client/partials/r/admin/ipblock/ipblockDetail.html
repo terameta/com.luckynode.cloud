@@ -1,0 +1,100 @@
+<div class="col-xs-6">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title"><i class="fa fa-share-alt fa-fw"></i>  Main Information</h3>
+		</div>
+		<div class="panel-body">
+			<form editable-form name="ipblockEditForm" onaftersave="saveIPBlock()">
+				<div class="table-responsive">
+					<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+						<tbody>
+							<tr><td><b>Name:</b></td>		<td><span editable-text="curBlock.name">{{ curBlock.name }}</span></td></tr>
+							<tr><td><b>Gateway:</b></td>	<td><span editable-text="curBlock.gateway">{{ curBlock.gateway }}</span></td></tr>
+							<tr><td><b>Netmask:</b></td>	<td><span editable-text="curBlock.netmask">{{ curBlock.netmask }}</span></td></tr>
+							<tr><td><b>Name Server:</b></td>	<td><span editable-text="curBlock.nameserver1">{{ curBlock.nameserver1 }}</span></td></tr>
+							<tr><td><b>Name Server:</b></td>	<td><span editable-text="curBlock.nameserver2">{{ curBlock.nameserver2 }}</span></td></tr>
+							<tr>
+								<td><b>Data Centers:</b></td>
+								<td><label editable-checklist="curBlock.dcs" e-ng-options="dataCenter._id as dataCenter.name for dataCenter in dataCenters">{{showBlockDCs()}}</label></td>
+							</tr>
+							<tr>
+								<td><b>Nodes:</b></td>
+								<td><label editable-checklist="curBlock.nodes" e-ng-options="node._id as node.name for node in nodes">{{showBlockNodes()}}</label></td>
+							</tr>
+							<!--tr>
+								<td><b>Detail:</b></td>
+								<td>
+									<button type="button" class="btn btn-primary btn-xs" ng-click="showIPblockDetail=true">Show</button><br /><br />
+									<pre ng-if="showIPblockDetail">{{ curBlock | json }}</pre>
+								</td>
+							</tr-->
+							<tr>
+								<td colspan=2>
+									<button type="button" class="btn btn-primary btn-xs" ng-click="ipblockEditForm.$show()" ng-show="!ipblockEditForm.$visible">Edit</button>
+									<button type="button" class="btn btn-danger btn-xs" ng-click="deleteIPBlock()" ng-show="!ipblockEditForm.$visible">Delete</button>
+									<button type="submit" class="btn btn-success btn-xs" ng-disabled="ipblockEditForm.$waiting" ng-show="ipblockEditForm.$visible">Save</button>
+									<button type="button" class="btn btn-warning btn-xs" ng-disabled="ipblockEditForm.$waiting" ng-click="ipblockEditForm.$cancel()" ng-show="ipblockEditForm.$visible">Cancel</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="col-xs-6">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">IP Addresses</h3>
+		</div>
+		<div class="panel-body">
+			<button type="button" class="btn btn-primary btn-xs" ng-click="showhidesingleIPform()">Add Single IP</button>
+			<button type="button" class="btn btn-primary btn-xs" ng-click="showhidemultipleIPform()">Add IP Range</button>
+			<form ng-show="singleIPformvisible" id="singleIPform" class="form-horizontal" role="form" ng-submit="addSingleIP(_theIP)">
+				<hr />
+				<div ng-if="singleIPformalert" class="alert alert-danger alert-sm col-sm-12">{{singleIPformalert}}</div>
+				<div class="input-group">
+					<span class="input-group-addon" style="text-align:left;">IP Address</span>
+					<input type="text" ng-model="_theIP" placeholder="please enter IP address" class="form-control" />
+					<span class="input-group-btn" style="text-align:left;"><button type="submit" class="btn btn-success" ng-click="submit()">Add</button></span>
+					<span class="input-group-btn" style="text-align:left;"><button type="button" class="btn btn-warning" ng-click="showhidesingleIPform()">Cancel</button></span>
+				</div><br />
+			</form>
+			<form ng-show="multipleIPformvisible" id="multipleIPform" class="form-horizontal" role="form" ng-submit="addMultipleIP(_theIP1, _theIP2)">
+				<hr />
+				<div ng-if="multipleIPformalert" class="alert alert-danger alert-sm col-sm-12">{{multipleIPformalert}}</div>
+				<div class="input-group">
+					<span class="input-group-addon" style="min-width:100px;text-align:left;">First IP</span>
+					<input type="text" ng-model="_theIP1" placeholder="please enter IP address" class="form-control" />
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon" style="min-width:100px;text-align:left;">Last IP</span>
+					<input type="text" ng-model="_theIP2" placeholder="please enter IP address" class="form-control" />
+				</div><br />
+				<button type="submit" class="btn btn-success btn-xs">Add</button>
+				<button type="button" class="btn btn-warning btn-xs">Cancel</button>
+				<br />
+			</form>
+			<div class="table-responsive" ng-show="curBlock.ips">
+				<hr />
+				<table class="table table-bordered table-condensed table-hover table-striped">
+					<thead>
+						<tr>
+							<th>IP</th>
+							<th>MAC</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="ip in curBlock.ips">
+							<td>{{ip.ip}}</td>
+							<td editable-text="ip.mac" onbeforesave="checkMAC($data)" onaftersave="saveIPBlock()">{{ip.mac || 'Dynamically Assigned'}}</td>
+							<td><button type="button" class="btn btn-warning btn-xs" ng-click="deleteIPfromBlock(ip.ip)">Delete</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

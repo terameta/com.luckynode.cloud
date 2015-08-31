@@ -1,0 +1,34 @@
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h3 class="panel-title"><i class="fa fa-clone fa-fw"></i>  Main Information</h3>
+	</div>
+	<div class="panel-body">
+		<form editable-form name="planEditForm" onaftersave="savePlan()">
+			<div class="table-responsive">
+				<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+					<tbody>
+						<tr><td><b>Name: 		</b></td><td><span editable-text="curPlan.name">{{ curPlan.name }}</span></td></tr>
+						<tr><td><b>CPU: 		</b></td><td><span editable-text="curPlan.cpu">{{ curPlan.cpu }} Core(s)</span></td></tr>
+						<tr><td><b>RAM: 		</b></td><td><span editable-text="curPlan.ram">{{ curPlan.ram }} MB</span></td></tr>
+						<tr><td><b>HDD: 		</b></td><td><span editable-text="curPlan.hdd">{{ curPlan.hdd }} GB</span></td></tr>
+						<tr><td><b>SWAP: 		</b></td><td><span editable-text="curPlan.swap">{{ curPlan.swap }} MB</span></td></tr>
+						<tr><td><b>Bandwidth: 	</b></td><td><span editable-text="curPlan.bandwidth">{{ curPlan.bandwidth }} GB</span></td></tr>
+						<tr>
+							<td><b>Detail:</b></td>
+							<td><pre>{{ curPlan | json }}</pre>
+							</td>
+						</tr>
+						<tr>
+							<td colspan=2>
+								<button type="button" class="btn btn-primary btn-xs" ng-click="planEditForm.$show()" ng-show="!planEditForm.$visible">Edit</button>
+								<button type="button" class="btn btn-danger btn-xs" ng-click="deletePlan()" ng-show="!planEditForm.$visible">Delete</button>
+								<button type="submit" class="btn btn-success btn-xs" ng-disabled="planEditForm.$waiting" ng-show="planEditForm.$visible">Save</button>
+								<button type="button" class="btn btn-warning btn-xs" ng-disabled="planEditForm.$waiting" ng-click="planEditForm.$cancel()" ng-show="planEditForm.$visible">Cancel</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</form>
+	</div>
+</div>

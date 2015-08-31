@@ -1,0 +1,58 @@
+<div class="panel panel-info" style="margin:0;padding:0">
+	<div class="panel-heading">
+		<div class="panel-title"><i class="fa fa-share-alt fa-fw"></i> New IP Block</div>
+	</div>
+	<div class="panel-body" style="padding-top:30px;">
+		<div ng-if="ipblocknewalert" class="alert alert-danger alert-sm col-sm-12">{{ipblocknewalert}}</div>
+		<form id="newipblockform" class="form-horizontal" role="form" ng-submit="addIPBlock(_name, _gateway, _netmask, _nameserver1, _nameserver2)">
+			<div class="input-group" style="margin-bottom:2px;">
+				<span class="input-group-addon" style="min-width:200px;text-align:left;">Block Name*</span>
+				<input type="text" ng-model="_name" placeholder="please enter IP block name" class="form-control" />
+			</div>
+			<div class="input-group" style="margin-bottom:2px;">
+				<span class="input-group-addon" style="min-width:200px;text-align:left;">Gateway*</span>
+				<input type="text" ng-model="_gateway" placeholder="please enter gateway IP address" class="form-control" />
+			</div>
+			<div class="input-group" style="margin-bottom:2px;">
+				<span class="input-group-addon" style="min-width:200px;text-align:left;">Netmask*</span>
+				<input type="text" ng-model="_netmask" placeholder="please enter netmask" class="form-control" />
+			</div>
+			<div class="input-group" style="margin-bottom:2px;">
+				<span class="input-group-addon" style="min-width:200px;text-align:left;">Name Server*</span>
+				<input type="text" ng-model="_nameserver1" placeholder="please enter name server IP address" class="form-control" />
+			</div>
+			<div class="input-group" style="margin-bottom:2px;">
+				<span class="input-group-addon" style="min-width:200px;text-align:left;">Name Server*</span>
+				<input type="text" ng-model="_nameserver2" placeholder="please enter name server IP address" class="form-control" />
+			</div>
+			<div class="input-group" style="margin-bottom:2px;">
+				<span class="input-group-addon" style="min-width:200px;max-width:200px;word-wrap: break-word;text-align:left;">
+					Assign to Datacenters
+				</span>
+				<div style="padding:10px 18px;border:1px solid rgb(204,204,204);box-sizing:border-box;">
+				<div class="checkbox" ng-repeat="dataCenter in dataCenters" >
+					<label>
+						<input type="checkbox" name="_selectedDataCenters[]" ng-model="dataCenter.checked" value="dataCenter._id"> {{dataCenter.name}}@{{dataCenter.location}}
+					</label>
+				</div>
+				</div>
+			</div>
+			<div class="input-group" style="margin-bottom:2px;">
+				<span class="input-group-addon" style="min-width:200px;text-align:left;">Assign to Nodes</span>
+				<div style="padding:10px 18px;border:1px solid rgb(204,204,204);box-sizing:border-box;">
+				<div class="checkbox" ng-repeat="node in nodes" >
+					<label>
+						<input type="checkbox" name="_selectedNodes[]" ng-model="node.checked" value="node._id"> {{node.name}}@{{ (dataCenters | filter:{_id: node.datacenter})[0].name || 'Not set' }}
+					</label>
+				</div>
+				</div>
+			</div>
+			<div style="margin-top:10px" class="form-group">
+				<div class="col-sm-12 controls">
+					<button type="submit" class="btn btn-success btn-sm">Create</button>
+					<button type="button" ng-click="addIPBlockcancel()" class="btn btn-danger btn-sm">Cancel</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
