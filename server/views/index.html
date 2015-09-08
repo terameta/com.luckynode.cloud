@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="cloudApp">
+
+<head>
+	<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+	<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
+	<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+	<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+	<link rel="manifest" href="/manifest.json">
+	<meta name="msapplication-TileColor" content="#603cba">
+	<meta name="msapplication-TileImage" content="/mstile-144x144.png">
+	<meta name="theme-color" content="#ffffff">
+	<title>LuckyNode :: Your cloud, at your service</title>
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/flatly.bootstrap.min.css">
+	<!--link rel="stylesheet" type="text/css" href="lib/bootstrap-social/bootstrap-social.css"-->
+	<link rel="stylesheet" type="text/css" href="lib/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="lib/angular-loading-bar/build/loading-bar.min.css">
+	<link rel="stylesheet" type="text/css" href="lib/angular-xeditable/dist/css/xeditable.css">
+	<link rel="stylesheet" type="text/css" href="css/cloud.css">
+	<script type="text/javascript" src="lib/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="lib/angular/angular.min.js"></script>
+	<script type="text/javascript" src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script type="text/javascript" src="lib/angular-resource/angular-resource.min.js"></script>
+	<script type="text/javascript" src="lib/angular-loading-bar/build/loading-bar.min.js"></script>
+	<script type="text/javascript" src="lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script type="text/javascript" src="lib/angular-sanitize/angular-sanitize.min.js"></script>
+	<script type="text/javascript" src="lib/angular-xeditable/dist/js/xeditable.js"></script>
+	<script type="text/javascript" src="lib/checklist-model/checklist-model.js"></script>
+	<script type="text/javascript" src="js/cloud.js"></script>
+	<script type="text/javascript" src="js/cloudcontrollers.js"></script>
+	<script type="text/javascript" src="js/cloudservices.js"></script>
+	<script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="partials/r/admin/isofile/isofile.js"></script>
+	<script type="text/javascript" src="partials/r/admin/server/server.js"></script>
+	<script type="text/javascript" src="partials/r/admin/image/image.js"></script>
+	<script type="text/javascript" src="lib/no-vnc/include/util.js"></script>
+	<script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="lib/toastr/toastr.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script type="text/javascript">
+		toastr.options = {
+			"closeButton": true,
+			"debug": false,
+			"newestOnTop": true,
+			"progressBar": true,
+			"positionClass": "toast-top-right",
+			"preventDuplicates": false,
+			"onclick": null,
+			"showDuration": "300",
+			"hideDuration": "1000",
+			"timeOut": "5000",
+			"extendedTimeOut": "1000",
+			"showEasing": "swing",
+			"hideEasing": "linear",
+			"showMethod": "fadeIn",
+			"hideMethod": "fadeOut"
+		};
+	</script>
+	<style>
+		#toast-container > div {opacity:1;}
+	</style>
+</head>
+
+<body>
+	<div ui-view></div>
+</body>
+
+</html>

@@ -1,5 +1,9 @@
+.bowerrc
 .c9
 .git
 npm-debug.log
+luckynode.config
+monger.luckynode.ca.pem
+client/lib/*
 node_modules
 node_modules/*

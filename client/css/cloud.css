@@ -1,0 +1,78 @@
+@import url(https://fonts.googleapis.com/css?family=Fredericka+the+Great|Roboto|Roboto+Condensed|Roboto+Mono|Roboto+Slab|Bree+Serif);
+
+body {
+	padding-top: 64px;
+}
+
+.main{
+	padding-left: 221px;
+	padding-right: 5px;
+}
+
+.cloud-side-menu{
+	background-color: #3a3a3a;
+	position: fixed;
+	color: white;
+	/*width: calc(100% / 12);*/
+	width: 216px;
+	height: 100%;
+	padding: 0;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.cloud-side-menu > ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.cloud-side-menu > ul > li {
+    padding: 5px 15px;
+    text-align: left;
+    cursor: pointer;
+    border-bottom: 1px solid #666666;
+    color: #ffffff;
+    font-family: 'Roboto', serif;
+    font-size: 16px;
+    line-height: 16px;
+}
+
+.cloud-side-menu > ul > li:last-of-type {
+    border: 0;
+}
+
+.cloud-side-menu li:hover {
+  border-left: 3px solid #d19b3d;
+  background-color: #4f5b69;
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  -ms-transition: all 1s ease;
+  transition: all 1s ease;
+}
+
+.cloud-side-menu .active{
+	color: black !important;
+	background-color: silver !important;
+	/*background-image: url('/img/caretleft.png');*/
+    background-repeat: no-repeat;
+    background-position: right center;
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    -ms-transition: none !important;
+    transition: none !important;
+}
+
+.cloudInlineInput{
+	border: 0;
+	border-bottom: 1px solid black;
+}
+
+.table-nonfluid {
+   width: auto !important;
+}
+
+.editable-checklist label {
+  display: block;
+}

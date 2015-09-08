@@ -1,0 +1,24 @@
+<div class="panel panel-info" style="margin:0;padding:0">
+	<div class="panel-heading">
+		<div class="panel-title"><i class="fa fa-building-o fa-fw"></i> New Data Center</div>
+	</div>
+	<div class="panel-body" style="padding-top:30px;">
+		<div ng-if="datacenternewalert" class="alert alert-danger alert-sm col-sm-12">{{datacenternewalert}}</div>
+		<form id="newdatacenterform" class="form-horizontal" role="form" ng-submit="addDC(_dcname, _dclocation)">
+			<div class="input-group" style="margin-bottom:25px;">
+				<span class="input-group-addon" style="min-width:100px;text-align:left;">Name</span>
+				<input type="text" ng-model="_dcname" placeholder="please enter data center name" class="form-control" />
+			</div>
+			<div class="input-group" style="margin-bottom:25px;">
+				<span class="input-group-addon" style="min-width:100px;text-align:left;">Location</span>
+				<input type="text" ng-model="_dclocation" placeholder="please enter data center location" class="form-control" id="_dclocation" />
+			</div>
+			<div style="margin-top:10px" class="form-group">
+				<div class="col-sm-12 controls">
+					<button type="submit" class="btn btn-success btn-sm">Create</button>
+					<button type="button" ng-click="addDCcancel()" class="btn btn-danger btn-sm">Cancel</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,70 @@
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h3 class="panel-title"><i class="fa fa-building fa-fw"></i>  Main Information</h3>
+	</div>
+	<div class="panel-body">
+		<form editable-form name="dataCenterEditForm" onaftersave="saveDC()">
+			<div class="table-responsive">
+				<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+					<!--thead>
+						<tr>
+							<th>Property</th>
+							<th>Data</th>
+						</tr>
+					</thead-->
+					<tbody>
+						<tr>
+							<td><b>Name:</b></td>
+							<td>
+								<span editable-text="curDC.name">{{ curDC.name }}</span>
+							</td>
+						</tr>
+						<tr>
+							<td><b>Location:</b></td>
+							<td>
+								<span editable-text="curDC.location">{{ curDC.location }}</span>
+							</td>
+						</tr>
+						<tr>
+							<td><b>Detail:</b></td>
+							<td><pre>{{ curDC | json }}</pre>
+							</td>
+						</tr>
+						<tr>
+							<td colspan=2>
+								<button type="button" class="btn btn-primary btn-xs" ng-click="dataCenterEditForm.$show()" ng-show="!dataCenterEditForm.$visible">Edit</button>
+								<button type="button" class="btn btn-danger btn-xs" ng-click="deleteDC()" ng-show="!dataCenterEditForm.$visible">Delete</button>
+								<button type="submit" class="btn btn-success btn-xs" ng-disabled="dataCenterEditForm.$waiting" ng-show="dataCenterEditForm.$visible">Save</button>
+								<button type="button" class="btn btn-warning btn-xs" ng-disabled="dataCenterEditForm.$waiting" ng-click="dataCenterEditForm.$cancel()" ng-show="dataCenterEditForm.$visible">Cancel</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="panel panel-success">
+	<div class="panel-heading">
+		<h3 class="panel-title">Nodes</h3>
+	</div>
+	<div class="panel-body">list of nodes</div>
+</div>
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<h3 class="panel-title">Network Setup</h3>
+	</div>
+	<div class="panel-body">network setup</div>
+</div>
+<div class="panel panel-warning">
+	<div class="panel-heading">
+		<h3 class="panel-title">Storage Setup</h3>
+	</div>
+	<div class="panel-body">Storage Setup</div>
+</div>
+<!--div class="panel panel-danger">
+	<div class="panel-heading">
+		<h3 class="panel-title">Other</h3>
+	</div>
+	<div class="panel-body">Other Information</div>
+</div-->
