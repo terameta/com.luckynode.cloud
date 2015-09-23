@@ -244,7 +244,7 @@ angular.module('cloudControllers').controller('serverController',['$scope', '$ro
 					'local_cursor': WebUtil.getQueryVar('cursor', true),
 					'shared': WebUtil.getQueryVar('shared', true),
 					'view_only': WebUtil.getQueryVar('view_only', false),
-					'onUpdateState': updateState,
+					'onUpdateState': updateState
 					//'onXvpInit': xvpInit,
 					//'onPasswordRequired': passwordRequired
 				});

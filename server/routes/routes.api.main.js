@@ -1,4 +1,8 @@
+var Q 		= require("q");
+var topDB;
+
 module.exports = function(app, express, db, tools) {
+	topDB = db;
 
 	var apiRoutes = express.Router();
 
@@ -57,42 +61,26 @@ module.exports = function(app, express, db, tools) {
 		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
 		ip = ip.replace("::ffff:", "");
 		ip = ip.replace("::FFFF:", "");
-		var curNodeIP = '';
-		var isThisOurNode = false;
-		var managerIPList = [];
-		var isListSent = false;
-		db.nodes.find({}, function(err, data){
-			if(err){
-				res.status(400).send(err);
-			} else {
-				data.forEach(function(curNode){
-					curNodeIP = curNode.ip;
-					curNodeIP = curNodeIP.replace("::ffff:", "").replace("::FFFF:", "");
-					if(curNodeIP == ip) isThisOurNode = true;
-					if(curNode.internalip){
-						curNodeIP = curNode.internalip;
-						curNodeIP = curNodeIP.replace("::ffff:", "").replace("::FFFF:", "");
-					}
-					if(curNodeIP == ip) isThisOurNode = true;
-					if(isThisOurNode){
-						db.managers.find({}, function(merr, mdata){
-							if(merr){
-								res.status(400).send(err);
-							} else {
-								mdata.forEach(function(curManager){
-									managerIPList.push(curManager.ip);
-									if(mdata.internalip) managerIPList.push(curManager.internalip);
-									if(!isListSent){
-										res.json(managerIPList);
-										isListSent = true;
-									}
-								});
-							}
-						});
-					}
-				});
 
-			}
+		var managerIPList = [];
+
+		isThisOurNode(ip).then(function(){
+			db.managers.find({}, function(merr, mdata){
+				if(merr){
+					res.status(400).send(merr);
+				} else {
+
+					mdata.forEach(function(curManager){
+						managerIPList.push(curManager.ip);
+						if(curManager.internalip) managerIPList.push(curManager.internalip);
+					});
+
+					res.json(managerIPList);
+
+				}
+			});
+		}).fail(function(issue){
+			res.status(400).send("You are not one of us. You can try to jump from a high place to join the group by impressing us, but to be honest, it will most probably not work.");
 		});
 	});
 
@@ -119,3 +107,32 @@ module.exports = function(app, express, db, tools) {
 
 	app.use('/api', apiRoutes);
 };
+
+function isThisOurNode(ip){
+	var deferred = Q.defer();
+	var curNodeIP = '';
+	var isThisOurNode = false;
+	topDB.nodes.find({}, function(err, data){
+		if(err){
+			deferred.reject("can't connect to database.");
+		} else {
+			data.forEach(function(curNode){
+				curNodeIP = curNode.ip;
+				curNodeIP = curNodeIP.replace("::ffff:", "").replace("::FFFF:", "");
+				if(curNodeIP == ip) isThisOurNode = true;
+				if(curNode.internalip){
+					curNodeIP = curNode.internalip;
+					curNodeIP = curNodeIP.replace("::ffff:", "").replace("::FFFF:", "");
+				}
+				if(curNodeIP == ip) isThisOurNode = true;
+			});
+			if(isThisOurNode){
+				deferred.resolve();
+			} else {
+				deferred.reject();
+			}
+		}
+	});
+
+	return deferred.promise;
+}
