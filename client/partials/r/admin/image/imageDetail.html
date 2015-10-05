@@ -24,7 +24,18 @@
 						</tr>
 						<tr>
 							<td><b>Status: 			</b></td>
-							<td><span editable-select="curImage.status" e-ng-options="s.value as s.text for s in imageStatuses">{{ curImage.status }}</span></td>
+							<td>
+									<div ng-if="curImage.status.toString().indexOf('%') < 0">
+										<span editable-select="curImage.status" e-ng-options="s.value as s.text for s in imageStatuses">
+											{{ curImage.status }}
+										</span>
+									</div>
+									<div class="progress" ng-if="curImage.status.toString().indexOf('%') > 0">
+										<div class="progress-bar" role="progressbar" aria-valuenow="{{ curCreationPercentage }}" aria-valuemin="0" aria-valuemax="100" style="width: {{curImage.status}};">
+											{{ curCreationPercentage }}%
+										</div>
+									</div>
+							</td>
 						</tr>
 						<tr>
 							<td><b>Architecture: 	</b></td>

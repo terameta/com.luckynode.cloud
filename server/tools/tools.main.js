@@ -110,7 +110,7 @@ module.exports = {
 					db.users.findOne({email:req.decoded},function(err, data){
 						if(err) { 					return res.json({	status: 'fail',	message: 'Failed to authenticate token. DB error.'}); 	}
 						else if(!data){ 			return res.json({	status: 'fail',	message: 'Failed to authenticate token. No user.'}); 	}
-						else if(!data.isAdmin){ 	return res.json({	status: 'fail',	message: 'Failed to authenticate token. No user.'}); 	}
+						else if(!data.isAdmin){ 	return res.json({	status: 'fail',	message: 'Failed to authenticate token. No admin user.'}); 	}
 						else {						next();																						}
 					});
 				}

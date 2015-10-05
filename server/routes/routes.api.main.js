@@ -1,4 +1,5 @@
-var Q 		= require("q");
+var Q 				= require("q");
+var fs 				= require("fs");
 var topDB;
 
 module.exports = function(app, express, db, tools) {
@@ -57,14 +58,22 @@ module.exports = function(app, express, db, tools) {
 		res.json({ message: 'Welcome to the coolest API on earth!' });
 	});
 
+	apiRoutes.get('/getDBConfigForNode', function(req, res){
+		isThisOurNode(req).then(function(result){
+			var lnconfiguration	= JSON.parse(fs.readFileSync('luckynode.conf', 'utf8'));
+			if(lnconfiguration.db.pemfile) lnconfiguration.db.pemfile = fs.readFileSync(lnconfiguration.db.pemfile, "utf8");
+			res.json(lnconfiguration.db);
+		}).fail(function(issue) {
+			res.status(400).send("You are not one of us. You can try to jump from a high place to join the group by impressing us, but to be honest, it will most probably not work.");
+		});
+	});
+
 	apiRoutes.get('/getManagers', function(req, res){
-		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
-		ip = ip.replace("::ffff:", "");
-		ip = ip.replace("::FFFF:", "");
+
 
 		var managerIPList = [];
 
-		isThisOurNode(ip).then(function(){
+		isThisOurNode(req).then(function(){
 			db.managers.find({}, function(merr, mdata){
 				if(merr){
 					res.status(400).send(merr);
@@ -108,7 +117,11 @@ module.exports = function(app, express, db, tools) {
 	app.use('/api', apiRoutes);
 };
 
-function isThisOurNode(ip){
+function isThisOurNode(theReq){
+	var ip = theReq.headers['x-forwarded-for'] || theReq.connection.remoteAddress || theReq.socket.remoteAddress || theReq.connection.socket.remoteAddress;
+	ip = ip.replace("::ffff:", "");
+	ip = ip.replace("::FFFF:", "");
+
 	var deferred = Q.defer();
 	var curNodeIP = '';
 	var isThisOurNode = false;

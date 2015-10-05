@@ -272,7 +272,7 @@ angular.module('cloudControllers').controller('serverController',['$scope', '$ro
 
 		$scope.fetchImages = function(){
 			$rootScope.images = $image.query();
-		}
+		};
 
 		$scope.fetchServers = function(){
 			$rootScope.servers = $server.query();

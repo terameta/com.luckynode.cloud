@@ -69,9 +69,18 @@ angular.module('cloudControllers').controller('imageController',['$scope', '$roo
 		$scope.fetchStorages();
 		$scope.fetchServers();
 
+		$scope.curCreationPercentage = 0;
+
 		$scope.fetchCurImage = function(){
 			$scope.curImage = $image.get({id: $stateParams.id}, function(result){
 				//here fetch is done.
+				console.log($scope.curImage);
+				$scope.curCreationPercentage = parseInt($scope.curImage.status, 10);
+				if($scope.curCreationPercentage){
+					setTimeout(function(){ $scope.fetchCurImage(); }, 10000);
+				} else {
+					console.log($scope.curCreationPercentage);
+				}
 			});
 		};
 
