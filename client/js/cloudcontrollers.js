@@ -853,6 +853,10 @@ cloudControllers.controller('dashboardController', ['$scope', '$http', '$userSer
 			$state.go("r.dashboard.storages");
 		};
 
+		$scope.logsGo = function(){
+			$state.go("r.dashboard.logs");
+		};
+
 		$scope.isCurFocus = function(toCheck){
 			if($state.current.name.indexOf('.'+toCheck) >= 0){
 				return true;

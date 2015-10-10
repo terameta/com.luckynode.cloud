@@ -75,7 +75,7 @@ angular.module('cloudControllers').controller('serverController',['$scope', '$ro
                 //$D('toggleAltButton').className = "noVNC_status_button";
                 $scope.consoleKeyboardObj.altOn = false;
             }
-        },
+        };
 
 		$scope.sendEsc = function() {
             //UI.keepKeyboard();
