@@ -37,6 +37,13 @@ body {
     line-height: 16px;
 }
 
+.cloud-side-menu > ul > li a {
+    color: #ffffff !important;
+	background-color: transparent !important;
+	padding:0;
+	border:0;
+}
+
 .cloud-side-menu > ul > li:last-of-type {
     border: 0;
 }
@@ -49,6 +56,10 @@ body {
   -o-transition: all 1s ease;
   -ms-transition: all 1s ease;
   transition: all 1s ease;
+}
+
+.cloud-side-menu li:hover a {
+  text-decoration: none;
 }
 
 .cloud-side-menu .active{
@@ -64,6 +75,13 @@ body {
     transition: none !important;
 }
 
+.cloud-side-menu .active a{
+	color: black !important;
+	background-color: transparent !important;
+	padding:0;
+	border:0;
+}
+
 .cloudInlineInput{
 	border: 0;
 	border-bottom: 1px solid black;
@@ -75,4 +93,8 @@ body {
 
 .editable-checklist label {
   display: block;
+}
+
+.mappingHotTable td {
+    font-size:11px;
 }

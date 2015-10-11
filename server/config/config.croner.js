@@ -1,7 +1,9 @@
-module.exports = function Croner() {
-	//var croner				= require('cron').CronJob;
-	//var crones				= require('./tools/crons');
-	//var jobS = new croner('*/10 * * * * *',function(){crones.everytensecs();}, function(){ console.log("This is the end");},true,"America/Los_Angeles");
+var tools			= require('../tools/tools.main.js');
+
+module.exports = function Croner(db) {
+	var croner				= require('cron').CronJob;
+	var cronFs				= require('../tools/tools.crons')(db);
+	var jobS = new croner('*/10 * * * * *',function(){console.log("This is ten seconds");}, function(){ console.log("This is the end");},true,"America/Los_Angeles");
 	//var jobM = 	new croner('0 * * * * *',function(){crones.everyminute();}, function(){ console.log("This is the end");},true,"America/Los_Angeles");
 	//var job2H = new croner('0 0 */2 * * *',function(){crones.everyotherhour();}, function(){ console.log("This is the end");},true,"America/Los_Angeles");
 	//var jobH = new croner('0 0 * * * *',function(){crones.everyhour();  }, function(){ console.log("This is the end");},true,"America/Los_Angeles");

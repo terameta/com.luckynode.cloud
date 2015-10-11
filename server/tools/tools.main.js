@@ -8,8 +8,31 @@ var exec 			= require('child_process').exec;
 var fs 				= require("fs");
 var lnconfiguration	= JSON.parse(fs.readFileSync('luckynode.conf', 'utf8'));
 var cloudConnStr	= lnconfiguration.db.user+':'+lnconfiguration.db.pass+'@'+lnconfiguration.db.server+':'+lnconfiguration.db.port+'/'+lnconfiguration.db.database;
-var cloudColls		= ['users'];
+var cloudColls		= ['users', 'logs'];
 var db 				= mongojs(cloudConnStr, cloudColls, {	ssl: true,    authMechanism : 'ScramSHA1',	cert: fs.readFileSync(lnconfiguration.db.pemfile)	});
+
+var whoami			= lnconfiguration.whoami;
+
+var logger = {
+	log: function(level, message, metadata, shouldLogToConsole){
+		if(shouldLogToConsole){
+			console.log("Level:", level);
+			console.log("Message:", message);
+			if(metadata) console.log(metadata);
+		}
+		db.logs.insert({level:level, message:message, date: new Date(), metadata:metadata, origin: whoami}, function(err, data){
+			if(err){
+				console.log("Houston we have a problem");
+				console.log(level);
+				console.log(message);
+				console.log(metadata);
+			}
+		});
+	},
+	info: 	function(message, metadata, shouldLogToConsole){ this.log('info', 	message, metadata, shouldLogToConsole); },
+	warn: 	function(message, metadata, shouldLogToConsole){ this.log('warn', 	message, metadata, shouldLogToConsole); },
+	error:	function(message, metadata, shouldLogToConsole){ this.log('error', 	message, metadata, shouldLogToConsole); }
+};
 
 module.exports = {
 	generateLongString : function(sentLength){
@@ -129,16 +152,17 @@ module.exports = {
 		return bcrypt.compareSync(password, theHash);
 	},getFormatDate : function(curDate) {
 		var toReturn = curDate.getFullYear();
-		toReturn += ('0' + (parseInt(curDate.getMonth()) + 1)).substr(-2);
-		toReturn += ('0' + (parseInt(curDate.getDate()))).substr(-2);
-		toReturn += ('0' + (parseInt(curDate.getHours()))).substr(-2);
-		toReturn += ('0' + (parseInt(curDate.getMinutes()))).substr(-2);
-		toReturn += ('0' + (parseInt(curDate.getSeconds()))).substr(-2);
+		toReturn += ('0' + (parseInt(curDate.getMonth(), 	10) + 1)).substr(-2);
+		toReturn += ('0' + (parseInt(curDate.getDate(), 	10))).substr(-2);
+		toReturn += ('0' + (parseInt(curDate.getHours(), 	10))).substr(-2);
+		toReturn += ('0' + (parseInt(curDate.getMinutes(), 	10))).substr(-2);
+		toReturn += ('0' + (parseInt(curDate.getSeconds(), 	10))).substr(-2);
 		return toReturn;
 	},
 	jwt : jwt,
-	runLocalCommand:runLocalCommand
-
+	logger: logger,
+	runLocalCommand:runLocalCommand,
+	whoami: whoami
 };
 
 function runLocalCommand(command, resolveTo){

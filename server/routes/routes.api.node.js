@@ -287,7 +287,7 @@ module.exports = function(app, express, db, tools) {
 						steps.push({ order: steps.length,	Description: 'Set libguest installation',	command: 'echo libguestfs-tools libguestfs/update-appliance boolean true | debconf-set-selections'	});
 						steps.push({ order: steps.length,	Description: 'Install libguestfs-tools',	command: 'apt-get install -y libguestfs-tools libguestfs0 libguestfs-* >> /tmp/install.log 2>&1;'	});
 						steps.push({ order: steps.length,	Description: 'Install Virt Packages Step 3',command: 'apt-get install -y virt-top virtinst sysv-rc-conf >> /tmp/install.log 2>&1;'				});
-						steps.push({ order: steps.length,	Description: 'Install nodeJS Repository',	command: 'curl -sL https://deb.nodesource.com/setup_0.12 | sudo bash - >> /tmp/install.log 2>&1;'	});
+						steps.push({ order: steps.length,	Description: 'Install nodeJS Repository',	command: 'curl -sL https://deb.nodesource.com/setup_4.x | sudo bash - >> /tmp/install.log 2>&1;'	});
 						steps.push({ order: steps.length,	Description: 'Install nodeJS & Build Tools',command: 'apt-get install -y nodejs gcc make build-essential git >> /tmp/install.log 2>&1;'			});
 						steps.push({ order: steps.length,	Description: 'Verify node Version',			command: 'node -v >> /tmp/install.log 2>&1;'														});
 						steps.push({ order: steps.length,	Description: 'Verify npm Version',			command: 'npm -v >> /tmp/install.log 2>&1;'															});
@@ -310,6 +310,7 @@ module.exports = function(app, express, db, tools) {
 						steps.push({ order: steps.length,	Description: 'Clean unnecessary packages',	command: 'apt-get -y autoclean >> /tmp/install.log 2>&1' 											});
 						steps.push({ order: steps.length,	Description: 'Add User to libvirtd Group',	command: 'usermod -a -G libvirtd $(logname) >> /tmp/install.log 2>&1' 								});
 						steps.push({ order: steps.length, 	Description: 'Identify Manager',			command: 'cd && cd node.luckynode.com && echo ' + getMyIPs() + '> managerip'						});
+						steps.push({ order: steps.length, 	Description: 'Identify Node',				command: 'cd && cd node.luckynode.com && echo { \\\"whoami\\\":\\\"' + nodedata.name + '\\\"} > whoami.conf'});
 
 						/*
 
