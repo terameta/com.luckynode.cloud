@@ -1,4 +1,25 @@
-<button type="button" class="btn btn-primary btn-xs" ng-click="fetchLogs()">Refresh</button>
+<table>
+	<tr>
+		<td style="padding:2px;border: 1px solid silver;" rowspan="2"><button type="button" class="btn btn-primary btn-xs" ng-click="fetchLogs()">Refresh</button></td>
+		<td style="padding:2px;border: 1px solid silver;" rowspan="2"><button type="button" class="btn btn-danger btn-xs" ng-click="clearLogs()">Delete</button></td>
+		<td style="padding:2px;border: 1px solid silver;" ><b><center>Auto Refresh</center></b></td>
+		<td style="padding:2px;border: 1px solid silver;" ><b><center>Limit</center></b></td>
+		<td style="padding:2px;border: 1px solid silver;" ><b><center>Level Filter</center></b></td>
+	</tr>
+	<tr>
+		<td style="padding:2px;border: 1px solid silver;" ><center><input type="checkbox" ng-change="shouldAutoRefreshChange()" ng-model="shouldAutoRefresh"></center></td>
+		<td style="padding:0;border: 1px solid silver;" ><center><input type="text" 	  ng-change="shouldAutoRefreshChange()" ng-model="listLimit"></center></td>
+		<td style="padding:0;border: 1px solid silver;" >
+			<center>
+				<select ng-model="filter.level" ng-change="shouldAutoRefreshChange()">
+					<option value="info">info</option>
+					<option value="warn">warn</option>
+					<option value="error">error</option>
+				</select>
+			</center>
+		</td>
+	</tr>
+</table>
 <div id="logHotTableContainer" class="mappingHotTable" style="width:1000px;height:600px;overflow:auto;">
 	<div id="logHotTable"></div>
 </div>

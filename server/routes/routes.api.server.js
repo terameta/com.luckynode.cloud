@@ -469,6 +469,31 @@ module.exports = function(app, express, db, tools) {
 		//commander.serverDiskList();
 	});
 
+	apiRoutes.get('/serverResize/:id', tools.checkToken, function(req, res){
+		db.servers.findOne({_id: mongojs.ObjectId(req.params.id)}, function(serr, sdata) {
+			if(serr){
+				res.status(500).json({ status: "fail", detail: "Cannot access to database for servers"});
+			} else if(!sdata) {
+				res.status(500).json({ status: "fail", detail: "Cannot find the server with the given id"});
+			} else {
+				db.nodes.findOne({_id: mongojs.ObjectId(sdata.node)}, function(nerr, ndata){
+					if(nerr){
+						res.status(500).json({ status: "fail", detail: "Cannot access to database for nodes"});
+					} else if(!ndata){
+						res.status(500).json({ status: "fail", detail: "Cannot find the node with the given id of the server"});
+					} else {
+						sdata.id = sdata._id.toString();
+						commander.serverResize(ndata, sdata).then(function(result){
+							res.json(JSON.parse(result));
+						}).fail(function(issue){
+							res.status(500).json({ status: "fail", detail: issue});
+						});
+					}
+				})
+			}
+		});
+	});
+
 	app.use('/api/server', apiRoutes);
 };
 
@@ -579,7 +604,7 @@ function serverReserveIP(curSrv){
 			if(data.ips){
 				data.ips.forEach(function(curIP) {
 					if(curIP.ip == curSrv.ip) curIP.reserved = curSrv._id;
-					if(curIP.ip != curSrv.ip && curIP.reserved != curSrv._id) delete curIP.reserved;
+					//if(curIP.ip != curSrv.ip && curIP.reserved != curSrv._id) delete curIP.reserved;
 				});
 			}
 			delete data._id;
@@ -604,9 +629,13 @@ function serverReleaseIP(curSrv){
 		} else if(!data){
 			deferred.reject('No IP block found');
 		} else {
+			console.log("IP Block found", data.ips);
 			if(data.ips){
+				console.log(data.ips);
 				data.ips.forEach(function(curIP) {
+					console.log("Before Delete:", curIP);
 					if(curIP.ip == curSrv.ip) delete curIP.reserved;
+					console.log("After Delete:", curIP);
 				});
 			}
 			delete data._id;

@@ -13,6 +13,28 @@ module.exports = function(app, express, db, tools) {
 		});
 	});
 
+	apiRoutes.post('/', tools.checkToken, function(req, res) {
+		var filter = req.body.filter || {};
+		db.logs.find(filter).limit(parseInt(req.body.limit, 10)).sort({date:-1}, function(err, data) {
+			if (err) {
+				res.status(500).json({ status: "fail" });
+			} else {
+				res.send(data);
+			}
+		});
+	});
+
+	apiRoutes.post('/delete/', tools.checkToken, function(req, res){
+		db.logs.remove({}, function(err, data){
+			if(err) {
+				tools.logger.error("Failed to delete logs", err);
+				res.status(500).json({ status: "fail", message: "Failed to delete logs"});
+			} else {
+				res.send(data);
+			}
+		});
+	});
+
 	/*
 	apiRoutes.get('/:id', tools.checkToken, function(req, res) {
 		db.plans.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err, data){
@@ -78,5 +100,5 @@ module.exports = function(app, express, db, tools) {
 		}
 	});*/
 
-	app.use('/api/log', apiRoutes);
+	app.use('/api/logs', apiRoutes);
 };

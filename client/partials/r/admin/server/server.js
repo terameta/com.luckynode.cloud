@@ -560,5 +560,15 @@ angular.module('cloudControllers').controller('serverController',['$scope', '$ro
 				console.log(data);
 			});
 		};
+
+		$scope.serverResize = function(){
+			lnToastr.info("Starting resize");
+			$http.get('/api/server/serverResize/'+$stateParams.id).success(function(data, status, headers, config) {
+				console.log("Success:", data);
+				$scope.serverState();
+			}).error(function(data, status, headers, config) {
+				console.log("Error:", data);
+			});
+		};
 	}
 ]);

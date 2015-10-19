@@ -100,6 +100,12 @@ module.exports = {
 		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
 		return deferred.promise;
 	},
+	serverResize: function(node, data){
+		var deferred = Q.defer();
+		var curCommand = { name: 'serverResize', details: data};
+		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue) { deferred.reject(issue); } );
+		return deferred.promise;
+	},
 	nodeInterfaceList: function(node){
 		var deferred = Q.defer();
 		var data = { myrequest: 'listofinterfaces' };

@@ -23,7 +23,7 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 angular.module('cloudServices').service('$logs', ['$resource',
 	function logService($resource) {
 		return ( $resource(
-			'/api/log/:id',
+			'/api/logs/:id',
 			{ id: '@_id' },
 			{ update: { method: 'PUT' } }
 		) );
@@ -37,9 +37,49 @@ angular.module('cloudControllers').controller('logController',['$scope', '$rootS
 		var container, logHotTable;
 		$scope.logData = [];
 
+		$scope.filter = {};
+
+		$scope.clearLogs = function(){
+			if(confirm("Are you sure delete all records?")){
+				$http({
+					method: 'POST',
+					url: '/api/logs/delete/'
+				}).then(function successCallback(response){
+					lnToastr.info("Logs are cleared");
+					$scope.fetchLogs();
+				}, function errorCallback(response){
+					lnToastr.error("Failed to clear data<hr />" + response.data);
+				});
+			}
+		};
+
 		$scope.fetchLogs = function(isFirstRun){
 			$('#logHotTableContainer').width($('#logHotTableContainer').parent().width());
-			$('#logHotTableContainer').height(window.innerHeight -100);
+			$('#logHotTableContainer').height(window.innerHeight -130);
+			$http({
+				method: 'POST',
+				url: '/api/logs/',
+				data: {
+					limit: $scope.listLimit,
+					filter: $scope.filter
+				}
+			}).then(function successCallback(response) {
+				// this callback will be called asynchronously
+				// when the response is available
+				$scope.mapData = response.data;
+				$scope.numberofMapRecords = "#Map<br />"+$scope.mapData.length;
+				if(isFirstRun)	initiateLogHotTable();
+				if(response.data != $scope.logData){
+					$scope.logData = response.data;
+					$scope.logData.forEach(function(curLog){
+						curLog.metadata = "<pre>" + JSON.stringify(curLog.metadata, '\n', ' ') + "</pre>";
+					});
+					logHotTable.loadData($scope.logData);
+				}
+			}, function errorCallback(response) {
+				lnToastr.error("Failed to receive map");
+			});
+			/*
 			$logs.query(function(result){
 				if(result != $scope.logData){
 					$scope.logData = result;
@@ -47,8 +87,28 @@ angular.module('cloudControllers').controller('logController',['$scope', '$rootS
 				}
 				if(isFirstRun) initiateLogHotTable();
 			});
-
+			*/
 		};
+
+		$scope.listLimit = 100;
+		$scope.shouldAutoRefresh = true;
+		$scope.refreshInterval = '';
+
+		$scope.setRefreshInterval = function(){
+			$scope.refreshInterval = setInterval(function(){
+				$scope.fetchLogs();
+			}, 5000);
+		};
+
+		$scope.shouldAutoRefreshChange = function(){
+			if($scope.shouldAutoRefresh){
+				$scope.setRefreshInterval();
+			} else {
+				clearInterval($scope.refreshInterval);
+			}
+		};
+
+		$scope.shouldAutoRefreshChange();
 
 
 		$scope.fetchLogs(1);
@@ -66,7 +126,7 @@ angular.module('cloudControllers').controller('logController',['$scope', '$rootS
 				afterChange: $scope.afterChange,
 				beforeChange: $scope.beforeChange,
 				columns: [
-					{ title: 'ID', 				data: '_id', 		readOnly: true, 	type:'text'																					},
+				//	{ title: 'ID', 				data: '_id', 		readOnly: true, 	type:'text'																					},
 					{ title: 'Level', 			data: 'level', 		readOnly: true, 	type:'text'																					},
 					{ title: 'When', 			data: 'date', 		readOnly: true, 	type:'text'																					},
 					{ title: 'Message',			data: 'message',	readOnly: true, 	type:'text'																					},
