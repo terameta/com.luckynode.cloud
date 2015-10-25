@@ -720,101 +720,6 @@ cloudControllers.controller('datacenterController', ['$scope', '$http', '$userSe
 	}
 ]);
 
-cloudControllers.controller('managerController', ['$scope', '$http', '$userService', '$rootScope', '$manager', '$datacenter', '$state', '$stateParams', '$localStorage',
-	function($scope, $http, $userService, $rootScope, $manager, $datacenter, $state, $stateParams, $localStorage) {
-		function validIP4(toCheck) {
-			var ipformat = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-			return (toCheck.match(ipformat));
-		}
-
-		$scope.fetchDCs = function(){
-			$rootScope.dataCenters = $datacenter.query();
-		};
-
-		$scope.fetchManagers = function(){
-			$rootScope.managers = $manager.query();
-		};
-
-		$scope.fetchCurManager = function(){
-			$scope.curManager = $manager.get({id:$stateParams.id}, function(result){
-				//here fetch is done.
-			});
-		};
-
-
-		if($stateParams.id){
-			$scope.fetchCurManager();
-		}
-
-		$scope.fetchDCs();
-		$scope.fetchManagers();
-
-		$scope.addManager = function(_name, _datacenter, _ipaddress, _internalip){
-			if(!_name){
-				$scope.managernewalert = "Name can't be empty";
-				return 0;
-			}
-			if(!_datacenter){
-				$scope.managernewalert = "Data center can't be empty";
-				return 0;
-			}
-			if(!_ipaddress){
-				$scope.managernewalert = "IP address can't be empty";
-				return 0;
-			}
-			if(!validIP4(_ipaddress)){
-				$scope.managernewalert ="IP address is not valid";
-				return 0;
-			}
-			if(_internalip){
-				if(!validIP4(_internalip)){
-					$scope.managernewalert = 'Internal IP address is not valid';
-					return 0;
-				}
-			}
-			$scope.managernewalert = '';
-			var theNewManager = new $manager;
-			theNewManager.name = _name;
-			theNewManager.datacenter = _datacenter._id;
-			theNewManager.ip = _ipaddress;
-			if(_internalip) theNewManager.internalip = _internalip;
-			$manager.save(theNewManager, function(theResult){
-				$scope.fetchManagers();
-				//For now we are going to dashboard itself. In the future, we should go to details of the datacenter
-				$state.go('r.dashboard.managers');
-			});
-		};
-
-		$scope.addManagerCancel = function(){
-			$state.go('r.dashboard.managers');
-		};
-
-		$scope.saveManager = function(){
-			$scope.curManager.$update(function(result){
-				$rootScope.managers = $manager.query();
-			}, function(error){
-				console.log(error);
-			});
-		};
-
-		$scope.deleteManager = function(){
-			if(confirm("Are you sure you want to delete " + $scope.curManager.name)){
-				$scope.curManager.$delete(function(result, error){
-					if(result.status == "fail"){
-						alert("There was an error deleting the manager");
-						$state.go($state.current, {}, {reload: true});
-					} else {
-						//burada angular toaster kullanabiliriz.
-						$state.go('r.dashboard.managers');
-						$scope.fetchManagers();
-					}
-				});
-			}
-		};
-
-	}
-]);
-
 cloudControllers.controller('dashboardController', ['$scope', '$http', '$userService', '$rootScope', '$datacenter', '$state',
 	function($scope, $http, $userService, $rootScope, $datacenter, $state) {
 		$scope.managersGo = function(){
@@ -859,7 +764,15 @@ cloudControllers.controller('dashboardController', ['$scope', '$http', '$userSer
 
 		$scope.isCurFocus = function(toCheck){
 			if($state.current.name.indexOf('.'+toCheck) >= 0){
-				return true;
+				if(toCheck == 'dashboard'){
+					if($state.current.name == 'r.dashboard'){
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return true;
+				}
 			} else {
 				return false;
 			}
@@ -871,6 +784,10 @@ cloudControllers.controller('dashboardController', ['$scope', '$http', '$userSer
 
 		$scope.fetchDCs();
 */
+		$.AdminLTE.layout.activate();
+		$.AdminLTE.layout.fix();
+		$.AdminLTE.layout.fixSidebar();
+		$.AdminLTE.pushMenu.activate("[data-toggle='offcanvas']");
 
 	}
 
@@ -903,48 +820,6 @@ cloudControllers.controller('welcomeController', function($scope, $modal, $state
 	$scope.openSignInModal = function(){
 		$state.go('dashboard');
 	};
-
-	$scope.startTest = function(){
-		testStep1().
-			then(testStep2).
-			then(testStep3);
-	};
-
-	function testStep3(){
-		var deferred = $q.defer();
-		$http.get('/api/').
-			success(function(data, status, headers, config) {
-				console.log(data);
-				deferred.resolve();
-			}).
-			error(function(data, status, headers, config) {
-				console.log(data);
-				deferred.reject();
-			});
-		return deferred.promise;
-	}
-
-	function testStep1(){
-		var deferred = $q.defer();
-		$http.get('/api/setup').
-			success(function(data, status, headers, config) {
-				console.log(data);
-				deferred.resolve();
-			}).
-			error(function(data, status, headers, config) {
-				console.log(data);
-				deferred.reject();
-			});
-		return deferred.promise;
-	}
-
-	function testStep2(){
-		var deferred = $q.defer();
-		$userService.signin('admin@local', 'admin@local').then(deferred.resolve, deferred.reject);
-		return deferred.promise;
-	}
-
-
 });
 
 cloudControllers.controller('signupModalController', function($scope, $userService) {
@@ -969,6 +844,6 @@ cloudControllers.controller('signinModalController', function($scope, $userServi
 
 cloudControllers.controller('signoutController', function($scope, $userService, $state) {
 	$userService.signout().then(function(result) {
-		$state.go('r.welcome');
+		$state.go('r.dashboard');
 	});
 });

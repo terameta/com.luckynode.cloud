@@ -1,21 +1,27 @@
-<span class="col-xs-12 col-sm-6 col-md-4 col-lg-3" ui-sref="r.dashboard.managernew" style="cursor:pointer">
-	<div class="panel panel-primary">
-		<div class="panel-heading">
-			<h3 class="panel-title"><i class="fa fa-arrows fa-fw"></i>  New Manager</h3>
+<section class="content-header">
+	<h1>
+		<i class="fa fa-arrows fa-fw"></i> Managers
+		<div class="btn-group" role="group" aria-label="Manager List Actions">
+			<button type="button" class="btn btn-default btn-sm" ui-sref="r.dashboard.managernew">New</button>
 		</div>
-		<div class="panel-body">
-			Click to create
-		</div>
-	</div>
-</span>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+		<li class="active"><i class="fa fa-arrows"></i> Managers</li>
+	</ol>
+</section>
 
-<span class="col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="manager in managers" ui-sref="r.dashboard.manager({id: manager._id})" style="cursor:pointer">
-	<div class="panel panel-primary">
-		<div class="panel-heading">
-			<h3 class="panel-title"><i class="fa fa-arrows fa-fw"></i>  {{manager.name}}</h3>
-		</div>
-		<div class="panel-body">
-			{{ manager.ip }}@{{ (dataCenters | filter:{_id: manager.datacenter})[0].name || 'Not set' }}
+<section class="content">
+<div class="row">
+	<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="manager in managers" ui-sref="r.dashboard.manager({id: manager._id})" style="cursor:pointer">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{{manager.name}}</h3>
+			</div>
+			<div class="panel-body">
+				{{ manager.ip }}@{{ (dataCenters | filter:{_id: manager.datacenter})[0].name || 'Not set' }}
+			</div>
 		</div>
 	</div>
-</span>
+</div>
+</section>

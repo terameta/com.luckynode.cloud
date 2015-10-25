@@ -1,24 +1,30 @@
-<span class="col-xs-12 col-sm-6 col-md-4 col-lg-3" ui-sref="r.dashboard.datacenternew" style="cursor:pointer">
-	<div class="panel panel-primary">
-		<div class="panel-heading">
-			<h3 class="panel-title"><i class="fa fa-building fa-fw"></i>  New</h3>
+<section class="content-header">
+	<h1>
+		<i class="fa fa-building fa-fw"></i> Data Centers
+		<div class="btn-group" role="group" aria-label="Data Center List Actions">
+			<button type="button" class="btn btn-default btn-sm" ui-sref="r.dashboard.datacenternew">New</button>
 		</div>
-		<div class="panel-body">
-			Click to create
-		</div>
-	</div>
-</span>
-<span class="col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="dataCenter in dataCenters" ui-sref="r.dashboard.datacenter({id: dataCenter._id})" style="cursor:pointer">
-	<div class="panel panel-primary">
-		<div class="panel-heading">
-			<h3 class="panel-title"><i class="fa fa-building fa-fw"></i>  {{dataCenter.name}}</h3>
-		</div>
-		<div class="panel-body">
-			@{{dataCenter.location}}
-		</div>
-	</div>
-</span>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+		<li class="active">Data Centers</li>
+	</ol>
+</section>
 
+<section class="content">
+<div class="row">
+	<span class="col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="dataCenter in dataCenters" ui-sref="r.dashboard.datacenter({id: dataCenter._id})" style="cursor:pointer">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{{dataCenter.name}}</h3>
+			</div>
+			<div class="panel-body">
+				@{{dataCenter.location}}
+			</div>
+		</div>
+	</span>
+</div>
+</section>
 <!--div class="><i class="fa fa-building fa-fw"></i> {{dataCenter.name}}</div-->
 
 

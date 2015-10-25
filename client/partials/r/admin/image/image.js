@@ -2,25 +2,25 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.images', {
 			url:"/images",
 			views: {
-				'content@r.dashboard': { templateUrl: "partials/r/admin/image/imageList.html", controller: 'imageController' }
+				'content@r.dashboard': { templateUrl: "/partials/r/admin/image/imageList.html", controller: 'imageController' }
 			},
 			data: { requireSignin: true }
 		}).state('r.dashboard.imagenew', {
 			url:"/imagenew",
 			views: {
-				'content@r.dashboard': { templateUrl: "partials/r/admin/image/imageNew.html", controller: 'imageController' }
+				'content@r.dashboard': { templateUrl: "/partials/r/admin/image/imageNew.html", controller: 'imageController' }
 			},
 			data: { requireSignin: true }
 		}).state('r.dashboard.imagenewfromserver', {
 			url:"/imagenewfromserver",
 			views: {
-				'content@r.dashboard': { templateUrl: "partials/r/admin/image/imageNewFromServer.html", controller: 'imageController' }
+				'content@r.dashboard': { templateUrl: "/partials/r/admin/image/imageNewFromServer.html", controller: 'imageController' }
 			},
 			data: { requireSignin: true }
 		}).state('r.dashboard.image', {
 			url:"/image/:id",
 			views: {
-				'content@r.dashboard': { templateUrl: "partials/r/admin/image/imageDetail.html", controller: 'imageController' }
+				'content@r.dashboard': { templateUrl: "/partials/r/admin/image/imageDetail.html", controller: 'imageController' }
 			},
 			data: { requireSignin: true }
 		});

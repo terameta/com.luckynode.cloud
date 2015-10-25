@@ -1,7 +1,6 @@
 module.exports = function(app, passport) {
 	app.get('/', function(req, res) {
-		//res.send('keke');
-		res.render('index');
+		res.redirect('/cloud/');
 	});
 
 	app.get('/signin', function(req, res){

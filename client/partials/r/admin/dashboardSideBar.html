@@ -1,78 +1,44 @@
-<div class="cloud-side-menu" style="padding-top:5px;">
-	<ul>
-		<li ng-class="{active : isCurFocus('manager')}"		><a ui-sref="r.dashboard.managers">		<i class="fa fa-arrows fa-fw"></i>			Managers 			</a></li>
-		<li ng-class="{active : isCurFocus('datacenter')}"	><a ui-sref="r.dashboard.datacenters">	<i class="fa fa-building fa-fw"></i>		Data Centers 		</a></li>
-		<li ng-class="{active : isCurFocus('node')}"		><a ui-sref="r.dashboard.nodes">		<i class="fa fa-industry fa-fw"></i>		Nodes 				</a></li>
-		<li ng-class="{active : isCurFocus('ipblock')}"		><a ui-sref="r.dashboard.ipblocks">		<i class="fa fa-share-alt fa-fw"></i> 		IP Blocks 			</a></li>
-		<li ng-class="{active : isCurFocus('storage')}"		><a ui-sref="r.dashboard.storages">		<i class="fa fa-hdd-o fa-fw"></i> 			Storage 			</a></li>
-		<li ng-class="{active : isCurFocus('client')}"		><a ui-sref="r.dashboard.clients">		<i class="fa fa-users fa-fw"></i>			Clients 			</a></li>
-		<li ng-class="{active : isCurFocus('plan')}"		><a ui-sref="r.dashboard.plans">		<i class="fa fa-clone fa-fw"></i>			Plans 				</a></li>
-		<li ng-class="{active : isCurFocus('image')}"		><a ui-sref="r.dashboard.images">		<i class="fa fa-puzzle-piece fa-fw"></i>	Images 				</a></li>
-		<li ng-class="{active : isCurFocus('server')}"		><a ui-sref="r.dashboard.servers">		<i class="fa fa-server fa-fw"></i>			Servers 			</a></li>
-		<li ng-class="{active : isCurFocus('isofile')}"		><a ui-sref="r.dashboard.isofiles">		<i class="fa fa-dot-circle-o fa-fw"></i>	ISO Files 			</a></li>
-		<li ng-class="{active : isCurFocus('logs')}"		><a ui-sref="r.dashboard.logs">			<i class="fa fa-bug fa-fw"></i>				Logs 				</a></li>
+<!-- sidebar: style can be found in sidebar.less -->
+<section class="sidebar">
+	<!-- Sidebar user panel -->
+	<div class="user-panel">
+		<div class="pull-left image">
+			<img src="/img/userimages/Ali160.jpg" class="img-circle" alt="User Image">
+		</div>
+		<div class="pull-left info">
+			<p>Ali Rıza Dikici</p>
+			<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+		</div>
+	</div>
+	<!-- search form -->
+	<form action="#" method="get" class="sidebar-form">
+		<div class="input-group">
+			<input type="text" name="q" class="form-control" placeholder="Search...">
+			<span class="input-group-btn">
+				<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+			</span>
+		</div>
+	</form>
+	<!-- /.search form -->
+	<!-- sidebar menu: : style can be found in sidebar.less -->
+	<ul class="sidebar-menu">
+		<li class="header">MAIN NAVIGATION</li>
+		<li ng-class="{active : isCurFocus('dashboard')}"	><a ui-sref="r.dashboard">				<i class="fa fa-dashboard"></i>		<span>Dashboard</span> 																</a></li>
+		<li ng-class="{active : isCurFocus('manager')}"		><a ui-sref="r.dashboard.managers">		<i class="fa fa-arrows"></i>		<span>Managers</span> 		<span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('datacenter')}"	><a ui-sref="r.dashboard.datacenters">	<i class="fa fa-building"></i>		<span>Data Centers</span> 	<span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('node')}"		><a ui-sref="r.dashboard.nodes">		<i class="fa fa-industry"></i>		<span>Nodes</span> 			<span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('ipblock')}"		><a ui-sref="r.dashboard.ipblocks">		<i class="fa fa-share-alt"></i> 	<span>IP Blocks</span> 		<span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('storage')}"		><a ui-sref="r.dashboard.storages">		<i class="fa fa-hdd-o"></i> 		<span>Storage</span> 		<span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('client')}"		><a ui-sref="r.dashboard.clients">		<i class="fa fa-users"></i>			<span>Clients</span> 		<span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('plan')}"		><a ui-sref="r.dashboard.plans">		<i class="fa fa-clone"></i>			<span>Plans</span> 			<span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('image')}"		><a ui-sref="r.dashboard.images">		<i class="fa fa-puzzle-piece"></i>	<span>Images</span> 		<span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('server')}"		><a ui-sref="r.dashboard.servers">		<i class="fa fa-server"></i>		<span>Servers</span> 		<span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('isofile')}"		><a ui-sref="r.dashboard.isofiles">		<i class="fa fa-dot-circle-o"></i>	<span>ISO Files</span> 		<span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('logs')}"		><a ui-sref="r.dashboard.logs">			<i class="fa fa-bug"></i>			<span>Logs</span> 			<span class="label label-primary pull-right">2</span>	</a></li>
+		<li class="header">LABELS</li>
+		<li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
+		<li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
+		<li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
 	</ul>
-</div>
-<!--div class="nav-side-menu">
-    <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
-
-        <div class="menu-list">
-
-            <ul id="menu-content" class="menu-content collapse out">
-                <li>
-                  <a href="#">
-                  <i class="fa fa-dashboard fa-lg"></i> Dashboard
-                  </a>
-                </li>
-
-                <li  data-toggle="collapse" data-target="#products" class="collapsed active">
-                  <a href="#"><i class="fa fa-gift fa-lg"></i>  <span class="arrow"></span></a>
-                </li>
-                <ul class="sub-menu collapse" id="products">
-                    <li class="active"><a href="#">CSS3 Animation</a></li>
-                    <li><a href="#">General</a></li>
-                    <li><a href="#">Buttons</a></li>
-                    <li><a href="#">Tabs & Accordions</a></li>
-                    <li><a href="#">Typography</a></li>
-                    <li><a href="#">FontAwesome</a></li>
-                    <li><a href="#">Slider</a></li>
-                    <li><a href="#">Panels</a></li>
-                    <li><a href="#">Widgets</a></li>
-                    <li><a href="#">Bootstrap Model</a></li>
-                </ul>
-
-
-                <li data-toggle="collapse" data-target="#service" class="collapsed">
-                  <a href="#"><i class="fa fa-globe fa-lg"></i><span class="arrow"></span></a>
-                </li>
-                <ul class="sub-menu collapse" id="service">
-                  <li>New Service 1</li>
-                  <li>New Service 2</li>
-                  <li>New Service 3</li>
-                </ul>
-
-
-                <li data-toggle="collapse" data-target="#new" class="collapsed">
-                  <a href="#"><i class="fa fa-car fa-lg"></i>  <span class="arrow"></span></a>
-                </li>
-                <ul class="sub-menu collapse" id="new">
-                  <li>New New 1</li>
-                  <li>New New 2</li>
-                  <li>New New 3</li>
-                </ul>
-
-
-                 <li>
-                  <a href="#">
-                  <i class="fa fa-user fa-lg"></i> Profile
-                  </a>
-                  </li>
-
-                 <li>
-                  <a href="#">
-                  <i class="fa fa-users fa-lg"></i> Users
-                  </a>
-                </li>
-            </ul>
-     </div>
-</div-->
+</section>
+<!-- /.sidebar -->

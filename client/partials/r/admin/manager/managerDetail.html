@@ -1,6 +1,20 @@
-<div class="panel panel-primary">
+<section class="content-header">
+	<h1>
+		<i class="fa fa-arrows fa-fw"></i> Manager
+		<small>{{ curManager.name }}</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
+		<li><a ui-sref="r.dashboard.managers">Managers</a></li>
+		<li class="active">Manager</li>
+	</ol>
+</section>
+
+<section class="content">
+
+<div class="panel panel-default">
 	<div class="panel-heading">
-		<h3 class="panel-title"><i class="fa fa-arrows fa-fw"></i>  Main Information</h3>
+		<h3 class="panel-title">Main Information</h3>
 	</div>
 	<div class="panel-body">
 		<form editable-form name="managerEditForm" onaftersave="saveManager()">
@@ -58,3 +72,5 @@
 		</form>
 	</div>
 </div>
+
+</section>

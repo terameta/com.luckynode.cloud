@@ -1,6 +1,7 @@
 var bcrypt   		= require('bcrypt-nodejs');
 var jwt				= require('jsonwebtoken');
 var config 			= require('../config/config.main.js');
+var mailer			= require('../tools/tools.mailer.js');
 var Q				= require('q');
 var request 		= require('request');
 var mongojs 		= require('mongojs');

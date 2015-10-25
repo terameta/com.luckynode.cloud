@@ -1,15 +1,5 @@
 var cloudServices = angular.module('cloudServices', ['ngResource']);
 
-cloudServices.service('$manager', ['$resource',
-	function managerService($resource){
-		return( $resource(
-			'/api/manager/:id',
-			{ id: '@_id' },
-			{ update: { method: 'PUT' } }
-		) );
-	}
-]);
-
 cloudServices.service('$datacenter', ['$resource',
 	function datacenterService($resource) {
 		return ( $resource(
@@ -76,7 +66,7 @@ cloudServices.service('$userService', ['$resource', '$q', '$rootScope', '$localS
                 pass: password
             };
             if(username && password) {
-            	$http.post('/api/authenticate', signinParams).
+            	$http.post('/api/users/authenticate', signinParams).
             	success(function(data, status, headers, config) {
             		$rootScope.apiToken = data.token;
             		$localStorage.set('apiToken', data.token);
@@ -112,7 +102,7 @@ cloudServices.service('$signinModal', function($modal, $rootScope, $localStorage
 
     return function() {
         var instance = $modal.open({
-            templateUrl: 'partials/authentication/signinModal.html',
+            templateUrl: '/partials/authentication/signinModal.html',
             controller: 'signinModalController',
             controllerAs: 'signinModalController'
         });

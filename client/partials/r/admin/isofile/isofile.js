@@ -2,19 +2,19 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.isofiles', {
 			url:"/isofiles",
 			views: {
-				'content@r.dashboard': { templateUrl: "partials/r/admin/isofile/isofileList.html", controller: 'isofileController' }
+				'content@r.dashboard': { templateUrl: "/partials/r/admin/isofile/isofileList.html", controller: 'isofileController' }
 			},
 			data: { requireSignin: true }
 		}).state('r.dashboard.isofilenew', {
 			url:"/isofilenew",
 			views: {
-				'content@r.dashboard': { templateUrl: "partials/r/admin/isofile/isofileNew.html", controller: 'isofileController' }
+				'content@r.dashboard': { templateUrl: "/partials/r/admin/isofile/isofileNew.html", controller: 'isofileController' }
 			},
 			data: { requireSignin: true }
 		}).state('r.dashboard.isofile', {
 			url:"/isofile/:id",
 			views: {
-				'content@r.dashboard': { templateUrl: "partials/r/admin/isofile/isofileDetail.html", controller: 'isofileController' }
+				'content@r.dashboard': { templateUrl: "/partials/r/admin/isofile/isofileDetail.html", controller: 'isofileController' }
 			},
 			data: { requireSignin: true }
 		});
