@@ -1,0 +1,58 @@
+angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
+	$stateProvider.state('r.dashboard',{
+            url: "/dashboard",
+            views: {
+			//	'': 			{ templateUrl: "/cloud/partials/dashboard/dashboard.html", controller: 'dashboardController' },
+			//	'mainMenu@dashboard': 	{ templateUrl: "/cloud/partials/dashboard/dashboardMenu.html" },
+			//	'sidebar@dashboard': { templateUrl: "/cloud/partials/dashboard/dashboardSideBar.html" },
+				'content@r': { templateUrl: "/cloud/partials/dashboard/dashboardContent.html", controller: 'dashboardController' }
+			},
+            data: { requireSignin: true }
+		});
+});
+/*
+angular.module('cloudServices').service('$manager', ['$resource',
+	function managerService($resource){
+		return( $resource(
+			'/api/manager/:id',
+			{ id: '@_id' },
+			{ update: { method: 'PUT' } }
+		) );
+	}
+]);
+*/
+
+angular.module('cloudControllers').controller('dashboardController', ['$scope', '$http', '$rootScope', '$state', '$stateParams', '$userService', 'srvcEndUser',
+	function($scope, $http, $rootScope, $state, $stateParams, $userService, srvcEndUser) {
+		var lnToastr = toastr;
+
+		$userService.getCurUser();
+
+		$rootScope.ppicurl = '/img/noprofileimage128.png';
+
+		$scope.fetchCurEndUser = function(){
+			$scope.curEndUser = srvcEndUser.get({id: $scope.curUser.id}, function(result){
+				if($scope.curEndUser.haspicture){
+					$rootScope.ppicurl = '/api/enduser/getprofilepicture/'+$scope.curUser.id;
+				}
+			});
+		};
+		$scope.fetchCurEndUser();
+
+		$scope.isCurFocus = function(toCheck){
+			if($state.current.name.indexOf('.'+toCheck) >= 0){
+				if(toCheck == 'dashboard'){
+					if($state.current.name == 'r.dashboard'){
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return true;
+				}
+			} else {
+				return false;
+			}
+		};
+	}
+]);

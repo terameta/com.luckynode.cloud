@@ -10,7 +10,8 @@ var fs 				= require("fs");
 var lnconfiguration	= JSON.parse(fs.readFileSync('luckynode.conf', 'utf8'));
 var cloudConnStr	= lnconfiguration.db.user+':'+lnconfiguration.db.pass+'@'+lnconfiguration.db.server+':'+lnconfiguration.db.port+'/'+lnconfiguration.db.database;
 var cloudColls		= ['users', 'logs'];
-var db 				= mongojs(cloudConnStr, cloudColls, {	ssl: true,    authMechanism : 'ScramSHA1',	cert: fs.readFileSync(lnconfiguration.db.pemfile)	});
+//var db 				= mongojs(cloudConnStr, cloudColls, {	ssl: true,    authMechanism : 'ScramSHA1',	cert: fs.readFileSync(lnconfiguration.db.pemfile)	});
+var db 				= mongojs(cloudConnStr, cloudColls, { authMechanism : 'ScramSHA1' });
 
 var whoami			= lnconfiguration.whoami;
 
@@ -36,6 +37,7 @@ var logger = {
 };
 
 module.exports = {
+	mailer: mailer,
 	generateLongString : function(sentLength){
 		var length = sentLength || 128,
 		charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
@@ -119,19 +121,30 @@ module.exports = {
 
 		return deferred.promise;
 	},
+	checkUserToken : function(req, res, next){
+		var token = req.body.token || req.query.token || req.headers['x-access-token'];
+		if(token){
+			jwt.verify(token, config.secret, function(err, decoded) {
+				if(err){
+					return res.json({ status: 'fail', message: 'Failed to authenticate token.' });
+				} else {
+					req.decoded = decoded;
+					next();
+				}
+			});
+		} else {
+			return res.status(401).send({ status: false, message: 'No token provided.' });
+		}
+	},
 	checkToken : function (req, res, next) {
 		var token = req.body.token || req.query.token || req.headers['x-access-token'];
 		if (token) {
 			jwt.verify(token, config.secret, function(err, decoded) {
 				if (err) {
-					return res.json({
-						status: 'fail',
-						message: 'Failed to authenticate token.'
-					});
-				}
-				else {
+					return res.json({ status: 'fail', message: 'Failed to authenticate token.' });
+				} else {
 					req.decoded = decoded;
-					db.users.findOne({email:req.decoded},function(err, data){
+					db.users.findOne({email:req.decoded.email},function(err, data){
 						if(err) { 					return res.json({	status: 'fail',	message: 'Failed to authenticate token. DB error.'}); 	}
 						else if(!data){ 			return res.json({	status: 'fail',	message: 'Failed to authenticate token. No user.'}); 	}
 						else if(!data.isAdmin){ 	return res.json({	status: 'fail',	message: 'Failed to authenticate token. No admin user.'}); 	}
@@ -140,11 +153,7 @@ module.exports = {
 				}
 			});
 		} else {
-			return res.status(401).send({
-				status: false,
-				message: 'No token provided.'
-			});
-
+			return res.status(401).send({ status: false, message: 'No token provided.' });
 		}
 	},
 	generateHash : function(password) {

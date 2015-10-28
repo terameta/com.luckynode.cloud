@@ -1,0 +1,53 @@
+<section class="content-header">
+	<h1>
+		Profile
+		<small>User</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
+		<li class="active">Profile</li>
+	</ol>
+</section>
+
+<section class="content">
+<div class="row">
+	<div class="col-md-3">
+		<!--Profile Image-->
+		<div class="box box-primary">
+			<div class="box-body box-profile">
+
+				<form name="profilePictureUploadForm">
+					<span class="btn btn-xs btn-primary" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"
+				    accept="image/*" ngf-max-size="10MB" ngf-min-height="100"
+				    ngf-resize="{width: 100, height: 100}" ng-show="profileMainEditForm.$visible">Change Picture</span>
+				    <button class="btn btn-xs btn-success" type="submit" ng-click="uploadProfilePicture()" ng-show="profileMainEditForm.$visible">Upload</button>
+				    <span ng-show="profileMainEditForm.$visible">{{ppicprogress}}% uploaded</span>
+				    <img class="profile-user-img img-responsive img-circle" ng-src="{{ppicurl}}" alt="User profile picture" ngf-thumbnail="file || ppicurl">
+				</form>
+				<form editable-form name="profileMainEditForm" onaftersave="saveMainProfile()">
+				<h3 class="profile-username text-center">
+					<span editable-text="curEndUser.name" e-placeholder="Name">{{ curEndUser.name || 'Name' }}</span>
+					<span editable-text="curEndUser.surname" e-placeholder="Surname">{{ curEndUser.surname || 'Surname' }}</span></h3>
+				<p class="text-muted text-center">
+					<span editable-text="curEndUser.profession" e-placeholder="Profession">{{ curEndUser.profession || 'Profession' }}</span>
+				</p>
+
+				<ul class="list-group list-group-unbordered">
+					<li class="list-group-item">
+						<b>Member Since</b> <a class="pull-right">{{ curEndUser.joindate || 'JoinDate' }}</a>
+					</li>
+					<li class="list-group-item"><span editable-text="curEndUser.email" e-required e-size="100" e-placeholder="Email Address">{{curEndUser.email || 'Email Address'}}</span></li>
+					<li class="list-group-item"><span editable-textarea="curEndUser.address" e-rows="7" e-cols="40" e-placeholder="Address" ng-bind-html="formatAddress() || 'Please click edit to change your address'"></span></li>
+				</ul>
+
+				<button type="button" class="btn btn-primary btn-xs btn-block" ng-click="profileMainEditForm.$show()" ng-show="!profileMainEditForm.$visible">Edit</button>
+				<button type="submit" class="btn btn-success btn-xs btn-block" ng-disabled="profileMainEditForm.$waiting" ng-show="profileMainEditForm.$visible">Save</button>
+				<button type="button" class="btn btn-warning btn-xs btn-block" ng-disabled="profileMainEditForm.$waiting" ng-click="profileMainEditForm.$cancel()" ng-show="profileMainEditForm.$visible">Cancel</button>
+				</form>
+			</div>
+			<!-- /.box-body -->
+		</div>
+		<!-- /.box -->
+	</div>
+</div>
+</section>

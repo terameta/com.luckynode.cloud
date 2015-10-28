@@ -1,4 +1,4 @@
-var cloudApp 			= angular.module('cloudApp', ['ui.router', 'cloudControllers', 'cloudServices', 'ngSanitize', 'ui.bootstrap', 'angular-loading-bar', 'xeditable', 'checklist-model']);
+var cloudApp 			= angular.module('cloudApp', ['ui.router', 'cloudControllers', 'cloudServices', 'ngSanitize', 'ui.bootstrap', 'angular-loading-bar', 'xeditable', 'checklist-model', 'ngFileUpload']);
 var cloudControllers 	= angular.module('cloudControllers', []);
 var cloudServices 		= angular.module('cloudServices', ['ngResource']);
 
@@ -6,9 +6,15 @@ cloudApp.config(function($stateProvider, $urlRouterProvider){
     $urlRouterProvider.otherwise("welcome");
 
     $stateProvider.
-        state('root', {
+        state('r', {
             url: "/r",
-            templateUrl: "/cloud/partials/root.html",
+            views: {
+				'': 			{ templateUrl: "/cloud/partials/r/root.html", controller: 'dashboardController' },
+				'mainMenu@r': 	{ templateUrl: "/cloud/partials/r/rootMenu.html" },
+				'sidebar@r': 	{ templateUrl: "/cloud/partials/r/rootSideBar.html" },
+				'content@r': 	{ templateUrl: "/cloud/partials/r/rootContent.html" }
+			},
+            //templateUrl: "/cloud/partials/r/root.html",
             data: { requireSignin: false }
         });
 });
@@ -62,7 +68,7 @@ cloudApp.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider){
     cfpLoadingBarProvider.includeSpinner = false;
 }]);
 
-cloudApp.run(['$rootScope', '$state', '$signinModal', '$localStorage', function($rootScope, $state, $signinModal, $localStorage) {
+cloudApp.run(['$rootScope', '$state', '$signinModal', '$localStorage', 'editableOptions', 'editableThemes', function($rootScope, $state, $signinModal, $localStorage, editableOptions, editableThemes) {
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
 		var requireSignin = toState.data.requireSignin;
 		$rootScope.apiToken = $localStorage.get('apiToken');
@@ -79,6 +85,23 @@ cloudApp.run(['$rootScope', '$state', '$signinModal', '$localStorage', function(
 				});
 		}
 	});
+
+	$rootScope.$on('$viewContentLoaded', function(event, viewConfig) {
+		if($.AdminLTE){
+			if($.AdminLTE.layout){
+				$.AdminLTE.layout.activate();
+				$.AdminLTE.layout.fix();
+				$.AdminLTE.layout.fixSidebar();
+			}
+			if($.AdminLTE.pushMenu){
+				$.AdminLTE.pushMenu.activate("[data-toggle='offcanvas']");
+			}
+		}
+	});
+
+	editableThemes.bs3.inputClass = 'input-sm';
+	editableThemes.bs3.buttonsClass = 'btn-sm';
+	editableOptions.theme = 'bs3';
 }]);
 
 cloudServices.service('$localStorage', function localStorage($window) {
@@ -144,15 +167,18 @@ cloudControllers.controller('signinModalController', function($scope, $userServi
 	};
 });
 
-cloudServices.service('$userService', ['$resource', '$q', '$rootScope', '$localStorage', '$http',
-    function userService($resource, $q, $rootScope, $localStorage, $http) {
+cloudServices.service('$userService', ['$resource', '$q', '$rootScope', '$localStorage', '$http', '$window',
+    function userService($resource, $q, $rootScope, $localStorage, $http, $window) {
         var service = {};
 
         service.signin = signin;
+        service.signinwithToken = signinwithToken;
         service.signout = signout;
         service.scorepass = scorepass;
         service.signup = signup;
         service.resendVC = resendVC;
+        service.verifycode = verifycode;
+        service.getCurUser = getCurUser;
 
         return service;
 
@@ -185,9 +211,13 @@ cloudServices.service('$userService', ['$resource', '$q', '$rootScope', '$localS
             if(username && password) {
             	$http.post('/api/users/authenticate', signinParams).
             	success(function(data, status, headers, config) {
-            		$rootScope.apiToken = data.token;
-            		$localStorage.set('apiToken', data.token);
-            		deferred.resolve(data);
+            		signinwithToken(data.token).then(
+            			function/*success*/(token){
+            				deferred.resolve(data);
+            			}, function/*failure*/(issue){
+            				deferred.reject(issue);
+            			}
+            		);
             	}).
             	error(function(data, status, headers, config) {
             		deferred.reject(data);
@@ -199,10 +229,42 @@ cloudServices.service('$userService', ['$resource', '$q', '$rootScope', '$localS
             return deferred.promise;
         }
 
+        function signinwithToken(token){
+        	var deferred = $q.defer();
+        	$rootScope.apiToken = token;
+        	$localStorage.set('apiToken', token);
+        	$rootScope.curUser = parseJWT(token);
+        	deferred.resolve(token);
+        	return deferred.promise;
+        }
+
+        function getCurUser(){
+        	$rootScope.curUser = parseJWT($localStorage.get('apiToken'));
+        }
+
+        function parseJWT(token){
+			var base64Url = token.split('.')[1];
+			var base64 = base64Url.replace('-', '+').replace('_', '/');
+			return JSON.parse($window.atob(base64));
+        }
+
         function resendVC(id){
         	var deferred = $q.defer();
         	var vcParams = {id: id};
         	$http.post('/api/users/resendvc', vcParams).
+        	success(function(data, status, headers, config) {
+        		deferred.resolve(data);
+        	}).
+        	error(function(data, status, headers, config) {
+        		deferred.reject(data);
+        	});
+        	return deferred.promise;
+        }
+
+        function verifycode(id, code){
+        	var deferred = $q.defer();
+        	var vcParams = {id: id, code:code};
+        	$http.post('/api/users/verifycode', vcParams).
         	success(function(data, status, headers, config) {
         		deferred.resolve(data);
         	}).

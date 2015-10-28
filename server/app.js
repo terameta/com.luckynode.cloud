@@ -4,11 +4,12 @@ var fs 				= require("fs");
 
 var mongojs 		= require('mongojs');
 var lnconfiguration	= JSON.parse(fs.readFileSync('luckynode.conf', 'utf8'));
-var cloudConnStr	= lnconfiguration.db.user+':'+lnconfiguration.db.pass+'@'+lnconfiguration.db.server+':'+lnconfiguration.db.port+'/'+lnconfiguration.db.database;
-var cloudColls		= ['users','datacenters','nodes','ipblocks','storages','nodecs','nodetokens','managers','plans','servers','images','isofiles', 'logs'];
-var db 				= mongojs(cloudConnStr, cloudColls, {	ssl: true,    authMechanism : 'ScramSHA1',	cert: fs.readFileSync(lnconfiguration.db.pemfile)	});
+var cloudConnStr	= 'mongodb://'+lnconfiguration.db.user+':'+lnconfiguration.db.pass+'@'+lnconfiguration.db.server+':'+lnconfiguration.db.port+'/'+lnconfiguration.db.database;
+var cloudColls		= ['users','datacenters','nodes','ipblocks','storages','nodecs','nodetokens','managers','plans','servers','images','isofiles', 'logs', 'userfiles'];
+//var db 				= mongojs(cloudConnStr, cloudColls, {	ssl: true,    authMechanism : 'ScramSHA1',	cert: fs.readFileSync(lnconfiguration.db.pemfile)	});
+var db 				= mongojs(cloudConnStr, cloudColls, { authMechanism : 'ScramSHA1' });
 
-//mongo monger.luckynode.com:14881/cloud -u 3jPm5YMWG4QPH4rYygItPmDH -p 6l75TzbqGk4Zo114nMjdX7gj --ssl --sslCAFile monger.luckynode.ca.pem
+//mongo monger.luckynode.com:14881/cloud -u 3jPm5YMWG4QPH4rYygItPmDH -p 6l75TzbqGk4Zo114nMjdX7gj
 
 var App             = require('./config/config.app.js');
 var cronerpid 		= 0;

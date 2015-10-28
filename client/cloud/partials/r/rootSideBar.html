@@ -1,0 +1,31 @@
+<!-- sidebar: style can be found in sidebar.less -->
+<section class="sidebar">
+	<!-- Sidebar user panel -->
+	<div class="user-panel">
+		<div class="pull-left image">
+			<img ng-src="{{ppicurl}}" class="img-circle" alt="User Image">
+		</div>
+		<div class="pull-left info">
+			<p>Ali Rıza Dikici</p>
+			<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+		</div>
+	</div>
+	<!-- search form -->
+	<form action="#" method="get" class="sidebar-form">
+		<div class="input-group">
+			<input type="text" name="q" class="form-control" placeholder="Search...">
+			<span class="input-group-btn">
+				<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+			</span>
+		</div>
+	</form>
+	<!-- /.search form -->
+	<!-- sidebar menu: : style can be found in sidebar.less -->
+	<ul class="sidebar-menu">
+		<li class="header">MAIN NAVIGATION</li>
+		<li ng-class="{active : isCurFocus('dashboard')}"	><a ui-sref="r.dashboard">		<i class="fa fa-dashboard"></i>		<span>Dashboard</span> 																</a></li>
+		<li ng-class="{active : isCurFocus('profile')}"		><a ui-sref="r.profile">		<i class="fa fa-arrows"></i>		<span>Profile</span> 		<span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('server')}"		><a ui-sref="r.server">			<i class="fa fa-server"></i>		<span>Servers</span> 		<span class="label label-primary pull-right">2</span>	</a></li>
+	</ul>
+</section>
+<!-- /.sidebar -->

@@ -5,27 +5,27 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
             controller: "welcomeController",
             data: { requireSignin: false }
 		}).state('welcome/postsignup', {
-			url: "/welcome/:id",
+			url: "/verify/:id",
+			templateUrl: "/cloud/partials/welcome/postsignup.html",
+			controller: "postsignupController",
+			data: { requireSignin: false }
+		}).state('welcome/postsignupwithcode', {
+			url: "/verify/:id/:code",
 			templateUrl: "/cloud/partials/welcome/postsignup.html",
 			controller: "postsignupController",
 			data: { requireSignin: false }
 		});
 });
-/*
-angular.module('cloudServices').service('$manager', ['$resource',
-	function managerService($resource){
-		return( $resource(
-			'/api/manager/:id',
-			{ id: '@_id' },
-			{ update: { method: 'PUT' } }
-		) );
-	}
-]);
-*/
 
 angular.module('cloudControllers').controller('postsignupController', ['$scope', '$http', '$rootScope', '$state', '$stateParams', '$userService',
 	function($scope, $http, $rootScope, $state, $stateParams, $userService) {
 		var lnToastr = toastr;
+
+		$scope.shouldDisable = false;
+
+		if($stateParams.code){
+			$scope.verificationcode = $stateParams.code;
+		}
 
 		$scope.resendVerificationCode = function(){
 			console.log("Resending", $stateParams.id);
@@ -35,7 +35,28 @@ angular.module('cloudControllers').controller('postsignupController', ['$scope',
 				},
 				function/*failed*/(data){
 					lnToastr.error("Failed to resend the code.<br />"+data.error);
-					$scope.signinWarning = 'Invalid credentials, please try again';
+				}
+			);
+		};
+
+		$scope.verifyCode = function(){
+			$scope.shouldDisable = true;
+			console.log("Verifying the code", $scope.verificationcode);
+			$userService.verifycode($stateParams.id, $scope.verificationcode).then(
+				function/*success*/(data){
+					lnToastr.info("Successfully verified.");
+					$scope.shouldDisable = false;
+					$userService.signinwithToken(data).then(function/*success*/(){
+						$state.go("r.dashboard");
+					},function/*failure*/(){
+						lnToastr.error("Failed to initiate the session");
+						$state.go("r.dashboard");
+					});
+
+				},
+				function/*failed*/(data){
+					lnToastr.error("Failed to verify the code.<br />"+data.error);
+					$scope.shouldDisable = false;
 				}
 			);
 		};
@@ -61,6 +82,9 @@ angular.module('cloudControllers').controller('welcomeController', ['$scope', '$
 		$scope.signinAction = function(){
 			$userService.signin($scope.email, $scope.pass).then(
 				function/*success*/(){
+					console.log($state);
+					console.log($state.get());
+					console.log(angular.toJson($state.get()));
 					$state.go("r.dashboard");
 				},
 				function/*failed*/(){

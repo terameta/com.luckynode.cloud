@@ -1,0 +1,67 @@
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h3 class="panel-title"><i class="fa fa-dot-circle-o fa-fw"></i>  Main Information</h3>
+	</div>
+	<div class="panel-body">
+		<form editable-form name="isofileEditForm" onaftersave="saveIsofile()">
+			<div class="table-responsive">
+				<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+					<tbody>
+						<tr><td><b>Name: 		</b></td><td><span editable-text="curIsofile.name">{{ curIsofile.name }}</span></td></tr>
+						<tr>
+							<td><b>Storage Pool: 	</b></td>
+							<td>
+								<span editable-select="curIsofile.pool" e-ng-options="storage._id as storage.name for storage in storages" style="display:block;">
+									<span ng-repeat="cnstorageshow in storages | filter:{_id:curIsofile.pool}">{{cnstorageshow.name}}</span>
+								</span>
+							</td>
+						</tr>
+						<tr>
+							<td><b>File: 	</b></td>
+							<td>
+								<span editable-select="curIsofile.file" e-ng-options="selectedStorageIso.name as selectedStorageIso.name for selectedStorageIso in selectedStorageIsos" style="display:block;">
+									<span ng-repeat="cifselectediso in selectedStorageIsos | filter:{name:curIsofile.file}">{{cifselectediso.name}}</span>
+								</span>
+							</td>
+						</tr>
+						<tr>
+							<td><b>File Type:</b></td>
+							<td>
+								<span editable-select="curIsofile.isofiletype" e-ng-options="currentisofiletype.value as currentisofiletype.name for currentisofiletype in isofiletypes" style="display:block;">{{curIsofile.isofiletype}}</span>
+							</select>
+							</td>
+						</tr>
+						<tr>
+							<td><b>File Status:</b></td>
+							<td>
+								<span editable-select="curIsofile.status" e-ng-options="currentisofilestatus.value as currentisofilestatus.name for currentisofilestatus in isostatuses" style="display:block;">{{curIsofile.status}}</span>
+							</select>
+							</td>
+						</tr>
+						<tr>
+							<td><b>File Architecture:</b></td>
+							<td>
+								<span editable-select="curIsofile.architecture" e-ng-options="currentisofilearch.value as currentisofilearch.name for currentisofilearch in isoarchitectures" style="display:block;">{{curIsofile.architecture}}</span>
+							</select>
+							</td>
+						</tr>
+						<tr><td><b>Description: 	</b></td><td><span editable-textarea="curIsofile.description" e-rows="5">{{ curIsofile.description }}</span></td></tr>
+						<!--tr>
+							<td><b>Detail:</b></td>
+							<td><pre>{{ curIsofile | json }}</pre>
+							</td>
+						</tr-->
+						<tr>
+							<td colspan=2>
+								<button type="button" class="btn btn-primary btn-xs" ng-click="isofileEditForm.$show()" ng-show="!isofileEditForm.$visible">Edit</button>
+								<button type="button" class="btn btn-danger btn-xs" ng-click="deleteIsofile()" ng-show="!isofileEditForm.$visible">Delete</button>
+								<button type="submit" class="btn btn-success btn-xs" ng-disabled="isofileEditForm.$waiting" ng-show="isofileEditForm.$visible">Save</button>
+								<button type="button" class="btn btn-warning btn-xs" ng-disabled="isofileEditForm.$waiting" ng-click="isofileEditForm.$cancel()" ng-show="isofileEditForm.$visible">Cancel</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</form>
+	</div>
+</div>
