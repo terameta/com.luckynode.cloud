@@ -130,33 +130,44 @@ module.exports = function(app, express, db, tools) {
 				if(ierr || !idata){
 					res.status(500).json({ status: "fail", detail: "couldn't get image from database" });
 				} else {
-					db.nodes.findOne({storage: {$in: [idata.pool]}}, function(nerr, ndata){
-						if(nerr || !ndata){
-							res.status(500).json({ status: "fail", detail: "couldn't get node for image from database" });
-						} else {
-							var isThereIssue = '';
-							console.log("Calling volume erase");
-							idata.id = idata._id.toString();
-							idata.shouldErase = shouldErase;
-							commander.volDelete(ndata, idata).then(function(result){
-								//console.log(result);
-							}).fail(function(issue){
-								isThereIssue = issue;
-							}).finally(function(){
-								db.images.remove({_id: mongojs.ObjectId(req.params.id)}, function(err, data){
-									if(err){
-										res.status(500).json({ status: "fail", detail: "couldn't delete image from database" });
-									} else {
-										if(isThereIssue){
-											res.json({ status: "success", detail: isThereIssue });
+					if(shouldErase){
+						db.nodes.findOne({storage: {$in: [idata.pool]}}, function(nerr, ndata){
+							if(nerr || !ndata){
+								console.log("We fell to here");
+								res.status(500).json({ status: "fail", detail: "couldn't get node for image from database" });
+							} else {
+								var isThereIssue = '';
+								console.log("Calling volume erase");
+								idata.id = idata._id.toString();
+								idata.shouldErase = shouldErase;
+								commander.volDelete(ndata, idata).then(function(result){
+									console.log(result);
+								}).fail(function(issue){
+									isThereIssue = issue;
+								}).finally(function(){
+									db.images.remove({_id: mongojs.ObjectId(req.params.id)}, function(err, data){
+										if(err){
+											res.status(500).json({ status: "fail", detail: "couldn't delete image from database" });
 										} else {
-											res.json({ status: "success" });
+											if(isThereIssue){
+												res.json({ status: "success", detail: isThereIssue });
+											} else {
+												res.json({ status: "success" });
+											}
 										}
-									}
+									});
 								});
-							});
-						}
-					});
+							}
+						});
+					} else {
+						db.images.remove({_id: mongojs.ObjectId(req.params.id)}, function(err, data){
+							if(err){
+								res.status(500).json({ status: "fail", detail: "couldn't delete image from database" });
+							} else {
+								res.json({ status: "success" });
+							}
+						});
+					}
 				}
 			});
 

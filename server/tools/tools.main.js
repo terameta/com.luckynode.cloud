@@ -9,7 +9,7 @@ var exec 			= require('child_process').exec;
 var fs 				= require("fs");
 var lnconfiguration	= JSON.parse(fs.readFileSync('luckynode.conf', 'utf8'));
 var cloudConnStr	= lnconfiguration.db.user+':'+lnconfiguration.db.pass+'@'+lnconfiguration.db.server+':'+lnconfiguration.db.port+'/'+lnconfiguration.db.database;
-var cloudColls		= ['users', 'logs'];
+var cloudColls		= ['users', 'logs', 'ipblocks'];
 //var db 				= mongojs(cloudConnStr, cloudColls, {	ssl: true,    authMechanism : 'ScramSHA1',	cert: fs.readFileSync(lnconfiguration.db.pemfile)	});
 var db 				= mongojs(cloudConnStr, cloudColls, { authMechanism : 'ScramSHA1' });
 
@@ -46,6 +46,41 @@ module.exports = {
 			retVal += charset.charAt(Math.floor(Math.random() * n));
 		}
 		return retVal;
+	},
+	generateMAC : function(){
+		var deferred = Q.defer();
+		var curMac;
+		db.ipblocks.find({}, function(err, data){
+			if(err){
+				deferred.reject(err);
+			} else {
+				var macList = [];
+				data.forEach(function(curBlock){
+					curBlock.ips.forEach(function(curIP){
+						if(curIP.mac) macList.push(curIP.mac);
+					});
+				});
+				while(true){
+					var octets = ['52','54','00'];
+					var curOctet = '00';
+					curMac = '';
+					for(var i = 0; i < 3; i++){
+						curOctet = Math.floor(Math.random() * (255 - 1) + 1).toString(16).toUpperCase();
+						curOctet = '0'+curOctet;
+						curOctet = curOctet.substr(curOctet.length - 2);
+						octets.push(curOctet);
+					}
+					curMac = octets.join(":");
+					var shouldReturn = true;
+					macList.forEach(function(curComp){
+						if(curComp == curMac) shouldReturn = false;
+					});
+					if(shouldReturn) break;
+				}
+				deferred.resolve(curMac);
+			}
+		});
+		return deferred.promise;
 	},
 	postHTTPSRequest: function(host, path, port, shouldReject, token, postData){
 		var deferred = Q.defer();
@@ -128,7 +163,7 @@ module.exports = {
 				if(err){
 					return res.json({ status: 'fail', message: 'Failed to authenticate token.' });
 				} else {
-					req.decoded = decoded;
+					req.user = decoded;
 					next();
 				}
 			});
@@ -144,6 +179,7 @@ module.exports = {
 					return res.json({ status: 'fail', message: 'Failed to authenticate token.' });
 				} else {
 					req.decoded = decoded;
+					req.user = decoded;
 					db.users.findOne({email:req.decoded.email},function(err, data){
 						if(err) { 					return res.json({	status: 'fail',	message: 'Failed to authenticate token. DB error.'}); 	}
 						else if(!data){ 			return res.json({	status: 'fail',	message: 'Failed to authenticate token. No user.'}); 	}

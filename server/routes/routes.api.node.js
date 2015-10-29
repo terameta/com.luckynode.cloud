@@ -2,6 +2,7 @@ module.exports = function(app, express, db, tools) {
 	var mongojs 		= require('mongojs');
 	var deployer		= require('../tools/tools.node.deploy.js');
 	var commander		= require('../tools/tools.node.commander.js');
+	var fs				= require('fs');
 
 	var apiRoutes = express.Router();
 
@@ -52,7 +53,7 @@ module.exports = function(app, express, db, tools) {
 								serverDetails.password 	= data.pass;
 								serverDetails.host 		= curHost;
 								serverDetails.port 		= 14422;
-								console.log(serverDetails);
+								//console.log(serverDetails);
 								var curCommand = 'sudo shutdown -r now';
 								deployer.runCommand(serverDetails, curCommand).then(
 									function(result){
@@ -131,10 +132,11 @@ module.exports = function(app, express, db, tools) {
 						result = JSON.parse(result);
 						var candidateInterface = req.body.adapter;
 						var candidateBridge = candidateInterface.replace("eth", "br");
-							candidateBridge = candidateInterface.replace("em", "br");
+							candidateBridge = candidateBridge.replace("em", "br");
 						var doWeHaveInterface = false;
 						var isBridgeFree = true;
 						result.forEach(function(curInt){
+							//console.log(curInt, candidateBridge, candidateInterface);
 							if(curInt.name == candidateInterface) doWeHaveInterface = true;
 							if(curInt.name == candidateBridge) isBridgeFree = false;
 						});
@@ -255,6 +257,11 @@ module.exports = function(app, express, db, tools) {
 						var foreverCommand = 'forever -a --minUptime 1000 --spinSleepTime 5000 --uid "nodeluckynode" start server/app.js';
 						var crontabCommand = '( crontab -l | grep -v "node.luckynode.com/croner.sh" | grep -v "no crontab for " ; echo "* * * * * sudo sh -c \\\"chmod +x ~/node.luckynode.com/croner.sh; sh ~/node.luckynode.com/croner.sh >> ~/node.luckynode.com/log/croner.log\\\"" ) | crontab -';
 						var crontabForever = '( crontab -l | grep -v "node.luckynode.com/foreve.sh" | grep -v "no crontab for " ; echo "@reboot   sudo sh -c \\\"chmod +x ~/node.luckynode.com/foreve.sh; sh ~/node.luckynode.com/foreve.sh >> ~/node.luckynode.com/log/croner.log\\\"" ) | crontab -';
+						var nodedbconf	= JSON.parse(fs.readFileSync('luckynode.conf', 'utf8'));
+						nodedbconf = JSON.stringify(nodedbconf.db);
+						nodedbconf = nodedbconf.replace(/\"/g, "\\\"");
+						nodedbconf = nodedbconf.replace(/\'/g, "\\'");
+						//console.log(nodedbconf);
 
 						var serverDetails = {}; //Server Details
 						serverDetails.username 	= req.body.user;
@@ -273,8 +280,10 @@ module.exports = function(app, express, db, tools) {
 						steps.push({ order: steps.length,	Description: 'Reload SSH Settings',			command: ''		 																					});
 						steps.push({ order: steps.length, 	Description: 'Enable qemu-nbd Step 1',		command: ''																							});
 						steps.push({ order: steps.length, 	Description: 'Validate New User',			command: 'uptime' 																					});
+						steps.push({ order: steps.length,	Description: 'Install curl',				command: 'apt-get -y install curl  >> /tmp/install.log 2>&1'										});
+						steps.push({ order: steps.length,	Description: 'LN System: Create Folders',	command: 'cd && mkdir node.luckynode.com >> /tmp/install.log 2>&1;'									});
+						steps.push({ order: steps.length, 	Description: 'Write DB Config', 			command: 'cd && cd node.luckynode.com && echo '+nodedbconf+' > dbconf.conf;'						});
 						steps.push({ order: steps.length,	Description: 'Install nodeJS Repository',	command: 'curl -sL https://deb.nodesource.com/setup_4.x | sudo bash - >> /tmp/install.log 2>&1;'	});
-						//steps.push({ order: steps.length, 	Description: 'Update Packages', 			command: 'apt-get -y update >> /tmp/install.log 2>&1' 												});
 						steps.push({ order: steps.length,	Description: 'Upgrade Packages',			command: 'apt-get -y upgrade >> /tmp/install.log 2>&1' 												});
 						steps.push({ order: steps.length,	Description: 'Upgrade Kernel',				command: 'apt-get -y dist-upgrade >> /tmp/install.log 2>&1'											});
 						steps.push({ order: steps.length,	Description: 'Remove unnecessary packages',	command: 'apt-get -y autoremove >> /tmp/install.log 2>&1' 											});
@@ -292,7 +301,6 @@ module.exports = function(app, express, db, tools) {
 						steps.push({ order: steps.length,	Description: 'Install nodeJS & Build Tools',command: 'apt-get install -y nodejs gcc make build-essential git >> /tmp/install.log 2>&1;'			});
 						steps.push({ order: steps.length,	Description: 'Verify node Version',			command: 'node -v >> /tmp/install.log 2>&1;'														});
 						steps.push({ order: steps.length,	Description: 'Verify npm Version',			command: 'npm -v >> /tmp/install.log 2>&1;'															});
-						steps.push({ order: steps.length,	Description: 'LN System: Create Folders',	command: 'cd && mkdir node.luckynode.com >> /tmp/install.log 2>&1;'									});
 						steps.push({ order: steps.length,	Description: 'LN System: Init Folder',		command: 'cd && cd node.luckynode.com && git init >> /tmp/install.log 2>&1;'						});
 						steps.push({ order: steps.length,	Description: 'LN System: Prepare Pull',		command: 'cd && cd node.luckynode.com && git remote add origin '+repo+' >> /tmp/install.log 2>&1;'	});
 						steps.push({ order: steps.length,	Description: 'LN System: Pull Files',		command: 'cd && cd node.luckynode.com && git pull origin master >> /tmp/install.log 2>&1;'			});
@@ -312,8 +320,8 @@ module.exports = function(app, express, db, tools) {
 						steps.push({ order: steps.length,	Description: 'Add User to libvirtd Group',	command: 'usermod -a -G libvirtd $(logname) >> /tmp/install.log 2>&1' 								});
 						steps.push({ order: steps.length, 	Description: 'Identify Manager',			command: 'cd && cd node.luckynode.com && echo ' + getMyIPs() + '> managerip'						});
 						steps.push({ order: steps.length, 	Description: 'Enable qemu-nbd Step 2',		command: 'modprobe nbd max_part=63'																	});
+						steps.push({ order: steps.length,	Description: 'Fix Network File',			command: 'cd && cd node.luckynode.com && sh trimnetw.sh >> /tmp/install.log 2>&1;'					});
 						steps.push({ order: steps.length, 	Description: 'Identify Node',				command: 'cd && cd node.luckynode.com && echo { \\\"whoami\\\":\\\"' + nodedata.name + '\\\"} > whoami.conf'});
-
 
 						/*
 
@@ -406,7 +414,7 @@ module.exports = function(app, express, db, tools) {
 												if(cStep == 6) st2Command = 'echo \'' + curPass + '\' | sudo -S grep -q -F \'AllowUsers '+ data.user +'\' /etc/ssh/sshd_config || echo \'' + curPass + '\' | sudo -S echo \'AllowUsers '+ data.user +'\' >> /etc/ssh/sshd_config';
 												if(cStep == 7) st2Command = 'echo \'' + curPass + '\' | sudo -S service ssh reload';
 												if(cStep == 8) st2Command = 'echo \'' + curPass + '\' | sudo -S grep -q -F \'nbd max_part=63\' /etc/modules || echo \'' + curPass + '\' | sudo -S echo \'nbd max_part=63\' | sudo tee --append /etc/modules';
-												console.log(st2Command);
+												//console.log(st2Command);
 
 												deployer.runCommand(serverDetails, st2Command).then(
 													function(){
@@ -427,7 +435,7 @@ module.exports = function(app, express, db, tools) {
 												var stOCommand = 'sudo sh -c \'' + steps[cStep].command + '\'';
 												if(steps[cStep].Description == 'LN System: Setup Cron Job') stOCommand = steps[cStep].command;
 												if(steps[cStep].Description == 'LN System: Setup Forever Job') stOCommand = steps[cStep].command;
-												console.log(stOCommand);
+												//console.log(stOCommand);
 												deployer.runCommand(serverDetails, stOCommand).then(
 													function(){
 														setStatforStep(cStep,nodeId,'success', 'This step succeeded' );
@@ -459,7 +467,7 @@ module.exports = function(app, express, db, tools) {
 			if (err) {
 				res.status(500).json({ status: "fail" });
 			} else {
-				console.log(data);
+				//console.log(data);
 				res.send(data);
 			}
 		});

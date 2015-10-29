@@ -1,4 +1,20 @@
-<div class="panel panel-primary">
+<section class="content-header">
+	<h1>
+		<i class="fa fa-puzzle-piece fa-fw"></i> Images
+		<small>{{ curImage.name }}</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+		<li><a ui-sref="r.dashboard.images">Images</a></li>
+		<li class="active">Image</li>
+	</ol>
+</section>
+
+<section class="content">
+<div class="row">
+<div class="col-xs-12">
+
+<div class="panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title"><i class="fa fa-puzzle-piece fa-fw"></i> Image: {{curImage.name}}</h3>
 	</div>
@@ -68,3 +84,7 @@
 		</form>
 	</div>
 </div>
+
+</div>
+</div>
+</section>

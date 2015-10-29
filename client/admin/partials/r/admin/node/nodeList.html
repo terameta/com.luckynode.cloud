@@ -1,0 +1,27 @@
+<section class="content-header">
+	<h1>
+		<i class="fa fa-industry fa-fw"></i> Nodes
+		<div class="btn-group" role="group" aria-label="Node List Actions">
+			<button type="button" class="btn btn-default btn-sm" ui-sref="r.dashboard.nodenew">New</button>
+		</div>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+		<li class="active">Nodes</li>
+	</ol>
+</section>
+
+<section class="content">
+<div class="row">
+	<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="node in nodes" ui-sref="r.dashboard.node({id: node._id})" style="cursor:pointer">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{{node.name}}</h3>
+			</div>
+			<div class="panel-body">
+				{{ node.ip }}@{{ (dataCenters | filter:{_id: node.datacenter})[0].name || 'Not set' }}
+			</div>
+		</div>
+	</div>
+</div>
+</section>

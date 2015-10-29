@@ -10,16 +10,6 @@ cloudServices.service('$datacenter', ['$resource',
 	}
 ]);
 
-cloudServices.service('$node', ['$resource',
-	function nodeService($resource) {
-		return ( $resource(
-			'/api/node/:id',
-			{ id: '@_id' },
-			{ update: { method: 'PUT' } }
-		) );
-	}
-]);
-
 cloudServices.service('$ipblock', ['$resource',
 	function ipblockService($resource) {
 		return ( $resource(
@@ -102,7 +92,7 @@ cloudServices.service('$signinModal', function($modal, $rootScope, $localStorage
 
     return function() {
         var instance = $modal.open({
-            templateUrl: '/partials/authentication/signinModal.html',
+            templateUrl: '/admin/partials/authentication/signinModal.html',
             controller: 'signinModalController',
             controllerAs: 'signinModalController'
         });

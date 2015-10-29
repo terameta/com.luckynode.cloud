@@ -2,19 +2,19 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.logs', {
 			url:"/logs",
 			views: {
-				'content@r.dashboard': { templateUrl: "/partials/r/admin/logs/logList.html", controller: 'logController' }
+				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/logs/logList.html", controller: 'logController' }
 			},
 			data: { requireSignin: true }
 		})/*.state('r.dashboard.servernew', {
 			url:"/servernew",
 			views: {
-				'content@r.dashboard': { templateUrl: "/partials/r/admin/server/serverNew.html", controller: 'serverController' }
+				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/server/serverNew.html", controller: 'serverController' }
 			},
 			data: { requireSignin: true }
 		}).state('r.dashboard.server', {
 			url:"/server/:id",
 			views: {
-				'content@r.dashboard': { templateUrl: "/partials/r/admin/server/serverDetail.html", controller: 'serverController' }
+				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/server/serverDetail.html", controller: 'serverController' }
 			},
 			data: { requireSignin: true }
 		})*/;

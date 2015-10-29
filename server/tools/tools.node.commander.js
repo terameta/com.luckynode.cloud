@@ -6,7 +6,7 @@ var mongojs 		= require('mongojs');
 var lnconfiguration	= JSON.parse(fs.readFileSync('luckynode.conf', 'utf8'));
 var cloudConnStr	= lnconfiguration.db.user+':'+lnconfiguration.db.pass+'@'+lnconfiguration.db.server+':'+lnconfiguration.db.port+'/'+lnconfiguration.db.database;
 var cloudColls		= ['storages', 'nodetokens'];
-var db 				= mongojs(cloudConnStr, cloudColls, {	ssl: true,    authMechanism : 'ScramSHA1',	cert: fs.readFileSync(lnconfiguration.db.pemfile)	});
+var db 				= mongojs(cloudConnStr, cloudColls, {	authMechanism : 'ScramSHA1' });
 
 module.exports = {
 	assignStoragePools: function(node){
@@ -175,17 +175,27 @@ function runRemoteCommand(node, token, command){
 
 function getToken(nodeid){
 	var deferred = Q.defer();
+	//console.log("Getting token");
+	//console.log(nodeid);
+	//console.log({_id: mongojs.ObjectId(nodeid)});
 	db.nodetokens.findOne({_id: mongojs.ObjectId(nodeid)}, function(err, data){
+		//console.log("We are in the function at least");
 		if(err){
+			//console.log("Token issue");
 			deferred.reject({ status: "fail", detail: "Cannot access to database", where: "getToken" });
 		} else {
+			//console.log("No token issue");
+
 			if(data){
+				//console.log("We have token");
 				deferred.resolve(data.token);
 			} else {
+				//console.log("We don't have token");
 				deferred.resolve('');
 			}
 		}
 	});
+	//console.log("Returning deferred for getting token");
 	return deferred.promise;
 }
 

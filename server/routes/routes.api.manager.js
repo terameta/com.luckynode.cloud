@@ -35,10 +35,12 @@ module.exports = function(app, express, db, tools) {
 	});
 
 	apiRoutes.get('/', tools.checkToken, function(req, res) {
+		console.log("Here");
 		db.managers.find({}, function(err, data) {
 			if (err) {
 				res.status(500).json({ status: "fail" });
 			} else {
+				console.log(data);
 				res.send(data);
 			}
 		});

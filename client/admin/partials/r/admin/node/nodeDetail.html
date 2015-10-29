@@ -1,0 +1,290 @@
+<section class="content-header">
+	<h1>
+		<i class="fa fa-industry fa-fw"></i> Node
+		<small>{{ curNode.name }}</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
+		<li><a ui-sref="r.dashboard.nodes">Nodes</a></li>
+		<li class="active">Node</li>
+	</ol>
+</section>
+
+<section class="content">
+<div class="row">
+	<div class="col-xs-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Main Information</h3>
+			</div>
+			<div class="panel-body">
+				<form editable-form name="nodeEditForm" onaftersave="saveNode($data)">
+					<div class="table-responsive">
+						<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+							<!--thead>
+								<tr>
+									<th>Property</th>
+									<th>Data</th>
+								</tr>
+							</thead-->
+							<tbody>
+								<tr>
+									<td><b>Name:</b></td>
+									<td>
+										<span editable-text="curNode.name">{{ curNode.name }}</span>
+									</td>
+								</tr>
+								<tr>
+									<td><b>Data Center:</b></td>
+									<td>
+										<span editable-select="curNode.datacenter" e-ng-options="datacenter._id as datacenter.name for datacenter in dataCenters">
+											{{ (dataCenters | filter:{_id: curNode.datacenter})[0].name || 'Not set' }}
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<td><b>IP Address:</b></td>
+									<td>
+										<span editable-text="curNode.ip">{{ curNode.ip }}</span>
+									</td>
+								</tr>
+								<tr>
+									<td><b>Internal IP:</b></td>
+									<td>
+										<span editable-text="curNode.internalip">{{ curNode.internalip }}</span>
+									</td>
+								</tr>
+								<tr>
+									<td><b>Storage:</b></td>
+									<td>
+										<span editable-checklist="curNode.storage" onbeforesave="checkStorageChange($data)" e-ng-options="storage._id as storage.name+' ('+storage.source+')' for storage in storages  | filter:{datacenter: curNode.datacenter}" style="display:block;">
+											<div ng-repeat="cnstorage in curNode.storage">
+												<span ng-repeat="cnstorageshow in storages | filter:{_id:cnstorage}">{{cnstorageshow.name}} ({{cnstorageshow.source}})</span>
+											</div>
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<td><b>Network Bridge:</b></td>
+									<td>
+										<span editable-text="curNode.netBridge">{{ curNode.netBridge }}</span>
+									</td>
+								</tr>
+								<tr>
+									<td><b>Status:</b></td>
+									<td>
+										<span>{{ curNode.status }}</span>
+									</td>
+								</tr>
+								<!--tr>
+									<td><b>Detail:</b></td>
+									<td><pre>{{ curNode | json }}</pre>
+									</td>
+								</tr-->
+								<tr>
+									<td colspan=2>
+										<button type="button" class="btn btn-primary btn-xs" ng-click="nodeEditForm.$show()" ng-show="!nodeEditForm.$visible">Edit</button>
+										<button type="button" class="btn btn-danger btn-xs" ng-click="deleteNode()" ng-show="!nodeEditForm.$visible">Delete</button>
+										<button type="submit" class="btn btn-success btn-xs" ng-disabled="nodeEditForm.$waiting" ng-show="nodeEditForm.$visible">Save</button>
+										<button type="button" class="btn btn-warning btn-xs" ng-disabled="nodeEditForm.$waiting" ng-click="nodeEditForm.$cancel()" ng-show="nodeEditForm.$visible">Cancel</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Actions</h3>
+			</div>
+			<div class="panel-body">
+				<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+					<thead>
+						<tr><th>Item</th><th>Status</th><th>Action</th></tr>
+					</thead>
+					<tbody>
+						<tr ng-class="{warning: curNode.status != 'Deployed'}">
+							<td><b>Deployment:</b></td>
+							<td>{{curNode.status == "Deployed" ? "OK" : "Pending"}}</td>
+							<td><button type="button" class="btn btn-primary btn-xs" ng-click="openDeployScreen();">Deploy</button></td>
+						</tr>
+						<tr ng-class="{warning: !curNode.storage}">
+							<td><b>Storage Pool Definition:</b></td>
+							<td>{{curNode.storage ? "OK" : "Pending"}}</td>
+							<td>Click edit button to assign storage pools</td>
+						</tr>
+						<tr ng-class="{warning: !curNode.netBridge}">
+							<td><b>Network Bridge Definition:</b></td>
+							<td>{{curNode.netBridge ? "OK" : "Pending"}}</td>
+							<td><button type="button" class="btn btn-primary btn-xs" ng-click="openNetworkBridgeScreen();">Define</button></td>
+						</tr>
+						<tr>
+							<td><b>Restart Server:</b></td>
+							<td> - </td>
+							<td><button type="button" class="btn btn-primary btn-xs" ng-click="restartNode();">Restart</button></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">System Status</h3>
+			</div>
+			<div class="panel-body">
+				<ul>
+					<li>Disk Status</li>
+					<li>CPU Utilization</li>
+					<li>Memory Utilization (total and per vm)</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+</section>
+<script type="text/ng-template" id="nodeNetworkBridgeModal.tmpl.html">
+	<div class="modal-header">
+		<h3><i class="fa fa-industry fa-fw"></i> Node Network Bridge Definition</h3>
+	</div>
+	<form>
+		<div class="modal-body">
+		<div class="alert alert-warning">Whenever a change is made on bridge setup, it is recommended to restart the node.</div>
+			<div ng-if="(curNode.interfaces == 'Failed')"><span class="alert alert-danger">Failed to fetch interfaces, please try again.</span></div>
+			<table ng-if="(curNode.interfaces != 'Failed')" class="table table-hover table-condensed table-responsive">
+				<thead>
+					<tr><th>Name</th><th>State</th><th>MAC Address</th><th>Type</th><th>Action</th></tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="curInterface in curNode.interfaces">
+						<td>{{curInterface.name}}</td>
+						<td>{{curInterface.state}}</td>
+						<td>{{curInterface.mac}}</td>
+						<td>{{curInterface.type}}</td>
+						<td>
+							<button type="button" ng-if="(curInterface.type == 'ethernet')" ng-click="bridgeAssign(curInterface.name)">Create bridge on this adapter</button>
+							<button type="button" ng-if="(curInterface.type == 'bridge' && curInterface.name == curNode.netBridge)" ng-click="bridgeDetach(curInterface.name)">Detach bridge from adapter</button>
+							<button type="button" ng-if="(curInterface.type == 'bridge' && curInterface.name != curNode.netBridge)" ng-click="assignAsActiveBridge(curInterface.name)">Assign as active bridge</button>
+							<span ng-if="(curInterface.type == 'loopback adapter')">No action available</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</form>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" ng-click="closeNetworkBridgeScreen()" data-dismiss="modal">OK</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="nodeNetworkBridgeModalold.tmpl.html">
+	<div class="modal-header">
+		<h3><i class="fa fa-industry fa-fw"></i> Node Network Bridge Definition</h3>
+	</div>
+	<form>
+	<div class="modal-body">
+		Please follow below steps to enable the bridge on your desired NIC:<br />
+		<br />
+		Edit file /etc/network/interfaces<br />
+		and you will see file contents similar to below:<br />
+<pre>
+# Loopback device:
+auto lo
+iface lo inet loopback
+
+# device: eth0
+auto  eth0
+iface eth0 inet static
+	address   10.0.0.67
+	netmask   255.255.255.224
+	gateway   10.0.0.65
+	# default route to access subnet
+	up route add -net 10.0.0.64 netmask 255.255.255.224 gw 10.0.0.65 eth0
+</pre>
+<br />
+Replace the contents as below (use your own settings of course):
+<pre>
+# Loopback device:
+auto lo
+iface lo inet loopback
+
+# Device: eth0
+auto eth0
+iface eth0 inet manual
+
+# Bridge: br0
+auto br0
+iface br0 inet static
+	address 10.0.0.67
+	network 10.0.0.64
+	netmask 255.255.255.224
+	broadcast 10.0.0.255
+	gateway 10.0.0.65
+	bridge_ports eth0
+	bridge_stp off
+	bridge_fd 0
+	bridge_maxwait 0
+</pre>
+
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" ng-click="closeNetworkBridgeScreen()" data-dismiss="modal">OK</button>
+	</div>
+	</form>
+</script>
+
+<script type="text/ng-template" id="nodeDeployModal.tmpl.html">
+	<div class="modal-header">
+		<h3><i class="fa fa-industry fa-fw"></i> Node Deployment</h3>
+	</div>
+	<form>
+
+	<div class="modal-body">
+		<div class="input-group" style="margin-bottom:2px;">
+			Here ask which IP address to use
+		</div>
+		<div class="input-group" style="margin-bottom:2px;">
+			<span class="input-group-addon" style="min-width:200px;text-align:left;">Username</span>
+			<input type="text" ng-model="deployCreds.user" placeholder="please enter user name of the node" class="form-control" />
+		</div>
+		<div class="input-group" style="margin-bottom:2px;">
+			<span class="input-group-addon" style="min-width:200px;text-align:left;">Password</span>
+			<input type="password" ng-model="deployCreds.pass" placeholder="super duper password" class="form-control" />
+		</div>
+		<div class="input-group" style="margin-bottom:2px;">
+			<span class="input-group-addon" style="min-width:200px;text-align:left;">SSH Port</span>
+			<input type="text" ng-model="deployCreds.port" placeholder="SSH Port, probably 22" class="form-control" />
+		</div>
+		<table ng-if="deployStatus" class="table table-hover table-condensed table-responsive">
+			<thead>
+				<tr><th>Step</th><th>Description</th><!--th>Command</th--><th>Start</th><th>End</th><th>Status</th></tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="curStep in deployStatus.steps" ng-class="curStep.status">
+					<td>{{curStep.order}}</td>
+					<td>{{curStep.Description}}</td>
+					<!--td>{{curStep.command}}</td-->
+					<td>{{curStep.start}}</td>
+					<td>{{curStep.end}}</td>
+					<td>{{curStep.status}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<!--span>{{deployStatus}}</span><br />
+		<span>{{deployCreds | json}}</span-->
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" ng-click="closeDeployScreen()" data-dismiss="modal">Close
+		</button>
+		<button type="submit" class="btn btn-primary" ng-click="deployNode()">Initiate
+		</button>
+	</div>
+	</form>
+</script>

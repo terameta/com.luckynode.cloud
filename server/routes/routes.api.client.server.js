@@ -5,19 +5,27 @@ var commander		= require('../tools/tools.node.commander.js');
 var path 			= require('path');
 
 module.exports = function(app, express, db, tools) {
-
+	var serverModule 	= require('../modules/module.server.js')(db);
 	var apiRoutes 		= express.Router();
 	topDB = db;
 
-	apiRoutes.get('/', tools.checkToken, function(req, res) {
-		db.servers.find({}, function(err, data) {
-			if (err) {
-				res.status(500).json({ status: "fail" });
-			} else {
-				res.send(data);
-			}
-		});
+	apiRoutes.get('/', tools.checkUserToken, function(req, res) {
+		if(!req.user){
+			res.status(400).json({ status: "fail", detail: "no user provided" });
+		} else if(!req.user.id){
+			res.status(400).json({ status: "fail", detail: "no user provided" });
+		} else {
+			serverModule.listServers().then(function(result){
+				console.log(result);
+				res.send(result);
+			}).fail(function(issue){
+				console.log("burada", issue);
+				res.status(500).json({ status: 'fail', message: "Can't list servers" });
+			});
+		}
 	});
+
+	/*
 
 	apiRoutes.get('/:id', tools.checkToken, function(req, res) {
 		db.servers.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err, data){
@@ -39,7 +47,6 @@ module.exports = function(app, express, db, tools) {
 			curNewServer.status = 'defining';
 			var curNewServerNode;
 			curNewServer.status = 'defining';
-			curNewServer.owner = req.user.id;
 			newServerInsert(curNewServer).
 				then(function(result){ curNewServer.id = curNewServer._id.toString(); 						return serverFindNode(curNewServer);		}).
 				then(function(result){ curNewServerNode = result; curNewServer.bridge = result.netBridge;	return serverFindIPBlock(curNewServer);		}).
@@ -107,7 +114,6 @@ module.exports = function(app, express, db, tools) {
 		} else {
 			var cSrv = {};
 			var cNode = {};
-
 			serverFindByID(req.params.id).
 				then(function(curSrv){ console.log("Server is found"); cSrv = curSrv;  console.log(cSrv); return serverFindNode(cSrv); } ).
 				then(function(curNode){ console.log("Server node is found"); cNode = curNode; return commander.serverDelete(cNode, cSrv); } ).
@@ -491,12 +497,12 @@ module.exports = function(app, express, db, tools) {
 							res.status(500).json({ status: "fail", detail: issue});
 						});
 					}
-				})
+				});
 			}
 		});
-	});
+	});*/
 
-	app.use('/api/server', apiRoutes);
+	app.use('/api/client/server', apiRoutes);
 };
 
 function persistentInitiateVNCProxy(host, port, localport, tools){
@@ -581,7 +587,6 @@ function serverFindByID(id){
 }
 
 function serverFindNode(curSrv){
-	console.log("Finding server node for "+ curSrv);
 	var deferred = Q.defer();
 	topDB.nodes.findOne({_id:mongojs.ObjectId(curSrv.node)}, function(err, data){
 		if(err){

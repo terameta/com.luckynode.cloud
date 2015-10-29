@@ -1,5 +1,20 @@
+<section class="content-header">
+	<h1>
+		<i class="fa fa-server fa-fw"></i> Server
+		<small>{{ curServer.name }}</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
+		<li><a ui-sref="r.dashboard.servers">Server</a></li>
+		<li class="active">Server</li>
+	</ol>
+</section>
+
+<section class="content">
+<div class="row">
+
 <div class="col-xs-12" ng-if="shouldShowConsole">
-	<div class="panel panel-primary">
+	<div class="panel panel-default">
 		<div class="panel-heading clearfix">
 			<h4 class="panel-title pull-left"><i class="fa fa-server fa-fw"></i>  Console</h4>
 			<span style="width:50px;background:transparent;" class="pull-left">&nbsp;</span>
@@ -169,7 +184,7 @@
 </div>
 </div>
 <div class="col-xs-6">
-	<div class="panel panel-primary">
+	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title"><i class="fa fa-server fa-fw"></i>  Main Information</h3>
 		</div>
@@ -201,7 +216,7 @@
 	</div>
 </div>
 <div class="col-xs-6">
-	<div class="panel panel-primary">
+	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title"><i class="fa fa-server fa-fw"></i>  Actions</h3>
 		</div>
@@ -218,7 +233,7 @@
 	</div>
 </div>
 <div class="col-xs-6">
-	<div class="panel panel-primary">
+	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title"><i class="fa fa-server fa-fw"></i>  Disks</h3>
 		</div>
@@ -250,7 +265,7 @@
 	</div>
 </div>
 <div class="col-xs-6">
-	<div class="panel panel-primary">
+	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title"><i class="fa fa-server fa-fw"></i>  Details</h3>
 		</div>
@@ -259,6 +274,9 @@
 		</div>
 	</div>
 </div>
+
+</div>
+</section>
 
 <script type="text/ng-template" id="serverAttachIsoModal.tmpl.html">
 	<div class="modal-header">

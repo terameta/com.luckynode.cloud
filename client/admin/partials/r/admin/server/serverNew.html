@@ -1,9 +1,18 @@
+<section class="content-header">
+	<h1>
+		<i class="fa fa-server fa-fw"></i> New Server
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
+		<li><a ui-sref="r.dashboard.servers">Servers</a></li>
+		<li class="active">New Server</li>
+	</ol>
+</section>
+
+<section class="content">
 <div class="panel panel-info" style="margin:0;padding:0">
-	<div class="panel-heading">
-		<div class="panel-title"><i class="fa fa-server fa-fw"></i> New Server</div>
-	</div>
 	<div class="panel-body" style="padding-top:30px;">
-		<button ng-repeat="plan in plans" type="button" class="btn btn-info btn-sm" style="margin:10px;margin-left:0px;" ng-click="applyPlan(plan)"
+		<button ng-repeat="plan in plans" type="button" class="btn btn-default btn-sm" style="margin:10px;margin-left:0px;" ng-click="applyPlan(plan)"
 			tooltip="
 				CPU:{{plan.cpu}} |
 				RAM:{{plan.ram}}M |
@@ -89,3 +98,5 @@
 		</form>
 	</div>
 </div>
+
+</section>

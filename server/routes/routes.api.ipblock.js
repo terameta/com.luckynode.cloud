@@ -1,5 +1,11 @@
+var topDB;
+var Q			= require('q');
+var topTools;
+
 module.exports = function(app, express, db, tools) {
 	var mongojs 		= require('mongojs');
+	topDB = db;
+	topTools = tools;
 
 	var apiRoutes = express.Router();
 
@@ -39,6 +45,37 @@ module.exports = function(app, express, db, tools) {
 		}
 	});
 
+	function assignMACAddress(curBlock){
+		var deferred = Q.defer();
+		var curIPtoAssign = shouldAssignMAC(curBlock);
+		if(curIPtoAssign >= 0){
+			tools.generateMAC().then(function(result){
+				curBlock.ips[curIPtoAssign].mac = result;
+				if(shouldAssignMAC(curBlock) >= 0){
+					assignMACAddress(curBlock).then(deferred.resolve).fail(deferred.reject);
+				} else {
+					deferred.resolve(curBlock);
+				}
+			}).fail(function(issue){
+				deferred.reject(issue);
+			});
+		} else {
+			deferred.resolve(curBlock);
+		}
+		return deferred.promise;
+	}
+
+	function shouldAssignMAC(curBlock){
+		var curIPtoAssign = -1;
+		for(var i = 0; i < curBlock.ips.length; i++){
+			if(curBlock.ips[i].mac === ''){
+				curIPtoAssign = i;
+				break;
+			}
+		}
+		return curIPtoAssign;
+	}
+
 	apiRoutes.put('/:id', tools.checkToken, function(req, res){
 		if ( !req.body ) {
 			res.status(400).json({ status: "fail", detail: "no data provided" });
@@ -48,15 +85,21 @@ module.exports = function(app, express, db, tools) {
 			res.status(400).json({ status: "fail", detail: "ipblock should have an _id" });
 		} else {
 			var curid = req.body._id;
+			var curBlock = req.body;
 			delete req.body._id;
-			db.ipblocks.update({_id: mongojs.ObjectId(curid)}, req.body, function(err, data){
-				if( err ){
-					res.status(500).json({ status: "fail" });
-				} else {
-					req.body._id = curid;
-					res.send(req.body);
-				}
+			assignMACAddress(curBlock).then(function(curBlock){
+				db.ipblocks.update({_id: mongojs.ObjectId(curid)}, curBlock, function(err, data){
+					if( err ){
+						res.status(500).json({ status: "fail" });
+					} else {
+						req.body._id = curid;
+						res.send(req.body);
+					}
+				});
+			}).fail(function(issue){
+				res.status(500).json({status: "fail", message: "Can't assign mac addresses"});
 			});
+
 		}
 	});
 

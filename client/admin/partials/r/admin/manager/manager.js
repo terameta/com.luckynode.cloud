@@ -2,19 +2,19 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.managers', {
 			url:"/managers",
 			views: {
-				'content@r.dashboard': { templateUrl: "/partials/r/admin/manager/managerList.html", controller: 'managerController' }
+				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/manager/managerList.html", controller: 'managerController' }
 			},
 			data: { requireSignin: true }
 		}).state('r.dashboard.managernew', {
 			url:"/managernew",
 			views: {
-				'content@r.dashboard': { templateUrl: "/partials/r/admin/manager/managerNew.html", controller: 'managerController' }
+				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/manager/managerNew.html", controller: 'managerController' }
 			},
 			data: { requireSignin: true }
 		}).state('r.dashboard.manager', {
 			url:"/manager/:id",
 			views: {
-				'content@r.dashboard': { templateUrl: "/partials/r/admin/manager/managerDetail.html", controller: 'managerController' }
+				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/manager/managerDetail.html", controller: 'managerController' }
 			},
 			data: { requireSignin: true }
 		});

@@ -1,0 +1,58 @@
+<section class="content-header">
+	<h1>
+		<i class="fa fa-server fa-fw"></i> Servers
+		<div class="btn-group" role="group" aria-label="Node List Actions">
+			<a class="btn btn-default btn-sm" ui-sref="r.dashboard.servernew">New</a>
+		</div>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+		<li class="active">Servers</li>
+	</ol>
+</section>
+
+<section class="content">
+<div class="row">
+	<table class="table table-striped table-bordered table-hover" ng-if="servers.length > 0">
+		<thead>
+			<tr>
+				<th>Row</th>
+				<th>Name</th>
+				<th>CPU</th>
+				<th>Disk Size</th>
+				<th>RAM</th>
+				<th>Bandwidth</th>
+				<th>Data Center</th>
+				<th>Node</th>
+				<th>IP Address</th>
+				<th>MAC Address</th>
+				<th>Base Image</th>
+				<th>Status</th>
+				<th>Owner</th>
+				<th>Details</th>
+			</tr>
+		</thead>
+
+
+		<tbody>
+			<tr ng-repeat="server in servers | orderBy:'name'">
+				<td>{{$index +1}}</td>
+				<td>{{server.name}}</td>
+				<td>{{server.cpu}} vCores</td>
+				<td>{{server.hdd}}GB</td>
+				<td>{{server.ram}}MB</td>
+				<td>{{server.bandwidth}}GB</td>
+				<td>{{server.dc}}</td>
+				<td>{{server.node}}</td>
+				<td>{{server.ip}}</td>
+				<td>{{server.mac}}</td>
+				<td>{{server.image}}</td>
+				<td>{{server.status}}</td>
+				<td>{{server.owner}}</td>
+				<td><a ui-sref="r.dashboard.server({id: server._id})" title="Details"><i class="fa fa-cog fa-fw"></i></a></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</section>
