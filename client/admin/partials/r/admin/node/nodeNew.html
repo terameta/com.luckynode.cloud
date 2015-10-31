@@ -20,7 +20,7 @@
 			<span class="input-group-addon" style="min-width:200px;text-align:left;">Data Center*</span>
 			<select class="form-control" ng-model="newnode._datacenter" ng-options="dataCenter.name group by dataCenter.location for dataCenter in dataCenters"></select>
 		</div>
-		<pre>{{newnode || json}}</pre>
+		<!--pre>{{newnode || json}}</pre-->
 		<div class="input-group" style="margin-bottom:2px;">
 			<span class="input-group-addon" style="min-width:200px;text-align:left;">IP Address*</span>
 			<input type="text" ng-model="newnode._ipaddress" placeholder="123.123.123.1" class="form-control" id="_ipaddress" />
