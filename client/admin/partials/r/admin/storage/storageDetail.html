@@ -1,62 +1,93 @@
-<div class="panel panel-primary">
-	<div class="panel-heading">
-		<h3 class="panel-title"><i class="fa fa-hdd-o fa-fw"></i>  Main Information</h3>
-	</div>
-	<div class="panel-body">
-		<form editable-form name="storageEditForm" onaftersave="saveStorage()">
-			<div class="table-responsive">
-				<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
-					<!--thead>
-						<tr>
-							<th>Property</th>
-							<th>Data</th>
-						</tr>
-					</thead-->
-					<tbody>
-						<tr>
-							<td><b>Name:</b></td>
-							<td>
-								<span editable-text="curStorage.name">{{ curStorage.name }}</span>
-							</td>
-						</tr>
-						<tr>
-							<td><b>Data Center:</b></td>
-							<td>
-								<span editable-select="curStorage.datacenter" e-ng-options="datacenter._id as datacenter.name for datacenter in dataCenters">
-									{{ (dataCenters | filter:{_id: curStorage.datacenter})[0].name || 'Not set' }}
-								</span>
-							</td>
-						</tr>
-						<tr>
-							<td><b>Type:</b></td>
-							<td>
-								<span editable-select="curStorage.type" e-ng-options="storageType.name as storageType.name for storageType in storageTypes">
-									{{ (storageTypes | filter:{name: curStorage.type})[0].name || 'Not set' }}
-								</span>
-							</td>
-						</tr>
-						<tr>
-							<td><b>Source:</b></td>
-							<td>
-								<span editable-text="curStorage.source">{{ curStorage.source }}</span>
-							</td>
-						</tr>
-						<tr>
-							<td><b>Detail:</b></td>
-							<td><pre>{{ curStorage | json }}</pre>
-							</td>
-						</tr>
-						<tr>
-							<td colspan=2>
-								<button type="button" class="btn btn-primary btn-xs" ng-click="storageEditForm.$show()" ng-show="!storageEditForm.$visible">Edit</button>
-								<button type="button" class="btn btn-danger btn-xs" ng-click="deleteStorage()" ng-show="!storageEditForm.$visible">Delete</button>
-								<button type="submit" class="btn btn-success btn-xs" ng-disabled="storageEditForm.$waiting" ng-show="storageEditForm.$visible">Save</button>
-								<button type="button" class="btn btn-warning btn-xs" ng-disabled="storageEditForm.$waiting" ng-click="storageEditForm.$cancel()" ng-show="storageEditForm.$visible">Cancel</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+<section class="content-header">
+	<h1>
+		<i class="fa fa-hdd-o fa-fw"></i> Storage
+		<small>{{ curStorage.name }}</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
+		<li><a ui-sref="r.dashboard.storages">Storages</a></li>
+		<li class="active">Storage</li>
+	</ol>
+</section>
+
+<section class="content">
+	<div class="row">
+		<div class="col-xs-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">Details</div>
+				<div class="panel-body">
+					<form editable-form name="storageEditForm" onaftersave="saveStorage()">
+						<div class="table-responsive">
+							<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+								<tbody>
+									<tr>
+										<td><b>Name:</b></td>
+										<td>
+											<span editable-text="curStorage.name">{{ curStorage.name }}</span>
+										</td>
+									</tr>
+									<tr>
+										<td><b>Data Center:</b></td>
+										<td>
+											<span editable-select="curStorage.datacenter" e-ng-options="datacenter._id as datacenter.name for datacenter in dataCenters">
+												{{ (dataCenters | filter:{_id: curStorage.datacenter})[0].name || 'Not set' }}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td><b>Type:</b></td>
+										<td>
+											<span editable-select="curStorage.type" e-ng-options="storageType.name as storageType.name for storageType in storageTypes">
+												{{ (storageTypes | filter:{name: curStorage.type})[0].name || 'Not set' }}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td><b>Source:</b></td>
+										<td>
+											<span editable-text="curStorage.source">{{ curStorage.source }}</span>
+										</td>
+									</tr>
+									<!--tr>
+										<td><b>Detail:</b></td>
+										<td><pre>{{ curStorage | json }}</pre>
+										</td>
+									</tr-->
+									<tr>
+										<td colspan=2>
+											<button type="button" class="btn btn-primary btn-xs" ng-click="storageEditForm.$show()" ng-show="!storageEditForm.$visible">Edit</button>
+											<button type="button" class="btn btn-danger btn-xs" ng-click="deleteStorage()" ng-show="!storageEditForm.$visible">Delete</button>
+											<button type="submit" class="btn btn-success btn-xs" ng-disabled="storageEditForm.$waiting" ng-show="storageEditForm.$visible">Save</button>
+											<button type="button" class="btn btn-warning btn-xs" ng-disabled="storageEditForm.$waiting" ng-click="storageEditForm.$cancel()" ng-show="storageEditForm.$visible">Cancel</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</form>
+				</div>
 			</div>
-		</form>
+		</div>
+		<div class="col-xs-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">Disks & Images</div>
+				<div class="panel-body">
+					<div class="table-responsive">
+						<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+							<thead>
+								<tr>
+									<td>File Name</td>
+									<td>Assigned Size</td>
+									<td>Actual Size</td>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-</div>
+</section>

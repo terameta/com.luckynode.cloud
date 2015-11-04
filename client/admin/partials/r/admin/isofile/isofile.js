@@ -2,19 +2,19 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.isofiles', {
 			url:"/isofiles",
 			views: {
-				'content@r.dashboard': { templateUrl: "/partials/r/admin/isofile/isofileList.html", controller: 'isofileController' }
+				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/isofile/isofileList.html", controller: 'isofileController' }
 			},
 			data: { requireSignin: true }
 		}).state('r.dashboard.isofilenew', {
 			url:"/isofilenew",
 			views: {
-				'content@r.dashboard': { templateUrl: "/partials/r/admin/isofile/isofileNew.html", controller: 'isofileController' }
+				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/isofile/isofileNew.html", controller: 'isofileController' }
 			},
 			data: { requireSignin: true }
 		}).state('r.dashboard.isofile', {
 			url:"/isofile/:id",
 			views: {
-				'content@r.dashboard': { templateUrl: "/partials/r/admin/isofile/isofileDetail.html", controller: 'isofileController' }
+				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/isofile/isofileDetail.html", controller: 'isofileController' }
 			},
 			data: { requireSignin: true }
 		});
@@ -71,7 +71,12 @@ angular.module('cloudControllers').controller('isofileController', ['$scope', '$
 		};
 
 		$scope.isofileStoreChange = function(poolid){
-			if(!poolid) poolid = $scope.newIsofile._pool._id;
+			if($scope.newIsofile){
+				if($scope.newIsofile._pool){
+					if($scope.newIsofile._pool._id) if(!poolid) poolid = $scope.newIsofile._pool._id;
+				}
+			}
+			if(!poolid) return false;
 			$http.get('/api/isofile/listIsofilesInStore/'+poolid).
 				success(function(data, status, headers, config) {
 					$scope.selectedStorageIsos = data;

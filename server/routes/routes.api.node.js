@@ -121,7 +121,7 @@ module.exports = function(app, express, db, tools) {
 			res.status(400).json({ status: "fail", detail: "no data provided"});
 		} else if(!req.body.adapter) {
 			res.status(400).json({ status: "fail", detail: "no data provided"});
-		} else if(req.body.adapter.indexOf('eth') < 0 && req.body.adapter.indexOf('em') < 0){
+		} else if(req.body.adapter.indexOf('br') >= 0){
 			res.status(400).json({ status: "fail", detail: "adapter name is not valid"});
 		} else {
 			db.nodes.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err, data){
@@ -131,8 +131,7 @@ module.exports = function(app, express, db, tools) {
 					commander.nodeInterfaceList(data).then(function(result){
 						result = JSON.parse(result);
 						var candidateInterface = req.body.adapter;
-						var candidateBridge = candidateInterface.replace("eth", "br");
-							candidateBridge = candidateBridge.replace("em", "br");
+						var candidateBridge = "br" + getNetNumber(req.body.adapter);
 						var doWeHaveInterface = false;
 						var isBridgeFree = true;
 						result.forEach(function(curInt){
@@ -170,6 +169,16 @@ module.exports = function(app, express, db, tools) {
 			});
 		}
 	});
+
+	function getNetNumber(stringNo) {
+		var parsedNo = "";
+		for (var n = 0; n < stringNo.length; n++) {
+			var i = stringNo.substring(n, n + 1);
+			if (i == "1" || i == "2" || i == "3" || i == "4" || i == "5" || i == "6" || i == "7" || i == "8" || i == "9" || i == "0")
+				parsedNo += i;
+		}
+		return parseInt(parsedNo, 10);
+	}
 
 	apiRoutes.post('/bridgeDetach/:id', tools.checkToken, function(req, res) {
 		if(!req.params){
@@ -251,7 +260,6 @@ module.exports = function(app, express, db, tools) {
 						console.log("The node doesn't have an IP address assigned");
 						res.status(500).json({ status: "fail", detail: "node doesn't have an IP address assigned"});
 					} else {
-						//console.log("we are ready:", curHost);
 						var repo = '***REMOVED***';
 						var openSSLCommand = 'openssl req -new -newkey rsa:4096 -days 36500 -nodes -x509 -subj "/C=TR/ST=Konya/L=Konya/O=Dis/CN=cloud0.luckynode.com" -keyout cloud.key -out cloud.crt';
 						var foreverCommand = 'forever -a --minUptime 1000 --spinSleepTime 5000 --uid "nodeluckynode" start server/app.js';
@@ -309,7 +317,7 @@ module.exports = function(app, express, db, tools) {
 						steps.push({ order: steps.length,	Description: 'LN System: Install forever',	command: 'npm install forever -g >> /tmp/install.log 2>&1;'											});
 						steps.push({ order: steps.length,	Description: 'LN System: Create SSL cert',	command: 'cd && cd node.luckynode.com && '+openSSLCommand+' >> /tmp/install.log 2>&1;'				});
 						steps.push({ order: steps.length,	Description: 'LN System: Install System',	command: 'cd && cd node.luckynode.com && npm install >> /tmp/install.log 2>&1;'						});
-						steps.push({ order: steps.length,	Description: 'LN System: Stop System',		command: 'cd && cd node.luckynode.com && forever stopall >> /tmp/install.log 2>&1;'					});
+						steps.push({ order: steps.length,	Description: 'LN System: Stop System',		command: 'forever stopall >> /tmp/install.log 2>&1;'												});
 						steps.push({ order: steps.length,	Description: 'LN System: Start System',		command: 'cd && cd node.luckynode.com && '+foreverCommand+' >> /tmp/install.log 2>&1;'				});
 						steps.push({ order: steps.length,	Description: 'LN System: Setup Cron Job',	command: 'cd && cd node.luckynode.com && '+crontabCommand											});
 						steps.push({ order: steps.length,	Description: 'LN System: Setup Forever Job',command: 'cd && cd node.luckynode.com && '+crontabForever											});
@@ -317,6 +325,7 @@ module.exports = function(app, express, db, tools) {
 						steps.push({ order: steps.length,	Description: 'Enable Networking',			command: 'sysv-rc-conf network on >> /tmp/install.log 2>&1' 										});
 						steps.push({ order: steps.length,	Description: 'Remove unnecessary packages',	command: 'apt-get -y autoremove >> /tmp/install.log 2>&1' 											});
 						steps.push({ order: steps.length,	Description: 'Clean unnecessary packages',	command: 'apt-get -y autoclean >> /tmp/install.log 2>&1' 											});
+						steps.push({ order: steps.length,	Description: 'Add User to libvirtd Group',	command: 'echo $(logname) >> /tmp/install.log 2>&1' 												});
 						steps.push({ order: steps.length,	Description: 'Add User to libvirtd Group',	command: 'usermod -a -G libvirtd $(logname) >> /tmp/install.log 2>&1' 								});
 						steps.push({ order: steps.length, 	Description: 'Identify Manager',			command: 'cd && cd node.luckynode.com && echo ' + getMyIPs() + '> managerip'						});
 						steps.push({ order: steps.length, 	Description: 'Enable qemu-nbd Step 2',		command: 'modprobe nbd max_part=63'																	});
@@ -414,7 +423,7 @@ module.exports = function(app, express, db, tools) {
 												if(cStep == 6) st2Command = 'echo \'' + curPass + '\' | sudo -S grep -q -F \'AllowUsers '+ data.user +'\' /etc/ssh/sshd_config || echo \'' + curPass + '\' | sudo -S echo \'AllowUsers '+ data.user +'\' >> /etc/ssh/sshd_config';
 												if(cStep == 7) st2Command = 'echo \'' + curPass + '\' | sudo -S service ssh reload';
 												if(cStep == 8) st2Command = 'echo \'' + curPass + '\' | sudo -S grep -q -F \'nbd max_part=63\' /etc/modules || echo \'' + curPass + '\' | sudo -S echo \'nbd max_part=63\' | sudo tee --append /etc/modules';
-												//console.log(st2Command);
+												console.log(st2Command);
 
 												deployer.runCommand(serverDetails, st2Command).then(
 													function(){
@@ -433,6 +442,12 @@ module.exports = function(app, express, db, tools) {
 												curPass = data.pass;
 
 												var stOCommand = 'sudo sh -c \'' + steps[cStep].command + '\'';
+												stOCommand = stOCommand.replace("$(logname)", serverDetails.username);
+												stOCommand = stOCommand.replace("$(logname)", serverDetails.username);
+												stOCommand = stOCommand.replace("$(logname)", serverDetails.username);
+												stOCommand = stOCommand.replace("$(logname)", serverDetails.username);
+												stOCommand = stOCommand.replace("$(logname)", serverDetails.username);
+												console.log(stOCommand);
 												if(steps[cStep].Description == 'LN System: Setup Cron Job') stOCommand = steps[cStep].command;
 												if(steps[cStep].Description == 'LN System: Setup Forever Job') stOCommand = steps[cStep].command;
 												//console.log(stOCommand);

@@ -32,6 +32,7 @@ module.exports = function(app, express, db, tools) {
 							res.status(500).json({ status: "fail", detail: "couldn't get storage from database" });
 						} else {
 							console.log(data);
+							console.log(sdata);
 							commander.poolListIsos(data, sdata).then(function(result){
 								console.log("Result");
 								console.log(result);

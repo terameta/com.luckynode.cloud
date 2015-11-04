@@ -56,9 +56,11 @@ module.exports = {
 			} else {
 				var macList = [];
 				data.forEach(function(curBlock){
-					curBlock.ips.forEach(function(curIP){
-						if(curIP.mac) macList.push(curIP.mac);
-					});
+					if(curBlock.ips){
+						curBlock.ips.forEach(function(curIP){
+							if(curIP.mac) macList.push(curIP.mac);
+						});
+					}
 				});
 				while(true){
 					var octets = ['52','54','00'];

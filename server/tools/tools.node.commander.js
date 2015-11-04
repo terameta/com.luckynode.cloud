@@ -127,6 +127,7 @@ module.exports = {
 	},
 	poolListIsos: function(node, data){
 		var deferred = Q.defer();
+		data.id = data._id.toString();
 		var curCommand = { name: 'poolListIsos', details: data };
 		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
 		return deferred.promise;

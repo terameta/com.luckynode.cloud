@@ -50,11 +50,15 @@ module.exports = function(app, express, db, tools) {
 					res.send(curNewServer);
 					commander.serverDefine(curNewServerNode, curNewServer, function(cerr, cdata){
 						if(cerr){
+							console.log("serverDefine failed");
+							console.log(cdata);
+							console.log(cerr);
 							db.servers.update({_id:mongojs.ObjectId(curNewServer.id)}, {$set: {'status': 'definition failed'}}, function(uerr, udata){
 								if(uerr){ console.log("Server status update failed", uerr);}
 							});
 						} else {
 							cdata = JSON.parse(cdata);
+							console.log(cdata);
 							db.servers.update({_id:mongojs.ObjectId(curNewServer.id)}, {$set: {'status': 'Deployed', 'store': cdata.store}}, function(uerr, udata){
 								if(uerr){ console.log("Server status update failed", uerr);}
 							});

@@ -23,6 +23,13 @@ module.exports = function(app, express, db, tools) {
 		});
 	});
 
+	apiRoutes.get('/getPoolFiles/:id', tools.checkToken,function(req, res) {
+		db.nodes.find({ storage: {$in: [req.params.id] } }, function(nerr, ndata){
+			console.log(nerr, ndata);
+			res.send(ndata);
+		});
+	});
+
 	apiRoutes.post('/', tools.checkToken, function(req, res) {
 		if (!req.body) {
 			res.status(400).json({ status: "fail", detail: "no data provided" });

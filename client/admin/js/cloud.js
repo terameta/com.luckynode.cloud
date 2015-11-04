@@ -62,24 +62,6 @@ cloudApp.config(function($stateProvider, $urlRouterProvider){
 				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/ipblock/ipblockDetail.html", controller: 'ipblockController' }
 			},
 			data: { requireSignin: true }
-		}).state('r.dashboard.storages', {
-			url:"/storages",
-			views: {
-				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/storage/storageList.html", controller: 'storageController' }
-			},
-			data: { requireSignin: true }
-		}).state('r.dashboard.storagenew', {
-			url:"/storagenew",
-			views: {
-				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/storage/storageNew.html", controller: 'storageController' }
-			},
-			data: { requireSignin: true }
-		}).state('r.dashboard.storage', {
-			url:"/storage/:id",
-			views: {
-				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/storage/storageDetail.html", controller: 'storageController' }
-			},
-			data: { requireSignin: true }
 		}).state('r.dashboard.plans', {
 			url:"/plans",
 			views: {

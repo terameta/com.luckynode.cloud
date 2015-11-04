@@ -20,16 +20,6 @@ cloudServices.service('$ipblock', ['$resource',
 	}
 ]);
 
-cloudServices.service('$storage', ['$resource',
-	function storageService($resource) {
-		return ( $resource(
-			'/api/storage/:id',
-			{ id: '@_id' },
-			{ update: { method: 'PUT' } }
-		) );
-	}
-]);
-
 cloudServices.service('$plan', ['$resource',
 	function planService($resource) {
 		return ( $resource(
