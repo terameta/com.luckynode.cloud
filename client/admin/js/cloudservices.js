@@ -10,26 +10,6 @@ cloudServices.service('$datacenter', ['$resource',
 	}
 ]);
 
-cloudServices.service('$ipblock', ['$resource',
-	function ipblockService($resource) {
-		return ( $resource(
-			'/api/ipblock/:id',
-			{ id: '@_id' },
-			{ update: { method: 'PUT' } }
-		) );
-	}
-]);
-
-cloudServices.service('$plan', ['$resource',
-	function planService($resource) {
-		return ( $resource(
-			'/api/plan/:id',
-			{ id: '@_id' },
-			{ update: { method: 'PUT' } }
-		) );
-	}
-]);
-
 cloudServices.service('$userService', ['$resource', '$q', '$rootScope', '$localStorage', '$http',
     function userService($resource, $q, $rootScope, $localStorage, $http) {
         var service = {};

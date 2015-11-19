@@ -53,10 +53,9 @@ angular.module('cloudControllers').controller('storageController', ['$scope', '$
 				//here fetch is done.
 			});
 
-			$http.get('/api/storage/getPoolFiles/'+$stateParams.id).
+			$http.post('/api/storage/converged/', { id: $stateParams.id, command: 'getFiles' }).
 				success(function(data, status, headers, config) {
-					console.log(data);
-					lnToastr.info("Pool files are received");
+					$scope.storageFiles = data;
 				}).
 				error(function(data, status, headers, config) {
 					console.log(data);

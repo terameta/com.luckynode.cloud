@@ -26,6 +26,12 @@ angular.module('cloudControllers').controller('dashboardController', ['$scope', 
 	function($scope, $http, $rootScope, $state, $stateParams, $userService, srvcEndUser) {
 		var lnToastr = toastr;
 
+		$scope.signout = function(){
+			$userService.signout().then(function(result) {
+				$state.go('welcome');
+			});
+		};
+
 		$userService.getCurUser();
 
 		$rootScope.ppicurl = '/img/noprofileimage128.png';

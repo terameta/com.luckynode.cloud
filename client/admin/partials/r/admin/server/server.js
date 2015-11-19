@@ -66,41 +66,41 @@ angular.module('cloudControllers').controller('serverController',['$scope', '$ro
 		};
 
 		$scope.toggleAlt = function() {
-            if($scope.consoleKeyboardObj.altOn === false) {
-                $scope.rfb.sendKey(XK_Alt_L, true);
-                //$D('toggleAltButton').className = "noVNC_status_button_selected";
-                $scope.consoleKeyboardObj.altOn = true;
-            } else if($scope.consoleKeyboardObj.altOn === true) {
-                $scope.rfb.sendKey(XK_Alt_L, false);
-                //$D('toggleAltButton').className = "noVNC_status_button";
-                $scope.consoleKeyboardObj.altOn = false;
-            }
-        };
+				if($scope.consoleKeyboardObj.altOn === false) {
+					 $scope.rfb.sendKey(XK_Alt_L, true);
+					 //$D('toggleAltButton').className = "noVNC_status_button_selected";
+					 $scope.consoleKeyboardObj.altOn = true;
+				} else if($scope.consoleKeyboardObj.altOn === true) {
+					 $scope.rfb.sendKey(XK_Alt_L, false);
+					 //$D('toggleAltButton').className = "noVNC_status_button";
+					 $scope.consoleKeyboardObj.altOn = false;
+				}
+		  };
 
 		$scope.sendEsc = function() {
-            //UI.keepKeyboard();
-            $scope.rfb.sendKey(XK_Escape);
-        };
+				//UI.keepKeyboard();
+				$scope.rfb.sendKey(XK_Escape);
+		  };
 
-        $scope.sendWin = function(){
-        	/*$scope.toggleCtrl();
-        	$scope.sendEsc();
-        	$scope.toggleCtrl();*/
-        	$scope.rfb.sendKey(XK_Super_L);
-        };
+		  $scope.sendWin = function(){
+			/*$scope.toggleCtrl();
+			$scope.sendEsc();
+			$scope.toggleCtrl();*/
+			$scope.rfb.sendKey(XK_Super_L);
+		  };
 
-        $scope.sendF1 	= function(){	$scope.rfb.sendKey(XK_F1) };
-        $scope.sendF2 	= function(){	$scope.rfb.sendKey(XK_F2) };
-        $scope.sendF3 	= function(){	$scope.rfb.sendKey(XK_F3) };
-        $scope.sendF4 	= function(){	$scope.rfb.sendKey(XK_F4) };
-        $scope.sendF5 	= function(){	$scope.rfb.sendKey(XK_F5) };
-        $scope.sendF6 	= function(){	$scope.rfb.sendKey(XK_F6) };
-        $scope.sendF7 	= function(){	$scope.rfb.sendKey(XK_F7) };
-        $scope.sendF8 	= function(){	$scope.rfb.sendKey(XK_F8) };
-        $scope.sendF9 	= function(){	$scope.rfb.sendKey(XK_F9) };
-        $scope.sendF10 	= function(){	$scope.rfb.sendKey(XK_F10) };
-        $scope.sendF11 	= function(){	$scope.rfb.sendKey(XK_F11) };
-        $scope.sendF12 	= function(){	$scope.rfb.sendKey(XK_F12) };
+		  $scope.sendF1 	= function(){	$scope.rfb.sendKey(XK_F1) };
+		  $scope.sendF2 	= function(){	$scope.rfb.sendKey(XK_F2) };
+		  $scope.sendF3 	= function(){	$scope.rfb.sendKey(XK_F3) };
+		  $scope.sendF4 	= function(){	$scope.rfb.sendKey(XK_F4) };
+		  $scope.sendF5 	= function(){	$scope.rfb.sendKey(XK_F5) };
+		  $scope.sendF6 	= function(){	$scope.rfb.sendKey(XK_F6) };
+		  $scope.sendF7 	= function(){	$scope.rfb.sendKey(XK_F7) };
+		  $scope.sendF8 	= function(){	$scope.rfb.sendKey(XK_F8) };
+		  $scope.sendF9 	= function(){	$scope.rfb.sendKey(XK_F9) };
+		  $scope.sendF10 	= function(){	$scope.rfb.sendKey(XK_F10) };
+		  $scope.sendF11 	= function(){	$scope.rfb.sendKey(XK_F11) };
+		  $scope.sendF12 	= function(){	$scope.rfb.sendKey(XK_F12) };
 
 		$scope.consoleKeyboardObj = {
 			ctrlOn: false,
@@ -136,7 +136,7 @@ angular.module('cloudControllers').controller('serverController',['$scope', '$ro
 
 			$scope.startConsoleOnTheServer().then(
 				function(result){
-					//console.log(result);
+					console.log(result);
 					$scope.startConsoleCanvas(result.port);
 				},
 				function(issue){
@@ -253,11 +253,15 @@ angular.module('cloudControllers').controller('serverController',['$scope', '$ro
 			};
 		};
 
-		$scope.newserver = {
-			_dc: '',
-			_node: '',
-			_image: ''
+		$scope.basenewserver = {
+			_dc: 				'',
+			_node: 			'',
+			_image: 			'',
+			_netdriver: 	'virtio',
+			_diskdriver:  	'virtio'
 		};
+
+		$scope.newserver = $scope.basenewserver;
 
 		$scope.curServerAvailableISOList = [];
 
@@ -357,21 +361,10 @@ angular.module('cloudControllers').controller('serverController',['$scope', '$ro
 		};
 
 		$scope.fetchCurServerDisks = function(){
-			$http.get('/api/server/listAttachedDisks/'+$stateParams.id).success(function(data, status, headers, config) {
-				//console.log("Success:", data);
-				$scope.curServer.diskList = data;
-			}).error(function(data, status, headers, config) {
-				console.log("Error:", data);
-			});
-		};
-
-		$scope.serverStart = function(){
-			lnToastr.info("Server is starting");
-			$http.get('/api/server/serverStart/'+$stateParams.id).success(function(data, status, headers, config) {
-				lnToastr.success('Have fun with the server');
-				$scope.serverState();
-			}).error(function(data, status, headers, config) {
-				lnToastr.error('Server start failed! Details:<br>'+data);
+			$scope.serverConverged('diskList').then(function success(result){
+				$scope.curServer.diskList = result;
+			}, function failure(issue){
+				lnToastr.error("Error fetching list of disks");
 			});
 		};
 
@@ -381,12 +374,12 @@ angular.module('cloudControllers').controller('serverController',['$scope', '$ro
 		$scope.serverState = function(shouldRepeat){
 			if($scope.curServer._id && $state.current.name == 'r.dashboard.server'){
 				$http.get('/api/server/serverState/'+$stateParams.id).success(function(data, status, headers, config) {
-					$scope.curServer.domstate = data;
+					$scope.curServer.domstate = data.domstate;
 					if(!isCheckingStateRegularly && shouldRepeat){
 						curServerInterval = setInterval(function(){ $scope.serverState() }, 15000);
 					}
 				}).error(function(data, status, headers, config) {
-					lnToastr.error("We couldn't get the server state! Details:<br>"+data);
+					lnToastr.error("We couldn't get the server state! Details");
 				});
 				if(!$scope.curServer.diskList){
 					$scope.fetchCurServerDisks();
@@ -396,31 +389,26 @@ angular.module('cloudControllers').controller('serverController',['$scope', '$ro
 			}
 		};
 
-		$scope.serverShutDown = function(){
-			$http.get('/api/server/serverShutDown/'+$stateParams.id).success(function(data, status, headers, config) {
-				console.log("Success:", data);
+		$scope.serverConverged = function(curCommand, details){
+			var deferred = $q.defer();
+			if(!details) details = {id: $stateParams.id};
+			$http.post(
+				'/api/server/converged',
+				{
+					id: $stateParams.id,
+					command: curCommand,
+					details: details
+				}
+			).success(function(data, status, headers, config) {
 				$scope.serverState();
+				lnToastr.info( "Command "+ curCommand +" successfully completed");
+				console.log(data);
+				deferred.resolve(data);
 			}).error(function(data, status, headers, config) {
-				console.log("Error:", data);
+				lnToastr.error("Command "+ curCommand +" failed");
+				deferred.reject(data);
 			});
-		};
-
-		$scope.serverReboot = function(){
-			$http.get('/api/server/serverReboot/'+$stateParams.id).success(function(data, status, headers, config) {
-				lnToastr.info("Server restart is in progress");
-				$scope.serverState();
-			}).error(function(data, status, headers, config) {
-				lnToastr.error("Server restart failed<br />"+data);
-			});
-		};
-
-		$scope.serverPowerOff = function(){
-			$http.get('/api/server/serverPowerOff/'+$stateParams.id).success(function(data, status, headers, config) {
-				console.log("Success:", data);
-				$scope.serverState();
-			}).error(function(data, status, headers, config) {
-				console.log("Error:", data);
-			});
+			return deferred.promise;
 		};
 
 		if($stateParams.id){
@@ -436,28 +424,24 @@ angular.module('cloudControllers').controller('serverController',['$scope', '$ro
 			$scope.newserver._cpu = thePlan.cpu;
 			$scope.newserver._hdd = thePlan.hdd;
 			$scope.newserver._ram = thePlan.ram;
-			$scope.newserver._swap = thePlan.swap;
 			$scope.newserver._bandwidth = thePlan.bandwidth;
 		};
 
 		$scope.addServer = function(){
-			if(!$scope.newserver._name){ 					$scope.servernewalert = "Name can't be empty";							return 0;   }
-			if(!$scope.newserver._cpu){ 					$scope.servernewalert = "Number of CPU cores can't be empty";			return 0;   }
-			if(!isInteger($scope.newserver._cpu)){ 			$scope.servernewalert = "Number of CPU cores should be a whole number";	return 0;   }
-			if(!$scope.newserver._hdd){ 					$scope.servernewalert = "HDD size can't be empty";						return 0;   }
-			if(!isInteger($scope.newserver._hdd)){ 			$scope.servernewalert = "HDD size should be a whole number";			return 0;   }
-			if(!$scope.newserver._ram){ 					$scope.servernewalert = "RAM size can't be empty";						return 0;   }
-			if(!isInteger($scope.newserver._ram)){ 			$scope.servernewalert = "RAM size should be a whole number";			return 0;   }
-			if(!$scope.newserver._swap){ 					$scope.servernewalert = "Swap size can't be empty";						return 0;   }
-			if(!isInteger($scope.newserver._swap)){ 		$scope.servernewalert = "Swap size should be a whole number";			return 0;   }
-			if(!$scope.newserver._bandwidth){ 				$scope.servernewalert = "Bandwidth can't be empty";						return 0;   }
-			if(!isInteger($scope.newserver._bandwidth)){ 	$scope.servernewalert = "Bandwidth should be a whole number";			return 0;   }
-			if(!$scope.newserver._dc){    					$scope.servernewalert = "Please select a datacenter";					return 0;   }
-			if(!$scope.newserver._node){    				$scope.servernewalert = "Please select a node";							return 0;   }
-			if(!$scope.newserver._ip){    					$scope.servernewalert = "Please select an IP address";					return 0;   }
+			//console.log($scope.newserver);
+			if(!$scope.newserver._name){ 							$scope.servernewalert = "Name can't be empty";										return 0;   }
+			if(!$scope.newserver._cpu){ 							$scope.servernewalert = "Number of CPU cores can't be empty";					return 0;   }
+			if(!isInteger($scope.newserver._cpu)){ 			$scope.servernewalert = "Number of CPU cores should be a whole number";		return 0;   }
+			if(!$scope.newserver._hdd){ 							$scope.servernewalert = "HDD size can't be empty";									return 0;   }
+			if(!isInteger($scope.newserver._hdd)){ 			$scope.servernewalert = "HDD size should be a whole number";					return 0;   }
+			if(!$scope.newserver._ram){ 							$scope.servernewalert = "RAM size can't be empty";									return 0;   }
+			if(!isInteger($scope.newserver._ram)){ 			$scope.servernewalert = "RAM size should be a whole number";					return 0;   }
+			if(!$scope.newserver._bandwidth){ 					$scope.servernewalert = "Bandwidth can't be empty";								return 0;   }
+			if(!isInteger($scope.newserver._bandwidth)){ 	$scope.servernewalert = "Bandwidth should be a whole number";					return 0;   }
+			if(!$scope.newserver._dc){    						$scope.servernewalert = "Please select a datacenter";								return 0;   }
 			if(!$scope.newserver._image){
-				if(!$scope.newserver._netdriver){			$scope.servernewalert = "Please select a disk type";					return 0;   }
-				if(!$scope.newserver._diskdriver){			$scope.servernewalert = "Please select a network card driver";			return 0;   }
+				if(!$scope.newserver._netdriver){				$scope.servernewalert = "Please select a disk type";								return 0;   }
+				if(!$scope.newserver._diskdriver){				$scope.servernewalert = "Please select a network card driver";					return 0;   }
 			}
 
 			var theNewServer = {};
@@ -465,14 +449,10 @@ angular.module('cloudControllers').controller('serverController',['$scope', '$ro
 			theNewServer.cpu		= $scope.newserver._cpu;
 			theNewServer.hdd		= $scope.newserver._hdd;
 			theNewServer.ram		= $scope.newserver._ram;
-			theNewServer.swap		= $scope.newserver._swap;
 			theNewServer.bandwidth	= $scope.newserver._bandwidth;
 			theNewServer.dc			= $scope.newserver._dc;
-			if(theNewServer.dc != 'AUTO') theNewServer.dc = $scope.newserver._dc._id;
-			theNewServer.node		= $scope.newserver._node;
-			if(theNewServer.node != 'AUTO') theNewServer.node = $scope.newserver._node._id;
-			theNewServer.ip			= $scope.newserver._ip;
-			if(theNewServer.ip != 'AUTO') theNewServer.ip = $scope.newserver._ip.ip;
+			theNewServer.node			= (($scope.newserver._node) 	? $scope.newserver._node._id 	: 'AUTO');
+			theNewServer.ip			= (($scope.newserver._ip) 		? $scope.newserver._ip.ip		: 'AUTO');
 			theNewServer.image		= $scope.newserver._image;
 			theNewServer.netdriver	= $scope.newserver._netdriver;
 			theNewServer.diskdriver = $scope.newserver._diskdriver;
@@ -486,6 +466,7 @@ angular.module('cloudControllers').controller('serverController',['$scope', '$ro
 				console.log(theResult);
 				$scope.fetchServers();
 				//$state.go('r.dashboard.servers');
+				$scope.newserver = $scope.basenewserver;
 				$state.go('r.dashboard.server', { id: theResult._id });
 			});
 		};
@@ -505,6 +486,7 @@ angular.module('cloudControllers').controller('serverController',['$scope', '$ro
 		$scope.deleteServer = function(){
 			if(confirm("Are you sure you want to delete " + $scope.curServer.name)){
 				$scope.curServer.$delete(function(result, error){
+					console.log(result);
 					if(result.status == "fail"){
 						alert("There was an error deleting the storage");
 						$state.go($state.current, {}, {reload: true});
@@ -544,20 +526,28 @@ angular.module('cloudControllers').controller('serverController',['$scope', '$ro
 			$scope.attachISOmodalInstance.dismiss();
 		};
 
-		$scope.attachISO = function(isoid){
-			$http.get('/api/server/attachISO/'+ isoid +'/'+ $scope.curServer._id +'/'+$scope.curISOAttachTarget).success(function(data, status, headers, config){
+		$scope.attachISO = function(curISO){
+			var commandData = {
+				iso: curISO.file,
+				pool: curISO.pool,
+				server: $scope.curServer._id,
+				target: $scope.curISOAttachTarget
+			};
+			$scope.serverConverged('attachISO', commandData).then(function success(result){
 				$scope.closeAttachISOModal();
 				$scope.fetchCurServerDisks();
-			}).error(function(data, status, headers, config){
-				console.log(data);
+			},function(issue) {
+				lnToastr.error("Attaching the ISO has failed");
+				console.log(issue);
 			});
 		};
 
 		$scope.ejectISO = function(ISOtarget){
-			$http.get('/api/server/ejectISO/'+ $scope.curServer._id +'/'+ ISOtarget).success(function(data, status, headers, config) {
+			$scope.serverConverged('ejectISO', {target: ISOtarget, server: $scope.curServer._id}).then(function success(result){
 				$scope.fetchCurServerDisks();
-			}).error(function(data, status, headers, config) {
-				console.log(data);
+			}, function(issue) {
+				lnToastr.error("Failed to eject disk");
+				console.log(issue);
 			});
 		};
 

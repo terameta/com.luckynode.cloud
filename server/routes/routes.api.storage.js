@@ -1,3 +1,5 @@
+var commander		= require('../tools/tools.node.commander.js');
+
 module.exports = function(app, express, db, tools) {
 	var mongojs 		= require('mongojs');
 
@@ -20,13 +22,6 @@ module.exports = function(app, express, db, tools) {
 			} else {
 				res.send(data);
 			}
-		});
-	});
-
-	apiRoutes.get('/getPoolFiles/:id', tools.checkToken,function(req, res) {
-		db.nodes.find({ storage: {$in: [req.params.id] } }, function(nerr, ndata){
-			console.log(nerr, ndata);
-			res.send(ndata);
 		});
 	});
 
@@ -82,6 +77,25 @@ module.exports = function(app, express, db, tools) {
 				}
 			});
 		}
+	});
+
+	apiRoutes.post('/converged', tools.checkToken,function(req, res) {
+		//console.log(req.body);
+		if(!req.body){
+			res.status(400).json({status: 'fail', message: 'Not enough data (nothing provided)'});
+		} else if(!req.body.id){
+			res.status(400).json({status: 'fail', message: 'Not enough data (no id provided)'});
+		} else if(!req.body.command){
+			res.status(400).json({status: 'fail', message: 'Not enough data (no command provided)'});
+		} else {
+			commander.sendVirshQ( { storage: {$in: [req.body.id] } }, 'pool', req.body.command, {id: req.body.id} ).then(function(result){
+				res.send(result);
+			}).fail(function(issue){
+				console.log(issue);
+				res.status(500).json(issue);
+			});
+		}
+
 	});
 
 	app.use('/api/storage', apiRoutes);

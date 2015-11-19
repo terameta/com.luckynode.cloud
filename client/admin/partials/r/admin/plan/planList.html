@@ -1,21 +1,43 @@
-<span class="col-xs-12 col-sm-6 col-md-4 col-lg-3" ui-sref="r.dashboard.plannew" style="cursor:pointer">
-	<div class="panel panel-primary">
-		<div class="panel-heading">
-			<h3 class="panel-title"><i class="fa fa-clone fa-fw"></i>  New Plan</h3>
+<section class="content-header">
+	<h1>
+		<i class="fa fa-clone fa-fw"></i> Plans
+		<div class="btn-group" role="group" aria-label="Node List Actions">
+			<a class="btn btn-default btn-sm" ui-sref="r.dashboard.plannew">New</a>
 		</div>
-		<div class="panel-body">
-			Click to create
-		</div>
-	</div>
-</span>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+		<li class="active">Plans</li>
+	</ol>
+</section>
 
-<span class="col-xs-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="plan in plans" ui-sref="r.dashboard.plan({id: plan._id})" style="cursor:pointer">
-	<div class="panel panel-primary">
-		<div class="panel-heading">
-			<h3 class="panel-title"><i class="fa fa-clone fa-fw"></i>  {{plan.name}}</h3>
-		</div>
-		<div class="panel-body">
-			{{plan.cpu}}CPU - {{plan.ram}}MB RAM - {{plan.hdd}}GB Disk
-		</div>
-	</div>
-</span>
+<section class="content">
+	<table class="table table-striped table-bordered table-hover" ng-if="plans.length > 0">
+		<thead>
+			<tr>
+				<th>Row</th>
+				<th>Name</th>
+				<th>vCores</th>
+				<th>Disk Size</th>
+				<th>Memory Size</th>
+				<th>Bandwidth</th>
+				<th>Price</th>
+				<th>Details</th>
+			</tr>
+		</thead>
+
+
+		<tbody>
+			<tr ng-repeat="plan in plans | orderBy:'name'">
+				<td>{{$index +1}}</td>
+				<td>{{plan.name}}</td>
+				<td>{{plan.cpu}}</td>
+				<td>{{plan.ram}}M</td>
+				<td>{{plan.hdd}}G</td>
+				<td>{{plan.bandwidth}}G</td>
+				<td>${{plan.price}}</td>
+				<td><a ui-sref="r.dashboard.plan({id: plan._id})" title="Details"><i class="fa fa-cog fa-fw"></i></a></td>
+			</tr>
+		</tbody>
+	</table>
+</section>

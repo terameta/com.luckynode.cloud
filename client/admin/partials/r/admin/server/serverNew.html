@@ -17,7 +17,6 @@
 				CPU:{{plan.cpu}} |
 				RAM:{{plan.ram}}M |
 				HDD:{{plan.hdd}}G |
-				SWAP: {{plan.swap}}M |
 				Bandwidth: {{plan.bandwidth}}G
 			"
 		>
@@ -45,11 +44,6 @@
 				<span class="input-group-addon" style="min-width:200px;text-align:left;">MB</span>
 			</div>
 			<div class="input-group" style="margin-bottom:2px;">
-				<span class="input-group-addon" style="min-width:200px;text-align:left;">Swap*</span>
-				<input type="text" ng-model="newserver._swap" placeholder="###" class="form-control" />
-				<span class="input-group-addon" style="min-width:200px;text-align:left;">MB</span>
-			</div>
-			<div class="input-group" style="margin-bottom:2px;">
 				<span class="input-group-addon" style="min-width:200px;text-align:left;">Bandwidth*</span>
 				<input type="text" ng-model="newserver._bandwidth" placeholder="###" class="form-control" />
 				<span class="input-group-addon" style="min-width:200px;text-align:left;">GB</span>
@@ -60,33 +54,21 @@
 					<option value="" selected="selected">Empty Disk</option>
 				</select>
 			</div>
-			<div class="input-group" style="margin-bottom:2px;" ng-if="!newserver._image || newserver._image==''">
-				<span class="input-group-addon" style="min-width:200px;text-align:left;">Disk Type*</span>
-				<select class="form-control" ng-model="newserver._diskdriver" ng-options="d.value as d.text for d in imageDiskDrivers">
-				</select>
-			</div>
-			<div class="input-group" style="margin-bottom:2px;" ng-if="!newserver._image || newserver._image==''">
-				<span class="input-group-addon" style="min-width:200px;text-align:left;">Network Card Driver*</span>
-				<select class="form-control" ng-model="newserver._netdriver" ng-options="n.value as n.text for n in imageNetDrivers">
-				</select>
-			</div>
-			<!--pre>{{newserver || json}}</pre-->
 			<div class="input-group" style="margin-bottom:2px;">
 				<span class="input-group-addon" style="min-width:200px;text-align:left;">Data Center*</span>
 				<select class="form-control" ng-model="newserver._dc" ng-options="dataCenter.name group by dataCenter.location for dataCenter in dataCenters track by dataCenter._id">
-					 <!--option value="" selected="selected">Auto Select</option-->
 				</select>
 			</div>
 			<div class="input-group" style="margin-bottom:2px;">
 				<span class="input-group-addon" style="min-width:200px;text-align:left;">Node*</span>
-				<select class="form-control" ng-model="newserver._node" ng-options="node.name for node in nodes | filter: {datacenter: newserver._dc._id}">
-					<!--option value="" selected="selected">Auto Select</option-->
+				<select class="form-control" ng-model="newserver._node" ng-options="node.name for node in nodes | filter: {datacenter: newserver._dc._id}" ng-disabled="!newserver._dc">
+					<option value="" selected="selected">Auto Select</option>
 				</select>
 			</div>
 			<div class="input-group" style="margin-bottom:2px;">
 				<span class="input-group-addon" style="min-width:200px;text-align:left;">IP*</span>
-				<select class="form-control" ng-model="newserver._ip" ng-options="curip.ip for curip in listofAllIPs | filter: filterIPList | orderBy: 'ip'">
-					<!--option value="" selected="selected">Auto Select</option-->
+				<select class="form-control" ng-model="newserver._ip" ng-options="curip.ip for curip in listofAllIPs | filter: filterIPList | orderBy: 'ip'" ng-disabled="!newserver._dc">
+					<option value="" selected="selected">Auto Select</option>
 				</select>
 			</div>
 			<div style="margin-top:10px" class="form-group">

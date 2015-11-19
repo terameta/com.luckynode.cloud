@@ -66,6 +66,11 @@ angular.module('cloudControllers').controller('postsignupController', ['$scope',
 angular.module('cloudControllers').controller('welcomeController', ['$scope', '$http', '$rootScope', '$state', '$stateParams', '$userService',
 	function($scope, $http, $rootScope, $state, $stateParams, $userService) {
 
+		$userService.getCurUser();
+		if($rootScope.curUser){
+			$state.go('r.dashboard');
+		}
+
 		$scope.signinWarning = '';
 		$scope.signingup = false;
 		$scope.buttonText = 'Sign In';
@@ -82,9 +87,6 @@ angular.module('cloudControllers').controller('welcomeController', ['$scope', '$
 		$scope.signinAction = function(){
 			$userService.signin($scope.email, $scope.pass).then(
 				function/*success*/(){
-					console.log($state);
-					console.log($state.get());
-					console.log(angular.toJson($state.get()));
 					$state.go("r.dashboard");
 				},
 				function/*failed*/(){

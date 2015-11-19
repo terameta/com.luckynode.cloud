@@ -1,6 +1,7 @@
 var Q 				= require("q");
 var fs 				= require("fs");
 var topDB;
+var commander		= require('../tools/tools.node.commander.js');
 
 module.exports = function(app, express, db, tools) {
 	topDB = db;

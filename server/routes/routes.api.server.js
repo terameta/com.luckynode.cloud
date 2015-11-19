@@ -41,13 +41,19 @@ module.exports = function(app, express, db, tools) {
 			curNewServer.status = 'defining';
 			curNewServer.owner = req.user.id;
 			newServerInsert(curNewServer).
-				then(function(result){ curNewServer.id = curNewServer._id.toString(); 						return serverFindNode(curNewServer);		}).
-				then(function(result){ curNewServerNode = result; curNewServer.bridge = result.netBridge;	return serverFindIPBlock(curNewServer);		}).
-				then(function(result){																		return serverUpdate(curNewServer);			}).
-				then(function(result){																		return serverReserveIP(curNewServer);		}).
-				then(function(result){ 																		return serverFindImage(curNewServer);		}).
+				then(serverAssignIP).
+				then(serverFindMostFreeNode).
+				then(function(result){ curNewServer.id = curNewServer._id.toString(); 								return serverFindNode(curNewServer);			}).
+				then(function(result){ curNewServerNode = result; curNewServer.bridge = result.netBridge;		return serverFindIPBlock(curNewServer);		}).
+				then(function(result){																								return serverUpdate(curNewServer);				}).
+				then(function(result){																								return serverReserveIP(curNewServer);			}).
+				then(function(result){ 																								return serverFindImage(curNewServer);			}).
 				then(function(result){
 					res.send(curNewServer);
+					console.log("CurNewServerNode");
+					commander.sendVirsh(curNewServerNode, 'server', 'define', curNewServer);
+					console.log(curNewServerNode);
+					/*
 					commander.serverDefine(curNewServerNode, curNewServer, function(cerr, cdata){
 						if(cerr){
 							console.log("serverDefine failed");
@@ -76,6 +82,7 @@ module.exports = function(app, express, db, tools) {
 							);
 						}
 					});
+					*/
 				}).
 				fail(function(issue){
 					console.log(issue);
@@ -109,15 +116,15 @@ module.exports = function(app, express, db, tools) {
 		if(!req.params.id){
 			res.status(400).json({ status: "fail", detail: "no data provided" });
 		} else {
-			var cSrv = {};
-			var cNode = {};
-
-			serverFindByID(req.params.id).
-				then(function(curSrv){ console.log("Server is found"); cSrv = curSrv;  console.log(cSrv); return serverFindNode(cSrv); } ).
-				then(function(curNode){ console.log("Server node is found"); cNode = curNode; return commander.serverDelete(cNode, cSrv); } ).
-				then(function(result){ console.log("Remote delete finished"); return serverDelete(cSrv); }).
-				then(function(result){ console.log("DB delete finished"); console.log(result); res.json({ status: "success" }); }).
-				fail(function(issue){ console.log(issue); res.status(500).json({ status: "fail", message: issue }); });
+			commander.sendVirshServer(req.params.id, 'undefine', {id:req.params.id}).
+				then(serverDeleteFromDB).
+				then(function(result){
+					console.log("node server delete success", result);
+					res.json({status: "success"});
+				}).fail(function(issue){
+					console.log(issue);
+					res.status(500).json({ status: "fail", message: issue });
+				});
 		}
 	});
 
@@ -140,11 +147,14 @@ module.exports = function(app, express, db, tools) {
 							res.status(500).json({ status: "fail", detail: "Cannot find the node with the given id of the server"});
 						} else {
 							sdata.id = sdata._id.toString();
-							commander.serverVNCAddress(ndata, sdata).then(function(cSrv){
+							commander.sendVirshServer(req.params.id, 'vncAddress', {id: req.params.id}).then(function(cSrv){
+							//commander.serverVNCAddress(ndata, sdata).then(function(cSrv){
 								cSrv = JSON.parse(cSrv);
+								console.log("Before persistant:", cSrv);
 								if(cSrv.vncport == -1){
 									res.status(500).json({ status: "fail", detail: 'Server is not running. Please start the server first.'});
 								} else {
+									console.log("We are initiating persin");
 									persistentInitiateVNCProxy(ndata.ip, cSrv.vncport, 6783, tools).then(function(result){
 										res.json({port:result});
 									}).fail(function(issue){
@@ -152,130 +162,7 @@ module.exports = function(app, express, db, tools) {
 									});
 								}
 							}).fail(function(issue){
-								res.status(500).json({ status: "fail", detail: issue});
-							});
-						}
-					});
-				}
-			});
-		}
-	});
-
-	apiRoutes.get('/serverStart/:id', tools.checkToken, function(req, res) {
-		if(!req.params){
-			res.status(400).json({ status: "fail", detail: "no data provided"});
-		} else if(!req.params.id){
-			res.status(400).json({ status: "fail", detail: "no data provided"});
-		} else {
-			db.servers.findOne({_id: mongojs.ObjectId(req.params.id)}, function(serr, sdata){
-				if(serr){
-					res.status(500).json({ status: "fail", detail: "Cannot access to database for servers"});
-				} else if(!sdata) {
-					res.status(500).json({ status: "fail", detail: "Cannot find the server with the given id"});
-				} else {
-					db.nodes.findOne({_id: mongojs.ObjectId(sdata.node)}, function(nerr, ndata){
-						if(nerr){
-							res.status(500).json({ status: "fail", detail: "Cannot access to database for nodes"});
-						}else if(!ndata){
-							res.status(500).json({ status: "fail", detail: "Cannot find the node with the given id of the server"});
-						} else {
-							sdata.id = sdata._id.toString();
-							commander.serverStart(ndata, sdata).then(function(result){
-								res.send(result);
-							}).fail(function(issue){
-								res.status(500).json({ status: "fail", detail: issue});
-							});
-						}
-					});
-				}
-			});
-		}
-	});
-
-	apiRoutes.get('/serverShutDown/:id', tools.checkToken, function(req, res) {
-		if(!req.params){
-			res.status(400).json({ status: "fail", detail: "no data provided"});
-		} else if(!req.params.id){
-			res.status(400).json({ status: "fail", detail: "no data provided"});
-		} else {
-			db.servers.findOne({_id: mongojs.ObjectId(req.params.id)}, function(serr, sdata){
-				if(serr){
-					res.status(500).json({ status: "fail", detail: "Cannot access to database for servers"});
-				} else if(!sdata) {
-					res.status(500).json({ status: "fail", detail: "Cannot find the server with the given id"});
-				} else {
-					db.nodes.findOne({_id: mongojs.ObjectId(sdata.node)}, function(nerr, ndata){
-						if(nerr){
-							res.status(500).json({ status: "fail", detail: "Cannot access to database for nodes"});
-						}else if(!ndata){
-							res.status(500).json({ status: "fail", detail: "Cannot find the node with the given id of the server"});
-						} else {
-							sdata.id = sdata._id.toString();
-							commander.serverShutDown(ndata, sdata).then(function(result){
-								res.send(result);
-							}).fail(function(issue){
-								res.status(500).json({ status: "fail", detail: issue});
-							});
-						}
-					});
-				}
-			});
-		}
-	});
-
-	apiRoutes.get('/serverReboot/:id', tools.checkToken, function(req, res) {
-		if(!req.params){
-			res.status(400).json({ status: "fail", detail: "no data provided"});
-		} else if(!req.params.id){
-			res.status(400).json({ status: "fail", detail: "no data provided"});
-		} else {
-			db.servers.findOne({_id: mongojs.ObjectId(req.params.id)}, function(serr, sdata){
-				if(serr){
-					res.status(500).json({ status: "fail", detail: "Cannot access to database for servers"});
-				} else if(!sdata) {
-					res.status(500).json({ status: "fail", detail: "Cannot find the server with the given id"});
-				} else {
-					db.nodes.findOne({_id: mongojs.ObjectId(sdata.node)}, function(nerr, ndata){
-						if(nerr){
-							res.status(500).json({ status: "fail", detail: "Cannot access to database for nodes"});
-						}else if(!ndata){
-							res.status(500).json({ status: "fail", detail: "Cannot find the node with the given id of the server"});
-						} else {
-							sdata.id = sdata._id.toString();
-							commander.serverReboot(ndata, sdata).then(function(result){
-								res.send(result);
-							}).fail(function(issue){
-								res.status(500).json({ status: "fail", detail: issue});
-							});
-						}
-					});
-				}
-			});
-		}
-	});
-
-	apiRoutes.get('/serverPowerOff/:id', tools.checkToken, function(req, res) {
-		if(!req.params){
-			res.status(400).json({ status: "fail", detail: "no data provided"});
-		} else if(!req.params.id){
-			res.status(400).json({ status: "fail", detail: "no data provided"});
-		} else {
-			db.servers.findOne({_id: mongojs.ObjectId(req.params.id)}, function(serr, sdata){
-				if(serr){
-					res.status(500).json({ status: "fail", detail: "Cannot access to database for servers"});
-				} else if(!sdata) {
-					res.status(500).json({ status: "fail", detail: "Cannot find the server with the given id"});
-				} else {
-					db.nodes.findOne({_id: mongojs.ObjectId(sdata.node)}, function(nerr, ndata){
-						if(nerr){
-							res.status(500).json({ status: "fail", detail: "Cannot access to database for nodes"});
-						}else if(!ndata){
-							res.status(500).json({ status: "fail", detail: "Cannot find the node with the given id of the server"});
-						} else {
-							sdata.id = sdata._id.toString();
-							commander.serverPowerOff(ndata, sdata).then(function(result){
-								res.send(result);
-							}).fail(function(issue){
+								console.log("Hedere");
 								res.status(500).json({ status: "fail", detail: issue});
 							});
 						}
@@ -297,20 +184,7 @@ module.exports = function(app, express, db, tools) {
 				} else if(!sdata) {
 					res.status(500).json({ status: "fail", detail: "Cannot find the server with the given id"});
 				} else {
-					db.nodes.findOne({_id: mongojs.ObjectId(sdata.node)}, function(nerr, ndata){
-						if(nerr){
-							res.status(500).json({ status: "fail", detail: "Cannot access to database for nodes"});
-						}else if(!ndata){
-							res.status(500).json({ status: "fail", detail: "Cannot find the node with the given id of the server"});
-						} else {
-							sdata.id = sdata._id.toString();
-							commander.serverState(ndata, sdata).then(function(result){
-								res.send(JSON.parse(result).domstate);
-							}).fail(function(issue){
-								res.status(500).json({ status: "fail", detail: issue});
-							});
-						}
-					});
+					res.send(sdata);
 				}
 			});
 		}
@@ -342,37 +216,6 @@ module.exports = function(app, express, db, tools) {
 				}
 			});
 		}
-	});
-
-	apiRoutes.get('/ejectISO/:serverid/:target', tools.checkToken, function(req, res) {
-		if(!req.params){
-			res.status(400).json({ status: "fail", detail: "no data provided"});
-		} else if(!req.params.serverid || !req.params.target){
-			res.status(400).json({ status: "fail", detail: "no data provided"});
-		} else {
-			db.servers.findOne({_id: mongojs.ObjectId(req.params.serverid)}, function(serr, sdata){
-				if(serr){
-					res.status(500).json({ status: "fail", detail: "Cannot access to database for servers"});
-				} else if(!sdata) {
-					res.status(500).json({ status: "fail", detail: "Cannot find the server with the given id"});
-				} else {
-					db.nodes.findOne({_id: mongojs.ObjectId(sdata.node)}, function(nerr, ndata){
-						if(nerr){
-							res.status(500).json({ status: "fail", detail: "Cannot access to database for nodes"});
-						}else if(!ndata){
-							res.status(500).json({ status: "fail", detail: "Cannot find the node with the given id of the server"});
-						} else {
-							commander.serverEjectISO(ndata, {target: req.params.target, server: req.params.serverid}).then(function(result){
-								console.log("Success:",result);
-							}).fail(function(issue){
-								console.log("issue:",issue);
-							});
-						}
-					});
-				}
-			});
-		}
-		res.send("OK");
 	});
 
 	apiRoutes.get('/attachISO/:id/:serverid/:target', tools.checkToken, function(req, res) {
@@ -500,6 +343,25 @@ module.exports = function(app, express, db, tools) {
 		});
 	});
 
+	apiRoutes.post('/converged', tools.checkToken,function(req, res) {
+		//console.log(req.body);
+		if(!req.body){
+			res.status(400).json({status: 'fail', message: 'Not enough data (nothing provided)'});
+		} else if(!req.body.id){
+			res.status(400).json({status: 'fail', message: 'Not enough data (no id provided)'});
+		} else if(!req.body.command){
+			res.status(400).json({status: 'fail', message: 'Not enough data (no command provided)'});
+		} else {
+			commander.sendVirshServer(req.body.id, req.body.command, req.body.details).then(function(result){
+				res.send(result);
+			}).fail(function(issue){
+				console.log(issue);
+				res.status(500).json(issue);
+			});
+		}
+
+	});
+
 	app.use('/api/server', apiRoutes);
 };
 
@@ -553,24 +415,29 @@ function newServerInsert(curSrv){
 	return deferred.promise;
 }
 
-function serverDelete(cSrv){
+function serverDeleteFromDB(cSrv){
 	var deferred = Q.defer();
-	topDB.servers.remove({_id:mongojs.ObjectId(cSrv._id)}, function(err, data){
-		if(err){
-			deferred.reject(err);
-		} else {
-			serverReleaseIP(cSrv).then(function(result){
-				deferred.resolve("Delete completed: " + data.toString());
-			}).fail(function(issue){
-				deferred.reject(issue);
+	if(typeof cSrv != 'object') cSrv = JSON.parse(cSrv);
+	console.log(cSrv, typeof cSrv);
+	if(!cSrv._id) cSrv._id = cSrv.id;
+	serverFindByID(cSrv.id).
+		then(serverReleaseIP).then(function(result){
+			topDB.servers.remove({_id:mongojs.ObjectId(cSrv._id)}, function(err, data){
+				if(err){
+					deferred.reject(err);
+				} else {
+					deferred.resolve("Delete completed: " + data.toString());
+				}
 			});
-		}
-	});
+		}).fail(function(issue){
+			deferred.reject(issue);
+		});
 	return deferred.promise;
 }
 
 function serverFindByID(id){
 	var deferred = Q.defer();
+	console.log("****************",id,"*****************");
 	topDB.servers.findOne({_id:mongojs.ObjectId(id)}, function(err, data){
 		if(err){
 			deferred.reject(err);
@@ -585,15 +452,42 @@ function serverFindByID(id){
 }
 
 function serverFindNode(curSrv){
-	console.log("Finding server node for "+ curSrv);
+	console.log("Finding server node for "+ curSrv, curSrv.node);
 	var deferred = Q.defer();
-	topDB.nodes.findOne({_id:mongojs.ObjectId(curSrv.node)}, function(err, data){
+
+			topDB.nodes.findOne({_id:mongojs.ObjectId(curSrv.node)}, function(err, data){
+				if(err){
+					deferred.reject(err);
+				} else if(!data){
+					deferred.reject('No node found');
+				} else {
+					deferred.resolve(data);
+				}
+			});
+
+	return deferred.promise;
+}
+
+function serverFindMostFreeNode(curSrv){
+	console.log("serverFindMostFreeNode", curSrv);
+	var deferred = Q.defer();
+	if(curSrv.node != 'AUTO'){
+		deferred.resolve(curSrv);
+		console.log("returning self of curSrv");
+		return deferred.promise;
+	}
+	topDB.nodes.find({}, function(err, data){
 		if(err){
 			deferred.reject(err);
-		} else if(!data){
-			deferred.reject('No node found');
 		} else {
 			deferred.resolve(data);
+			var minMemUsage = 100;
+			var minMemNode = '';
+			data.forEach(function(curNode){
+				if(curNode.stats.memUsage < minMemUsage) minMemNode = curNode._id.toString();
+			});
+			curSrv.node = minMemNode;
+			deferred.resolve(curSrv);
 		}
 	});
 	return deferred.promise;
@@ -655,6 +549,40 @@ function serverReleaseIP(curSrv){
 			});
 		}
 	});
+	return deferred.promise;
+}
+
+function serverAssignIP(curSrv){
+	var deferred = Q.defer();
+	if(curSrv.ip != 'AUTO'){
+		deferred.resolve(curSrv);
+		return deferred.promise;
+	}
+
+	topDB.ipblocks.find({dcs: {$elemMatch: { $eq: curSrv.dc._id}}}, function(err, blocks){
+		if(err){
+			deferred.reject(err);
+		} else {
+			var selectedIP = false;
+			console.log("==============================================================");
+			for(var i = 0; i < blocks.length; i++){
+				for(var t = 0; t < blocks[i].ips.length; t++){
+					console.log(blocks[i].ips[t]);
+					if(!blocks[i].ips[t].reserved) selectedIP = blocks[i].ips[t];
+					if(selectedIP) break;
+				}
+				if(selectedIP) break;
+			}
+			console.log("SelectIP", selectedIP);
+			curSrv.ip = selectedIP.ip;
+		}
+		if(curSrv.ip == 'AUTO'){
+			deferred.reject("There are no free IP addresses");
+		} else {
+			deferred.resolve(curSrv);
+		}
+	});
+
 	return deferred.promise;
 }
 

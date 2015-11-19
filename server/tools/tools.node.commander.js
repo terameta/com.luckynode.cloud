@@ -5,7 +5,7 @@ var fs 				= require("fs");
 var mongojs 		= require('mongojs');
 var lnconfiguration	= JSON.parse(fs.readFileSync('luckynode.conf', 'utf8'));
 var cloudConnStr	= lnconfiguration.db.user+':'+lnconfiguration.db.pass+'@'+lnconfiguration.db.server+':'+lnconfiguration.db.port+'/'+lnconfiguration.db.database;
-var cloudColls		= ['storages', 'nodetokens'];
+var cloudColls		= ['storages', 'nodetokens', 'nodes', 'servers'];
 var db 				= mongojs(cloudConnStr, cloudColls, {	authMechanism : 'ScramSHA1' });
 
 module.exports = {
@@ -148,8 +148,109 @@ module.exports = {
 			deferred.resolve("Volume delete from the node is not requested.");
 		}
 		return deferred.promise;
+	},
+	sendCommandQ: function(nodequery, command, details){
+		var deferred = Q.defer();
+		sendCommandBase(null, nodequery, command, details).then(deferred.resolve).fail(deferred.reject);
+		return deferred.promise;
+	},
+	sendCommand: function(node, command, details){
+		var deferred = Q.defer();
+		sendCommandBase(node, null, command, details).then(deferred.resolve).fail(deferred.reject);
+		return deferred.promise;
+	},
+	sendVirshQ : function(nodequery, region, command, details){
+		var deferred = Q.defer();
+		sendVirshBase(null, nodequery, region, command, details).then(deferred.resolve).fail(deferred.reject);
+		return deferred.promise;
+	},
+	sendVirsh : function(node, region, command, details){
+		var deferred = Q.defer();
+		sendVirshBase(node, null, region, command, details).then(deferred.resolve).fail(deferred.reject);
+		return deferred.promise;
+	},
+	sendVirshServer : function(server, command, details){
+		var deferred = Q.defer();
+		db.servers.findOne({_id: mongojs.ObjectId(server)}, function(err, sdata){
+			if(err){
+				deferred.reject(err);
+			} else {
+				sendVirshBase(sdata.node, null, 'server', command, details).then(deferred.resolve).fail(deferred.reject);
+			}
+		});
+		return deferred.promise;
 	}
 };
+
+function sendVirshBase(node, nodequery, region, command, details){
+	var deferred = Q.defer();
+
+	if(typeof details.id === "undefined" && typeof details._id !== "undefined"){ details.id = details._id.toString(); }
+
+	var theCommand = { region: region, command: command, details: details};
+	runNodeVirsh(node,nodequery, theCommand).then(deferred.resolve).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function sendCommandBase(node, nodequery, command, details){
+	var deferred = Q.defer();
+	if(typeof details.id === "undefined" && typeof details._id !== "undefined"){ details.id = details._id.toString(); }
+
+	findNode(node, nodequery).
+		then(function(theNode){
+			var theCommand = { name: command, details: details};
+			runCommand(theNode, theCommand).then(deferred.resolve).fail(deferred.reject);
+		}).
+		fail(deferred.reject);
+
+	return deferred.promise;
+}
+
+function findNode(id, query){
+	//console.log("We are in findNode");
+	var deferred = Q.defer();
+
+	if(id){
+		if( id.id	) { id = id.id; }
+		if( id._id	) { id = id._id.toString(); }
+	}
+
+	var theQuery = query;
+	if(!theQuery && !id){
+		deferred.reject("No valid query to findNode");
+	} else {
+		if(!theQuery) theQuery = {_id:mongojs.ObjectId(id)};
+		//console.log("TheQuery", theQuery);
+		db.nodes.findOne(theQuery, function(err, data){
+			if(err){
+				deferred.reject(err);
+			} else if(!data){
+				deferred.reject('No node found');
+			} else {
+				//console.log("Node found");
+				deferred.resolve(data);
+			}
+		});
+	}
+	return deferred.promise;
+}
+
+function runNodeVirsh(node, nodequery, command){
+	var deferred = Q.defer();
+	findNode(node, nodequery).
+		then(getTokenN).
+		then( function(cNode){ node = cNode; return verifyToken(node, node.token); }).
+		then( function(token){ return runNodeVirshRemote(node, token, command); }).
+		then( function(result){ deferred.resolve(result); }).
+		fail( function(issue){ deferred.reject(issue); });
+	return deferred.promise;
+}
+
+function runNodeVirshRemote(node, token, command){
+	var deferred = Q.defer();
+	tools.postHTTPSRequest(node.ip, '/api/command/runVirshCommand', 14413, false, token, {command} ).then(deferred.resolve).fail(deferred.reject);
+	return deferred.promise;
+}
 
 function runCommand(node, command){
 	var deferred = Q.defer();
@@ -174,6 +275,14 @@ function runRemoteCommand(node, token, command){
 	return deferred.promise;
 }
 
+function getTokenN(node){
+	var deferred = Q.defer();
+	getToken(node._id).then(function(token){
+		node.token= token;
+		deferred.resolve(node);
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
 function getToken(nodeid){
 	var deferred = Q.defer();
 	//console.log("Getting token");

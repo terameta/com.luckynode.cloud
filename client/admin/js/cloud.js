@@ -44,42 +44,6 @@ cloudApp.config(function($stateProvider, $urlRouterProvider){
 				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/datacenter/datacenterDetail.html", controller: 'datacenterController' }
 			},
 			data: { requireSignin: true }
-		}).state('r.dashboard.ipblocks', {
-			url:"/ipblocks",
-			views: {
-				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/ipblock/ipblockList.html", controller: 'ipblockController' }
-			},
-			data: { requireSignin: true }
-		}).state('r.dashboard.ipblocknew', {
-			url:"/ipblocknew",
-			views: {
-				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/ipblock/ipblockNew.html", controller: 'ipblockController' }
-			},
-			data: { requireSignin: true }
-		}).state('r.dashboard.ipblock', {
-			url:"/ipblock/:id",
-			views: {
-				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/ipblock/ipblockDetail.html", controller: 'ipblockController' }
-			},
-			data: { requireSignin: true }
-		}).state('r.dashboard.plans', {
-			url:"/plans",
-			views: {
-				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/plan/planList.html", controller: 'planController' }
-			},
-			data: { requireSignin: true }
-		}).state('r.dashboard.plannew', {
-			url:"/plannew",
-			views: {
-				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/plan/planNew.html", controller: 'planController' }
-			},
-			data: { requireSignin: true }
-		}).state('r.dashboard.plan', {
-			url:"/plan/:id",
-			views: {
-				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/plan/planDetail.html", controller: 'planController' }
-			},
-			data: { requireSignin: true }
 		}).state('r.signout', {
 			url: "/signout",
 			views: {

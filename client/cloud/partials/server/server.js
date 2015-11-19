@@ -15,22 +15,32 @@ angular.module('cloudServices').service('srvcServer', ['$resource', '$rootScope'
 		service.resource = $resource( '/api/client/server/:id', { id: '@_id' }, { update: { method: 'PUT' } });
 
 		service.fetchServers = function(){
-			console.log("Fetching servers");
+			//console.log("Fetching servers");
 			$rootScope.servers = service.resource.query(function(result){
-				console.log("Fetched servers");
-				console.log(result);
+				//console.log(result);
 			});
 		};
+
+		service.fetchServers();
 
 		return service;
 	}
 ]);
 
-angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', '$rootScope', '$state', '$stateParams', 'srvcServer',
-	function($scope, $http, $rootScope, $state, $stateParams, srvcServer) {
+angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', '$rootScope', '$state', '$stateParams', '$modal', 'srvcDataCenter', 'srvcServer', 'srvcPlan',
+	function($scope, $http, $rootScope, $state, $stateParams, $modal, srvcDataCenter, srvcServer, srvcPlan) {
 		var lnToastr = toastr;
 
-		srvcServer.fetchServers();
+		$scope.orderServer = function(){
+			console.log("We are ordering a server");
+			$scope.nbmodalInstance = $modal.open({
+				animation: true,
+				templateUrl: "/cloud/partials/server/serverOrderModal.html",
+				size: 'lg',
+				scope: $scope
+			});
+		};
+
 
 	}
 ]);

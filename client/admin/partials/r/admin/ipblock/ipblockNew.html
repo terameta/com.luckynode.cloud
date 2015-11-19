@@ -1,7 +1,17 @@
-<div class="panel panel-info" style="margin:0;padding:0">
-	<div class="panel-heading">
-		<div class="panel-title"><i class="fa fa-share-alt fa-fw"></i> New IP Block</div>
-	</div>
+<section class="content-header">
+	<h1>
+		<i class="fa fa-share-alt fa-fw"></i> New IP Block
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
+		<li><a ui-sref="r.dashboard.ipblocks">IP Blocks</a></li>
+		<li class="active">New IP Block</li>
+	</ol>
+</section>
+
+<section class="content">
+
+<div class="panel panel-default">
 	<div class="panel-body" style="padding-top:30px;">
 		<div ng-if="ipblocknewalert" class="alert alert-danger alert-sm col-sm-12">{{ipblocknewalert}}</div>
 		<form id="newipblockform" class="form-horizontal" role="form" ng-submit="addIPBlock(_name, _gateway, _netmask, _nameserver1, _nameserver2)">
@@ -56,3 +66,5 @@
 		</form>
 	</div>
 </div>
+
+</section>

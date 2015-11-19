@@ -1,13 +1,13 @@
 <section class="content-header">
 	<h1>
-		<i class="fa fa-hdd-o fa-fw"></i> Storage
+		<i class="fa fa-hdd-o fa-fw"></i> Storage Pools
 		<div class="btn-group" role="group" aria-label="Node List Actions">
 			<a class="btn btn-default btn-sm" ui-sref="r.dashboard.storagenew">New</a>
 		</div>
 	</h1>
 	<ol class="breadcrumb">
 		<li><a ui-sref="r.dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-		<li class="active">Storage</li>
+		<li class="active">Storage Pools</li>
 	</ol>
 </section>
 
@@ -33,7 +33,6 @@
 				<td>{{ (dataCenters | filter:{_id: storage.datacenter})[0].name || 'Not set' }}</td>
 				<td>{{storage.source}}</td>
 				<td><a ui-sref="r.dashboard.storage({id: storage._id})" title="Details"><i class="fa fa-cog fa-fw"></i></a></td>
-				<td></td>
 			</tr>
 		</tbody>
 	</table>

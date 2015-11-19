@@ -1,12 +1,14 @@
 <section class="content-header">
 	<h1>
-		<i class="fa fa-hdd-o fa-fw"></i> Storage
-		<small>{{ curStorage.name }}</small>
+		<i class="fa fa-hdd-o fa-fw"></i> {{ curStorage.name }}
+		<div class="btn-group" role="group" aria-label="Node List Actions">
+			<a class="btn btn-default btn-sm" ng-click="fetchCurStorage()">Refresh</a>
+		</div>
 	</h1>
 	<ol class="breadcrumb">
 		<li><a ui-sref="r.dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
-		<li><a ui-sref="r.dashboard.storages">Storages</a></li>
-		<li class="active">Storage</li>
+		<li><a ui-sref="r.dashboard.storages">Storage Pools</a></li>
+		<li class="active">Storage Pool</li>
 	</ol>
 </section>
 
@@ -76,13 +78,21 @@
 						<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
 							<thead>
 								<tr>
-									<td>File Name</td>
-									<td>Assigned Size</td>
-									<td>Actual Size</td>
+									<th class="text-center">File Name</th>
+									<th class="text-center">Type</th>
+									<th class="text-center" colspan="2">Assigned Size</th>
+									<th class="text-center" colspan="2">Actual Size</th>
 								</tr>
 							</thead>
 							<tbody>
-
+								<tr ng-repeat="sFile in storageFiles">
+									<td>{{sFile.Name}}</td>
+									<td>{{sFile.Type}}</td>
+									<td align="right">{{sFile.Capacity.split(' ')[0]}}</td>
+									<td>{{sFile.Capacity.split(' ')[1]}}</td>
+									<td align="right">{{sFile.Allocation.split(' ')[0]}}</td>
+									<td>{{sFile.Allocation.split(' ')[1]}}</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>

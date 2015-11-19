@@ -1,45 +1,55 @@
-<div class="panel panel-info" style="margin:0;padding:0">
-	<div class="panel-heading">
-		<div class="panel-title"><i class="fa fa-clone fa-fw"></i> New Plan</div>
-	</div>
-	<div class="panel-body" style="padding-top:30px;">
-		<div ng-if="plannewalert" class="alert alert-danger alert-sm col-sm-12">{{plannewalert}}</div>
-		<form id="newplanform" class="form-horizontal" role="form" ng-submit="addPlan(_name, _cpu, _hdd, _ram, _swap, _bandwidth)">
-			<div class="input-group" style="margin-bottom:2px;">
-				<span class="input-group-addon" style="min-width:200px;text-align:left;">Name*</span>
-				<input type="text" ng-model="_name" placeholder="please enter plan name" class="form-control" />
-			</div>
-			<div class="input-group" style="margin-bottom:2px;">
-				<span class="input-group-addon" style="min-width:200px;text-align:left;">CPU*</span>
-				<input type="text" ng-model="_cpu" placeholder="###" class="form-control" />
-				<span class="input-group-addon" style="min-width:200px;text-align:left;">cores</span>
-			</div>
-			<div class="input-group" style="margin-bottom:2px;">
-				<span class="input-group-addon" style="min-width:200px;text-align:left;">HDD Space*</span>
-				<input type="text" ng-model="_hdd" placeholder="###" class="form-control" />
-				<span class="input-group-addon" style="min-width:200px;text-align:left;">GB</span>
-			</div>
-			<div class="input-group" style="margin-bottom:2px;">
-				<span class="input-group-addon" style="min-width:200px;text-align:left;">RAM*</span>
-				<input type="text" ng-model="_ram" placeholder="###" class="form-control" />
-				<span class="input-group-addon" style="min-width:200px;text-align:left;">MB</span>
-			</div>
-			<div class="input-group" style="margin-bottom:2px;">
-				<span class="input-group-addon" style="min-width:200px;text-align:left;">Swap*</span>
-				<input type="text" ng-model="_swap" placeholder="###" class="form-control" />
-				<span class="input-group-addon" style="min-width:200px;text-align:left;">MB</span>
-			</div>
-			<div class="input-group" style="margin-bottom:2px;">
-				<span class="input-group-addon" style="min-width:200px;text-align:left;">Bandwidth*</span>
-				<input type="text" ng-model="_bandwidth" placeholder="###" class="form-control" />
-				<span class="input-group-addon" style="min-width:200px;text-align:left;">GB</span>
-			</div>
-			<div style="margin-top:10px" class="form-group">
-				<div class="col-sm-12 controls">
-					<button type="submit" class="btn btn-success btn-sm">Create</button>
-					<button type="button" ng-click="cancelPlanAdd()" class="btn btn-danger btn-sm">Cancel</button>
+<section class="content-header">
+	<h1>
+		<i class="fa fa-clone fa-fw"></i> New Plan
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
+		<li><a ui-sref="r.dashboard.plans">Plans</a></li>
+		<li class="active">New Plan</li>
+	</ol>
+</section>
+
+<section class="content">
+	<div class="panel panel-default" style="margin:0;padding:0">
+		<div class="panel-body" style="padding-top:30px;">
+			<div ng-if="plannewalert" class="alert alert-danger alert-sm col-sm-12">{{plannewalert}}</div>
+			<form id="newplanform" class="form-horizontal" role="form" ng-submit="addPlan(_name, _cpu, _hdd, _ram, _swap, _bandwidth, _price)">
+				<div class="input-group" style="margin-bottom:2px;">
+					<span class="input-group-addon" style="min-width:200px;text-align:left;">Name*</span>
+					<input type="text" ng-model="_name" placeholder="please enter plan name" class="form-control" />
 				</div>
-			</div>
-		</form>
+				<div class="input-group" style="margin-bottom:2px;">
+					<span class="input-group-addon" style="min-width:200px;text-align:left;">CPU*</span>
+					<input type="text" ng-model="_cpu" placeholder="###" class="form-control" />
+					<span class="input-group-addon" style="min-width:200px;text-align:left;">cores</span>
+				</div>
+				<div class="input-group" style="margin-bottom:2px;">
+					<span class="input-group-addon" style="min-width:200px;text-align:left;">HDD Space*</span>
+					<input type="text" ng-model="_hdd" placeholder="###" class="form-control" />
+					<span class="input-group-addon" style="min-width:200px;text-align:left;">GB</span>
+				</div>
+				<div class="input-group" style="margin-bottom:2px;">
+					<span class="input-group-addon" style="min-width:200px;text-align:left;">RAM*</span>
+					<input type="text" ng-model="_ram" placeholder="###" class="form-control" />
+					<span class="input-group-addon" style="min-width:200px;text-align:left;">MB</span>
+				</div>
+				<div class="input-group" style="margin-bottom:2px;">
+					<span class="input-group-addon" style="min-width:200px;text-align:left;">Bandwidth*</span>
+					<input type="text" ng-model="_bandwidth" placeholder="###" class="form-control" />
+					<span class="input-group-addon" style="min-width:200px;text-align:left;">GB</span>
+				</div>
+				<div class="input-group" style="margin-bottom:2px;">
+					<span class="input-group-addon" style="min-width:200px;text-align:left;">Price Per Month*</span>
+					<input type="text" ng-model="_price" placeholder="###" class="form-control" />
+					<span class="input-group-addon" style="min-width:200px;text-align:left;">$</span>
+				</div>
+				<div style="margin-top:10px" class="form-group">
+					<div class="col-sm-12 controls">
+						<button type="submit" class="btn btn-success btn-sm">Create</button>
+						<button type="button" ng-click="cancelPlanAdd()" class="btn btn-danger btn-sm">Cancel</button>
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
-</div>
+</section>

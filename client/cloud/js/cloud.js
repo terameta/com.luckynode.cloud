@@ -3,20 +3,20 @@ var cloudControllers 	= angular.module('cloudControllers', []);
 var cloudServices 		= angular.module('cloudServices', ['ngResource']);
 
 cloudApp.config(function($stateProvider, $urlRouterProvider){
-    $urlRouterProvider.otherwise("welcome");
+	$urlRouterProvider.otherwise("welcome");
 
-    $stateProvider.
-        state('r', {
-            url: "/r",
-            views: {
+	$stateProvider.
+		state('r', {
+			url: "/r",
+			views: {
 				'': 			{ templateUrl: "/cloud/partials/r/root.html", controller: 'dashboardController' },
 				'mainMenu@r': 	{ templateUrl: "/cloud/partials/r/rootMenu.html" },
 				'sidebar@r': 	{ templateUrl: "/cloud/partials/r/rootSideBar.html" },
 				'content@r': 	{ templateUrl: "/cloud/partials/r/rootContent.html" }
 			},
-            //templateUrl: "/cloud/partials/r/root.html",
-            data: { requireSignin: false }
-        });
+			//templateUrl: "/cloud/partials/r/root.html",
+			data: { requireSignin: false }
+		});
 });
 
 //Angular Interceptor is here
@@ -53,7 +53,7 @@ cloudApp.config(function($httpProvider) {
 							deferred.resolve($http(rejection.config));
 						})
 						.catch(function() {
-							$state.go('r.welcome');
+							$state.go('welcome');
 							deferred.reject(rejection);
 						});
 				}
@@ -65,7 +65,7 @@ cloudApp.config(function($httpProvider) {
 });
 
 cloudApp.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider){
-    cfpLoadingBarProvider.includeSpinner = false;
+	cfpLoadingBarProvider.includeSpinner = false;
 }]);
 
 cloudApp.run(['$rootScope', '$state', '$signinModal', '$localStorage', 'editableOptions', 'editableThemes', function($rootScope, $state, $signinModal, $localStorage, editableOptions, editableThemes) {
@@ -81,7 +81,7 @@ cloudApp.run(['$rootScope', '$state', '$signinModal', '$localStorage', 'editable
 					return $state.go(toState.name, toParams);
 				})
 				.catch(function() {
-					return $state.go('r.welcome');
+					return $state.go('welcome');
 				});
 		}
 	});
@@ -105,54 +105,54 @@ cloudApp.run(['$rootScope', '$state', '$signinModal', '$localStorage', 'editable
 }]);
 
 cloudServices.service('$localStorage', function localStorage($window) {
-    var localStorageService = {};
-    localStorageService.set = set;
-    localStorageService.get = get;
-    localStorageService.setObject = setObject;
-    localStorageService.getObject = getObject;
-    localStorageService.remove = remove;
+	var localStorageService = {};
+	localStorageService.set = set;
+	localStorageService.get = get;
+	localStorageService.setObject = setObject;
+	localStorageService.getObject = getObject;
+	localStorageService.remove = remove;
 
-    function set(key, value) {
-        $window.localStorage[key] = value;
-    }
+	function set(key, value) {
+		$window.localStorage[key] = value;
+	}
 
-    function get(key, defaultValue) {
-        return $window.localStorage[key] || defaultValue;
-    }
+	function get(key, defaultValue) {
+		return $window.localStorage[key] || defaultValue;
+	}
 
-    function setObject(key, value) {
-        $window.localStorage[key] = JSON.stringify(value);
-    }
+	function setObject(key, value) {
+		$window.localStorage[key] = JSON.stringify(value);
+	}
 
-    function getObject(key) {
-        return JSON.parse($window.localStorage[key] || '{}');
-    }
+	function getObject(key) {
+		return JSON.parse($window.localStorage[key] || '{}');
+	}
 
-    function remove(key) {
-        $window.localStorage.removeItem(key);
-        return 1;
-    }
+	function remove(key) {
+		$window.localStorage.removeItem(key);
+		return 1;
+	}
 
-    return localStorageService;
+	return localStorageService;
 });
 
 cloudServices.service('$signinModal', function($modal, $rootScope, $localStorage, $timeout) {
 
-    function assignCurrentUser(data) {
-        $rootScope.apiToken = data.token;
-        $localStorage.set('apiToken', data.token);
-        return data;
-    }
+	function assignCurrentUser(data) {
+		$rootScope.apiToken = data.token;
+		$localStorage.set('apiToken', data.token);
+		return data;
+	}
 
-    return function() {
-        var instance = $modal.open({
-            templateUrl: '/partials/authentication/signinModal.html',
-            controller: 'signinModalController',
-            controllerAs: 'signinModalController'
-        });
+	return function() {
+		var instance = $modal.open({
+			templateUrl: '/partials/authentication/signinModal.html',
+			controller: 'signinModalController',
+			controllerAs: 'signinModalController'
+		});
 
-        return instance.result.then(assignCurrentUser);
-    };
+		return instance.result.then(assignCurrentUser);
+	};
 
 });
 
@@ -168,119 +168,122 @@ cloudControllers.controller('signinModalController', function($scope, $userServi
 });
 
 cloudServices.service('$userService', ['$resource', '$q', '$rootScope', '$localStorage', '$http', '$window',
-    function userService($resource, $q, $rootScope, $localStorage, $http, $window) {
-        var service = {};
+	function userService($resource, $q, $rootScope, $localStorage, $http, $window) {
+		var service = {};
 
-        service.signin = signin;
-        service.signinwithToken = signinwithToken;
-        service.signout = signout;
-        service.scorepass = scorepass;
-        service.signup = signup;
-        service.resendVC = resendVC;
-        service.verifycode = verifycode;
-        service.getCurUser = getCurUser;
+		service.signin = signin;
+		service.signinwithToken = signinwithToken;
+		service.signout = signout;
+		service.scorepass = scorepass;
+		service.signup = signup;
+		service.resendVC = resendVC;
+		service.verifycode = verifycode;
+		service.getCurUser = getCurUser;
 
-        return service;
+		return service;
 
-        function signup(username, password){
-        	var deferred = $q.defer();
-        	var signupParams = {
-        		email: username,
-        		pass: password
-        	};
-        	if(username && password){
-        		$http.post('/api/users/signup', signupParams).
-        		success(function(data, status, headers, config){
-        			deferred.resolve(data);
-        		}).
-        		error(function(data, status, headers, config){
-        			deferred.reject(data);
-        		});
-        	} else {
-        		deferred.reject("No username/password");
-        	}
-        	return deferred.promise;
-        }
+		function signup(username, password){
+			var deferred = $q.defer();
+			var signupParams = {
+				email: username,
+				pass: password
+			};
+			if(username && password){
+				$http.post('/api/users/signup', signupParams).
+				success(function(data, status, headers, config){
+					deferred.resolve(data);
+				}).
+				error(function(data, status, headers, config){
+					deferred.reject(data);
+				});
+			} else {
+				deferred.reject("No username/password");
+			}
+			return deferred.promise;
+		}
 
-        function signin(username, password) {
-            var deferred = $q.defer();
-            var signinParams = {
-                email: username,
-                pass: password
-            };
-            if(username && password) {
-            	$http.post('/api/users/authenticate', signinParams).
-            	success(function(data, status, headers, config) {
-            		signinwithToken(data.token).then(
-            			function/*success*/(token){
-            				deferred.resolve(data);
-            			}, function/*failure*/(issue){
-            				deferred.reject(issue);
-            			}
-            		);
-            	}).
-            	error(function(data, status, headers, config) {
-            		deferred.reject(data);
-            	});
-            }
-            else {
-            	deferred.reject("No username/password");
-            }
-            return deferred.promise;
-        }
+		function signin(username, password) {
+			var deferred = $q.defer();
+			var signinParams = {
+				email: username,
+				pass: password
+			};
+			if(username && password) {
+				$http.post('/api/users/authenticate', signinParams).
+				success(function(data, status, headers, config) {
+					signinwithToken(data.token).then(
+						function/*success*/(token){
+							deferred.resolve(data);
+						}, function/*failure*/(issue){
+							deferred.reject(issue);
+						}
+					);
+				}).
+				error(function(data, status, headers, config) {
+					deferred.reject(data);
+				});
+			}
+			else {
+				deferred.reject("No username/password");
+			}
+			return deferred.promise;
+		}
 
-        function signinwithToken(token){
-        	var deferred = $q.defer();
-        	$rootScope.apiToken = token;
-        	$localStorage.set('apiToken', token);
-        	$rootScope.curUser = parseJWT(token);
-        	deferred.resolve(token);
-        	return deferred.promise;
-        }
+		function signinwithToken(token){
+			var deferred = $q.defer();
+			$rootScope.apiToken = token;
+			$localStorage.set('apiToken', token);
+			$rootScope.curUser = parseJWT(token);
+			deferred.resolve(token);
+			return deferred.promise;
+		}
 
-        function getCurUser(){
-        	$rootScope.curUser = parseJWT($localStorage.get('apiToken'));
-        }
+		function getCurUser(){
+			if($localStorage.get('apiToken')){
+				$rootScope.curUser = parseJWT($localStorage.get('apiToken'));
+			}
+		}
 
-        function parseJWT(token){
+		function parseJWT(token){
 			var base64Url = token.split('.')[1];
 			var base64 = base64Url.replace('-', '+').replace('_', '/');
 			return JSON.parse($window.atob(base64));
-        }
+		}
 
-        function resendVC(id){
-        	var deferred = $q.defer();
-        	var vcParams = {id: id};
-        	$http.post('/api/users/resendvc', vcParams).
-        	success(function(data, status, headers, config) {
-        		deferred.resolve(data);
-        	}).
-        	error(function(data, status, headers, config) {
-        		deferred.reject(data);
-        	});
-        	return deferred.promise;
-        }
+		function resendVC(id){
+			var deferred = $q.defer();
+			var vcParams = {id: id};
+			$http.post('/api/users/resendvc', vcParams).
+			success(function(data, status, headers, config) {
+				deferred.resolve(data);
+			}).
+			error(function(data, status, headers, config) {
+				deferred.reject(data);
+			});
+			return deferred.promise;
+		}
 
-        function verifycode(id, code){
-        	var deferred = $q.defer();
-        	var vcParams = {id: id, code:code};
-        	$http.post('/api/users/verifycode', vcParams).
-        	success(function(data, status, headers, config) {
-        		deferred.resolve(data);
-        	}).
-        	error(function(data, status, headers, config) {
-        		deferred.reject(data);
-        	});
-        	return deferred.promise;
-        }
+		function verifycode(id, code){
+			var deferred = $q.defer();
+			var vcParams = {id: id, code:code};
+			$http.post('/api/users/verifycode', vcParams).
+			success(function(data, status, headers, config) {
+				deferred.resolve(data);
+			}).
+			error(function(data, status, headers, config) {
+				deferred.reject(data);
+			});
+			return deferred.promise;
+		}
 
-        function signout() {
-            var deferred = $q.defer();
-            $rootScope.apiToken = undefined;
-            $localStorage.remove('apiToken');
-            deferred.resolve();
-            return deferred.promise;
-        }
+		function signout() {
+			var deferred = $q.defer();
+			$rootScope.apiToken = undefined;
+			$localStorage.remove('apiToken');
+			$rootScope.curUser = undefined;
+			deferred.resolve();
+			return deferred.promise;
+		}
 
 		function scorepass(pass) {
 			var score = 0;
@@ -316,5 +319,5 @@ cloudServices.service('$userService', ['$resource', '$q', '$rootScope', '$localS
 
 			return toReturn;
 		}
-    }
+	}
 ]);

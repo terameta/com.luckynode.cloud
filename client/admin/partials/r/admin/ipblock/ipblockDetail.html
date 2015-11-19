@@ -1,7 +1,22 @@
+<section class="content-header">
+	<h1>
+		<i class="fa fa-share-alt fa-fw"></i> IP Block
+		<small>{{ curBlock.name }}</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
+		<li><a ui-sref="r.dashboard.ipblocks">IP Blocks</a></li>
+		<li class="active">IP Block</li>
+	</ol>
+</section>
+
+<section class="content">
+<div class="row">
+
 <div class="col-xs-6">
-	<div class="panel panel-primary">
+	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title"><i class="fa fa-share-alt fa-fw"></i>  Main Information</h3>
+			<h3 class="panel-title">Main Information</h3>
 		</div>
 		<div class="panel-body">
 			<form editable-form name="ipblockEditForm" onaftersave="saveIPBlock()">
@@ -44,13 +59,13 @@
 	</div>
 </div>
 <div class="col-xs-6">
-	<div class="panel panel-primary">
+	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">IP Addresses</h3>
 		</div>
 		<div class="panel-body">
-			<button type="button" class="btn btn-primary btn-xs" ng-click="showhidesingleIPform()">Add Single IP</button>
-			<button type="button" class="btn btn-primary btn-xs" ng-click="showhidemultipleIPform()">Add IP Range</button>
+			<button type="button" class="btn btn-default btn-xs" ng-click="showhidesingleIPform()">Add Single IP</button>
+			<button type="button" class="btn btn-default btn-xs" ng-click="showhidemultipleIPform()">Add IP Range</button>
 			<form ng-show="singleIPformvisible" id="singleIPform" class="form-horizontal" role="form" ng-submit="addSingleIP(_theIP)">
 				<hr />
 				<div ng-if="singleIPformalert" class="alert alert-danger alert-sm col-sm-12">{{singleIPformalert}}</div>
@@ -100,3 +115,6 @@
 		</div>
 	</div>
 </div>
+
+</div>
+</section>
