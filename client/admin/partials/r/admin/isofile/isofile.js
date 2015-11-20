@@ -30,8 +30,8 @@ angular.module('cloudServices').service('$isofile', ['$resource',
 	}
 ]);
 
-angular.module('cloudControllers').controller('isofileController', ['$scope', '$rootScope', '$isofile', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$modal', '$storage',
-	function($scope, $rootScope, $isofile, $state, $stateParams, $localStorage, $datacenter, $http, $q, $modal, $storage){
+angular.module('cloudControllers').controller('isofileController', ['$scope', '$rootScope', '$isofile', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage',
+	function($scope, $rootScope, $isofile, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage){
 		$scope.isofiletypes = [{name: 'iso', value: 'iso'}];
 		$scope.isoarchitectures = [{name: 'i386', value: 'i386'}, {name: 'x86_64', value: 'x86_64'}];
 		$scope.isostatuses = [{name: 'Enabled', value: 'enabled'}, {name: 'Disabled', value: 'disabled'}];

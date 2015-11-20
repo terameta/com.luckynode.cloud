@@ -4,16 +4,15 @@ var Q		= require('q');
 module.exports = function(refdb){
 	db = refdb;
 	var module = {
-		listServers: listServers,
-		showServers: showServers
+		list: list
 	};
 	return module;
 };
 
-function listServers(query){
+function list(query){
 	var deferred = Q.defer();
 	if(!query) query = {};
-	db.servers.find(query, function(err, data) {
+	db.images.find(query, function(err, data) {
 		if (err) {
 			deferred.reject(err);
 		} else {
@@ -21,8 +20,4 @@ function listServers(query){
 		}
 	});
 	return deferred.promise;
-}
-
-function showServers(){
-	console.log("Show Servers");
 }

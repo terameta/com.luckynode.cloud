@@ -149,10 +149,10 @@ cloudControllers.controller('profileController', ['$scope', '$routeParams', func
 	console.log("profileController");
 }]);
 
-cloudControllers.controller('welcomeController', function($scope, $modal, $state, $http, $q, $userService) {
+cloudControllers.controller('welcomeController', function($scope, $uibModal, $state, $http, $q, $userService) {
 
 	$scope.openSignUpModal = function() {
-		var instance = $modal.open({
+		var instance = $uibModal.open({
 			templateUrl: 'partials/authentication/signupModal.html',
 			controller: 'signupModalController',
 			controllerAs: 'signupModalController'

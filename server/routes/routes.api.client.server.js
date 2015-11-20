@@ -15,7 +15,7 @@ module.exports = function(app, express, db, tools) {
 		} else if(!req.user.id){
 			res.status(400).json({ status: "fail", detail: "no user provided" });
 		} else {
-			serverModule.listServers().then(function(result){
+			serverModule.listServers({owner: req.user.id}).then(function(result){
 				console.log(result);
 				res.send(result);
 			}).fail(function(issue){

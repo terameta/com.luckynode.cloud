@@ -24,8 +24,8 @@ angular.module('cloudServices').service('$lnusers', ['$resource',
 	}
 ]);
 
-angular.module('cloudControllers').controller('userController', ['$scope', '$rootScope', '$lnusers', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$modal', '$storage',
-	function($scope, $rootScope, $lnusers, $state, $stateParams, $localStorage, $datacenter, $http, $q, $modal, $storage){
+angular.module('cloudControllers').controller('userController', ['$scope', '$rootScope', '$lnusers', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage',
+	function($scope, $rootScope, $lnusers, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage){
 		console.log("We are at user controller");
 
 		$rootScope.lnusers = [];

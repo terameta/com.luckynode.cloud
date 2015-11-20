@@ -7,24 +7,45 @@
 			<div class="form-group">
 				<label for="servername" class="col-sm-2 control-label">Server Name</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" id="servername">
+					<input type="text" class="form-control" id="servername" name="servername" ng-model="curNewServer.name">
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="ram" class="col-sm-2 control-label">RAM</label>
+				<label for="serverram" class="col-sm-2 control-label">RAM (GB)</label>
 				<div class="col-sm-10">
-					<select class="form-control" id="ram">
-						<option value="512">512MB</option>
-					</select>
+					<input type="text" class="form-control" id="serverram" name="serverram" value="2" ng-model="curNewServer.ram">
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="servername" class="control-label">Server Size</label>
+				<label for="servercpu" class="col-sm-2 control-label">Processor</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="servercpu" name="servercpu" value="2" ng-model="curNewServer.cpu">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="serverhdd" class="col-sm-2 control-label">Disk (GB)</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="serverhdd" name="serverhdd" value="20" ng-model="curNewServer.hdd">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="serverips" class="col-sm-2 control-label">IP (#)</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="serverips" name="serverips" value="1" ng-model="curNewServer.ips" ng-disabled="curNewServer.ips">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Image</label>
+				<div class="col-sm-10">
+					<div class="radio" ng-repeat="image in images | orderBy: image.name"><label><input id="serverimg" name="serverimg" value="{{image._id}}" type="radio" ng-model="curNewServer.img">{{image._id}}:{{image.name}}</label></div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">Server Details</label>
 				<div class="row">
-					<div class="col-sm-3" ng-repeat="plan in plans">
+					<div class="col-sm-6">
 						<div class="panel panel-default">
-							<div class="panel-heading">Head</div>
-							<div class="panel-body">{{plan | json}}</div>
+							<div class="panel-body">{{curNewServer | json}}</div>
 						</div>
 					</div>
 				</div>

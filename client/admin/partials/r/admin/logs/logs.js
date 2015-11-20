@@ -30,8 +30,8 @@ angular.module('cloudServices').service('$logs', ['$resource',
 	}
 ]);
 
-angular.module('cloudControllers').controller('logController',['$scope', '$rootScope', '$state', '$stateParams', '$server', '$datacenter', '$plan', '$ipblock', '$node', '$image', '$modal', '$http', '$q', '$logs',
-	function($scope, $rootScope, $state, $stateParams, $server, $datacenter, $plan, $ipblock, $node, $image, $modal, $http, $q, $logs){
+angular.module('cloudControllers').controller('logController',['$scope', '$rootScope', '$state', '$stateParams', '$server', '$datacenter', '$plan', '$ipblock', '$node', '$image', '$uibModal', '$http', '$q', '$logs',
+	function($scope, $rootScope, $state, $stateParams, $server, $datacenter, $plan, $ipblock, $node, $image, $uibModal, $http, $q, $logs){
 		var lnToastr = toastr;
 
 		var container, logHotTable;

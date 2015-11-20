@@ -52,7 +52,7 @@ cloudServices.service('$userService', ['$resource', '$q', '$rootScope', '$localS
     }
 ]);
 
-cloudServices.service('$signinModal', function($modal, $rootScope, $localStorage, $timeout) {
+cloudServices.service('$signinModal', function($uibModal, $rootScope, $localStorage, $timeout) {
 
     function assignCurrentUser(data) {
         $rootScope.apiToken = data.token;
@@ -61,7 +61,7 @@ cloudServices.service('$signinModal', function($modal, $rootScope, $localStorage
     }
 
     return function() {
-        var instance = $modal.open({
+        var instance = $uibModal.open({
             templateUrl: '/admin/partials/authentication/signinModal.html',
             controller: 'signinModalController',
             controllerAs: 'signinModalController'

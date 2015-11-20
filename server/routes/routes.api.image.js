@@ -56,6 +56,7 @@ module.exports = function(app, express, db, tools) {
 										} else {
 											data.basefile += ".img";
 										}
+										data.basefile = 'image-'+data.basefile;
 										data.id = data._id.toString();
 										db.images.update({_id: mongojs.ObjectId(data._id)}, {$set:{basefile:data.basefile}}, function(uerr, udata) {
 										    if(uerr){
@@ -65,8 +66,8 @@ module.exports = function(app, express, db, tools) {
 										    	sdata.id = sdata._id.toString();
 										    	ndata.id = ndata._id.toString();
 										    	commander.volCloneFromServer(ndata, sdata, data).then(function(result){
-										    		console.log("result");
-										    		console.log(result);
+										    		db.images.update({_id: mongojs.ObjectId(data._id)}, {$set:{pool:JSON.parse(result).pool}}, function(uerr, udata) {});
+										    		console.log("result", JSON.parse(result));
 										    	}).fail(function(issue){
 										    		console.log("issue");
 										    		console.log(issue);

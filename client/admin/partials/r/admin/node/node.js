@@ -30,8 +30,8 @@ angular.module('cloudServices').service('$node', ['$resource',
 	}
 ]);
 
-angular.module('cloudControllers').controller('nodeController', ['$scope', '$rootScope', '$node', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$modal', '$storage',
-	function($scope, $rootScope, $node, $state, $stateParams, $localStorage, $datacenter, $http, $q, $modal, $storage){
+angular.module('cloudControllers').controller('nodeController', ['$scope', '$rootScope', '$node', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage',
+	function($scope, $rootScope, $node, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage){
 		$scope.newnode = {};
 		function validIP4(toCheck) {
 			var ipformat = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
@@ -77,7 +77,7 @@ angular.module('cloudControllers').controller('nodeController', ['$scope', '$roo
 				error(function(data, status, headers, config){
 					$scope.curNode.interfaces = 'Failed';
 				});
-			$scope.nbmodalInstance = $modal.open({
+			$scope.nbmodalInstance = $uibModal.open({
 				animation: true,
 				templateUrl: "nodeNetworkBridgeModal.tmpl.html",
 				size: 'lg',
@@ -129,7 +129,7 @@ angular.module('cloudControllers').controller('nodeController', ['$scope', '$roo
 
 		$scope.openDeployScreen = function() {
 			console.log("Opening deploy screen");
-			$scope.modalInstance = $modal.open({
+			$scope.modalInstance = $uibModal.open({
 				animation: false,
 				templateUrl: "nodeDeployModal.tmpl.html",
 				size: 'lg',
