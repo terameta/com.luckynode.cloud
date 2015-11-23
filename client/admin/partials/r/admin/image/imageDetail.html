@@ -12,76 +12,131 @@
 
 <section class="content">
 <div class="row">
-<div class="col-xs-12">
-
-<div class="panel panel-default">
-	<div class="panel-body">
-		<form editable-form name="imageEditForm" onaftersave="saveImage()">
-			<div class="table-responsive">
-				<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
-					<tbody>
-						<tr><td><b>Name: 			</b></td><td><span editable-text="curImage.name">{{ curImage.name }}</span></td></tr>
-						<tr><td><b>Description: 	</b></td><td><span editable-textarea="curImage.description" e-rows="5">{{ curImage.description }}</span></td></tr>
-						<tr>
-							<td><b>Storage Pool: 	</b></td>
-							<td>
-								<span editable-select="curImage.pool" e-ng-options="storage._id as storage.name+' ('+storage.source+')' for storage in storages" style="display:block;">
-									<span ng-repeat="cnstorageshow in storages | filter:{_id:curImage.pool}">{{cnstorageshow.name}} ({{cnstorageshow.source}})</span>
-								</span>
-							</td>
-						</tr>
-						<tr><td><b>Base File: 			</b></td><td><span editable-text="curImage.basefile">{{ curImage.basefile }}</span></td></tr>
-						<tr>
-							<td><b>Image Type: 			</b></td>
-							<td><span editable-select="curImage.imagetype" e-ng-options="t.value as t.text for t in imageDiskTypes">{{ curImage.imagetype }}</span></td>
-						</tr>
-						<tr>
-							<td><b>Status: 			</b></td>
-							<td>
-									<div ng-if="curImage.status.toString().indexOf('%') < 0">
-										<span editable-select="curImage.status" e-ng-options="s.value as s.text for s in imageStatuses">
-											{{ curImage.status }}
-										</span>
-									</div>
-									<div class="progress" ng-if="curImage.status.toString().indexOf('%') > 0">
-										<div class="progress-bar" role="progressbar" aria-valuenow="{{ curCreationPercentage }}" aria-valuemin="0" aria-valuemax="100" style="width: {{curImage.status}};">
-											{{ curCreationPercentage }}%
+<div class="col-xs-6">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<form editable-form name="imageEditForm" onaftersave="saveImage()">
+				<div class="table-responsive">
+					<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+						<tbody>
+							<tr><td><b>Name: 			</b></td><td><span editable-text="curImage.name">{{ curImage.name }}</span></td></tr>
+							<tr><td><b>Description: 	</b></td><td><span editable-textarea="curImage.description" e-rows="5">{{ curImage.description }}</span></td></tr>
+							<tr>
+								<td><b>Storage Pool: 	</b></td>
+								<td>
+									<span editable-select="curImage.pool" e-ng-options="storage._id as storage.name+' ('+storage.source+')' for storage in storages" style="display:block;">
+										<span ng-repeat="cnstorageshow in storages | filter:{_id:curImage.pool}">{{cnstorageshow.name}} ({{cnstorageshow.source}})</span>
+									</span>
+								</td>
+							</tr>
+							<tr><td><b>Base File: 			</b></td><td><span editable-text="curImage.basefile">{{ curImage.basefile }}</span></td></tr>
+							<tr>
+								<td><b>Image Type: 			</b></td>
+								<td><span editable-select="curImage.imagetype" e-ng-options="t.value as t.text for t in imageDiskTypes">{{ curImage.imagetype }}</span></td>
+							</tr>
+							<tr>
+								<td><b>Status: 			</b></td>
+								<td>
+										<div ng-if="curImage.status.toString().indexOf('%') < 0">
+											<span editable-select="curImage.status" e-ng-options="s.value as s.text for s in imageStatuses">
+												{{ curImage.status }}
+											</span>
 										</div>
-									</div>
-							</td>
-						</tr>
-						<tr>
-							<td><b>Architecture: 	</b></td>
-							<td><span editable-select="curImage.architecture" e-ng-options="a.value as a.text for a in imageArchitectures">{{ curImage.architecture }}</span></td>
-						</tr>
-						<tr>
-							<td><b>Disk Driver: 	</b></td>
-							<td><span editable-select="curImage.diskdriver" e-ng-options="d.value as d.text for d in imageDiskDrivers">{{ curImage.diskdriver }}</span></td>
-						</tr>
-						<tr>
-							<td><b>Network Driver: 	</b></td>
-							<td><span editable-select="curImage.netdriver" e-ng-options="n.value as n.text for n in imageNetDrivers">{{ curImage.netdriver }}</span></td>
-						</tr>
-						<tr>
-							<td><b>Detail:</b></td>
-							<td><pre>{{ curImage | json }}</pre>
-							</td>
-						</tr>
-						<tr>
-							<td colspan=2>
-								<button type="button" class="btn btn-primary btn-xs" ng-click="imageEditForm.$show()" ng-show="!imageEditForm.$visible">Edit</button>
-								<button type="button" class="btn btn-danger btn-xs" ng-click="deleteImage()" ng-show="!imageEditForm.$visible">Delete</button>
-								<button type="submit" class="btn btn-success btn-xs" ng-disabled="imageEditForm.$waiting" ng-show="imageEditForm.$visible">Save</button>
-								<button type="button" class="btn btn-warning btn-xs" ng-disabled="imageEditForm.$waiting" ng-click="imageEditForm.$cancel()" ng-show="imageEditForm.$visible">Cancel</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</form>
+										<div class="progress" ng-if="curImage.status.toString().indexOf('%') > 0">
+											<div class="progress-bar" role="progressbar" aria-valuenow="{{ curCreationPercentage }}" aria-valuemin="0" aria-valuemax="100" style="width: {{curImage.status}};">
+												{{ curCreationPercentage }}%
+											</div>
+										</div>
+								</td>
+							</tr>
+							<tr>
+								<td><b>Architecture: 	</b></td>
+								<td><span editable-select="curImage.architecture" e-ng-options="a.value as a.text for a in imageArchitectures">{{ curImage.architecture }}</span></td>
+							</tr>
+							<tr>
+								<td><b>Disk Driver: 	</b></td>
+								<td><span editable-select="curImage.diskdriver" e-ng-options="d.value as d.text for d in imageDiskDrivers">{{ curImage.diskdriver }}</span></td>
+							</tr>
+							<tr>
+								<td><b>Network Driver: 	</b></td>
+								<td><span editable-select="curImage.netdriver" e-ng-options="n.value as n.text for n in imageNetDrivers">{{ curImage.netdriver }}</span></td>
+							</tr>
+							<tr>
+								<td><b>Operating System: </b></td>
+								<td>
+									<span editable-select="curImage.os" e-ng-options="o.value as o.text for o in imageOSList">
+										<img ng-src="/lib/svg-porn/logos/{{curImage.os}}.svg" width="32px" height="32px" /> {{ (imageOSList | filter:{value:curImage.os})[0].text }}
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td><b>Operating System Version: </b></td>
+								<td><span editable-text="curImage.osv">{{curImage.osv}}</span></td>
+							</tr>
+							<tr>
+								<td><b>Group Assignment:</b></td>
+								<td>
+									<span editable-select="curImage.group" e-ng-options="g._id as g.name for g in imagegroups">
+										{{ (imagegroups | filter:{_id:curImage.group})[0].name }}
+									</span>
+								</td>
+							</tr>
+							<!--tr>
+								<td><b>Detail:</b></td>
+								<td><pre>{{ curImage | json }}</pre>
+								</td>
+							</tr-->
+							<tr>
+								<td colspan=2>
+									<button type="button" class="btn btn-primary btn-xs" ng-click="imageEditForm.$show()" ng-show="!imageEditForm.$visible">Edit</button>
+									<button type="button" class="btn btn-danger btn-xs" ng-click="deleteImage()" ng-show="!imageEditForm.$visible">Delete</button>
+									<button type="submit" class="btn btn-success btn-xs" ng-disabled="imageEditForm.$waiting" ng-show="imageEditForm.$visible">Save</button>
+									<button type="button" class="btn btn-warning btn-xs" ng-disabled="imageEditForm.$waiting" ng-click="imageEditForm.$cancel()" ng-show="imageEditForm.$visible">Cancel</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</form>
+		</div>
 	</div>
 </div>
 
+<div class="col-xs-6">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<form editable-form name="imageEditForm" onaftersave="saveImage()">
+				<div class="table-responsive">
+					<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+						<tbody>
+							<tr>
+								<td><b>Applications:</b></td>
+								<td>
+									<table class="table table-bordered table-condensed table-striped table-fluid">
+										<tr>
+											<td><input type="text" class="form-control" ng-model="curApp2AddName" placeholder="Application Name"></td>
+											<td><input type="text" class="form-control" ng-model="curApp2AddVersion" placeholder="Version"></td>
+											<td><button type="button" class="btn btn-xs btn-default" ng-click="addApp2Image()">Add</button></td>
+										</tr>
+										<tr ng-repeat="curApp in curImage.apps">
+											<td>{{curApp.name}}</td>
+											<td>{{curApp.version}}</td>
+											<td>
+												<button type="button" class="btn btn-xs btn-default" ng-click="appMoveUp(curApp.order)"  ><i class="fa fa-caret-up"></i></button>
+												<button type="button" class="btn btn-xs btn-default" ng-click="appMoveDown(curApp.order)"><i class="fa fa-caret-down"></i></button>
+												<button type="button" class="btn btn-xs btn-default" ng-click="appDelete(curApp.order)"  ><i class="fa fa-ban"></i></button>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
+
 </div>
 </section>

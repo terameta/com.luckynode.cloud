@@ -1,0 +1,43 @@
+<section class="content-header">
+	<h1>
+		<i class="fa fa-object-group fa-fw"></i> Image Group
+		<small>{{ curImageGroup.name }}</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+		<li><a ui-sref="r.dashboard.imagegroups">Image Groups</a></li>
+		<li class="active">Image Group</li>
+	</ol>
+</section>
+
+<section class="content">
+<div class="row">
+<div class="col-xs-12">
+
+<div class="panel panel-default">
+	<div class="panel-body">
+		<form editable-form name="imageEditForm" onaftersave="saveImageGroup()">
+			<div class="table-responsive">
+				<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+					<tbody>
+						<tr><td><b>Name: 			</b></td><td><span editable-text="curImageGroup.name">{{ curImageGroup.name }}</span></td></tr>
+						<tr><td><b>Description: 	</b></td><td><span editable-textarea="curImageGroup.description" e-rows="5">{{ curImageGroup.description }}</span></td></tr>
+						<tr><td><b>Order: 			</b></td><td><span editable-text="curImageGroup.order">{{ curImageGroup.order }}</span></td></tr>
+						<tr>
+							<td colspan=2>
+								<button type="button" class="btn btn-primary btn-xs" ng-click="imageEditForm.$show()" ng-show="!imageEditForm.$visible">Edit</button>
+								<button type="button" class="btn btn-danger btn-xs" ng-click="deleteImageGroup()" ng-show="!imageEditForm.$visible">Delete</button>
+								<button type="submit" class="btn btn-success btn-xs" ng-disabled="imageEditForm.$waiting" ng-show="imageEditForm.$visible">Save</button>
+								<button type="button" class="btn btn-warning btn-xs" ng-disabled="imageEditForm.$waiting" ng-click="imageEditForm.$cancel()" ng-show="imageEditForm.$visible">Cancel</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</form>
+	</div>
+</div>
+
+</div>
+</div>
+</section>

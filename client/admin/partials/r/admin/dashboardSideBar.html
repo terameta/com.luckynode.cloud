@@ -23,18 +23,19 @@
 	<!-- sidebar menu: : style can be found in sidebar.less -->
 	<ul class="sidebar-menu">
 		<li class="header">MAIN NAVIGATION</li>
-		<li ng-class="{active : isCurFocus('dashboard')}"	><a ui-sref="r.dashboard">				<i class="fa fa-dashboard"></i>		<span>Dashboard</span> 																</a></li>
-		<li ng-class="{active : isCurFocus('manager')}"		><a ui-sref="r.dashboard.managers">		<i class="fa fa-arrows"></i>		<span>Managers</span> 		<span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('dashboard')}"	><a ui-sref="r.dashboard">					<i class="fa fa-dashboard"></i>		<span>Dashboard</span> 																				</a></li>
+		<li ng-class="{active : isCurFocus('manager')}"		><a ui-sref="r.dashboard.managers">		<i class="fa fa-arrows"></i>			<span>Managers</span> 		<span class="label label-primary pull-right">2</span>	</a></li>
 		<li ng-class="{active : isCurFocus('datacenter')}"	><a ui-sref="r.dashboard.datacenters">	<i class="fa fa-building"></i>		<span>Data Centers</span> 	<span class="label label-primary pull-right">2</span>	</a></li>
-		<li ng-class="{active : isCurFocus('node')}"		><a ui-sref="r.dashboard.nodes">		<i class="fa fa-industry"></i>		<span>Nodes</span> 			<span class="label label-primary pull-right">2</span>	</a></li>
-		<li ng-class="{active : isCurFocus('ipblock')}"		><a ui-sref="r.dashboard.ipblocks">		<i class="fa fa-share-alt"></i> 	<span>IP Blocks</span> 		<span class="label label-primary pull-right">2</span>	</a></li>
-		<li ng-class="{active : isCurFocus('storage')}"		><a ui-sref="r.dashboard.storages">		<i class="fa fa-hdd-o"></i> 		<span>Storage Pools</span> 		<span class="label label-primary pull-right">2</span>	</a></li>
-		<li ng-class="{active : isCurFocus('client')}"		><a ui-sref="r.dashboard.users">		<i class="fa fa-users"></i>			<span>Users</span> 			<span class="label label-primary pull-right">2</span>	</a></li>
-		<li ng-class="{active : isCurFocus('plan')}"		><a ui-sref="r.dashboard.plans">		<i class="fa fa-clone"></i>			<span>Plans</span> 			<span class="label label-primary pull-right">2</span>	</a></li>
-		<li ng-class="{active : isCurFocus('image')}"		><a ui-sref="r.dashboard.images">		<i class="fa fa-puzzle-piece"></i>	<span>Images</span> 		<span class="label label-primary pull-right">2</span>	</a></li>
-		<li ng-class="{active : isCurFocus('server')}"		><a ui-sref="r.dashboard.servers">		<i class="fa fa-server"></i>		<span>Servers</span> 		<span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('node')}"			><a ui-sref="r.dashboard.nodes">			<i class="fa fa-industry"></i>		<span>Nodes</span> 			<span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('ipblock')}"		><a ui-sref="r.dashboard.ipblocks">		<i class="fa fa-share-alt"></i> 		<span>IP Blocks</span> 		<span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('storage')}"		><a ui-sref="r.dashboard.storages">		<i class="fa fa-hdd-o"></i> 			<span>Storage Pools</span> <span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('client')}"		><a ui-sref="r.dashboard.users">			<i class="fa fa-users"></i>			<span>Users</span> 			<span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('plan')}"			><a ui-sref="r.dashboard.plans">			<i class="fa fa-clone"></i>			<span>Plans</span> 			<span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('image')}"		><a ui-sref="r.dashboard.images">		<i class="fa fa-puzzle-piece"></i>	<span>Images</span> 			<span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('imagegroup')}"	><a ui-sref="r.dashboard.imagegroups">	<i class="fa fa-object-group"></i>	<span>Image Groups</span> 																			</a></li>
+		<li ng-class="{active : isCurFocus('server')}"		><a ui-sref="r.dashboard.servers">		<i class="fa fa-server"></i>			<span>Servers</span> 		<span class="label label-primary pull-right">2</span>	</a></li>
 		<li ng-class="{active : isCurFocus('isofile')}"		><a ui-sref="r.dashboard.isofiles">		<i class="fa fa-dot-circle-o"></i>	<span>ISO Files</span> 		<span class="label label-primary pull-right">2</span>	</a></li>
-		<li ng-class="{active : isCurFocus('logs')}"		><a ui-sref="r.dashboard.logs">			<i class="fa fa-bug"></i>			<span>Logs</span> 			<span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('logs')}"			><a ui-sref="r.dashboard.logs">			<i class="fa fa-bug"></i>				<span>Logs</span> 			<span class="label label-primary pull-right">2</span>	</a></li>
 		<li class="header">LABELS</li>
 		<li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
 		<li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>

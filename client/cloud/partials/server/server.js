@@ -27,9 +27,42 @@ angular.module('cloudServices').service('srvcServer', ['$resource', '$rootScope'
 	}
 ]);
 
-angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', '$rootScope', '$state', '$stateParams', '$uibModal', 'srvcDataCenter', 'srvcServer', 'srvcPlan', 'srvcImage',
-	function($scope, $http, $rootScope, $state, $stateParams, $uibModal, srvcDataCenter, srvcServer, srvcPlan, srvcImage) {
+angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', '$rootScope', '$state', '$stateParams', '$uibModal', 'srvcDataCenter', 'srvcServer', 'srvcPlan', 'srvcImage', 'srvcLocations', 'srvcInfo', 'srvcImageGroup',
+	function($scope, $http, $rootScope, $state, $stateParams, $uibModal, srvcDataCenter, srvcServer, srvcPlan, srvcImage, srvcLocations, srvcInfo, srvcImageGroup) {
 		var lnToastr = toastr;
+
+		$scope.imageGroupTabs = [];
+
+		$rootScope.imagegroups.$promise.then(prepareImageGroupTabs);
+
+		function prepareImageGroupTabs(){
+			$scope.imagegroups.sort(function(a,b){
+				return parseInt(a.order, 10) - parseInt(b.order, 10);
+			});
+			$rootScope.imagegroups.forEach(function(curGroup){
+				$scope.imageGroupTabs.push({
+					title: curGroup.name,
+					id: curGroup._id
+				});
+			});
+			$rootScope.images.$promise.then(prepareImageGroupTabsPost);
+		}
+
+		function prepareImageGroupTabsPost(){
+			for(var i = $scope.imageGroupTabs.length-1; i >= 0 ; i--){
+				console.log(i);
+				console.log("CurTab", $scope.imageGroupTabs[i].id);
+				var dowehave = false;
+				$scope.images.forEach(function(curImage){
+					if(curImage.group == $scope.imageGroupTabs[i].id) dowehave = true;
+				});
+				console.log("dowehave", dowehave);
+				if(!dowehave) $scope.imageGroupTabs.splice(i,1);
+			}
+		}
+
+		$scope.countries = srvcLocations.countries;
+		$scope.operatingSystems = srvcInfo.operatingSystems;
 
 		$scope.curNewServer = {
 			cpu: 2,

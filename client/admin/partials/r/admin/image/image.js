@@ -36,8 +36,10 @@ angular.module('cloudServices').service('$image', ['$resource',
 	}
 ]);
 
-angular.module('cloudControllers').controller('imageController',['$scope', '$rootScope', '$state', '$stateParams', '$server', '$datacenter', '$plan', '$image', '$storage',
-	function($scope, $rootScope, $state, $stateParams, $server, $datacenter, $plan, $image, $storage){
+angular.module('cloudControllers').controller('imageController',['$scope', '$rootScope', '$state', '$stateParams', '$server', '$datacenter', '$plan', '$image', '$storage', 'srvcImageGroup',
+	function($scope, $rootScope, $state, $stateParams, $server, $datacenter, $plan, $image, $storage, srvcImageGroup){
+		srvcImageGroup.fetchAll();
+
 		$scope.newImage = {
 			_status: "enabled",
 			_architecture: "x86_64",
@@ -52,6 +54,21 @@ angular.module('cloudControllers').controller('imageController',['$scope', '$roo
 		$scope.imageDiskDrivers = [{ value:'virtio', text: 'virtio' }, { value:'ide', text: 'ide'}];
 		$scope.imageNetDrivers = [{value:'virtio', text: 'virtio'}, {value:'rtl8139', text: 'Realtek 8139'}, {value:'e1000', text: 'Intel PRO/1000'}];
 		$scope.imageDiskTypes = [{ value:'qcow2', text: 'QCoW2' }, { value:'raw', text: 'Raw'}];
+		$scope.imageOSList = [
+			{ value: 'centos-icon',			text: 'Centos',			type: 'Linux'},
+			{ value: 'debian',				text: 'Debian',			type: 'Linux'},
+			{ value: 'exherbo',				text: 'Exherbo',		type: 'Linux'},
+			{ value: 'fedora',				text: 'Fedora',			type: 'Linux'},
+			{ value: 'freebsd',				text: 'FreeBSD',		type: 'BSD'},
+			{ value: 'gentoo',				text: 'Gentoo',			type: 'Linux'},
+			{ value: 'linux-mint',			text: 'Mint',			type: 'Linux'},
+			{ value: 'macosx',				text: 'OS X',			type: 'Apple'},
+			{ value: 'redhat',				text: 'RedHat',			type: 'Linux'},
+			{ value: 'solaris',				text: 'Solaris',		type: 'Unix'},
+			{ value: 'suse',				text: 'Suse',			type: 'Linux'},
+			{ value: 'ubuntu',				text: 'Ubuntu',			type: 'Linux'},
+			{ value: 'microsoft-windows',	text: 'Windows',		type: 'Windows'}
+		];
 
 		$scope.fetchImages = function(){
 			$rootScope.images = $image.query();
@@ -74,7 +91,7 @@ angular.module('cloudControllers').controller('imageController',['$scope', '$roo
 		$scope.fetchCurImage = function(){
 			$scope.curImage = $image.get({id: $stateParams.id}, function(result){
 				//here fetch is done.
-				console.log($scope.curImage);
+				$scope.appSort();
 				$scope.curCreationPercentage = parseInt($scope.curImage.status, 10);
 				if($scope.curCreationPercentage){
 					setTimeout(function(){ $scope.fetchCurImage(); }, 10000);
@@ -189,6 +206,61 @@ angular.module('cloudControllers').controller('imageController',['$scope', '$roo
 				$scope.fetchImages();
 				$state.go('r.dashboard.images');
 			});
+		};
+
+		$scope.appDelete = function(toDelete){
+			$scope.curImage.apps.splice(toDelete-1,1);
+			$scope.appSort();
+			$scope.curImage.$update();
+		};
+
+		$scope.appMoveUp = function(toUp){
+			if(toUp <= 1) return true;
+			$scope.curImage.apps[toUp-2].order = toUp;
+			$scope.curImage.apps[toUp-1].order = toUp-1;
+			$scope.appSort();
+			$scope.curImage.$update();
+		};
+
+		$scope.appMoveDown = function(toUp){
+			if(toUp >= $scope.curImage.apps.length) return true;
+			$scope.appMoveUp(parseInt(toUp,10)+1);
+		};
+
+		$scope.appSort = function(){
+			if(!$scope.curImage.apps) return true;
+			$scope.curImage.apps.sort(function(a,b){
+				return parseInt(a.order, 10) - parseInt(b.order, 10);
+			});
+			var curOrder = 0;
+			$scope.curImage.apps.forEach(function(curApp){
+				curApp.order = ++curOrder;
+			});
+		};
+
+		$scope.addApp2Image = function(){
+			if(!$scope.curImage.apps) $scope.curImage.apps = [];
+			var curMaxOrder = 0;
+			$scope.curImage.apps.forEach(function(curExistingApp){
+				if(parseInt(curExistingApp.order,10) > parseInt(curMaxOrder,10)) curMaxOrder = parseInt(curExistingApp.order,10);
+			});
+			curMaxOrder++;
+
+			var curApp2Add = {
+				name: $scope.curApp2AddName,
+				version: $scope.curApp2AddVersion,
+				order: curMaxOrder
+			};
+			var shouldAdd = true;
+			$scope.curImage.apps.forEach(function(curExistingApp){
+				if(curExistingApp.name == curApp2Add.name && curExistingApp.version == curApp2Add.version) shouldAdd = false;
+			});
+			if(shouldAdd){
+				$scope.curImage.apps.push(curApp2Add);
+				$scope.curImage.$update();
+			} else {
+				lnToastr.error("This application is already assigned to the immage");
+			}
 		};
 	}
 ]);

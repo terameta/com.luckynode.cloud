@@ -26,24 +26,6 @@ cloudApp.config(function($stateProvider, $urlRouterProvider){
 				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/dashboardContent.html" }
 			},
 			data: { requireSignin: true }
-		}).state('r.dashboard.datacenters', {
-			url:"/datacenters",
-			views: {
-				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/datacenter/datacenterList.html", controller: 'datacenterController' }
-			},
-			data: { requireSignin: true }
-		}).state('r.dashboard.datacenternew', {
-			url:"/datacenternew",
-			views: {
-				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/datacenter/datacenterNew.html", controller: 'datacenterController' }
-			},
-			data: { requireSignin: true }
-		}).state('r.dashboard.datacenter', {
-			url:"/datacenter/:id",
-			views: {
-				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/datacenter/datacenterDetail.html", controller: 'datacenterController' }
-			},
-			data: { requireSignin: true }
 		}).state('r.signout', {
 			url: "/signout",
 			views: {

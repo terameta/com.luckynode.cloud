@@ -1,100 +1,4 @@
-var cloudServices = angular.module('cloudServices', ['ngResource']);
-
-cloudServices.service('$userService', ['$resource', '$q', '$rootScope', '$localStorage', '$http',
-    function userService($resource, $q, $rootScope, $localStorage, $http) {
-        var service = {};
-
-        service.signin = signin;
-        service.signout = signout;
-
-        return service;
-
-        function signin(username, password) {
-            var deferred = $q.defer();
-            var signinParams = {
-                email: username,
-                pass: password
-            };
-            if(username && password) {
-            	$http.post('/api/users/authenticate', signinParams).
-            	success(function(data, status, headers, config) {
-            		$rootScope.apiToken = data.token;
-            		$localStorage.set('apiToken', data.token);
-            		deferred.resolve(data);
-            	}).
-            	error(function(data, status, headers, config) {
-            		deferred.reject(data);
-            	});
-            }
-            else {
-            	deferred.reject("No username/password");
-            }
-            return deferred.promise;
-        }
-
-        function signout() {
-            var deferred = $q.defer();
-            $rootScope.apiToken = undefined;
-            $localStorage.remove('apiToken');
-            deferred.resolve();
-            return deferred.promise;
-        }
-    }
-]);
-
-cloudServices.service('$signinModal', function($uibModal, $rootScope, $localStorage, $timeout) {
-
-    function assignCurrentUser(data) {
-        $rootScope.apiToken = data.token;
-        $localStorage.set('apiToken', data.token);
-        return data;
-    }
-
-    return function() {
-        var instance = $uibModal.open({
-            templateUrl: '/admin/partials/authentication/signinModal.html',
-            controller: 'signinModalController',
-            controllerAs: 'signinModalController'
-        });
-
-        return instance.result.then(assignCurrentUser);
-    };
-
-});
-
-cloudServices.service('$localStorage', function localStorage($window) {
-    var localStorageService = {};
-    localStorageService.set = set;
-    localStorageService.get = get;
-    localStorageService.setObject = setObject;
-    localStorageService.getObject = getObject;
-    localStorageService.remove = remove;
-
-    function set(key, value) {
-        $window.localStorage[key] = value;
-    }
-
-    function get(key, defaultValue) {
-        return $window.localStorage[key] || defaultValue;
-    }
-
-    function setObject(key, value) {
-        $window.localStorage[key] = JSON.stringify(value);
-    }
-
-    function getObject(key) {
-        return JSON.parse($window.localStorage[key] || '{}');
-    }
-
-    function remove(key) {
-        $window.localStorage.removeItem(key);
-        return 1;
-    }
-
-    return localStorageService;
-});
-
-cloudServices.service('srvcLocations', function locations(){
+angular.module('cloudServices').service('srvcLocations', function locations(){
 	var countries = [
 		{name:'Afghanistan', phoneCode:'93', code: 'AF', code3:'AFG'},
 		{name:'Albania', phoneCode:'355', code: 'AL', code3:'ALB'},
@@ -343,4 +247,18 @@ cloudServices.service('srvcLocations', function locations(){
 	locationsService.countries = countries;
 
 	return locationsService;
+});
+
+angular.module('cloudServices').service('srvcInfo', function locations(){
+	var operatingSystems = [
+		{name:'Microsoft Windows', code:'microsoft-windows'},
+		{name:'Ubuntu', code:'ubuntu'},
+		{name:'CentOS', code:'centos-icon'}
+	];
+
+	var infoService = {};
+
+	infoService.operatingSystems = operatingSystems;
+
+	return infoService;
 });

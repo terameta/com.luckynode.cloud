@@ -1,6 +1,20 @@
-<div class="panel panel-primary">
+<section class="content-header">
+	<h1>
+		<i class="fa fa-building fa-fw"></i> Data Center
+		<small>{{ curDC.name }}</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+		<li><a ui-sref="r.dashboard.datacenters">Data Centers</a></li>
+		<li class="active">Data Center</li>
+	</ol>
+</section>
+
+<section class="content">
+
+<div class="panel panel-default">
 	<div class="panel-heading">
-		<h3 class="panel-title"><i class="fa fa-building fa-fw"></i>  Main Information</h3>
+		<h3 class="panel-title">Main Information</h3>
 	</div>
 	<div class="panel-body">
 		<form editable-form name="dataCenterEditForm" onaftersave="saveDC()">
@@ -24,6 +38,10 @@
 							<td>
 								<span editable-text="curDC.location">{{ curDC.location }}</span>
 							</td>
+						</tr>
+						<tr>
+							<td><b>Country: </b></td>
+							<td><span editable-select="curDC.country" e-ng-options="c.code as c.name for c in countries">{{ curDC.country }}</span></td>
 						</tr>
 						<tr>
 							<td><b>Detail:</b></td>
@@ -68,3 +86,5 @@
 	</div>
 	<div class="panel-body">Other Information</div>
 </div-->
+
+</section>

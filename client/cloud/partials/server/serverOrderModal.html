@@ -28,16 +28,91 @@
 					<input type="text" class="form-control" id="serverhdd" name="serverhdd" value="20" ng-model="curNewServer.hdd">
 				</div>
 			</div>
-			<div class="form-group">
-				<label for="serverips" class="col-sm-2 control-label">IP (#)</label>
+			<!--div class="form-group">
+				<label class="col-sm-2 control-label">Image</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" id="serverips" name="serverips" value="1" ng-model="curNewServer.ips" ng-disabled="curNewServer.ips">
+					<div class="row">
+						<div class="col-sm-6" ng-repeat="image in images | orderBy: 'name'">
+							<div>
+								<label style="text-align: center;width:100%">
+									<input id="serverimg" name="serverimg" value="{{image._id}}" type="radio" ng-model="curNewServer.img" class="btn" style="display: none;">
+									<div class="panel panel-default">
+										<div class="panel-heading" style="padding:10px 0;text-align:center;">{{image.name}}</div>
+										<div class="panel-body" style="padding:5px; background:transparent;text-align:left;font-weight:normal;">
+											<b>Applications</b><br />
+											<table class="table table-striped">
+												<tbody>
+													<tr ng-repeat="app in image.apps">
+														<td>{{app.name}}</td>
+														<td align="right">{{app.version}}</td>
+													</tr>
+												</tbody>
+											</table>
+
+											<b>Operating System</b><br />
+											<table class="table table-striped">
+												<tbody>
+													<tr ng-repeat="os in operatingSystems | filter:{code:image.os}">
+														<td><img ng-src="/lib/svg-porn/logos/{{image.os}}.svg" width="16px" height="16px" /> &nbsp;&nbsp;{{os.name}}</td>
+														<td align="right">{{image.osv}}</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</label>
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>
+			</div-->
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Image</label>
 				<div class="col-sm-10">
-					<div class="radio" ng-repeat="image in images | orderBy: image.name"><label><input id="serverimg" name="serverimg" value="{{image._id}}" type="radio" ng-model="curNewServer.img">{{image._id}}:{{image.name}}</label></div>
+					<uib-tabset>
+						<uib-tab ng-repeat="tab in imageGroupTabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled">
+							<div class="tab-content" style="border: 1px solid #ddd;padding:20px 0 0 0;border-top:0;">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Select</th>
+										<th>Name</th>
+										<th>Applications</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="image in images | orderBy: 'name' | filter:{group:tab.id, status:'enabled'}">
+										<td>
+											<input id="serverimg" name="serverimg" value="{{image._id}}" type="radio" ng-model="curNewServer.img" class="btn">
+										</td>
+										<td>{{image.name}}</td>
+										<td>
+											<button type="button" style="margin:1px;" class="btn btn-xs btn-info" ng-repeat="app in image.apps">{{app.name}}</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							</div>
+						</uib-tab>
+					</uib-tabset>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Data Center</label>
+				<div class="col-sm-10">
+					<div class="row">
+						<div class="col-sm-2" ng-repeat="dataCenter in dataCenters | orderBy: dataCenter.country">
+							<div>
+								<label style="text-align: center; width:100%;">
+									<input id="serverdc" name="serverdc" value="{{dataCenter._id}}" type="radio" ng-model="curNewServer.dc" class="btn" style="display: none;">
+									<div class="panel panel-default">
+										<div class="panel-heading" style="padding:5px; background:transparent;"><span class="flag-icon flag-icon-{{dataCenter.country | lowercase}}" style="width:32px;height:24px;" class="btn"><br /></div>
+										<div class="panel-body" style="padding:10px 0;text-align:center;">{{ (countries | filter:{code:dataCenter.country})[0].name }}</div>
+									</div>
+								</label>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="form-group">
