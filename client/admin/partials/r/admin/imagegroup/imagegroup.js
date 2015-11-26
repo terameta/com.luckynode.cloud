@@ -39,6 +39,8 @@ angular.module('cloudServices').service('srvcImageGroup', ['$resource', '$rootSc
 			return service.resource.get({id: id});
 		};
 
+		service.getTypes = function(){return [{name:"Hidden", value: "hidden"},{name:"Public", value: "public"}];};
+
 		return service;
 	}
 ]);
@@ -50,6 +52,8 @@ angular.module('cloudControllers').controller('imagegroupController',['$scope', 
 		if($stateParams.id){
 			$scope.curImageGroup = srvcImageGroup.fetchOne($stateParams.id);
 		}
+
+		$scope.imageGroupTypes = srvcImageGroup.getTypes();
 
 		$scope.addImageGroup = function(){
 			if(!$scope.newImageGroup._name){ 					$scope.newitemalert = "Name can't be empty";							return 0;   }

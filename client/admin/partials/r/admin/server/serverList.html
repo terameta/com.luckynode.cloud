@@ -42,13 +42,19 @@
 				<td>{{server.hdd}}GB</td>
 				<td>{{server.ram}}MB</td>
 				<td>{{server.bandwidth}}GB</td>
-				<td>{{server.dc.name}}</td>
-				<td>{{server.node}}</td>
+				<td>{{ (dataCenters | filter:{_id:server.dc._id})[0].name }}</td>
+				<td>{{ (nodes | filter:{_id:server.node})[0].name }}</td>
 				<td>{{server.ip}}</td>
 				<td>{{server.mac}}</td>
-				<td>{{server.image}}</td>
+				<td>
+					{{ (images | filter:{_id:server.image})[0].name}}
+					({{ (imagegroups | filter:{_id:((images | filter:{_id:server.image})[0].group)})[0].name }})
+				</td>
 				<td>{{server.status}}</td>
-				<td>{{server.owner}}</td>
+				<td>
+					{{ (users | filter:{_id:server.owner})[0].name }}
+					{{ (users | filter:{_id:server.owner})[0].surname }}
+				</td>
 				<td><a ui-sref="r.dashboard.server({id: server._id})" title="Details"><i class="fa fa-cog fa-fw"></i></a></td>
 				<td></td>
 			</tr>

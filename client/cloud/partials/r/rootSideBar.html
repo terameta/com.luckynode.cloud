@@ -23,9 +23,22 @@
 	<!-- sidebar menu: : style can be found in sidebar.less -->
 	<ul class="sidebar-menu">
 		<li class="header">MAIN NAVIGATION</li>
-		<li ng-class="{active : isCurFocus('dashboard')}"	><a ui-sref="r.dashboard">		<i class="fa fa-dashboard"></i>		<span>Dashboard</span> 																</a></li>
-		<li ng-class="{active : isCurFocus('profile')}"		><a ui-sref="r.profile">		<i class="fa fa-arrows"></i>		<span>Profile</span> 		<span class="label label-primary pull-right">2</span>	</a></li>
-		<li ng-class="{active : isCurFocus('server')}"		><a ui-sref="r.server">			<i class="fa fa-server"></i>		<span>Servers</span> 		<span class="label label-primary pull-right">2</span>	</a></li>
+		<li ng-class="{active : isCurFocus('dashboard')}">
+			<a ui-sref="r.dashboard">
+				<i class="fa fa-dashboard"></i><span>Dashboard</span>
+			</a>
+		</li>
+		<li ng-class="{active : isCurFocus('profile')}">
+			<a ui-sref="r.profile">
+				<i class="fa fa-arrows"></i><span>Profile</span>
+			</a>
+		</li>
+		<li ng-class="{active : isCurFocus('servers')}">
+			<a ui-sref="r.servers" uib-tooltip="You have {{servers.length}} server{{servers.length > 1 ? 's' : ''}}">
+				<i class="fa fa-server"></i><span>Servers</span>
+				<span class="label label-primary pull-right" ng-if="servers.length>0">{{servers.length}}</span>
+			</a>
+		</li>
 	</ul>
 </section>
 <!-- /.sidebar -->

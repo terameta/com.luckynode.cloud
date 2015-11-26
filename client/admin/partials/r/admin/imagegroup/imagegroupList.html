@@ -19,15 +19,17 @@
 			<th>Row</th>
 			<th>Name</th>
 			<th>Order</th>
+			<th>Type</th>
 			<th>&nbsp;</th>
 			<!--th>Details</th-->
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="imagegroup in imagegroups | orderBy:'name'">
+		<tr ng-repeat="imagegroup in imagegroups | orderBy:'order'">
 			<td>{{$index +1}}</td>
 			<td>{{imagegroup.name}}</td>
 			<td>{{imagegroup.order}}</td>
+			<td>{{ (imageGroupTypes | filter:{value:imagegroup.type})[0].name }}</td>
 			<td><a ui-sref="r.dashboard.imagegroup({id: imagegroup._id})" title="Details"><i class="fa fa-cog fa-fw"></i></a></td>
 			<!--td>{{ image || json }}</td-->
 		</tr>

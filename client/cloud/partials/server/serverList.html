@@ -20,46 +20,25 @@
 						<thead>
 							<tr>
 								<th>&nbsp;</th>
-								<th>Operating System</th>
+								<th>Status</th>
 								<th>Name</th>
 								<th>RAM</th>
 								<th>Disk</th>
 								<th>DC</th>
-								<th><pre>{{servers | json}}</pre></th>
+								<th>Created on</th>
+								<th>Details</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
+							<tr ng-repeat="server in servers">
 								<td><li>&nbsp;</li></td>
-								<td>Operating System</td>
-								<td>Name</td>
-								<td>RAM</td>
-								<td>Disk</td>
-								<td>DC</td>
-							</tr>
-							<tr>
-								<td><li>&nbsp;</li></td>
-								<td>Operating System</td>
-								<td>Name</td>
-								<td>RAM</td>
-								<td>Disk</td>
-								<td>DC</td>
-							</tr>
-							<tr>
-								<td><li>&nbsp;</li></td>
-								<td>Operating System</td>
-								<td>Name</td>
-								<td>RAM</td>
-								<td>Disk</td>
-								<td>DC</td>
-							</tr>
-							<tr>
-								<td><li>&nbsp;</li></td>
-								<td>Operating System</td>
-								<td>Name</td>
-								<td>RAM</td>
-								<td>Disk</td>
-								<td>DC</td>
+								<td>{{server.domstate | titlecase}}</td>
+								<td>{{server.name}}</td>
+								<td>{{server.ram / 1024}}G</td>
+								<td>{{server.hdd}}G</td>
+								<td>{{ (dataCenters | filter:{_id:server.dc._id})[0].name }}</td>
+								<td>{{formatDate(server.createdat)}}</td>
+								<td><a ui-sref="r.server({id: server._id})" title="Details"><i class="fa fa-cog fa-fw"></i></a></td>
 							</tr>
 						</tbody>
 					</table>

@@ -22,8 +22,8 @@ angular.module('cloudServices').service('$manager', ['$resource',
 ]);
 */
 
-angular.module('cloudControllers').controller('dashboardController', ['$scope', '$http', '$rootScope', '$state', '$stateParams', '$userService', 'srvcEndUser',
-	function($scope, $http, $rootScope, $state, $stateParams, $userService, srvcEndUser) {
+angular.module('cloudControllers').controller('dashboardController', ['$scope', '$http', '$rootScope', '$state', '$stateParams', '$userService', 'srvcEndUser', 'srvcServer',
+	function($scope, $http, $rootScope, $state, $stateParams, $userService, srvcEndUser, srvcServer) {
 		var lnToastr = toastr;
 
 		$scope.signout = function(){

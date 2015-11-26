@@ -22,6 +22,8 @@
 							<tr><td><b>RAM: 		</b></td><td><span editable-text="curPlan.ram">{{ curPlan.ram }} MB</span></td></tr>
 							<tr><td><b>HDD: 		</b></td><td><span editable-text="curPlan.hdd">{{ curPlan.hdd }} GB</span></td></tr>
 							<tr><td><b>Bandwidth: 	</b></td><td><span editable-text="curPlan.bandwidth">{{ curPlan.bandwidth }} GB</span></td></tr>
+							<tr><td><b>Price: 		</b></td><td><span editable-text="curPlan.price">${{ curPlan.price }}</span></td></tr>
+							<tr><td><b>Order: 		</b></td><td><span editable-text="curPlan.order">{{ curPlan.order }}</span></td></tr>
 							<tr>
 								<td><b>Detail:</b></td>
 								<td><pre>{{ curPlan | json }}</pre>

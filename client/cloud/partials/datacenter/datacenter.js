@@ -5,9 +5,7 @@ angular.module('cloudServices').service('srvcDataCenter', ['$resource', '$rootSc
 		service.resource = $resource( '/api/client/datacenter/:id', { id: '@_id' }, { update: { method: 'PUT' } });
 
 		service.fetchDataCenters = function(){
-			$rootScope.dataCenters = service.resource.query(function(result){
-				console.log(result);
-			});
+			$rootScope.dataCenters = service.resource.query();
 		};
 
 		service.fetchDataCenters();

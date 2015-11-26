@@ -12,8 +12,8 @@
 <section class="content">
 <div class="panel panel-info" style="margin:0;padding:0">
 	<div class="panel-body" style="padding-top:30px;">
-		<button ng-repeat="plan in plans" type="button" class="btn btn-default btn-sm" style="margin:10px;margin-left:0px;" ng-click="applyPlan(plan)"
-			tooltip="
+		<button ng-repeat="plan in plans | orderBy:'order'" type="button" class="btn btn-default btn-sm" style="margin:10px;margin-left:0px;" ng-click="applyPlan(plan)"
+			uib-tooltip="
 				CPU:{{plan.cpu}} |
 				RAM:{{plan.ram}}M |
 				HDD:{{plan.hdd}}G |

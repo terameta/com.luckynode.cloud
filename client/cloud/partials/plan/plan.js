@@ -5,9 +5,7 @@ angular.module('cloudServices').service('srvcPlan', ['$resource', '$rootScope',
 		service.resource = $resource( '/api/client/plan/:id', { id: '@_id' }, { update: { method: 'PUT' } });
 
 		service.fetchPlans = function(){
-			$rootScope.plans = service.resource.query(function(result){
-				console.log("Plans fetched");
-			});
+			$rootScope.plans = service.resource.query();
 		};
 
 		service.fetchPlans();

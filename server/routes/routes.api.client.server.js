@@ -6,6 +6,7 @@ var path 			= require('path');
 
 module.exports = function(app, express, db, tools) {
 	var serverModule 	= require('../modules/module.server.js')(db);
+	var nodeModule 		= require('../modules/module.node.js')(db);
 	var apiRoutes 		= express.Router();
 	topDB = db;
 
@@ -16,77 +17,166 @@ module.exports = function(app, express, db, tools) {
 			res.status(400).json({ status: "fail", detail: "no user provided" });
 		} else {
 			serverModule.listServers({owner: req.user.id}).then(function(result){
-				console.log(result);
 				res.send(result);
 			}).fail(function(issue){
-				console.log("burada", issue);
 				res.status(500).json({ status: 'fail', message: "Can't list servers" });
 			});
 		}
 	});
 
-	/*
-
-	apiRoutes.get('/:id', tools.checkToken, function(req, res) {
-		db.servers.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err, data){
-			if(err){
-				res.status(500).json({status: "fail"});
-			} else {
-				res.send(data);
-			}
-		});
+	apiRoutes.get('/state/:id', tools.checkUserToken, function(req, res) {
+		if(!req.params){
+			res.status(400).json({ status: "fail", detail: "no data provided"});
+		} else if(!req.params.id){
+			res.status(400).json({ status: "fail", detail: "no data provided"});
+		} else {
+			serverModule.state({_id: mongojs.ObjectId(req.params.id), owner: req.user.id}).then(function(result){
+				res.send(result);
+			}).fail(function(issue){
+				res.status(500).json(issue);
+			});
+		}
 	});
 
-	apiRoutes.post('/', tools.checkToken, function(req, res) {
-		if (!req.body) {
-			res.status(400).json({ status: "fail", detail: "no data provided" });
-		} else if (!req.body.name) {
-			res.status(400).json({ status: "fail", detail: "server should at least have a name" });
+	apiRoutes.post('/converged', tools.checkUserToken,function(req, res) {
+		//console.log(req.body);
+		if(!req.body){
+			res.status(400).json({status: 'fail', message: 'Not enough data (nothing provided)'});
+		} else if(!req.body.id){
+			res.status(400).json({status: 'fail', message: 'Not enough data (no id provided)'});
+		} else if(!req.body.command){
+			res.status(400).json({status: 'fail', message: 'Not enough data (no command provided)'});
+		} else {
+			serverModule.verifyowner(req.body.id, req.user.id).then(function(result){
+				return commander.sendVirshServer(req.body.id, req.body.command, req.body.details);
+			}).then(function(result){
+				res.send(result);
+			}).fail(function(issue){
+				console.log(issue);
+				res.status(500).json(issue);
+			});
+		}
+
+	});
+
+	apiRoutes.get('/:id', tools.checkUserToken, function(req, res) {
+		if(!req.user){
+			res.status(400).json({ status: "fail", detail: "no user provided" });
+		} else if(!req.user.id){
+			res.status(400).json({ status: "fail", detail: "no user provided" });
+		} else {
+			serverModule.findServer({_id: mongojs.ObjectId(req.params.id), owner: req.user.id}).then(function(result){
+				res.send(result);
+			}).fail(function(issue){
+				res.status(500).json({ status: 'fail', message: "Can't list servers" });
+			});
+		}
+	});
+
+	apiRoutes.get('/getAvailableISOfiles/:id', tools.checkUserToken, function(req, res) {
+		if(!req.params){
+			res.status(400).json({ status: "fail", detail: "no data provided"});
+		} else if(!req.params.id){
+			res.status(400).json({ status: "fail", detail: "no data provided"});
+		} else {
+			serverModule.findServer({_id: mongojs.ObjectId(req.params.id), owner: req.user.id}).
+				then(function(server){
+					return nodeModule.find({_id:mongojs.ObjectId(server.node)});
+				}).
+				then(function(node){
+					db.isofiles.find({status: 'public', pool: {$in: node.storage}}, function(ierr, idata){
+						if(ierr){
+							res.status(500).json({ status: "fail", detail: "Cannot access to database for isofiles"});
+						} else {
+							res.json(idata);
+						}
+					});
+				}).fail(function(issue){
+					res.status(500).json({ status: "fail", detail: issue});
+				});
+		}
+	});
+
+	apiRoutes.post('/', tools.checkUserToken, function(req, res){
+		if(!req.body){
+			res.status(400).json({status:"fail", message: "no data provided"});
+		} else if(!req.body.name || !req.body.plan || !req.body.img || !req.body.dc) {
+			res.status(400).json({status:"fail", message: "no data provided"});
 		} else {
 			var curNewServer = req.body;
 			curNewServer.status = 'defining';
-			var curNewServerNode;
-			curNewServer.status = 'defining';
-			newServerInsert(curNewServer).
-				then(function(result){ curNewServer.id = curNewServer._id.toString(); 						return serverFindNode(curNewServer);		}).
-				then(function(result){ curNewServerNode = result; curNewServer.bridge = result.netBridge;	return serverFindIPBlock(curNewServer);		}).
-				then(function(result){																		return serverUpdate(curNewServer);			}).
-				then(function(result){																		return serverReserveIP(curNewServer);		}).
-				then(function(result){ 																		return serverFindImage(curNewServer);		}).
+			curNewServer.owner = req.user.id;
+			curNewServer.ip = 'AUTO';
+			curNewServer.node = 'AUTO';
+			curNewServer.createdat = new Date();
+			curNewServer.image = curNewServer.img;
+			serverModule.insertToDB(curNewServer).
+				then(serverModule.assignIP).
+				then(serverModule.findMostFreeNode).
+				then(serverModule.findNode).
+				then(serverModule.findIPBlock).
+				then(serverModule.update).
+				then(serverModule.reserveIP).
+				then(serverModule.findImage).
 				then(function(result){
 					res.send(curNewServer);
-					commander.serverDefine(curNewServerNode, curNewServer, function(cerr, cdata){
-						if(cerr){
-							db.servers.update({_id:mongojs.ObjectId(curNewServer.id)}, {$set: {'status': 'definition failed'}}, function(uerr, udata){
-								if(uerr){ console.log("Server status update failed", uerr);}
-							});
-						} else {
-							cdata = JSON.parse(cdata);
-							db.servers.update({_id:mongojs.ObjectId(curNewServer.id)}, {$set: {'status': 'Deployed', 'store': cdata.store}}, function(uerr, udata){
-								if(uerr){ console.log("Server status update failed", uerr);}
-							});
-							commander.serverDiskList(curNewServerNode, curNewServer).then(
-								function(result){
-									result = JSON.parse(result);
-									db.servers.update({_id:mongojs.ObjectId(curNewServer.id)}, {$set: {'diskList': result}}, function(uerr, udata){
-										if(uerr){ console.log("Server status update failed", uerr);}
-									});
-								}
-							).fail(
-								function(issue){
-									console.log(issue);
-								}
-							);
-						}
+					console.log(curNewServer);
+					commander.sendVirsh(curNewServer.node, 'server', 'define', curNewServer).then(function(result){
+						console.log("SendVirsh Result", result);
+					}).fail(function(issue){
+						console.log("SendVirsh Issue", issue);
 					});
 				}).
 				fail(function(issue){
 					console.log(issue);
 					res.status(500).json({status: "fail", message:issue});
+				}).finally(function(){
+					console.log("Finally");
+					console.log("=========================================");
 				});
 		}
-
 	});
+
+	apiRoutes.get('/startConsoleOnTheServer/:id', tools.checkUserToken, function(req, res) {
+		if(!req.params){
+			res.status(400).json({ status: "fail", detail: "no data provided"});
+		} else if(!req.params.id){
+			res.status(400).json({ status: "fail", detail: "no data provided"});
+		} else {
+			var curSrv;
+			var curNode;
+			serverModule.findServer({_id: mongojs.ObjectId(req.params.id), owner: req.user.id}).
+				then(function(server){
+					curSrv = server;
+					curSrv.id = curSrv._id.toString();
+					return nodeModule.find({_id:mongojs.ObjectId(server.node)});
+				}).
+				then(function(node){
+					curNode = node;
+					return commander.sendVirshServer(req.params.id, 'vncAddress', {id: req.params.id});
+					//return commander.serverVNCAddress(node, curSrv);
+				}).
+				then(function(cSrv){
+					cSrv = JSON.parse(cSrv);
+					if(cSrv.vncport == -1){
+						var deferred = Q.defer();
+						deferred.reject('Server is not running. Please start the server first.');
+						return deferred.promise;
+					} else {
+						return persistentInitiateVNCProxy(curNode.ip, cSrv.vncport, 6783, tools);
+					}
+				}).
+				then(function(result){
+					res.json({port:result});
+				}).
+				fail(function(issue){
+					console.log(issue);
+					res.status(500).json({status: "fail", detail:issue});
+				});
+		}
+	});
+
+	/*
 
 	apiRoutes.put('/:id', tools.checkToken, function(req, res){
 		if ( !req.body ) {
@@ -123,45 +213,7 @@ module.exports = function(app, express, db, tools) {
 		}
 	});
 
-	apiRoutes.get('/startConsoleOnTheServer/:id', tools.checkToken, function(req, res) {
-		if(!req.params){
-			res.status(400).json({ status: "fail", detail: "no data provided"});
-		} else if(!req.params.id){
-			res.status(400).json({ status: "fail", detail: "no data provided"});
-		} else {
-			db.servers.findOne({_id: mongojs.ObjectId(req.params.id)}, function(serr, sdata){
-				if(serr){
-					res.status(500).json({ status: "fail", detail: "Cannot access to database for servers"});
-				} else if(!sdata) {
-					res.status(500).json({ status: "fail", detail: "Cannot find the server with the given id"});
-				} else {
-					db.nodes.findOne({_id: mongojs.ObjectId(sdata.node)}, function(nerr, ndata){
-						if(nerr){
-							res.status(500).json({ status: "fail", detail: "Cannot access to database for nodes"});
-						}else if(!ndata){
-							res.status(500).json({ status: "fail", detail: "Cannot find the node with the given id of the server"});
-						} else {
-							sdata.id = sdata._id.toString();
-							commander.serverVNCAddress(ndata, sdata).then(function(cSrv){
-								cSrv = JSON.parse(cSrv);
-								if(cSrv.vncport == -1){
-									res.status(500).json({ status: "fail", detail: 'Server is not running. Please start the server first.'});
-								} else {
-									persistentInitiateVNCProxy(ndata.ip, cSrv.vncport, 6783, tools).then(function(result){
-										res.json({port:result});
-									}).fail(function(issue){
-										res.status(400).json({ status: "fail", detail: issue});
-									});
-								}
-							}).fail(function(issue){
-								res.status(500).json({ status: "fail", detail: issue});
-							});
-						}
-					});
-				}
-			});
-		}
-	});
+
 
 	apiRoutes.get('/serverStart/:id', tools.checkToken, function(req, res) {
 		if(!req.params){
@@ -318,33 +370,7 @@ module.exports = function(app, express, db, tools) {
 		}
 	});
 
-	apiRoutes.get('/getAvailableISOfiles/:id', tools.checkToken, function(req, res) {
-		if(!req.params){
-			res.status(400).json({ status: "fail", detail: "no data provided"});
-		} else if(!req.params.id){
-			res.status(400).json({ status: "fail", detail: "no data provided"});
-		} else {
-			db.servers.findOne({_id:mongojs.ObjectId(req.params.id)}, function(err, data) {
-				if(err){
-					res.status(500).json({ status: "fail", detail: "Cannot access to database for server"});
-				} else {
-					db.nodes.findOne({_id:mongojs.ObjectId(data.node)}, function(nerr, ndata) {
-						if(nerr){
-							res.status(500).json({ status: "fail", detail: "Cannot access to database for node"});
-						} else {
-							db.isofiles.find({status: 'enabled', pool: {$in: ndata.storage}}, function(ierr, idata){
-								if(ierr){
-									res.status(500).json({ status: "fail", detail: "Cannot access to database for isofiles"});
-								} else {
-									res.json(idata);
-								}
-							});
-						}
-					});
-				}
-			});
-		}
-	});
+
 
 	apiRoutes.get('/ejectISO/:serverid/:target', tools.checkToken, function(req, res) {
 		if(!req.params){

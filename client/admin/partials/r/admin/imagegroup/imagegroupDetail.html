@@ -24,6 +24,14 @@
 						<tr><td><b>Description: 	</b></td><td><span editable-textarea="curImageGroup.description" e-rows="5">{{ curImageGroup.description }}</span></td></tr>
 						<tr><td><b>Order: 			</b></td><td><span editable-text="curImageGroup.order">{{ curImageGroup.order }}</span></td></tr>
 						<tr>
+							<td><b>Type: 			</b></td>
+							<td>
+								<span editable-select="curImageGroup.type" e-ng-options="o.value as o.name for o in imageGroupTypes">
+									{{ (imageGroupTypes | filter:{value:curImageGroup.type})[0].name }}
+								</span>
+							</td>
+						</tr>
+						<tr>
 							<td colspan=2>
 								<button type="button" class="btn btn-primary btn-xs" ng-click="imageEditForm.$show()" ng-show="!imageEditForm.$visible">Edit</button>
 								<button type="button" class="btn btn-danger btn-xs" ng-click="deleteImageGroup()" ng-show="!imageEditForm.$visible">Delete</button>

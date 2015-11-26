@@ -34,7 +34,7 @@ angular.module('cloudControllers').controller('isofileController', ['$scope', '$
 	function($scope, $rootScope, $isofile, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage){
 		$scope.isofiletypes = [{name: 'iso', value: 'iso'}];
 		$scope.isoarchitectures = [{name: 'i386', value: 'i386'}, {name: 'x86_64', value: 'x86_64'}];
-		$scope.isostatuses = [{name: 'Enabled', value: 'enabled'}, {name: 'Disabled', value: 'disabled'}];
+		$scope.isostatuses = [{name:'Public', value:'public'}, {name: 'Enabled', value: 'enabled'}, {name: 'Disabled', value: 'disabled'}];
 
 		$scope.newIsofile = {
 			_isofiletype: 'iso',

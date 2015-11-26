@@ -5,7 +5,7 @@
 	</h1>
 	<ol class="breadcrumb">
 		<li><a ui-sref="r.dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
-		<li><a ui-sref="r.dashboard.servers">Servers</a></li>
+		<li><a ui-sref="r.servers">Servers</a></li>
 		<li class="active">Server</li>
 	</ol>
 </section>
@@ -24,7 +24,7 @@
 				<div class="table-responsive">
 					<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
 						<tbody>
-							<tr><td><b>Status: 		</b></td><td><span ng-if="!curServer.domstate"><i class="fa fa-circle-o-notch fa-spin"></i></span><span ng-if="curServer.domstate">{{ curServer.domstate }}</span></td></tr>
+							<tr><td><b>Status: 		</b></td><td><span ng-if="!curServer.domstate"><i class="fa fa-circle-o-notch fa-spin"></i></span><span ng-if="curServer.domstate">{{ curServer.domstate | titlecase }}</span></td></tr>
 							<tr><td><b>Name: 		</b></td><td><span editable-text="curServer.name">{{ curServer.name }}</span></td></tr>
 							<tr><td><b>CPU: 		</b></td><td><span editable-text="curServer.cpu">{{ curServer.cpu }} Core(s)</span></td></tr>
 							<tr><td><b>RAM: 		</b></td><td><span editable-text="curServer.ram">{{ curServer.ram }} MB</span></td></tr>
@@ -71,25 +71,21 @@
 				<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
 					<thead>
 						<tr>
-							<!--td>Type</td-->
 							<th>Type</th>
 							<th>Assigned Drive</th>
 							<th>Source File</th>
-							<th>Store</th>
 							<th>Action</th>
 						</tr>
 					</thead>
 					<tr ng-repeat="curDisk in curServer.diskList">
-						<!--td>{{curDisk.Type}}</td-->
 						<td>{{curDisk.Device}}</td>
 						<td>{{curDisk.Target}}</td>
 						<td>
 							<span ng-if="(curDisk.Device=='disk')">Assigned Drive</span>
 							<span ng-if="(curDisk.Device!='disk')">{{curDisk.Source.split('/')[curDisk.Source.split('/').length-1]}}</span>
 						</td>
-						<td>{{curDisk.Store}}</td>
 						<td>
-							<button type="button" class="btn btn-default btn-xs" ng-if="(curDisk.Device=='disk')" 								ng-click="diskResize(curDisk)"><i class="fa fa-expand fa-fw" title="Resize Disk"></i></button>
+							<!--button type="button" class="btn btn-default btn-xs" ng-if="(curDisk.Device=='disk')" 								ng-click="diskResize(curDisk)"><i class="fa fa-expand fa-fw" title="Resize Disk"></i></button-->
 							<button type="button" class="btn btn-default btn-xs" ng-if="(curDisk.Source == '-' && curDisk.Device == 'cdrom')" 	ng-click="openAttachISOModal(curDisk.Target)"><i class="fa fa-paperclip fa-fw" title="Attach Disk"></i></button>
 							<button type="button" class="btn btn-default btn-xs" ng-if="(curDisk.Source != '-' && curDisk.Device == 'cdrom')" 	ng-click="ejectISO(curDisk.Target)"><i class="fa fa-eject fa-fw" title="Eject Disk"></i></button>
 						</td>
@@ -99,7 +95,7 @@
 		</div>
 	</div>
 </div>
-<div class="col-xs-6">
+<!--div class="col-xs-6">
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">Details</h3>
@@ -108,7 +104,7 @@
 			<pre>{{ curServer | json }}</pre>
 		</div>
 	</div>
-</div>
+</div-->
 
 </div>
 </section>

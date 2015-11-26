@@ -44,6 +44,12 @@
 							<td><span editable-select="curDC.country" e-ng-options="c.code as c.name for c in countries">{{ curDC.country }}</span></td>
 						</tr>
 						<tr>
+							<td><b>Order:</b></td>
+							<td>
+								<span editable-text="curDC.order">{{ curDC.order }}</span>
+							</td>
+						</tr>
+						<tr>
 							<td><b>Detail:</b></td>
 							<td><pre>{{ curDC | json }}</pre>
 							</td>

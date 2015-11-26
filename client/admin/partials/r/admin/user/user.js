@@ -14,27 +14,26 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 		});
 });
 
-angular.module('cloudServices').service('$lnusers', ['$resource',
-	function serverService($resource) {
-		return ( $resource(
-			'/api/users/:id',
-			{ id: '@_id' },
-			{ update: { method: 'PUT' } }
-		) );
+angular.module('cloudServices').service('srvcUsers', ['$resource', '$rootScope',
+	function srvcUsersF($resource, $rootScope) {
+		var service = {};
+
+		service.resource = $resource( '/api/users/:id', { id: '@_id' }, { update: { method: 'PUT' } });
+
+		service.fetchAll = function(){
+			$rootScope.users = service.resource.query();
+		};
+
+		service.fetchAll();
+
+		return service;
 	}
 ]);
 
-angular.module('cloudControllers').controller('userController', ['$scope', '$rootScope', '$lnusers', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage',
-	function($scope, $rootScope, $lnusers, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage){
+
+angular.module('cloudControllers').controller('userController', ['$scope', '$rootScope', 'srvcUsers', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage',
+	function($scope, $rootScope, srvcUsers, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage){
 		console.log("We are at user controller");
-
-		$rootScope.lnusers = [];
-
-		$scope.fetchlnUsers = function(){
-			$rootScope.lnusers = $lnusers.query();
-		};
-
-		$scope.fetchlnUsers();
 
 	}
 ]);

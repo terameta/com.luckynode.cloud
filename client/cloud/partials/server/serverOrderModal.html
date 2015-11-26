@@ -3,71 +3,42 @@
 		<h3>Order New Server</h3>
 	</div>
 	<div class="modal-body">
+		<div class="alert alert-danger" role="alert" ng-if="orderActionAlert">{{orderActionAlert}}</div>
 		<form class="form-horizontal" role="form">
 			<div class="form-group">
-				<label for="servername" class="col-sm-2 control-label">Server Name</label>
+				<label for="servername" class="col-sm-2 control-label">Pick a Name</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" id="servername" name="servername" ng-model="curNewServer.name">
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="serverram" class="col-sm-2 control-label">RAM (GB)</label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" id="serverram" name="serverram" value="2" ng-model="curNewServer.ram">
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="servercpu" class="col-sm-2 control-label">Processor</label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" id="servercpu" name="servercpu" value="2" ng-model="curNewServer.cpu">
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="serverhdd" class="col-sm-2 control-label">Disk (GB)</label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" id="serverhdd" name="serverhdd" value="20" ng-model="curNewServer.hdd">
-				</div>
-			</div>
-			<!--div class="form-group">
-				<label class="col-sm-2 control-label">Image</label>
+				<label class="col-sm-2 control-label">Choose Your Plan</label>
 				<div class="col-sm-10">
 					<div class="row">
-						<div class="col-sm-6" ng-repeat="image in images | orderBy: 'name'">
-							<div>
-								<label style="text-align: center;width:100%">
-									<input id="serverimg" name="serverimg" value="{{image._id}}" type="radio" ng-model="curNewServer.img" class="btn" style="display: none;">
-									<div class="panel panel-default">
-										<div class="panel-heading" style="padding:10px 0;text-align:center;">{{image.name}}</div>
-										<div class="panel-body" style="padding:5px; background:transparent;text-align:left;font-weight:normal;">
-											<b>Applications</b><br />
-											<table class="table table-striped">
-												<tbody>
-													<tr ng-repeat="app in image.apps">
-														<td>{{app.name}}</td>
-														<td align="right">{{app.version}}</td>
-													</tr>
-												</tbody>
-											</table>
-
-											<b>Operating System</b><br />
-											<table class="table table-striped">
-												<tbody>
-													<tr ng-repeat="os in operatingSystems | filter:{code:image.os}">
-														<td><img ng-src="/lib/svg-porn/logos/{{image.os}}.svg" width="16px" height="16px" /> &nbsp;&nbsp;{{os.name}}</td>
-														<td align="right">{{image.osv}}</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
+						<div class="col-sm-3" ng-repeat="plan in plans | orderBy: 'order'">
+							<label style="text-align:center;width:100%">
+								<input id="serverplan" name="serverplan" value="{{plan._id}}" type="radio" ng-model="curNewServer.plan" class="btn" style="display:none;" ng-change="planChanged()">
+								<div class="panel" ng-class="plan._id == curNewServer.plan ? 'panel-primary' : 'panel-default'">
+									<div class="panel-heading">{{plan.name}}</div>
+									<div class="panel-body" style="font-weight:normal;text-align:left;padding:0;">
+										<table class="table table-striped">
+											<tbody>
+												<tr><td>CPU</td><td>{{plan.cpu}} core{{plan.cpu > 1?'s':''}}</td></tr>
+												<tr><td>RAM</td><td>{{plan.ram / 1024}} GB</td></tr>
+												<tr><td>Disk</td><td>{{plan.hdd}} GB</td></tr>
+												<tr><td>Bandwidth</td><td>{{plan.bandwidth / 1024}} TB</td></tr>
+												<tr><td>Price</td><td>${{plan.price}}</td></tr>
+											</tbody>
+										</table>
 									</div>
-								</label>
-							</div>
+								</div>
+							</label>
 						</div>
 					</div>
 				</div>
-			</div-->
+			</div>
 			<div class="form-group">
-				<label class="col-sm-2 control-label">Image</label>
+				<label class="col-sm-2 control-label">Choose an Image</label>
 				<div class="col-sm-10">
 					<uib-tabset>
 						<uib-tab ng-repeat="tab in imageGroupTabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled">
@@ -87,7 +58,7 @@
 										</td>
 										<td>{{image.name}}</td>
 										<td>
-											<button type="button" style="margin:1px;" class="btn btn-xs btn-info" ng-repeat="app in image.apps">{{app.name}}</button>
+											<button type="button" style="margin:1px;" class="btn btn-xs btn-info" ng-repeat="app in image.apps">{{app.name}} &nbsp;<span class="badge" ng-if="app.version">{{app.version}}</span></button>
 										</td>
 									</tr>
 								</tbody>
@@ -98,15 +69,15 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-2 control-label">Data Center</label>
+				<label class="col-sm-2 control-label">Choose a Data Center</label>
 				<div class="col-sm-10">
 					<div class="row">
-						<div class="col-sm-2" ng-repeat="dataCenter in dataCenters | orderBy: dataCenter.country">
+						<div class="col-sm-2" ng-repeat="dataCenter in dataCenters | orderBy:'order'">
 							<div>
 								<label style="text-align: center; width:100%;">
 									<input id="serverdc" name="serverdc" value="{{dataCenter._id}}" type="radio" ng-model="curNewServer.dc" class="btn" style="display: none;">
-									<div class="panel panel-default">
-										<div class="panel-heading" style="padding:5px; background:transparent;"><span class="flag-icon flag-icon-{{dataCenter.country | lowercase}}" style="width:32px;height:24px;" class="btn"><br /></div>
+									<div class="panel" ng-class="dataCenter._id == curNewServer.dc ? 'panel-primary' : 'panel-default'">
+										<div class="panel-heading" style="padding:5px;"><span class="flag-icon flag-icon-{{dataCenter.country | lowercase}}" style="width:32px;height:24px;" class="btn"><br /></div>
 										<div class="panel-body" style="padding:10px 0;text-align:center;">{{ (countries | filter:{code:dataCenter.country})[0].name }}</div>
 									</div>
 								</label>
@@ -115,21 +86,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="control-label">Server Details</label>
-				<div class="row">
-					<div class="col-sm-6">
-						<div class="panel panel-default">
-							<div class="panel-body">{{curNewServer | json}}</div>
-						</div>
-					</div>
-				</div>
-			</div>
 		</form>
-
+		<div class="alert alert-danger" role="alert" ng-if="orderActionAlert">{{orderActionAlert}}</div>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-default btn-sm">OK</button>
-		<button type="button" class="btn btn-default btn-sm">Cancel</button>
+		<button type="button" class="btn btn-default btn-sm" ng-click="orderAction();">OK</button>
+		<button type="button" class="btn btn-default btn-sm" ng-click="orderCancel();">Cancel</button>
 	</div>
 </html>

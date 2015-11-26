@@ -17,6 +17,10 @@ angular.module('cloudServices').service('srvcImageGroup', ['$resource', '$rootSc
 			return service.resource.get({id: id});
 		};
 
+		service.getTypes = function(){
+			return [{name:"Hidden", value: "hidden"},{name:"Public", value: "public"}];
+		};
+
 		return service;
 	}
 ]);

@@ -1,0 +1,27 @@
+	<div class="modal-header">
+		<h3><i class="fa fa-server fa-fw"></i> Attach ISO File to Server</h3>
+	</div>
+	<form>
+		<div class="modal-body">
+			<div ng-if="(curNode.interfaces == 'Failed')"><span class="alert alert-danger">Failed to fetch interfaces, please try again.</span></div>
+			<table ng-if="(curNode.interfaces != 'Failed')" class="table table-hover table-condensed table-responsive">
+				<thead>
+					<tr><th>Name</th><th>File Name</th><th>Action</th><!--th>Details</th--></tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="curServerIso in curServerAvailableISOList">
+
+						<td>{{curServerIso.name}}</td>
+						<td>{{curServerIso.file}}</td>
+						<td>
+							<button type="button" class="btn btn-primary btn-xs" ng-click="attachISO(curServerIso)">Attach</button>
+						</td>
+						<!--td>{{curServerIso}}</td-->
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</form>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" ng-click="closeAttachISOModal()" data-dismiss="modal">OK</button>
+	</div>

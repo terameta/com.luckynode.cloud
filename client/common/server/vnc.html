@@ -1,0 +1,168 @@
+<div class="panel panel-default">
+	<div class="panel-heading clearfix">
+		<h4 class="panel-title pull-left"><i class="fa fa-server fa-fw"></i>  Console</h4>
+		<span style="width:50px;background:transparent;" class="pull-left">&nbsp;</span>
+		<span ng-bind-html="consoleStatus" class="label pull-left" ng-class="consoleStatusClass" ng-if="(consoleStatusClass!='label-success' && shouldShowConsole)" style="text-align:left;"></span>
+		<div class="btn-group pull-right">
+			<button type="button" class="btn btn-default btn-xs" ng-click="startConsole()" ng-if="!shouldShowConsole">Start Console</button>
+			<button type="button" class="btn btn-default btn-xs" ng-click="stopConsole()" ng-if="shouldShowConsole">Stop Console</button>
+			<!--button type="button" class="btn btn-default btn-xs" ng-click="showKeyboard()" ng-if="shouldShowConsole && !shouldShowKeyboard">Show Keyboard</button-->
+			<!--button type="button" class="btn btn-default btn-xs" ng-click="hideKeyboard()" ng-if="shouldShowConsole && shouldShowKeyboard">Hide Keyboard</button-->
+			<button type="button" class="btn btn-default btn-xs" id="sendCtrlAltDelButton" ng-if="shouldShowConsole" ng-disabled="CtrlAltDelButtonDisabled" ng-click="sendCtrlAltDel()">Send CtrlAltDel</button>
+		</div>
+	</div>
+	<div class="panel-body" uib-collapse="!shouldShowConsole">
+	<div class="panel-body">
+		<div id="noVNC_screen" style="text-align:center;">
+			<canvas id="noVNC_canvas" width="640px" height="20px">
+				Canvas not supported.
+			</canvas>
+		</div>
+		<center>
+		<div ng-if="shouldShowKeyboard" class="jumbotron" style="padding:10px;text-align:left;background:black;min-width:954px;width:954px;max-width:954px;">
+			<div style="margin-bottom:10px;">
+				<button type="button" ng-click="sendEsc()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">Esc</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:25px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">F1</button>
+				<button type="button" ng-click="sendF2()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">F2</button>
+				<button type="button" ng-click="sendF3()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">F3</button>
+				<button type="button" ng-click="sendF4()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">F4</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:25px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" ng-click="sendF5()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">F5</button>
+				<button type="button" ng-click="sendF6()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">F6</button>
+				<button type="button" ng-click="sendF7()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">F7</button>
+				<button type="button" ng-click="sendF8()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">F8</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:25px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" ng-click="sendF9()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">F9</button>
+				<button type="button" ng-click="sendF10()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">F10</button>
+				<button type="button" ng-click="sendF11()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">F11</button>
+				<button type="button" ng-click="sendF12()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">F12</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:15px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:55px;overflow:hidden;">PrtSc</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:55px;overflow:hidden;">SrcLk</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:55px;overflow:hidden;">Pause</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:15px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:35px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:35px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:35px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:35px;background:transparent;border-color:transparent;">&nbsp;</button>
+			</div>
+			<div style="margin-bottom:5px;">
+				<button type="button" ng-click="sendEsc()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">´</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">1</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">2</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">3</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">4</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">5</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">6</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">7</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">8</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">9</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">0</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">-</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">=</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:80px;overflow:hidden;">Backspace</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:15px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:55px;overflow:hidden;">Insert</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:55px;overflow:hidden;">Home</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:55px;overflow:hidden;"><i class="fa fa-angle-double-up"></i></button>
+				<button type="button" class="btn btn-default btn-xs" style="width:15px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:35px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:35px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:35px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:35px;background:transparent;border-color:transparent;">&nbsp;</button>
+			</div>
+			<div style="margin-bottom:5px;">
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:65px;overflow:hidden;">Tab</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">q</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">w</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">e</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">r</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">t</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">y</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">u</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">i</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">o</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">p</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">[</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">]</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:50px;overflow:hidden;">\</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:15px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:55px;overflow:hidden;">Delete</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:55px;overflow:hidden;">End</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:55px;overflow:hidden;"><i class="fa fa-angle-double-down"></i></button>
+				<button type="button" class="btn btn-default btn-xs" style="width:15px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">7</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">8</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">9</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">/</button>
+			</div>
+			<div style="margin-bottom:5px;">
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:75px;overflow:hidden;">Caps Lock</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">a</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">s</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">d</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">f</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">g</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">h</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">j</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">k</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">l</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">;</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">'</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:78px;overflow:hidden;">Enter</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:15px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:55px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:55px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:55px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:15px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">4</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">5</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">6</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">*</button>
+			</div>
+			<div style="margin-bottom:5px;">
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:85px;overflow:hidden;">Shift</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">z</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">x</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">c</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">v</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">b</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">n</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">m</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">,</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">.</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">/</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:106px;overflow:hidden;">Shift</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:15px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:55px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:55px;overflow:hidden;"><i class="fa fa-arrow-up"></i></button>
+				<button type="button" class="btn btn-default btn-xs" style="width:55px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:15px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">1</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">2</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">3</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">-</button>
+			</div>
+			<div>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:65px;overflow:hidden;">Ctrl</button>
+				<button type="button" ng-click="sendWin()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;"><i class="fa fa-windows"></i></button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">Alt</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:266px;overflow:hidden;">&nbsp;</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:55px;overflow:hidden;">Alt Gr</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;"><i class="fa fa-bars"></i></button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:65px;overflow:hidden;">Ctrl</button>
+				<button type="button" class="btn btn-default btn-xs" style="width:15px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:55px;overflow:hidden;"><i class="fa fa-arrow-left"></i></button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:55px;overflow:hidden;"><i class="fa fa-arrow-down"></i></button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:55px;overflow:hidden;"><i class="fa fa-arrow-right"></i></button>
+				<button type="button" class="btn btn-default btn-xs" style="width:14px;background:transparent;border-color:transparent;">&nbsp;</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:73px;overflow:hidden;">0</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">.</button>
+				<button type="button" ng-click="sendF1()" class="btn btn-default btn-xs" style="width:35px;overflow:hidden;">+</button>
+			</div>
+		</div>
+		</center>
+	</div>
+</div>
+</div>

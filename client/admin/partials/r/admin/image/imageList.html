@@ -19,6 +19,7 @@
 		<tr>
 			<th>Row</th>
 			<th>OS</th>
+			<th>Group</th>
 			<th>Name</th>
 			<!--th>Description</th-->
 			<th>Pool</th>
@@ -28,7 +29,6 @@
 			<th>Architecture</th>
 			<th>Disk Driver</th>
 			<th>Network Driver</th>
-			<th>Group</th>
 			<th>&nbsp;</th>
 			<!--th>Details</th-->
 		</tr>
@@ -37,6 +37,7 @@
 		<tr ng-repeat="image in images | orderBy:'name'">
 			<td>{{$index +1}}</td>
 			<td align=center><img ng-src="/lib/svg-porn/logos/{{image.os}}.svg" width="20px" height="20px" /></td>
+			<td>{{image.group ? (imagegroups | filter:{_id:image.group}:true)[0].name : "Not Set"}}</td>
 			<td>{{image.name}}</td>
 			<!--td>{{image.description}}</td-->
 			<td><span ng-repeat="cnstorageshow in storages | filter:{_id:image.pool}">{{cnstorageshow.name}}</span></td>
@@ -45,9 +46,8 @@
 			<td>{{image.status}}</td>
 			<td>{{image.architecture}}</td>
 			<td>{{image.diskdriver}}</td>
-			<td>{{image.netdriver}}</td>x
+			<td>{{image.netdriver}}</td>
 			<!--td>{{ (imagegroups | filter:{_id:image.group}:true)[0].name }} {{image.group}}</td-->
-			<td>{{image.group ? (imagegroups | filter:{_id:image.group}:true)[0].name : "Not Set"}}</td>
 			<td><a ui-sref="r.dashboard.image({id: image._id})" title="Details"><i class="fa fa-cog fa-fw"></i></a></td>
 			<!--td>{{ image || json }}</td-->
 		</tr>

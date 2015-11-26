@@ -7,7 +7,7 @@ module.exports = function(app, express, db, tools) {
 	var apiRoutes = express.Router();
 
 	apiRoutes.get('/', tools.checkUserToken, function(req, res) {
-		db.imagegroups.find({}, function(err, data) {
+		db.imagegroups.find({type:'public'}, function(err, data) {
 			if (err) {
 				res.status(500).json({ status: "fail" });
 			} else {

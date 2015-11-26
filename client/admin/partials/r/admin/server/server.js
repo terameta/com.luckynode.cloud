@@ -30,8 +30,8 @@ angular.module('cloudServices').service('$server', ['$resource',
 	}
 ]);
 
-angular.module('cloudControllers').controller('serverController',['$scope', '$rootScope', '$state', '$stateParams', '$server', '$datacenter', '$plan', '$ipblock', '$node', '$image', '$uibModal', '$http', '$q',
-	function($scope, $rootScope, $state, $stateParams, $server, $datacenter, $plan, $ipblock, $node, $image, $uibModal, $http, $q){
+angular.module('cloudControllers').controller('serverController',['$scope', '$rootScope', '$state', '$stateParams', '$server', '$datacenter', '$plan', '$ipblock', '$node', '$image', '$uibModal', '$http', '$q', 'srvcImageGroup', 'srvcUsers',
+	function($scope, $rootScope, $state, $stateParams, $server, $datacenter, $plan, $ipblock, $node, $image, $uibModal, $http, $q, srvcImageGroup, srvcUsers){
 		$scope.imageDiskDrivers = [{ value:'virtio', text: 'virtio' }, { value:'ide', text: 'ide'}];
 		$scope.imageNetDrivers = [{value:'virtio', text: 'virtio'}, {value:'rtl8139', text: 'Realtek 8139'}, {value:'e1000', text: 'Intel PRO/1000'}];
 
@@ -324,6 +324,7 @@ angular.module('cloudControllers').controller('serverController',['$scope', '$ro
 		$scope.fetchIPBlocks = function(){
 			$ipblock.query().$promise.then(function(result){
 				result.forEach(function(curIPB){
+					if(!curIPB.ips) curIPB.ips = [];
 					curIPB.ips.forEach(function(curIP){
 						curIPB.dcs.forEach(function(curIPDC){
 							curIP.ipblock = curIPB.name;

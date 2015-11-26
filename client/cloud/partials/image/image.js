@@ -5,10 +5,7 @@ angular.module('cloudServices').service('srvcImage', ['$resource', '$rootScope',
 		service.resource = $resource( '/api/client/image/:id', { id: '@_id' }, { update: { method: 'PUT' } });
 
 		service.fetchImages = function(){
-			$rootScope.images = service.resource.query(function(result){
-				console.log("Images fetched");
-				console.log(result);
-			});
+			$rootScope.images = service.resource.query();
 		};
 
 		service.fetchImages();
