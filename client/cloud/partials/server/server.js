@@ -36,9 +36,47 @@ angular.module('cloudServices').service('srvcServer', ['$resource', '$rootScope'
 	}
 ]);
 
-angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', '$q', '$rootScope', '$state', '$stateParams', '$uibModal', 'srvcDataCenter', 'srvcServer', 'srvcPlan', 'srvcImage', 'srvcLocations', 'srvcInfo', 'srvcImageGroup',
-	function($scope, $http, $q, $rootScope, $state, $stateParams, $uibModal, srvcDataCenter, srvcServer, srvcPlan, srvcImage, srvcLocations, srvcInfo, srvcImageGroup) {
+angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', '$q', '$rootScope', '$state', '$stateParams', '$uibModal', 'srvcDataCenter', 'srvcServer', 'srvcPlan', 'srvcImage', 'srvcLocations', 'srvcInfo', 'srvcImageGroup', 'srvcConfirm',
+	function($scope, $http, $q, $rootScope, $state, $stateParams, $uibModal, srvcDataCenter, srvcServer, srvcPlan, srvcImage, srvcLocations, srvcInfo, srvcImageGroup, srvcConfirm) {
+
 		var lnToastr = toastr;
+
+		$scope.deleteServerByConfirm = function(id) {
+			var theServertoDelete;
+
+			$scope.servers.forEach(function(curSrv){
+				if(curSrv._id == id) theServertoDelete = curSrv;
+			});
+
+			var modalOptions = {
+				closeButtonText: 'Cancel',
+				actionButtonText: 'Delete Server',
+				headerText: 'Delete ' + theServertoDelete.name + '?',
+				bodyText: 'Are you sure you want to delete this server?'
+			};
+
+			srvcConfirm.showModal({}, modalOptions).
+				then(function success(result){
+					lnToastr.info('Approved to Delete');
+					$scope.servers.forEach(function(curSrv) {
+						if(curSrv._id == id){
+							theServertoDelete.$delete(function(result, error){
+								console.log(result);
+								if(result.status == "fail"){
+									alert("There was an error deleting the storage");
+									$state.go($state.current, {}, {reload: true});
+								} else {
+									//burada angular toaster kullanabiliriz.
+									$state.go('r.servers');
+									srvcServer.fetchAll();
+								}
+							});
+						}
+					});
+				},function failure(issue){
+					lnToastr.warning("You have cancelled the server delete. Nothing will be done.");
+				});
+		};
 
 		if($stateParams.id){
 			srvcServer.fetchOne($stateParams.id).$promise.then(function(result){

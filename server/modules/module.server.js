@@ -1,10 +1,13 @@
 var db;
-var Q		= require('q');
-var mongojs = require('mongojs');
+var Q					= require('q');
+var mongojs 		= require('mongojs');
+var commander		= require('../tools/tools.node.commander.js');
 
 module.exports = function(refdb){
 	db = refdb;
 	var module = {
+		deleteServer: undefine,
+		undefine: undefine,
 		listServers: listServers,
 		findServer: findServer,
 		state: state,
@@ -24,6 +27,15 @@ module.exports = function(refdb){
 	};
 	return module;
 };
+
+function undefine(id){
+	var deferred = Q.defer();
+	commander.sendVirshServer(id, 'undefine', {id:id}).
+		then(deleteFromDB).
+		then(deferred.resolve).
+		fail(deferred.reject);
+	return deferred.promise;
+}
 
 function verifyowner(id, ownerid){
 	var deferred = Q.defer();
@@ -135,9 +147,9 @@ function deleteFromDB(cSrv){
 	if(typeof cSrv != 'object') cSrv = JSON.parse(cSrv);
 	console.log(cSrv, typeof cSrv);
 	if(!cSrv._id) cSrv._id = cSrv.id;
-	serverFindByID(cSrv.id).
-		then(serverReleaseIP).then(function(result){
-			topDB.servers.remove({_id:mongojs.ObjectId(cSrv._id)}, function(err, data){
+	findByID(cSrv.id).
+		then(releaseIP).then(function(result){
+			db.servers.remove({_id:mongojs.ObjectId(cSrv._id)}, function(err, data){
 				if(err){
 					deferred.reject(err);
 				} else {
@@ -153,7 +165,7 @@ function deleteFromDB(cSrv){
 function findByID(id){
 	var deferred = Q.defer();
 	console.log("****************",id,"*****************");
-	topDB.servers.findOne({_id:mongojs.ObjectId(id)}, function(err, data){
+	db.servers.findOne({_id:mongojs.ObjectId(id)}, function(err, data){
 		if(err){
 			deferred.reject(err);
 		} else if(!data){

@@ -1,10 +1,12 @@
-var Q				= require('q');
+var Q					= require('q');
 var topDB 			= '';
 var mongojs 		= require('mongojs');
 var commander		= require('../tools/tools.node.commander.js');
 var path 			= require('path');
 
 module.exports = function(app, express, db, tools) {
+
+	var serverModule 	= require('../modules/module.server.js')(db);
 
 	var apiRoutes 		= express.Router();
 	topDB = db;
@@ -116,7 +118,15 @@ module.exports = function(app, express, db, tools) {
 		if(!req.params.id){
 			res.status(400).json({ status: "fail", detail: "no data provided" });
 		} else {
-			commander.sendVirshServer(req.params.id, 'undefine', {id:req.params.id}).
+			serverModule.deleteServer(req.params.id).
+				then(function(result){
+					console.log("node server delete success", result);
+					res.json({status: "success"});
+				}).fail(function(issue){
+					console.log(issue);
+					res.status(500).json({ status: "fail", message: issue });
+				});
+			/*commander.sendVirshServer(req.params.id, 'undefine', {id:req.params.id}).
 				then(serverDeleteFromDB).
 				then(function(result){
 					console.log("node server delete success", result);
@@ -125,6 +135,7 @@ module.exports = function(app, express, db, tools) {
 					console.log(issue);
 					res.status(500).json({ status: "fail", message: issue });
 				});
+				*/
 		}
 	});
 

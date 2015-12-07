@@ -1,13 +1,13 @@
-var Q				= require('q');
+var Q					= require('q');
 var topDB 			= '';
 var mongojs 		= require('mongojs');
 var commander		= require('../tools/tools.node.commander.js');
 var path 			= require('path');
 
 module.exports = function(app, express, db, tools) {
-	var serverModule 	= require('../modules/module.server.js')(db);
+	var serverModule 		= require('../modules/module.server.js')(db);
 	var nodeModule 		= require('../modules/module.node.js')(db);
-	var apiRoutes 		= express.Router();
+	var apiRoutes 			= express.Router();
 	topDB = db;
 
 	apiRoutes.get('/', tools.checkUserToken, function(req, res) {
@@ -57,6 +57,23 @@ module.exports = function(app, express, db, tools) {
 			});
 		}
 
+	});
+
+	apiRoutes.delete('/:id', tools.checkUserToken, function(req, res){
+		if(!req.params.id){
+			res.status(400).json({ status: "fail", detail: "no data provided" });
+		} else {
+			serverModule.verifyowner(req.params.id, req.user.id).then(function(result){
+				return serverModule.deleteServer(req.params.id);
+			}).
+				then(function(result){
+					console.log("node server delete success", result);
+					res.json({status: "success"});
+				}).fail(function(issue){
+					console.log(issue);
+					res.status(500).json({ status: "fail", message: issue });
+				});
+		}
 	});
 
 	apiRoutes.get('/:id', tools.checkUserToken, function(req, res) {
