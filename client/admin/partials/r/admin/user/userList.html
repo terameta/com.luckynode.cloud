@@ -1,4 +1,4 @@
-<table class="table table-striped table-bordered table-hover" ng-if="lnusers.length > 0">
+<table class="table table-striped table-bordered table-hover" ng-if="users.length > 0">
 	<thead>
 		<tr>
 			<th>Row</th>
@@ -12,23 +12,23 @@
 			<th>Address</th>
 			<th>Verification Code</th>
 			<th>Verified</th>
-			<!--th>Details</th-->
+			<th>Details</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="curuser in lnusers | orderBy:'name'">
+		<tr ng-repeat="curUser in users | orderBy:'name'">
 			<td>{{$index +1}}</td>
-			<td>{{curuser._id}}</td>
-			<td>{{curuser.name}}</td>
-			<td>{{curuser.surname}}</td>
-			<td>{{curuser.joindate}}</td>
-			<td>{{curuser.isAdmin}}</td>
-			<td>{{curuser.role}}</td>
-			<td>{{curuser.email}}</td>
-			<td>{{curuser.address}}</td>
-			<td>{{curuser.verificationcode}}</td>
-			<td>{{curuser.verified}}</td>
-			<!--td>{{ curuser | json }}</td-->
+			<td>{{curUser._id}}</td>
+			<td>{{curUser.name}}</td>
+			<td>{{curUser.surname}}</td>
+			<td>{{curUser.joindate}}</td>
+			<td>{{curUser.isAdmin || false}}</td>
+			<td>{{curUser.role}}</td>
+			<td>{{curUser.email}}</td>
+			<td>{{curUser.address}}</td>
+			<td>{{curUser.verificationcode}}</td>
+			<td>{{curUser.verified}}</td>
+			<td><a ui-sref="r.dashboard.user({id: curUser._id})" title="Details"><i class="fa fa-cog fa-fw"></i></a></td>
 		</tr>
 	</tbody>
 </table>

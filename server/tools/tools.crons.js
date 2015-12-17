@@ -1,7 +1,7 @@
-var topDB = {};
+var db = {};
 
-module.exports = function crons(db) {
-	topDB = db;
+module.exports = function crons(refdb) {
+	db = refdb;
 
 	var cronFunctions = {
 		getCollectionNames: getCollectionNames
@@ -11,7 +11,7 @@ module.exports = function crons(db) {
 };
 
 function getCollectionNames(){
-	topDB.getCollectionNames(function(err, result){
+	db.getCollectionNames(function(err, result){
 		if(err){
 			console.log("Get Collection Names Error", err);
 		} else {

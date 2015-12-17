@@ -2,13 +2,13 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.users', {
 			url:"/users",
 			views: {
-				'content@r.dashboard': { templateUrl: "/partials/r/admin/user/userList.html", controller: 'userController' }
+				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/user/userList.html", controller: 'userController' }
 			},
 			data: { requireSignin: true }
 		}).state('r.dashboard.user', {
 			url:"/user/:id",
 			views: {
-				'content@r.dashboard': { templateUrl: "/partials/r/admin/isofile/isofileDetail.html", controller: 'userController' }
+				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/user/userDetail.html", controller: 'userController' }
 			},
 			data: { requireSignin: true }
 		});
@@ -26,6 +26,10 @@ angular.module('cloudServices').service('srvcUsers', ['$resource', '$rootScope',
 
 		service.fetchAll();
 
+		service.fetchOne = function(id){
+			return service.resource.get({id: id});
+		};
+
 		return service;
 	}
 ]);
@@ -33,7 +37,20 @@ angular.module('cloudServices').service('srvcUsers', ['$resource', '$rootScope',
 
 angular.module('cloudControllers').controller('userController', ['$scope', '$rootScope', 'srvcUsers', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage',
 	function($scope, $rootScope, srvcUsers, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage){
-		console.log("We are at user controller");
+		var lnToastr = toastr;
 
+		$scope.discountTypes = [{name: '%', value: 'percentage'}, {name: '$', value: 'currency'}];
+
+		if($stateParams.id){
+			$scope.curUser = srvcUsers.fetchOne($stateParams.id);
+		}
+
+		$scope.saveUser = function(){
+			$scope.curUser.$update(function(result){
+				lnToastr.success("User is saved");
+			}, function(error){
+				lnToastr.error("User save failed<br>"+error);
+			});
+		};
 	}
 ]);

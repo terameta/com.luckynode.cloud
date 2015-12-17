@@ -125,6 +125,35 @@ module.exports = function(app, express, db, tools) {
 		});
 	});
 
+	apiRoutes.get('/:id', tools.checkToken, function(req, res) {
+		db.users.findOne({_id:mongojs.ObjectId(req.params.id)}, {pass:0}, function(err, data) {
+			if(err){
+				res.status(500).json({status: 'fail', error: err});
+			} else {
+				res.send(data);
+			}
+		});
+	});
+
+	apiRoutes.put('/:id', tools.checkToken, function(req, res){
+		if ( !req.body ) {
+			res.status(400).json({ status: "fail", detail: "no data provided" });
+		} else if ( !req.body._id ) {
+			res.status(400).json({ status: "fail", detail: "user should have an _id" });
+		} else {
+			var curid = req.body._id;
+			delete req.body._id;
+			db.users.update({_id: mongojs.ObjectId(curid)}, req.body, function(err, data){
+				if( err ){
+					res.status(500).json({ status: "fail" });
+				} else {
+					req.body._id = curid;
+					res.send(req.body);
+				}
+			});
+		}
+	});
+
 	app.use('/api/users', apiRoutes);
 };
 

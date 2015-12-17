@@ -1,0 +1,39 @@
+<section class="content-header">
+	<h1>
+		<i class="fa fa-gears fa-fw"></i> Settings
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
+		<li class="active">Settings</li>
+	</ol>
+</section>
+
+<section class="content">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<form editable-form name="settingsEditForm" onaftersave="save()">
+				<div class="table-responsive">
+					<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+						<tbody>
+							<tr><td width=200><b>Company Name: 	</b></td><td><span editable-text="settings.companyname">{{ settings.companyname }}</span></td></tr>
+							<tr><td><b>Admin Email Address: 	</b></td><td><span editable-text="settings.adminemail">{{ settings.adminemail }}</span></td></tr>
+							<tr><td><b>Support Email Address: 	</b></td><td><span editable-text="settings.adminemail">{{ settings.supportemail }}</span></td></tr>
+							<tr><td><b>Domain: 					</b></td><td><span editable-text="settings.domain">{{ settings.domain }}</span></td></tr>
+							<tr><td><b>Logo URL: 				</b></td><td><span editable-text="settings.logourl">{{ settings.logourl }}</span></td></tr>
+							<tr><td><b>Pay to Text: 			</b></td><td><span editable-textarea="settings.paytotext" e-rows="7" e-cols="40"><pre style="background:transparent;border:0;padding:0">{{ settings.paytotext }}</pre></span></td></tr>
+							<tr><td><b>Counters: 				</b></td><td><ul><li ng-repeat="counter in counters">{{counter._id}} (seq: {{counter.seq}})</li></ul></td></tr>
+							<tr>
+								<td colspan=2>
+									<button type="button" class="btn btn-primary btn-xs" ng-click="settingsEditForm.$show()" ng-show="!settingsEditForm.$visible">Edit</button>
+									<button type="button" class="btn btn-danger btn-xs" ng-click="deletePlan()" ng-show="!settingsEditForm.$visible">Delete</button>
+									<button type="submit" class="btn btn-success btn-xs" ng-disabled="settingsEditForm.$waiting" ng-show="settingsEditForm.$visible">Save</button>
+									<button type="button" class="btn btn-warning btn-xs" ng-disabled="settingsEditForm.$waiting" ng-click="settingsEditForm.$cancel()" ng-show="settingsEditForm.$visible">Cancel</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</form>
+		</div>
+	</div>
+</section>
