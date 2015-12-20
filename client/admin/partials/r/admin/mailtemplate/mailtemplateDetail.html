@@ -1,0 +1,82 @@
+<section class="content-header">
+	<h1>
+		<i class="fa fa-newspaper-o fa-fw"></i> {{ curMailTemplate.name }}
+		<small>{{ curMailTemplate.type }}</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
+		<li><a ui-sref="r.dashboard.mailtemplates">Mail Templates</a></li>
+		<li class="active">Mail Template</li>
+	</ol>
+</section>
+
+<section class="content">
+<div class="row">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<form editable-form name="mailTemplateEditForm" onaftersave="saveMailTemplate()">
+				<div class="table-responsive">
+					<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+						<tbody>
+							<tr><td width="140px"><b>Name: 		</b></td><td><span editable-text="curMailTemplate.name">{{ curMailTemplate.name }}</span></td></tr>
+							<tr><td><b>Description: 	</b></td><td><span editable-textarea="curMailTemplate.description" e-rows="5" e-cols="100">{{ curMailTemplate.description }}</span></td></tr>
+							<tr>
+								<td><b>Type:</b></td>
+								<td>
+									<span editable-select="curMailTemplate.type" e-ng-options="currentMTT.value as currentMTT.name for currentMTT in mailTemplateTypes" style="display:block;">{{ curMailTemplate.type }}</span>
+								</select>
+								</td>
+							</tr>
+							<tr>
+								<td><b>Bound Collection:</b></td>
+								<td>
+									<span editable-select="curMailTemplate.collection" e-ng-options="currentMTC for currentMTC in collections" style="display:block;">{{ curMailTemplate.collection }}</span>
+								</select>
+								</td>
+							</tr>
+							<tr><td><b>Bound Document: 		</b></td><td><span editable-text="curMailTemplate.document">{{ curMailTemplate.document }}</span></td></tr>
+							<tr>
+								<td colspan=2>
+									<button type="button" class="btn btn-primary btn-xs" ng-click="mailTemplateEditForm.$show()" ng-show="!mailTemplateEditForm.$visible">Edit</button>
+									<button type="button" class="btn btn-danger btn-xs" ng-click="deleteMailTemplate()" ng-show="!mailTemplateEditForm.$visible">Delete</button>
+									<button type="submit" class="btn btn-success btn-xs" ng-disabled="mailTemplateEditForm.$waiting" ng-show="mailTemplateEditForm.$visible">Save</button>
+									<button type="button" class="btn btn-warning btn-xs" ng-disabled="mailTemplateEditForm.$waiting" ng-click="mailTemplateEditForm.$cancel()" ng-show="mailTemplateEditForm.$visible">Cancel</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="container-fluid">
+		<div class="col-md-6 col-sm-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="btn-group">
+						<button type="button" class="btn btn-primary btn-xs" ng-click="saveMailTemplate()">Save</button>
+						<button type="button" class="btn btn-primary btn-xs" ng-click="openBoundDocumentModal()">Open Document</button>
+					</div>
+				</div>
+				<div class="panel-body" style="padding:0">
+					<textarea ng-model="curMailTemplate.content" rows="50" style="width:100%;"></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 col-sm-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="btn-group">
+						Preview
+					</div>
+				</div>
+				<div class="panel-body" style="padding:0">
+					<iframe ng-src="{{currentPreviewURL}}" width="100%" style="padding:0;margin:0"></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</section>

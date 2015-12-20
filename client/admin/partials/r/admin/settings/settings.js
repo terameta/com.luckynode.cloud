@@ -8,20 +8,26 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 		});
 });
 
-angular.module('cloudServices').service('srvcSettings', ['$resource', '$rootScope', '$http',
-	function srvcUsersF($resource, $rootScope, $http) {
+angular.module('cloudServices').service('srvcSettings', ['$resource', '$rootScope', '$http', '$q',
+	function srvcUsersF($resource, $rootScope, $http, $q) {
 		var service = {};
 
 		//service.resource = $resource( '/api/users/:id', { id: '@_id' }, { update: { method: 'PUT' } });
 
 		service.fetch = function(){
+			var deferred = $q.defer();
+			var isMainFinished = false;
+			var isCounFinished = false;
 			//$rootScope.settings = service.resource.query();
 			$http({
 				method: 'GET',
 				url: '/api/settings'
 			}).then(function successCallback(response) {
 				$rootScope.settings = response.data;
+				isMainFinished = true;
+				if(isCounFinished) deferred.resolve("All Finished");
 			}, function errorCallback(response) {
+				deferred.reject(response.data);
 				toastr.error("Settings Fetch Error:<br />" + response.data);
 			});
 
@@ -29,11 +35,30 @@ angular.module('cloudServices').service('srvcSettings', ['$resource', '$rootScop
 				method: 'GET',
 				url: '/api/settings/counters'
 			}).then(function successCallback(response) {
-				console.log(response);
 				$rootScope.counters = response.data;
+				isCounFinished = true;
+				if(isMainFinished) deferred.resolve("All Finished");
 			}, function errorCallback(response) {
+				deferred.reject(response.data);
 				toastr.error("Counters Fetch Error:<br />" + response.data);
 			});
+			return deferred.promise;
+		};
+
+		service.fetchCollections= function(){
+			var deferred = $q.defer();
+			$http({
+				method: 'GET',
+				url: '/api/settings/collections'
+			}).then(function successCallback(response) {
+				$rootScope.collections = response.data;
+				deferred.resolve(response.data);
+			}, function errorCallback(response) {
+				deferred.reject(response.data);
+				toastr.error("Counters Fetch Error:<br />" + response.data);
+			});
+
+			return deferred.promise;
 		};
 
 		service.save = function(){

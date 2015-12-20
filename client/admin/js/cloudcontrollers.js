@@ -55,16 +55,21 @@ cloudControllers.controller('dashboardController', ['$scope', '$http', '$userSer
 				return false;
 			}
 		};
-
-		$.AdminLTE.layout.activate();
-		$.AdminLTE.layout.fix();
-		$.AdminLTE.layout.fixSidebar();
-		$.AdminLTE.pushMenu.activate("[data-toggle='offcanvas']");
-
+		activateLayout();
+		setTimeout(activateLayout,1000);
+		setTimeout(activateLayout,5000);
 	}
 
 
 ]);
+
+function activateLayout(){
+	$.AdminLTE.layout.activate();
+	$.AdminLTE.layout.fix();
+	$.AdminLTE.layout.fixSidebar();
+	$.AdminLTE.pushMenu.activate("[data-toggle='offcanvas']");
+	//setTimeout(activateLayout,1000);
+}
 
 cloudControllers.controller('profileController', ['$scope', '$routeParams', function($scope, $routeParams) {
 	console.log("profileController");

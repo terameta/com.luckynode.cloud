@@ -41,6 +41,16 @@ module.exports = function(app, express, db, tools) {
 		});
 	});
 
+	apiRoutes.get('/collections', tools.checkToken, function(req, res){
+		db.getCollectionNames(function(err, colNames) {
+			if (err){
+				res.status(500).json({status: 'fail', error: err});
+			} else {
+				res.json(colNames);
+			}
+		});
+	});
+
 	apiRoutes.post('/', tools.checkToken, function(req, res){
 		if ( !req.body ) {
 			res.status(400).json({ status: "fail", detail: "no data provided" });

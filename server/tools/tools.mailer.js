@@ -18,7 +18,7 @@ module.exports = {
 	sendTemplateMail: sendTemplateMail
 };
 
-function sendMail(subject, content, from, to, cc, bcc){
+function sendMail(subject, content, from, to, cc, bcc, attachments){
 	var curVals = {};
 	curVals.subject 	= subject || 'No Subject';
 	curVals.text 		= content || 'No Content';
@@ -29,6 +29,7 @@ function sendMail(subject, content, from, to, cc, bcc){
 	if(!curVals.to) return false;
 	if(cc) curVals.cc 	= cc;
 	if(bcc) curVals.bcc = bcc;
+	if(attachments) curVals.attachments = attachments;
 	transporter.sendMail(curVals, function(err, info){
 		if(err){
 			console.log("Send mail failed", err);
