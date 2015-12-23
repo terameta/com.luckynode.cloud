@@ -33,10 +33,15 @@
 				<i class="fa fa-arrows"></i><span>Profile</span>
 			</a>
 		</li>
-		<li ng-class="{active : isCurFocus('servers')}">
+		<li ng-class="{active : isCurFocus('server')}">
 			<a ui-sref="r.servers" uib-tooltip="You have {{servers.length}} server{{servers.length > 1 ? 's' : ''}}">
 				<i class="fa fa-server"></i><span>Servers</span>
 				<span class="label label-primary pull-right" ng-if="servers.length>0">{{servers.length}}</span>
+			</a>
+		</li>
+		<li ng-class="{active : isCurFocus('invoice')}">
+			<a ui-sref="r.invoices">
+				<i class="fa fa-server"></i><span>Invoices</span>
 			</a>
 		</li>
 	</ul>

@@ -22,28 +22,46 @@ module.exports = function(app, express, db, tools) {
 	apiRoutes.post('/authenticate', function(req, res) {
 		//console.log(req.body);
 		db.users.findOne({email:req.body.email},function(err, data){
-			if(err) { res.status(400).json(err); }
-			else {
-				if( data == null){ res.status(401).json({status:'fail'}); }
-				else {
-					if(!tools.compareHash(req.body.pass, data.pass)){
-						res.status(401).json({status:'fail'});
+			if(err) {
+				res.status(400).json(err);
+			} else if(data == null){
+				res.status(401).json({status:'fail'});
+			} else if(req.body.lostverification && req.body.lostverification == data.lostPassCode){
+				var curPass = tools.generateHash(req.body.pass);
+				db.users.update({_id:mongojs.ObjectId(data._id)},{$set:{pass:curPass}}, function(err, udata){
+					if(err){
+						res.status(500).json(err);
 					} else {
-						/*
-						var role = 'user';
-						if(data.isAdmin) role = 'admin';
-						var payload = {
-							email: data.email,
-							role: role
-						};
-						var token = tools.jwt.sign(payload, app.get('jwtsecret'), {
-							expiresInMinutes: 60*24*30 // expires in 30 days
-						});*/
+						data.pass = curPass;
 						res.json(generateToken(data));
 					}
-				}
+				});
+			} else if(!tools.compareHash(req.body.pass, data.pass)){
+				res.status(401).json({status:'fail'});
+			} else {
+				res.json(generateToken(data));
 			}
 		});
+	});
+
+	apiRoutes.post('/sendLostPassCode', function(req, res) {
+		console.log("sendLostPassCode") ;
+		console.log(req.body);
+		if(!req.body){
+			res.status(400).json({status:"fail", message:"No email provided"});
+		} else if(!req.body.email){
+			res.status(400).json({status:"fail", message:"No email provided"});
+		} else {
+			db.users.findOne({email:req.body.email}, function(err, user) {
+				if(err){
+					res.status(500).json({status:"fail", message:"Database error"});
+				} else {
+					console.log(user);
+					sendLostPassMail(user._id, user.email);
+					res.send("OK");
+				}
+			});
+		}
 	});
 
 	apiRoutes.post('/signup', function(req, res){
@@ -167,5 +185,18 @@ function sendVerificationEmail(id){
 			console.log(data);
 			tools.mailer.sendTemplateMail('verificationcode', data.email, {code: theCode, userid: id});
 		}
+	});
+}
+
+function sendLostPassMail(id, email){
+	var tools = require('../tools/tools.main.js');
+	var theCode = tools.generateLongString(8);
+	topDB.users.update({_id: mongojs.ObjectId(id)}, {$set:{lostPassCode:theCode}}, function(err, data) {
+	    if(err){
+	    	tools.logger.error("Can't send lostPassMail", data, true);
+	    } else {
+	    	console.log("Data", data);
+	    	tools.mailer.sendMail("Lost password verificationcode", "Hi, <br /><br />Your verification code is: " + theCode + "<br /><br />Best regards","admin@luckynode.com",email);
+	    }
 	});
 }

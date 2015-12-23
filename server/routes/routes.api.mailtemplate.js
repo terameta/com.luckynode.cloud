@@ -1,7 +1,10 @@
 var commander		= require('../tools/tools.node.commander.js');
+var handlebars 	= require('handlebars');
+var moment			= require('moment');
 
 module.exports = function(app, express, db, tools) {
 	var mongojs 		= require('mongojs');
+	var templateModule= require('../modules/module.template.js')(db);
 
 	var apiRoutes = express.Router();
 
@@ -79,34 +82,18 @@ module.exports = function(app, express, db, tools) {
 	});
 
 	apiRoutes.get('/preview/:id', function(req, res) {
-		db.mailtemplates.findOne({_id:mongojs.ObjectId(req.params.id)}, function(err, template) {
-			if(err){
-				res.status(500).json({status: "fail", message: err});
-			} else {
-				res.send(template.content);
-			}
+		templateModule.compile(req.params.id).then(function(result){
+			res.send(result);
+		}).fail(function(issue){
+			res.status(500).json({status:"fail", message: issue});
 		});
 	});
 
 	apiRoutes.get('/getBoundDocument/:id', tools.checkToken, function(req, res) {
-		db.mailtemplates.findOne({_id:mongojs.ObjectId(req.params.id)}, function(err, data){
-			if(err){
-				res.status(500).json({status: "fail"});
-			} else {
-				var querier = {};
-				if(data.collection == "invoices"){
-					querier._id = parseInt(data.document,10);
-				} else {
-					querier._id = mongojs.ObjectId(req.params.id);
-				}
-				db[data.collection].find(querier, function(err, theDoc){
-					if(err){
-						res.status(500).json({status: "fail"});
-					} else {
-						res.json(theDoc);
-					}
-				});
-			}
+		templateModule.getBoundDocument(req.params.id).then(function(result){
+			res.send(result);
+		}).fail(function(issue){
+			res.status(500).json({status:"fail",message: issue});
 		});
 	});
 

@@ -98,3 +98,5 @@ body {
 .mappingHotTable td {
     font-size:11px;
 }
+
+.ace_editor { height: 200px; }

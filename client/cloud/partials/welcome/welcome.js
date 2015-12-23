@@ -74,6 +74,7 @@ angular.module('cloudControllers').controller('welcomeController', ['$scope', '$
 		$scope.signinWarning = '';
 		$scope.signingup = false;
 		$scope.buttonText = 'Sign In';
+		$scope.forgottenPassword = false;
 
 		$scope.signin = function(){
 			$scope.signinWarning = '';
@@ -85,12 +86,33 @@ angular.module('cloudControllers').controller('welcomeController', ['$scope', '$
 		};
 
 		$scope.signinAction = function(){
-			$userService.signin($scope.email, $scope.pass).then(
+			$userService.signin($scope.email, $scope.pass, $scope.lostverification).then(
 				function/*success*/(){
 					$state.go("r.dashboard");
 				},
 				function/*failed*/(){
 					$scope.signinWarning = 'Invalid credentials, please try again';
+				}
+			);
+		};
+
+		$scope.enableForgotPassword = function(){
+			$scope.forgottenPassword = true;
+
+		};
+
+		$scope.forgotPassword = function(){
+			$scope.signinWarning = '';
+			console.log($scope.email);
+			if(!$scope.email) {
+				$scope.signinWarning = 'Please enter a valid address';
+				return false;
+			}
+			$userService.sendLostPassCode($scope.email).then(
+				function success(result){
+					console.log(result);
+				}, function failure(issue){
+					console.log(issue);
 				}
 			);
 		};

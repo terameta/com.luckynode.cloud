@@ -4,14 +4,65 @@ var mongojs 		= require('mongojs');
 var moment			= require('moment');
 var pdf 				= require('html-pdf');
 var tools			= require("../tools/tools.main.js");
+var templateModule;
 
 module.exports = function(refdb){
 	db = refdb;
+	templateModule = require("../modules/module.template.js")(db);
+
 	var module = {
-		startProcess: startProcess,
+		startProcess	: startProcess,
+		list				: list,
+		fetchOne			: fetchOne
 	};
 	return module;
 };
+
+function fetchOne(userid, invoiceid){
+	var deferred = Q.defer();
+	var querier = {"details.user":mongojs.ObjectId(userid), _id:parseInt(invoiceid,10)};
+	if(!userid)	querier = {};
+	console.log(querier);
+	db.invoices.findOne(querier, function(err, invoice){
+		if(err){
+			deferred.reject(err);
+		} else {
+			deferred.resolve(invoice);
+		}
+	});
+	return deferred.promise;
+}
+
+function list(userid){
+	var deferred = Q.defer();
+	var querier = {"details.user":mongojs.ObjectId(userid)};
+	if(!userid)	querier = {};
+	console.log(querier);
+	db.invoices.find(querier, function(err, invoiceList){
+		if(err){
+			deferred.reject(err);
+		} else {
+			deferred.resolve(invoiceList);
+		}
+	});
+	return deferred.promise;
+}
+
+function list(userid){
+	var deferred = Q.defer();
+	var querier = {"details.user":mongojs.ObjectId(userid)};
+	if(!userid)	querier = {};
+	console.log(querier);
+	db.invoices.find(querier, function(err, invoiceList){
+		if(err){
+			deferred.reject(err);
+		} else {
+			console.log(invoiceList);
+			deferred.resolve(invoiceList);
+		}
+	});
+	return deferred.promise;
+}
 
 function startProcess(){
 	assignDate().
@@ -88,7 +139,7 @@ function processCurrent(id){
 	then(getInvoiceNumber).
 	then(createInvoice).
 	then(moveServerDate).
-	then(sendInvoice).
+	then(calculateInvoiceTotal).
 	then(deferred.resolve).
 	fail(function(issue){
 		console.log("Failed", issue);
@@ -251,6 +302,7 @@ function createInvoice(tokenObject){
 	curInvoiceitem.discountDescription = tokenObject.discountDescription;
 	curInvoiceitem.finalPrice = parseFloat(curInvoiceitem.price) * curInvoiceitem.multiplier;
 	curInvoiceitem.finalDiscount = parseFloat(curInvoiceitem.discount) * curInvoiceitem.multiplier;
+	curInvoiceitem.finalNet = parseFloat(curInvoiceitem.finalPrice) - parseFloat(curInvoiceitem.finalDiscount);
 	db.invoices.update({_id:tokenObject.invoicenumber}, { $set:{ details:curInvoice }, $push:{ items: curInvoiceitem } }, { upsert: true }, function(err, result){
 		if(err){
 			console.log(err);
@@ -260,6 +312,29 @@ function createInvoice(tokenObject){
 			tokenObject.invoiceitem = curInvoiceitem;
 			deferred.resolve(tokenObject);
 		}
+	});
+	return deferred.promise;
+}
+
+function calculateInvoiceTotal(tokenObject){
+	var deferred = Q.defer();
+	db.invoices.findOne({_id:tokenObject.invoicenumber}, function(err, curInvoice){
+		console.log(curInvoice.items);
+		var priceTotal = 0;
+		var discountTotal = 0;
+		var netTotal = 0;
+		curInvoice.items.forEach(function(curItem){
+			priceTotal += parseFloat(curItem.finalPrice);
+			discountTotal += parseFloat(curItem.finalDiscount);
+		});
+		netTotal += parseFloat(priceTotal) - parseFloat(discountTotal);
+		db.invoices.update({_id:tokenObject.invoicenumber}, {$set:{priceTotal:priceTotal, discountTotal:discountTotal, netTotal:netTotal}}, function(err, result){
+			if(err){
+				deferred.reject(err);
+			} else {
+				deferred.resolve(tokenObject);
+			}
+		});
 	});
 	return deferred.promise;
 }
@@ -394,42 +469,28 @@ function setupMailObject(mObject){
 
 function setupMailPDF(mObject){
 	var deferred = Q.defer();
-	var html  = "<html>";
-	html 		+= "	<body style=\"padding:0;margin:0;\">";
-	html		+= "		<div style=\"display:block;height:30px\">&nbsp;</div>";
-	html 		+= "		<div style=\"display:block;height:100px;background-color:"+mObject.settings.emailletterheadcolor+"\">";
-	html		+= "			<table width=\"100%\" height=\"100%\"  style=\"background:transparent\">";
-	html 		+= "				<tr>";
-	html 		+= "					<td width=\"200px\" style=\"padding:10px;\" valign=\"middle\" align=\"left\">";
-	html 		+= "						<img src=\""+mObject.settings.emailletterheadlogourl+"\">";
-	html 		+= "					<td>";
-	html 		+= "					<td style=\"padding:10px;\" valign=\"middle\" align=\"center\">";
-	html 		+= "						<span style=\"color:white;font-size:30px;\">INVOICE</span>";
-	html 		+= "					<td>";
-	html 		+= "					<td width=\"200px\" style=\"padding:10px;\" valign=\"middle\" align=\"right\">";
-	html 		+= "						<span style=\"color:white;\">"+mObject.settings.accountingemail+"</span>";
-	html 		+= "					<td>";
-	html 		+= "				<tr>";
-	html 		+= "			</table>";
-	html 		+= "		</div>";
-	html 		+= "	</body>";
-	html 		+= "</html>";
-	var options = {format:'A4'};
-	pdf.create(html, options).toFile('./uploads/invoive'+mObject.invoiceID+'.pdf', function(err, res) {
-		if (err){
-			console.log("Can't create PDF", err);
-			deferred.reject(err);
-		} else {
-			deferred.resolve(mObject);
-		}
-	});
+	templateModule.getInvoiceAttachmentTemplate().then(function(invoiceAttachmentTemplateID){
+		return templateModule.compile(invoiceAttachmentTemplateID,mObject.invoiceID);
+	}).then(function(compiledHTML){
+		var options = {format:'A4'};
+		pdf.create(compiledHTML, options).toFile('./uploads/invoice'+mObject.invoiceID+'.pdf', function(err, res) {
+			if (err){
+				console.log("Can't create PDF", err);
+				deferred.reject(err);
+			} else {
+				deferred.resolve(mObject);
+			}
+		});
+	}).fail(deferred.reject);
+
+
 	return deferred.promise;
 }
 
 function sendInvoiceMail(mObject){
 	console.log("We are here too");
 	var deferred = Q.defer();
-	tools.mailer.sendMail(mObject.subject, mObject.content, mObject.from, mObject.to, null, null, [{filename:'Invoive'+mObject.invoiceID+'.pdf', path:'./uploads/invoive'+mObject.invoiceID+'.pdf'}]);
+	tools.mailer.sendMail(mObject.subject, mObject.content, mObject.from, mObject.to, null, null, [{filename:'Invoice'+mObject.invoiceID+'.pdf', path:'./uploads/invoice'+mObject.invoiceID+'.pdf'}]);
 	deferred.resolve(mObject);
 	return deferred.promise;
 }

@@ -133,6 +133,24 @@ angular.module('cloudControllers').controller('mailtemplateController', ['$scope
 			}
 		};
 
+		$scope.aceLoaded = function(_editor) {
+			// Options
+			//_editor.setReadOnly(true);
+			//console.log("AceLoaded");
+			_editor.getSession().setUseSoftTabs(false);
+			_editor.getSession().setTabSize(2);
+			// This is to remove following warning message on console:
+			// Automatically scrolling cursor into view after selection change this will be disabled in the next version
+			// set editor.$blockScrolling = Infinity to disable this message
+			_editor.$blockScrolling = Infinity;
+		};
+
+		$scope.aceChanged = function(e) {
+			//
+			//console.log("AceChanged");
+			//console.log($scope.curMailTemplate);
+		};
+
 		/*
 		$scope.fetchIsofiles = function(){
 			$rootScope.isofiles = $isofile.query();

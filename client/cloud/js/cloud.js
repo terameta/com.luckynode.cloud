@@ -201,6 +201,7 @@ cloudServices.service('$userService', ['$resource', '$q', '$rootScope', '$localS
 		service.resendVC = resendVC;
 		service.verifycode = verifycode;
 		service.getCurUser = getCurUser;
+		service.sendLostPassCode = sendLostPassCode;
 
 		return service;
 
@@ -224,12 +225,13 @@ cloudServices.service('$userService', ['$resource', '$q', '$rootScope', '$localS
 			return deferred.promise;
 		}
 
-		function signin(username, password) {
+		function signin(username, password, lostverification) {
 			var deferred = $q.defer();
 			var signinParams = {
 				email: username,
 				pass: password
 			};
+			if(lostverification) signinParams.lostverification = lostverification;
 			if(username && password) {
 				$http.post('/api/users/authenticate', signinParams).
 				success(function(data, status, headers, config) {
@@ -295,6 +297,19 @@ cloudServices.service('$userService', ['$resource', '$q', '$rootScope', '$localS
 			error(function(data, status, headers, config) {
 				deferred.reject(data);
 			});
+			return deferred.promise;
+		}
+
+		function sendLostPassCode(email){
+			var deferred = $q.defer();
+			console.log("Sending lost password verification code");
+			$http.post('/api/users/sendLostPassCode', {email:email}).
+			success(function(data, status, headers, config){
+				deferred.resolve(data);
+			}).error(function(data, status, headers, config){
+				deferred.reject(data);
+			});
+
 			return deferred.promise;
 		}
 

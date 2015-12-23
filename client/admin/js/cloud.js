@@ -1,4 +1,4 @@
-var cloudApp = angular.module('cloudApp', ['ui.router', 'cloudControllers', 'cloudServices', 'ngSanitize', 'ui.bootstrap', 'angular-loading-bar', 'xeditable', 'checklist-model']);
+var cloudApp = angular.module('cloudApp', ['ui.router', 'cloudControllers', 'cloudServices', 'ngSanitize', 'ui.bootstrap', 'angular-loading-bar', 'xeditable', 'checklist-model', 'ui.ace']);
 
 cloudApp.config(function($stateProvider, $urlRouterProvider){
     $urlRouterProvider.otherwise("r/welcome");
