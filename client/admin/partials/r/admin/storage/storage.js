@@ -34,7 +34,8 @@ angular.module('cloudControllers').controller('storageController', ['$scope', '$
 	function($scope, $rootScope, $state, $stateParams, $storage, $datacenter, $http){
 		var lnToastr = toastr;
 		$scope.storageTypes = [
-			{ name:'NFS' }
+			{ name:'NFS' },
+			{ name:'ceph'}
 		];
 
 		$scope.fetchDCs = function(){
@@ -92,6 +93,7 @@ angular.module('cloudControllers').controller('storageController', ['$scope', '$
 		$scope.saveStorage = function(){
 			$scope.curStorage.$update(function(result){
 				$scope.fetchStorages();
+				$scope.fetchCurStorage();
 			}, function(error){
 				console.log(error);
 			});

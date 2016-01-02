@@ -11,10 +11,10 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/image/imageNew.html", controller: 'imageController' }
 			},
 			data: { requireSignin: true }
-		}).state('r.dashboard.imagenewfromserver', {
-			url:"/imagenewfromserver",
+		}).state('r.dashboard.imagenewfromdisk', {
+			url:"/imagenewfromdisk",
 			views: {
-				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/image/imageNewFromServer.html", controller: 'imageController' }
+				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/image/imageNewFromDisk.html", controller: 'imageController' }
 			},
 			data: { requireSignin: true }
 		}).state('r.dashboard.image', {
@@ -36,8 +36,8 @@ angular.module('cloudServices').service('$image', ['$resource',
 	}
 ]);
 
-angular.module('cloudControllers').controller('imageController',['$scope', '$rootScope', '$state', '$stateParams', '$server', '$datacenter', '$plan', '$image', '$storage', 'srvcImageGroup',
-	function($scope, $rootScope, $state, $stateParams, $server, $datacenter, $plan, $image, $storage, srvcImageGroup){
+angular.module('cloudControllers').controller('imageController',['$scope', '$rootScope', '$state', '$stateParams', '$server', '$datacenter', '$plan', '$image', '$storage', 'srvcImageGroup', '$http',
+	function($scope, $rootScope, $state, $stateParams, $server, $datacenter, $plan, $image, $storage, srvcImageGroup,$http){
 		srvcImageGroup.fetchAll();
 
 		$scope.newImage = {
@@ -149,17 +149,13 @@ angular.module('cloudControllers').controller('imageController',['$scope', '$roo
 
 		$scope.deleteImage = function(){
 			if(confirm("Are you sure you want to delete " + $scope.curImage.name)){
-				if(confirm("Do you want the base file to be erased as well?")){
-					$scope.curImage.erasefile = true;
-				} else {
-					$scope.curImage.erasefile = false;
-				}
+				$scope.curImage.erasefile = confirm("Do you want the base file to be erased as well?");
+
 				$scope.curImage.$delete({shouldErase: $scope.curImage.erasefile}, function(result, error){
 					if(result.status == "fail"){
-						alert("There was an error deleting the image");
-						$state.go($state.current, {}, {reload: true});
+						lnToastr.error("There was an error deleting the image");
 					} else {
-						//burada angular toaster kullanabiliriz.
+						lnToastr.info("Image is deleted successfully");
 						$scope.fetchImages();
 						$state.go('r.dashboard.images');
 					}
@@ -173,38 +169,104 @@ angular.module('cloudControllers').controller('imageController',['$scope', '$roo
 			$state.go('r.dashboard.images');
 		};
 
-		$scope.imageFromServerServerChange = function(){
-			$scope.newImage._diskdriver = $scope.newImage._baseserver.diskdriver;
-			$scope.newImage._netdriver 	= $scope.newImage._baseserver.netdriver;
+		$scope.imageTypeLocked = false;
+		$scope.imageDiskTypeLocked = false;
+		$scope.imageNetTypeLocked = false;
+
+		$scope.imageFromDiskPoolChange = function(){
+			//$scope.newImage._diskdriver = $scope.newImage._baseserver.diskdriver;
+			//$scope.newImage._netdriver 	= $scope.newImage._baseserver.netdriver;
+			$scope.fetchCurStorage();
+			if($scope.newImage._pool.type == 'ceph'){
+				$scope.imageTypeLocked = true;
+				$scope.newImage._imagetype = 'ceph';
+			} else {
+				$scope.imageTypeLocked = false;
+			}
 		};
 
-		$scope.addImageFromServer = function(){
-			if(!$scope.newImage._name){ 					$scope.imagenewalert = "Name can't be empty";							return 0;   }
-			if(!$scope.newImage._baseserver){				$scope.imagenewalert = "Please select a base server";					return 0;   }
-			if(!$scope.newImage._status){					$scope.imagenewalert = "Please select a status";						return 0;   }
-			if(!$scope.newImage._architecture){				$scope.imagenewalert = "Please select an architecture";					return 0;   }
-			if(!$scope.newImage._diskdriver){				$scope.imagenewalert = "Please select a disk driver";					return 0;   }
-			if(!$scope.newImage._netdriver){				$scope.imagenewalert = "Please select a network driver";				return 0;   }
-			if(!$scope.newImage._imagetype){				$scope.imagenewalert = "Please select an image type";					return 0;   }
+		$scope.imageFromDiskDiskChange = function(){
+			console.log($scope.newImage._disk);
+			if($scope.newImage._disk.server){
+				$scope.imageDiskTypeLocked = true;
+				$scope.imageNetTypeLocked = true;
+				$scope.newImage._diskdriver = $scope.newImage._disk.server.diskdriver;
+				$scope.newImage._netdriver = $scope.newImage._disk.server.netdriver;
+			} else {
+				$scope.imageDiskTypeLocked = false;
+				$scope.imageNetTypeLocked = false;
+			}
+		};
 
-			var theNewImage 			= {};
-			theNewImage.name 			= $scope.newImage._name;
+		$scope.fetchCurStorage = function(){
+			var poolID = $scope.newImage._pool._id;
+			$scope.curStorage = $storage.get({id:poolID}, function(result){
+				$http.post('/api/storage/converged/', { id: poolID, command: 'getFiles' }).
+				success(function(data, status, headers, config) {
+					$scope.curStorage.disks = data;
+					$scope.curStorage.disks.forEach(function(curDisk){
+						curDisk.isValid = false;
+						var dash1 = curDisk.Name.indexOf('-')+1;
+						var dash2 = curDisk.Name.indexOf('-',dash1);
+						var curID = curDisk.Name.substring(dash1,dash2);
+						if(curID.length == 24){
+							curDisk.label = curID;
+							$scope.servers.forEach(function(cSrv){
+								if(curID == cSrv._id){
+									curDisk.isValid = true;
+									curDisk.label = curDisk.Name +' (Server: ' + cSrv.name +')';
+									curDisk.server = cSrv;
+								}
+							});
+							$scope.images.forEach(function(cImage){
+								if(curID == cImage._id){
+									curDisk.isValid = true;
+									curDisk.label = curDisk.Name +' (Image: ' + cImage.name +')';
+									curDisk.image = cImage;
+								}
+							});
+						}
+					});
+				}).
+				error(function(data, status, headers, config) {
+					console.log(data);
+					lnToastr.error("Can't receive files in storage");
+				});
+			});
+		};
+
+		$scope.addImageFromDisk = function(){
+			if(!$scope.newImage._name){ 					$scope.imagenewalert = "Name can't be empty";							return 0;   }
+			if(!$scope.newImage._pool){					$scope.imagenewalert = "Please select a base pool";					return 0;   }
+			if(!$scope.newImage._disk){					$scope.imagenewalert = "Please select a base disk";					return 0;   }
+			if(!$scope.newImage._imagetype){				$scope.imagenewalert = "Please select an image type";					return 0;   }
+			if(!$scope.newImage._architecture){			$scope.imagenewalert = "Please select an architecture";				return 0;   }
+			if(!$scope.newImage._diskdriver){			$scope.imagenewalert = "Please select a disk driver";					return 0;   }
+			if(!$scope.newImage._netdriver){				$scope.imagenewalert = "Please select a network driver";				return 0;   }
+			if(!$scope.newImage._targetpool){			$scope.imagenewalert = "Please select a target pool";					return 0;   }
+
+			var theNewImage 				= {};
+			theNewImage.name 				= $scope.newImage._name;
 			theNewImage.description 	= $scope.newImage._description;
-			theNewImage.baseserver		= $scope.newImage._baseserver._id;
+			theNewImage.basePool			= $scope.newImage._pool;
+			theNewImage.baseDisk			= $scope.newImage._disk;
+			theNewImage.baseServer		= $scope.newImage._disk.server;
+			theNewImage.baseImage		= $scope.newImage._disk.image;
+			theNewImage.imagetype		= $scope.newImage._imagetype;
 			theNewImage.status 			= $scope.newImage._status;
 			theNewImage.architecture	= $scope.newImage._architecture;
 			theNewImage.diskdriver		= $scope.newImage._diskdriver;
 			theNewImage.netdriver 		= $scope.newImage._netdriver;
-			theNewImage.imagetype		= $scope.newImage._imagetype;
+			theNewImage.targetPool		= $scope.newImage._targetpool;
+
+			$scope.theNewImage = theNewImage;
+
 
 			$scope.imagenewalert = '';
-			//console.log("We are ready to deploy");
-			//console.log(theNewImage);
 
 			$image.save(theNewImage, function(theResult){
-			//	console.log(theResult);
 				$scope.fetchImages();
-				$state.go('r.dashboard.images');
+				//$state.go('r.dashboard.images');
 			});
 		};
 

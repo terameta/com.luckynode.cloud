@@ -27,6 +27,7 @@ module.exports = {
 					data = [{pool:"NoAssignedPoolForTheNode"}];
 				}
 				var curCommand = { name: 'assignStoragePools', details: data };
+				console.log(data);
 				runCommand(node, curCommand).then(	function(result) { console.log("Deferred Result: ", result); } ).fail( function(issue) { console.log("Deferred Issue: ", issue); } );
 			}
 		});
@@ -134,6 +135,11 @@ module.exports = {
 	},
 	volCloneFromServer: function(node, server, data){
 		var deferred = Q.defer();
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		console.log("Node\n",node);
+		console.log("Server\n",server);
+		console.log("Data\n",data);
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		var curCommand = { name: 'volCloneFromServer', details: { server: server, target: data} };
 		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
 		return deferred.promise;

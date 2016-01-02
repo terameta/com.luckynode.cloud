@@ -30,8 +30,8 @@ angular.module('cloudServices').service('$node', ['$resource',
 	}
 ]);
 
-angular.module('cloudControllers').controller('nodeController', ['$scope', '$rootScope', '$node', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage',
-	function($scope, $rootScope, $node, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage){
+angular.module('cloudControllers').controller('nodeController', ['$scope', '$rootScope', '$node', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage', '$sce',
+	function($scope, $rootScope, $node, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage, $sce){
 		$scope.newnode = {};
 		function validIP4(toCheck) {
 			var ipformat = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
@@ -302,6 +302,16 @@ angular.module('cloudControllers').controller('nodeController', ['$scope', '$roo
 					}
 				});
 			}
+		};
+
+		$scope.presentSource = function(src){
+			var toReturn = '<li>'+src.name+'<ul>Sources<ul>';
+			var sources = src.source.toString().split(',');
+			sources.forEach(function(curSrc){
+				toReturn += "<li>"	+ curSrc + "</li>";
+			});
+			toReturn = $sce.trustAsHtml(toReturn);
+			return toReturn;
 		};
 
 	}

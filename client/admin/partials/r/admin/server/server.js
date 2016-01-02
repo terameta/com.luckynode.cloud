@@ -544,6 +544,7 @@ angular.module('cloudControllers').controller('serverController',['$scope', '$ro
 		};
 
 		$scope.ejectISO = function(ISOtarget){
+			console.log(ISOtarget);
 			$scope.serverConverged('ejectISO', {target: ISOtarget, server: $scope.curServer._id}).then(function success(result){
 				$scope.fetchCurServerDisks();
 			}, function(issue) {

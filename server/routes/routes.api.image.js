@@ -32,57 +32,36 @@ module.exports = function(app, express, db, tools) {
 		} else if (!req.body.name) {
 			res.status(400).json({ status: "fail", detail: "image should at least have a name" });
 		} else {
-			var curNewImage = req.body;
-			//curNewDC.name = req.body.name;
-			if(curNewImage.baseserver){
-				db.servers.findOne({_id: mongojs.ObjectId(curNewImage.baseserver)}, function(serr, sdata){
-					if(serr || !sdata){
-						res.status(500).json({ status: "fail", detail: "Can't find the server mentioned for the image as base" });
+			var newImage = req.body;
+			//console.log(curNewImage);
+			if(newImage.baseDisk){
+				db.images.insert(newImage, function(err, newImage) {
+					if(err){
+						res.status(500).json({ status: "fail", detail: "Can't insert image to the database" });
 					} else {
-						db.nodes.findOne({_id: mongojs.ObjectId(sdata.node)}, function(nerr, ndata){
-							if(nerr || !ndata){
-								res.status(500).json({ status: "fail", detail: "Can't find the node for the server mentioned for the image as base" });
+						newImage.basefile = "image-"+newImage._id.toString();
+						newImage.id = newImage._id.toString();
+						newImage.targetPool.id = newImage.targetPool._id;
+						console.log(">>>>>>>>>>>>>>>>>>>>>Image is inserted", newImage._id.toString());
+						db.images.update({_id: mongojs.ObjectId(newImage._id)}, {$set:{basefile:newImage.basefile, id:newImage.id}}, function(uerr, udata) {
+							if(uerr){
+								res.status(500).json({ status: "fail", detail: "Can't insert image to the database" });
 							} else {
-								console.log("OK We will create");
-								curNewImage.pool = sdata.store;
-								curNewImage.status = "Creating the base file";
-								db.images.insert(curNewImage, function(err, data) {
-									if(err){
-										res.status(500).json({ status: "fail", detail: "Can't insert image to the database" });
-									} else {
-										data.basefile = data._id.toString();
-										if(data.imagetype == 'qcow2'){
-											data.basefile += ".qcow2";
-										} else {
-											data.basefile += ".img";
-										}
-										data.basefile = 'image-'+data.basefile;
-										data.id = data._id.toString();
-										db.images.update({_id: mongojs.ObjectId(data._id)}, {$set:{basefile:data.basefile}}, function(uerr, udata) {
-										    if(uerr){
-										    	res.status(500).json({ status: "fail", detail: "Can't update image in the database" });
-										    } else {
-										    	console.log("We are totally ready");
-										    	sdata.id = sdata._id.toString();
-										    	ndata.id = ndata._id.toString();
-										    	commander.volCloneFromServer(ndata, sdata, data).then(function(result){
-										    		db.images.update({_id: mongojs.ObjectId(data._id)}, {$set:{pool:JSON.parse(result).pool}}, function(uerr, udata) {});
-										    		console.log("result", JSON.parse(result));
-										    	}).fail(function(issue){
-										    		console.log("issue");
-										    		console.log(issue);
-										    	});
-										    	res.send("ok");
-										    }
-										});
-									}
+								commander.sendVirsh(newImage.baseServer.node,"pool","createImage",newImage).
+								then(function(result){
+									res.send("OK");
+								}).
+								fail(function(issue){
+									console.log(issue);
+									res.status(500).json({ status: "fail", detail: issue });
 								});
+								res.send("OK");
 							}
 						});
 					}
 				});
 			} else {
-				db.images.insert(curNewImage, function(err, data) {
+				db.images.insert(newImage, function(err, data) {
 					if (err) {
 						res.status(500).json({ status: "fail" });
 					}

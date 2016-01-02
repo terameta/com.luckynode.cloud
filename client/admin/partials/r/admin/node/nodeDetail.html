@@ -57,9 +57,9 @@
 								<tr>
 									<td><b>Storage:</b></td>
 									<td>
-										<span editable-checklist="curNode.storage" onbeforesave="checkStorageChange($data)" e-ng-options="storage._id as storage.name+' ('+storage.source+')' for storage in storages  | filter:{datacenter: curNode.datacenter}" style="display:block;">
+										<span editable-checklist="curNode.storage" onbeforesave="checkStorageChange($data)" e-ng-options="storage._id as storage.name for storage in storages  | filter:{datacenter: curNode.datacenter}" style="display:block;">
 											<div ng-repeat="cnstorage in curNode.storage">
-												<span ng-repeat="cnstorageshow in storages | filter:{_id:cnstorage}">{{cnstorageshow.name}} ({{cnstorageshow.source}})</span>
+												<span ng-repeat="cnstorageshow in storages | filter:{_id:cnstorage}" ng-bind-html="presentSource(cnstorageshow)"></span>
 											</div>
 										</span>
 									</td>

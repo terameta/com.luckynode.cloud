@@ -50,11 +50,23 @@
 											<span editable-text="curStorage.source">{{ curStorage.source }}</span>
 										</td>
 									</tr>
-									<!--tr>
+									<tr ng-show="(curStorage.type=='ceph')">
+										<td><b>User:</b></td>
+										<td>
+											<span editable-text="curStorage.username">{{ curStorage.username }}</span>
+										</td>
+									</tr>
+									<tr ng-show="(curStorage.type=='ceph')">
+										<td><b>Key:</b></td>
+										<td>
+											<span editable-text="curStorage.key" e-placeholder="please enter to change saved value">{{ curStorage.key || 'this field is always hidden' }}</span>
+										</td>
+									</tr>
+									<tr>
 										<td><b>Detail:</b></td>
 										<td><pre>{{ curStorage | json }}</pre>
 										</td>
-									</tr-->
+									</tr>
 									<tr>
 										<td colspan=2>
 											<button type="button" class="btn btn-primary btn-xs" ng-click="storageEditForm.$show()" ng-show="!storageEditForm.$visible">Edit</button>

@@ -215,7 +215,7 @@ module.exports = function(app, express, db, tools) {
 						if(nerr){
 							res.status(500).json({ status: "fail", detail: "Cannot access to database for node"});
 						} else {
-							db.isofiles.find({status: 'enabled', pool: {$in: ndata.storage}}, function(ierr, idata){
+							db.isofiles.find({status: {$ne:'disabled'}, pool: {$in: ndata.storage}}, function(ierr, idata){
 								if(ierr){
 									res.status(500).json({ status: "fail", detail: "Cannot access to database for isofiles"});
 								} else {

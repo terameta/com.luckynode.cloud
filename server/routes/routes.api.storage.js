@@ -6,7 +6,7 @@ module.exports = function(app, express, db, tools) {
 	var apiRoutes = express.Router();
 
 	apiRoutes.get('/', tools.checkToken, function(req, res) {
-		db.storages.find({}, function(err, data) {
+		db.storages.find({}, {key:0},function(err, data) {
 			if (err) {
 				res.status(500).json({ status: "fail" });
 			} else {
@@ -16,7 +16,7 @@ module.exports = function(app, express, db, tools) {
 	});
 
 	apiRoutes.get('/:id', tools.checkToken, function(req, res) {
-		db.storages.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err, data){
+		db.storages.findOne({_id: mongojs.ObjectId(req.params.id)}, {key:0}, function(err, data){
 			if(err){
 				res.status(500).json({status: "fail"});
 			} else {
@@ -45,6 +45,7 @@ module.exports = function(app, express, db, tools) {
 	});
 
 	apiRoutes.put('/:id', tools.checkToken, function(req, res){
+		//console.log(req.body);
 		if ( !req.body ) {
 			res.status(400).json({ status: "fail", detail: "no data provided" });
 		} else if ( !req.body.name ) {
@@ -54,7 +55,7 @@ module.exports = function(app, express, db, tools) {
 		} else {
 			var curid = req.body._id;
 			delete req.body._id;
-			db.storages.update({_id: mongojs.ObjectId(curid)}, req.body, function(err, data){
+			db.storages.update({_id: mongojs.ObjectId(curid)}, {$set:req.body}, function(err, data){
 				if( err ){
 					res.status(500).json({ status: "fail" });
 				} else {

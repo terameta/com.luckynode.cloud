@@ -1,0 +1,88 @@
+<div class="row">
+	<div class="col-sm-6">
+		<div class="panel panel-default" style="margin:0;padding:0">
+			<div class="panel-heading">
+				<div class="panel-title"><i class="fa fa-puzzle-piece fa-fw"></i> New Image From Disk</div>
+			</div>
+			<div class="panel-body" style="padding-top:30px;">
+				<div ng-if="imagenewalert" class="alert alert-danger alert-sm col-sm-12">{{imagenewalert}}</div>
+				<form id="newimageform" class="form-horizontal" role="form" ng-submit="addImageFromDisk()">
+					<div class="input-group" style="margin-bottom:2px;">
+						<span class="input-group-addon" style="min-width:200px;text-align:left;">Name*</span>
+						<input type="text" ng-model="newImage._name" placeholder="please enter image name" class="form-control" />
+					</div>
+					<div class="input-group" style="margin-bottom:2px;">
+						<span class="input-group-addon" style="min-width:200px;text-align:left;">Description</span>
+						<textarea ng-model="newImage._description" placeholder="please enter image description" class="form-control" rows="5" />
+					</div>
+					<div class="input-group" style="margin-bottom:2px;">
+						<span class="input-group-addon" style="min-width:200px;text-align:left;">Pool*</span>
+						<select class="form-control" ng-change="imageFromDiskPoolChange()" ng-model="newImage._pool" ng-options="storage.name for storage in storages track by storage._id"></select>
+					</div>
+					<div class="input-group" style="margin-bottom:2px;">
+						<span class="input-group-addon" style="min-width:200px;text-align:left;">Disk*</span>
+						<select class="form-control" ng-change="imageFromDiskDiskChange()" ng-model="newImage._disk" ng-options="disk.label for disk in curStorage.disks | filter:{isValid:'true'}"></select>
+					</div>
+					<div class="input-group" style="margin-bottom:2px;">
+						<span class="input-group-addon" style="min-width:200px;text-align:left;">Image Type*</span>
+						<select class="form-control" ng-model="newImage._imagetype" ng-disabled="imageTypeLocked">
+							<option value="qcow2" selected>QCoW2</option>
+							<option value="raw">Raw</option>
+							<option value="ceph" selected>CEPH</option>
+						</select>
+					</div>
+					<div class="input-group" style="margin-bottom:2px;">
+						<span class="input-group-addon" style="min-width:200px;text-align:left;">Status*</span>
+						<select class="form-control" ng-model="newImage._status">
+							<option value="enabled">Enabled</option>
+							<option value="disabled">Disabled</option>
+						</select>
+					</div>
+					<div class="input-group" style="margin-bottom:2px;">
+						<span class="input-group-addon" style="min-width:200px;text-align:left;">Architecture*</span>
+						<select class="form-control" ng-model="newImage._architecture">
+							<option value="x86_64">x86_64</option>
+							<option value="i386">i386</option>
+						</select>
+					</div>
+					<div class="input-group" style="margin-bottom:2px;">
+						<span class="input-group-addon" style="min-width:200px;text-align:left;">Disk Driver*</span>
+						<select class="form-control" ng-model="newImage._diskdriver" ng-disabled="imageDiskTypeLocked">
+							<option value="virtio">virtio</option>
+							<option value="ide">ide</option>
+						</select>
+					</div>
+					<div class="input-group" style="margin-bottom:2px;">
+						<span class="input-group-addon" style="min-width:200px;text-align:left;">Network Driver*</span>
+						<select class="form-control" ng-model="newImage._netdriver" ng-disabled="imageNetTypeLocked">
+							<option value="virtio">virtio</option>
+							<option value="realtek8139">Realtek 8139</option>
+							<option value="intelpro1000">Intel PRO/1000</option>
+						</select>
+					</div>
+					<div class="input-group" style="margin-bottom:2px;">
+						<span class="input-group-addon" style="min-width:200px;text-align:left;">Target Pool*</span>
+						<select class="form-control" ng-model="newImage._targetpool" ng-options="storage.name for storage in storages track by storage._id"></select>
+					</div>
+					<div style="margin-top:10px" class="form-group">
+						<div class="col-sm-12 controls">
+							<button type="submit" class="btn btn-success btn-sm">Create</button>
+							<button type="button" ng-click="cancelImageAdd()" class="btn btn-danger btn-sm">Cancel</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<div class="panel panel-default" style="margin:0;padding:0">
+			<div class="panel-heading">
+				<div class="panel-title"><i class="fa fa-puzzle-piece fa-fw"></i> New Image Detail</div>
+			</div>
+			<div class="panel-body" style="padding-top:30px;">
+				<pre>{{theNewImage | json}}</pre><hr />
+				<pre>{{newImage | json}}</pre>
+			</div>
+		</div>
+	</div>
+</div>
