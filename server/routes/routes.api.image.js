@@ -41,9 +41,12 @@ module.exports = function(app, express, db, tools) {
 					} else {
 						newImage.basefile = "image-"+newImage._id.toString();
 						newImage.id = newImage._id.toString();
+						delete newImage._id;
 						newImage.targetPool.id = newImage.targetPool._id;
-						console.log(">>>>>>>>>>>>>>>>>>>>>Image is inserted", newImage._id.toString());
-						db.images.update({_id: mongojs.ObjectId(newImage._id)}, {$set:{basefile:newImage.basefile, id:newImage.id}}, function(uerr, udata) {
+						newImage.pool = newImage.targetPool.id;
+						console.log(newImage);
+						console.log(">>>>>>>>>>>>>>>>>>>>>Image is inserted", newImage.id);
+						db.images.update({_id: mongojs.ObjectId(newImage.id)}, {$set:newImage}, function(uerr, udata) {
 							if(uerr){
 								res.status(500).json({ status: "fail", detail: "Can't insert image to the database" });
 							} else {

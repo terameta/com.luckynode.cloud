@@ -487,7 +487,7 @@ angular.module('cloudControllers').controller('serverController',['$scope', '$ro
 		$scope.deleteServer = function(){
 			if(confirm("Are you sure you want to delete " + $scope.curServer.name)){
 				$scope.curServer.$delete(function(result, error){
-					console.log(result);
+					//console.log(result);
 					if(result.status == "fail"){
 						alert("There was an error deleting the storage");
 						$state.go($state.current, {}, {reload: true});

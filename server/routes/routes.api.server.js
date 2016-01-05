@@ -640,6 +640,10 @@ function serverFindImage(curSrv){
 					if(serr){
 						deferred.reject(serr);
 					} else if(!sdata){
+						console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+						console.log("Image Data:", data);
+						console.log("Pool Data:", sdata);
+						console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 						deferred.reject('No pool found for the defined image.');
 					} else {
 						curSrv.store = sdata.name;

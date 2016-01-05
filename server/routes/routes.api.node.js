@@ -270,6 +270,7 @@ module.exports = function(app, express, db, tools) {
 						nodedbconf = JSON.stringify(nodedbconf.db);
 						nodedbconf = nodedbconf.replace(/\"/g, "\\\"");
 						nodedbconf = nodedbconf.replace(/\'/g, "\\'");
+						nodedbconf = '"' + nodedbconf + '"';
 						//console.log(nodedbconf);
 
 						var serverDetails = {}; //Server Details
@@ -287,7 +288,7 @@ module.exports = function(app, express, db, tools) {
 						steps.push({ order: steps.length,	Description: 'Disable Root SSH',					command: ''		 																														});
 						steps.push({ order: steps.length,	Description: 'Enable User SSH',					command: ''		 																														});
 						steps.push({ order: steps.length,	Description: 'Reload SSH Settings',				command: ''		 																														});
-						steps.push({ order: steps.length, 	Description: 'Enable qemu-nbd Step 1',			command: ''																																});
+						//steps.push({ order: steps.length, 	Description: 'Enable qemu-nbd Step 1',			command: ''																																});
 						steps.push({ order: steps.length, 	Description: 'Validate New User',				command: 'uptime' 																													});
 						steps.push({ order: steps.length,	Description: 'Install curl',						command: 'apt-get -y install curl  >> /tmp/install.log 2>&1'															});
 						steps.push({ order: steps.length,	Description: 'LN System: Create Folders',		command: 'cd && mkdir node.luckynode.com >> /tmp/install.log 2>&1;'													});
@@ -302,7 +303,7 @@ module.exports = function(app, express, db, tools) {
 						steps.push({ order: steps.length,	Description: 'Activate Firewall',				command: 'service iptables start >> /tmp/install.log 2>&1' 																});
 						steps.push({ order: steps.length,	Description: 'Activate IPv4 Forwarding',		command: 'echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf' 															});
 						steps.push({ order: steps.length,	Description: 'Instal NTFS Tools',				command: 'apt-get install -y ntfs-3g>> /tmp/install.log 2>&1;'															});
-						steps.push({ order: steps.length,	Description: 'Install Virt Packages Step 1',	command: 'apt-get install -y kvm qemu libvirt-bin libvirt-dev>> /tmp/install.log 2>&1;'						});
+						steps.push({ order: steps.length,	Description: 'Install Virt Packages Step 1',	command: 'apt-get install -y ksmtuned kvm qemu libvirt-bin libvirt-dev>> /tmp/install.log 2>&1;'			});
 						steps.push({ order: steps.length,	Description: 'Install Virt Packages Step 2',	command: 'apt-get install -y qemu-kvm bridge-utils supermin >> /tmp/install.log 2>&1;'							});
 						steps.push({ order: steps.length,	Description: 'Install debconf-utils',			command: 'apt-get install -y debconf-utils >> /tmp/install.log 2>&1;'												});
 						steps.push({ order: steps.length,	Description: 'Set libguest installation',		command: 'echo libguestfs-tools libguestfs/update-appliance boolean true | debconf-set-selections'			});
@@ -330,11 +331,12 @@ module.exports = function(app, express, db, tools) {
 						steps.push({ order: steps.length,	Description: 'Add User to libvirtd Group',	command: 'echo $(logname) >> /tmp/install.log 2>&1' 																		});
 						steps.push({ order: steps.length,	Description: 'Add User to libvirtd Group',	command: 'usermod -a -G libvirtd $(logname) >> /tmp/install.log 2>&1' 												});
 						steps.push({ order: steps.length, 	Description: 'Identify Manager',					command: 'cd && cd node.luckynode.com && echo ' + getMyIPs() + '> managerip'										});
-						steps.push({ order: steps.length, 	Description: 'Enable qemu-nbd Step 2',			command: 'modprobe nbd max_part=63'																								});
 						steps.push({ order: steps.length,	Description: 'Fix Network File',					command: 'cd && cd node.luckynode.com && sh trimnetw.sh >> /tmp/install.log 2>&1;'								});
 						steps.push({ order: steps.length, 	Description: 'Identify Node',						command: 'cd && cd node.luckynode.com && echo '+ whoamitext +' > whoami.conf'										});
 						steps.push({ order: steps.length, 	Description: 'Create Hooks Folder',				command: 'mkdir /etc/libvirt/hooks >> /tmp/install.log 2>&1;'															});
 						steps.push({ order: steps.length, 	Description: 'Copy Hook File',					command: 'cd && cd node.luckynode.com && cp hookqemu /etc/libvirt/hooks/qemu >> /tmp/install.log 2>&1;'	});
+						steps.push({ order: steps.length, 	Description: 'Enable Hook File',					command: 'cd && cd /etc/libvirt/hooks/ && chmod +x qemu >> /tmp/install.log 2>&1;'								});
+						steps.push({ order: steps.length, 	Description: 'Enable Hook File Step 2',		command: 'service libvirt-bin restart >> /tmp/install.log 2>&1;'														});
 
 						/*
 
@@ -419,14 +421,14 @@ module.exports = function(app, express, db, tools) {
 														setStatforStep(cStep,nodeId,'fail', issue );
 													}
 												);
-											} else if(cStep <= 8){
+											} else if(cStep < 8){
 												var st2Command = 'echo \'' + curPass + '\' | sudo -S sh -c \'echo "'+ data.user +':'+ data.pass +'" | chpasswd\'';
 												if(cStep == 3) st2Command = 'echo \'' + curPass + '\' | sudo -S grep -q -F \'' + data.user + ' ALL=(ALL) NOPASSWD: ALL\' /etc/sudoers || echo \'' + req.body.pass + '\' | sudo -S echo \'' + data.user + ' ALL=(ALL) NOPASSWD: ALL\' >> /etc/sudoers';
 												if(cStep == 4) st2Command = 'echo \'' + curPass + '\' | sudo -S sed -i \'/Port 22/c\Port 14422\' /etc/ssh/sshd_config';
 												if(cStep == 5) st2Command = 'echo \'' + curPass + '\' | sudo -S sed -i \'/PermitRootLogin yes/c\PermitRootLogin no\' /etc/ssh/sshd_config';
 												if(cStep == 6) st2Command = 'echo \'' + curPass + '\' | sudo -S grep -q -F \'AllowUsers '+ data.user +'\' /etc/ssh/sshd_config || echo \'' + curPass + '\' | sudo -S echo \'AllowUsers '+ data.user +'\' >> /etc/ssh/sshd_config';
 												if(cStep == 7) st2Command = 'echo \'' + curPass + '\' | sudo -S service ssh reload';
-												if(cStep == 8) st2Command = 'echo \'' + curPass + '\' | sudo -S grep -q -F \'nbd max_part=63\' /etc/modules || echo \'' + curPass + '\' | sudo -S echo \'nbd max_part=63\' | sudo tee --append /etc/modules';
+											//	if(cStep == 8) st2Command = 'echo \'' + curPass + '\' | sudo -S grep -q -F \'nbd max_part=63\' /etc/modules || echo \'' + curPass + '\' | sudo -S echo \'nbd max_part=63\' | sudo tee --append /etc/modules';
 												console.log(st2Command);
 
 												deployer.runCommand(serverDetails, st2Command).then(

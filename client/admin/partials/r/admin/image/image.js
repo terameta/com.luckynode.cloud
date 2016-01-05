@@ -53,7 +53,7 @@ angular.module('cloudControllers').controller('imageController',['$scope', '$roo
 		$scope.imageArchitectures = [{value:'x86_64', text: 'x86_64'}, {value:'i386', text: 'i386'}];
 		$scope.imageDiskDrivers = [{ value:'virtio', text: 'virtio' }, { value:'ide', text: 'ide'}];
 		$scope.imageNetDrivers = [{value:'virtio', text: 'virtio'}, {value:'rtl8139', text: 'Realtek 8139'}, {value:'e1000', text: 'Intel PRO/1000'}];
-		$scope.imageDiskTypes = [{ value:'qcow2', text: 'QCoW2' }, { value:'raw', text: 'Raw'}];
+		$scope.imageDiskTypes = [{ value:'qcow2', text: 'QCoW2' }, { value:'raw', text: 'Raw'}, { value:'ceph', text: 'Ceph'}];
 		$scope.imageOSList = [
 			{ value: 'centos-icon',			text: 'Centos',			type: 'Linux'},
 			{ value: 'debian',				text: 'Debian',			type: 'Linux'},
@@ -266,7 +266,7 @@ angular.module('cloudControllers').controller('imageController',['$scope', '$roo
 
 			$image.save(theNewImage, function(theResult){
 				$scope.fetchImages();
-				//$state.go('r.dashboard.images');
+				$state.go('r.dashboard.images');
 			});
 		};
 

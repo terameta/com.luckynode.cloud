@@ -69,7 +69,7 @@ function startProcess(){
 	then(processAll).
 	then(processAllMail).
 	then(function(result){
-		console.log("Invoice process completed:", result);
+		tools.logger.info("Invoice process completed:", result);
 	});
 }
 
