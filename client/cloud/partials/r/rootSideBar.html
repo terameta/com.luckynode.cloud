@@ -42,6 +42,7 @@
 		<li ng-class="{active : isCurFocus('invoice')}">
 			<a ui-sref="r.invoices">
 				<i class="fa fa-server"></i><span>Invoices</span>
+				<span class="label label-warning pull-right" ng-if="invoices.length>0">{{invoices.length}}</span>
 			</a>
 		</li>
 	</ul>
