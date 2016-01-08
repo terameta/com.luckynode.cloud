@@ -14,53 +14,51 @@
 <div class="row">
 <div class="panel panel-default">
 	<div class="panel-body">
-		<form editable-form name="invoiceEditForm" onaftersave="saveInvoice()">
-			<div class="table-responsive">
-				<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
-					<tbody>
-						<tr><td width="120"><b>Number: 			</b></td><td>{{ curInvoice._id }}</td><td width="50%" rowspan="8" ng-include="'/cloud/partials/invoice/paymentOptions.html'" style="background:transparent;"></td></tr>
-						<tr><td> 			<b>Amount: 			</b></td><td>{{ formatCurrency(curInvoice.netTotal) }}</td></tr>
-						<tr><td>			<b>Status: 			</b></td><td>{{ curInvoice.details.status }} 				</td></tr>
-						<tr><td>			<b>Date: 			</b></td><td>{{ formatDate(curInvoice.details.date) }} 		</td></tr>
-						<tr><td>			<b>To: 				</b></td><td>{{ curInvoice.details.to }} 					</td></tr>
-						<tr><td>			<b>Address: 		</b></td><td><pre style="background:transparent;border:0;padding:0;margin:0">{{ curInvoice.details.toAddress }}</pre></td></tr>
-						<tr><td>			<b>E-Mail Address: 	</b></td><td>{{ curInvoice.details.toEmail }} 				</td></tr>
-						<tr><td>			<b>Pay To: 		</b></td><td><pre style="background:transparent;border:0;padding:0;margin:0">{{ curInvoice.details.payTo }}</pre></td></tr>
-						<tr>
-							<td><b>Items:</b></td>
-							<td colspan="2">
-								<table class="table table-bordered table-condensed table-fluid">
-									<tr>
-										<th>Name</th>
-										<th>Type</th>
-										<th>Effective Dates</th>
-										<th>Base Price</th>
-										<th>Base Discount</th>
-										<th>Final Price</th>
-										<th>Final Discount</th>
-										<th>Net</th>
-									</tr>
-									<tr ng-repeat="curItem in curInvoice.items">
-										<td>{{curItem.name}}</td>
-										<td>{{curItem.type}}</td>
-										<td>{{curItem.between}}</td>
-										<td align="right">{{formatCurrency(curItem.price)}}</td>
-										<td align="right">{{formatCurrency(curItem.discount)}}</td>
-										<td align="right">{{formatCurrency(curItem.finalPrice)}}</td>
-										<td align="right">{{formatCurrency(curItem.finalDiscount)}}</td>
-										<td align="right">{{formatCurrency(curItem.finalPrice - curItem.finalDiscount)}}</td>
-									</tr>
-									<tr>
-										<td align="right" colspan="7"><b>Grand Total</b></td>
-										<td align="right"><b>{{ formatCurrency(curInvoice.netTotal) }}</b></td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</form>
+		<div class="table-responsive">
+			<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+				<tbody>
+					<tr><td width="120"><b>Number: 			</b></td><td>{{ curInvoice._id }}</td><td width="50%" rowspan="8" ng-include="'/cloud/partials/invoice/paymentOptions.html'" style="background:transparent;"></td></tr>
+					<tr><td> 			<b>Amount: 			</b></td><td>{{ formatCurrency(curInvoice.netTotal) }}</td></tr>
+					<tr><td>			<b>Status: 			</b></td><td>{{ curInvoice.details.status }} 				</td></tr>
+					<tr><td>			<b>Date: 			</b></td><td>{{ formatDate(curInvoice.details.date) }} 		</td></tr>
+					<tr><td>			<b>To: 				</b></td><td>{{ curInvoice.details.to }} 					</td></tr>
+					<tr><td>			<b>Address: 		</b></td><td><pre style="background:transparent;border:0;padding:0;margin:0">{{ curInvoice.details.toAddress }}</pre></td></tr>
+					<tr><td>			<b>E-Mail Address: 	</b></td><td>{{ curInvoice.details.toEmail }} 				</td></tr>
+					<tr><td>			<b>Pay To: 		</b></td><td><pre style="background:transparent;border:0;padding:0;margin:0">{{ curInvoice.details.payTo }}</pre></td></tr>
+					<tr>
+						<td><b>Items:</b></td>
+						<td colspan="2">
+							<table class="table table-bordered table-condensed table-fluid">
+								<tr>
+									<th>Name</th>
+									<th>Type</th>
+									<th>Effective Dates</th>
+									<th>Base Price</th>
+									<th>Base Discount</th>
+									<th>Final Price</th>
+									<th>Final Discount</th>
+									<th>Net</th>
+								</tr>
+								<tr ng-repeat="curItem in curInvoice.items">
+									<td>{{curItem.name}}</td>
+									<td>{{curItem.type}}</td>
+									<td>{{curItem.between}}</td>
+									<td align="right">{{formatCurrency(curItem.price)}}</td>
+									<td align="right">{{formatCurrency(curItem.discount)}}</td>
+									<td align="right">{{formatCurrency(curItem.finalPrice)}}</td>
+									<td align="right">{{formatCurrency(curItem.finalDiscount)}}</td>
+									<td align="right">{{formatCurrency(curItem.finalPrice - curItem.finalDiscount)}}</td>
+								</tr>
+								<tr>
+									<td align="right" colspan="7"><b>Grand Total</b></td>
+									<td align="right"><b>{{ formatCurrency(curInvoice.netTotal) }}</b></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 

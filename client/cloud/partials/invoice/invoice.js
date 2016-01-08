@@ -90,5 +90,9 @@ angular.module('cloudControllers').controller('ctrlInvoice', ['$scope', '$http',
 			return moment(value).format('Do MMMM, YYYY');
 		};
 
+		$scope.submitCC = function(){
+			console.log("We are now getting ready to charge the CC");
+		};
+
 	}
 ]);
