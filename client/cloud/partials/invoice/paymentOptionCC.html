@@ -1,4 +1,40 @@
-<form id="myCCForm" ng-submit="submitCC()" method="post">
+<div class="row" style="background-color:#18BC9C;padding:20px;margin:0">
+	<form id="lnCCForm" ng-submit="submitCC()" class="form-horizontal">
+	<div class="panel panel-success" style="margin:0">
+		<div class="panel-heading" style="padding:30px 10px;font-weight:bold;">
+			<i class="fa fa-lock"></i> &nbsp;This is a secure 128-bit SSL Encrypted payment. You're safe.
+		</div>
+		<div class="panel-body" style="padding:20px;">
+			<div class="row">
+				<div class="well" ng-show="ccDetails.info" ng-bind-html="ccDetails.info"></div>
+			</div>
+			<input name="token" type="hidden" value="" />
+			<div class="form-group">
+				<input ng-model="ccDetails.holder" type="text" class="form-control" id="ccHolder" placeholder="CARD HOLDER" autocomplete="off" required oninvalid="this.setCustomValidity('Please enter your complete name')" ng-disabled="submitCCdisabled" />
+			</div>
+			<div class="row">
+				<div class="input-group">
+					<input ng-model="ccDetails.no" 		type="text" class="form-control" id="ccNo" 		placeholder="CARD NUMBER" value="" autocomplete="off" ng-change="ccNumChange()" required  ng-disabled="submitCCdisabled" />
+					<span class="input-group-addon" ng-bind-html="ccDetails.ccType"></span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-group">
+					<span class="input-group-addon" style="padding:0;border:0"><input type="text" ng-model="ccDetails.expMonth" class="form-control" id="expMonth" placeholder="MM" ng-disabled="submitCCdisabled" required /></span>
+					<span class="input-group-addon" style="padding:0;border:0"><input type="text" ng-model="ccDetails.expYear" class="form-control" id="expYear" placeholder="YYYY" ng-disabled="submitCCdisabled" required /></span>
+					<span class="input-group-addon" style="padding:0;border:0"><input type="text" ng-model="ccDetails.cvv" class="form-control" id="cvv" placeholder="CVV/CVC" ng-disabled="submitCCdisabled" required /></span>
+				</div>
+			</div>
+		</div>
+		<div class="panel-footer" style="text-align:right">
+			<br />
+			Paying: {{ formatCurrency(curInvoice.netTotal) }}<br /><br />
+			<button type="submit" class="btn btn-primary" ng-disabled="submitCCdisabled">Complete Payment</button>
+		</div>
+	</div>
+	</form>
+</div>
+<!--form id="myCCForm" ng-submit="submitCC()" method="post">
   <input name="token" type="hidden" value="" />
   <div>
     <label>
@@ -21,4 +57,4 @@
     </label>
   </div>
   <input type="submit" value="Submit Payment" />
-</form>
+</form-->

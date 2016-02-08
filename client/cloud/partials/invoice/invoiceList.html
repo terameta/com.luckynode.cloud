@@ -27,8 +27,8 @@
 				<td>{{invoice._id}}</td>
 				<td>{{invoice.details.to}}</td>
 				<td>{{invoice.items.length}}</td>
-				<td>${{invoice.netTotal.toFixed(2)}}</td>
-				<td>{{invoice.status || 'Unpaid'}}</td>
+				<td>{{formatCurrency(invoice.netTotal)}}</td>
+				<td>{{invoice.details.status || 'Unpaid' | titlecase}}</td>
 				<td><a ui-sref="r.invoice({id: invoice._id})" title="Details"><i class="fa fa-cog fa-fw"></i></a></td>
 				<!--td>{{ isofile || json }}</td-->
 			</tr>

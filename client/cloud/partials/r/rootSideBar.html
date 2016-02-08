@@ -6,7 +6,7 @@
 			<img ng-src="{{ppicurl}}" class="img-circle" alt="User Image">
 		</div>
 		<div class="pull-left info">
-			<p>Ali Rıza Dikici</p>
+			<p>{{curEndUser.name + ' ' + curEndUser.surname}} </p>
 			<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
 		</div>
 	</div>
@@ -34,7 +34,7 @@
 			</a>
 		</li>
 		<li ng-class="{active : isCurFocus('server')}">
-			<a ui-sref="r.servers" uib-tooltip="You have {{servers.length}} server{{servers.length > 1 ? 's' : ''}}">
+			<a ui-sref="r.servers" uib-tooltip="You have {{servers.length}} server{{servers.length != 1 ? 's' : ''}}">
 				<i class="fa fa-server"></i><span>Servers</span>
 				<span class="label label-success pull-right" ng-if="servers.length>0">{{servers.length}}</span>
 			</a>
@@ -42,7 +42,7 @@
 		<li ng-class="{active : isCurFocus('invoice')}">
 			<a ui-sref="r.invoices">
 				<i class="fa fa-server"></i><span>Invoices</span>
-				<span class="label label-warning pull-right" ng-if="invoices.length>0">{{invoices.length}}</span>
+				<span class="label label-warning pull-right" ng-if="unpaidInvoices>0" uib-tooltip="You have {{unpaidInvoices}} unpaid invoice{{unpaidInvoices != 1 ? 's' : ''}}">{{unpaidInvoices}}</span>
 			</a>
 		</li>
 	</ul>

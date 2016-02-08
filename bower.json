@@ -33,6 +33,7 @@
     "font-mfizz": "~2.0.1",
     "svg-porn": "*",
     "flag-icon-css": "~0.8.5",
-    "angular-ui-ace": "~0.2.3"
+    "angular-ui-ace": "~0.2.3",
+    "angular-tree-control": "~0.2.23"
   }
 }

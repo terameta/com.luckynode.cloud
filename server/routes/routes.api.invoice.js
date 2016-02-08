@@ -24,6 +24,20 @@ module.exports = function(app, express, db, tools) {
 			}
 		});
 	});
+
+	apiRoutes.delete('/:id', tools.checkToken, function(req, res){
+		if(!req.params.id){
+			res.status(400).json({ status: "fail", detail: "no data provided" });
+		} else {
+			db.invoices.remove({_id: parseInt(req.params.id,10)}, function(err, data){
+				if(err){
+					res.status(500).json({ status: "fail" });
+				} else {
+					res.json({ status: "success" });
+				}
+			});
+		}
+	});
 /*
 	apiRoutes.post('/', tools.checkToken, function(req, res) {
 		if (!req.body) {
@@ -65,19 +79,7 @@ module.exports = function(app, express, db, tools) {
 		}
 	});
 
-	apiRoutes.delete('/:id', tools.checkToken, function(req, res){
-		if(!req.params.id){
-			res.status(400).json({ status: "fail", detail: "no data provided" });
-		} else {
-			db.isofiles.remove({_id: mongojs.ObjectId(req.params.id)}, function(err, data){
-				if(err){
-					res.status(500).json({ status: "fail" });
-				} else {
-					res.json({ status: "success" });
-				}
-			});
-		}
-	});
+
 */
 	app.use('/api/invoice', apiRoutes);
 };

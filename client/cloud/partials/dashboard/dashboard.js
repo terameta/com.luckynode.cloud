@@ -22,8 +22,8 @@ angular.module('cloudServices').service('$manager', ['$resource',
 ]);
 */
 
-angular.module('cloudControllers').controller('dashboardController', ['$scope', '$http', '$rootScope', '$state', '$stateParams', '$userService', 'srvcEndUser', 'srvcServer',
-	function($scope, $http, $rootScope, $state, $stateParams, $userService, srvcEndUser, srvcServer) {
+angular.module('cloudControllers').controller('dashboardController', ['$scope', '$http', '$rootScope', '$state', '$stateParams', '$userService', 'srvcEndUser', 'srvcServer', 'srvcInvoice',
+	function($scope, $http, $rootScope, $state, $stateParams, $userService, srvcEndUser, srvcServer, srvcInvoice) {
 		var lnToastr = toastr;
 
 		$scope.signout = function(){
@@ -34,10 +34,18 @@ angular.module('cloudControllers').controller('dashboardController', ['$scope', 
 
 		$userService.getCurUser();
 
+		$userService.getCurUserDetails().then(function(result){
+			console.log(result);
+			console.log($rootScope.curEndUser);
+			console.log($rootScope.user);
+			console.log($rootScope.curUser);
+
+		});
+
 		$rootScope.ppicurl = '/img/noprofileimage128.png';
 
 		$scope.fetchCurEndUser = function(){
-			$scope.curEndUser = srvcEndUser.get({id: $scope.curUser.id}, function(result){
+			$rootScope.curEndUser = srvcEndUser.get({id: $scope.curUser.id}, function(result){
 				if($scope.curEndUser.haspicture){
 					$rootScope.ppicurl = '/api/enduser/getprofilepicture/'+$scope.curUser.id;
 				}

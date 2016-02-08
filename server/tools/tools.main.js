@@ -91,14 +91,17 @@ module.exports = {
 		url += path || '/';
 
 		//Lets configure and request
-		request({
+		var theObject = {
 			url: url,
 			rejectUnauthorized:shouldReject || false,
-			headers: {'x-access-token':token},
 			method: 'POST',
 			//Lets post the following key/values as form
 			form: postData
-		}, function(error, response, body) {
+		};
+
+		if(token) theObject.headers = {'x-access-token':token};
+
+		request(theObject, function(error, response, body) {
 			if (error) {
 				deferred.reject(error);
 			} else if(response.statusCode > 399){

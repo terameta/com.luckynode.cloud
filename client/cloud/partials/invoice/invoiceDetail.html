@@ -2,6 +2,8 @@
 	<h1>
 		<i class="fa fa-file-text-o fa-fw"></i> Invoice
 		<small>#{{ curInvoice._id }}</small>
+		<button ng-if="(curInvoice.details.status != 'paid')" type="button" class="btn btn-xs btn-default" ng-click="paywithCC()" uib-tooltip="Pay with credit card"><i class="fa fa-credit-card-alt fa-fw"></i></button>
+		<button ng-if="(curInvoice.details.status != 'paid')" type="button" class="btn btn-xs btn-default" ng-click="paywithPP()" uib-tooltip="Pay with PayPal"><i class="fa fa-paypal fa-fw"></i></button>
 	</h1>
 	<ol class="breadcrumb">
 		<li><a ui-sref="r.dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
@@ -17,9 +19,24 @@
 		<div class="table-responsive">
 			<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
 				<tbody>
-					<tr><td width="120"><b>Number: 			</b></td><td>{{ curInvoice._id }}</td><td width="50%" rowspan="8" ng-include="'/cloud/partials/invoice/paymentOptions.html'" style="background:transparent;"></td></tr>
+					<tr><td width="180"><b>Number: 			</b></td><td>{{ curInvoice._id }}</td></tr>
 					<tr><td> 			<b>Amount: 			</b></td><td>{{ formatCurrency(curInvoice.netTotal) }}</td></tr>
-					<tr><td>			<b>Status: 			</b></td><td>{{ curInvoice.details.status }} 				</td></tr>
+					<tr><td>			<b>Status: 			</b></td><td>{{ curInvoice.details.status | titlecase }} {{curInvoice.transaction ? "( "+ curInvoice.paymentType+" Transaction: " + curInvoice.transaction +" )" : ""}}				</td></tr>
+					<tr ng-if="curInvoice.transactions">
+						<td>			<b>Transactions: 	</b></td>
+						<td>
+							<table class="table table-bordered" style="width: auto !important;">
+								<tr><th>Date</th><th>ID</th><th>Amount</th><th>Fee</th><th>Method</th></tr>
+								<tr ng-repeat="curTrx in curInvoice.transactions">
+									<td>{{formatDateTime(curTrx.date)}} |||| {{curTrx.date}}</td>
+									<td>{{curTrx.id}}</td>
+									<td>{{curTrx.amount}}</td>
+									<td>{{curTrx.fee}}</td>
+									<td>{{curTrx.method}}</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
 					<tr><td>			<b>Date: 			</b></td><td>{{ formatDate(curInvoice.details.date) }} 		</td></tr>
 					<tr><td>			<b>To: 				</b></td><td>{{ curInvoice.details.to }} 					</td></tr>
 					<tr><td>			<b>Address: 		</b></td><td><pre style="background:transparent;border:0;padding:0;margin:0">{{ curInvoice.details.toAddress }}</pre></td></tr>
@@ -54,6 +71,32 @@
 									<td align="right"><b>{{ formatCurrency(curInvoice.netTotal) }}</b></td>
 								</tr>
 							</table>
+						</td>
+					</tr>
+					<!--tr ng-if="(curInvoice.details.status != 'paid')"-->
+					<tr>
+						<td><b>Payment Options:</b></td>
+						<td>
+							<button type="button" ng-click="paywithCC()"><i class="fa fa-credit-card-alt fa-fw"></i> Pay with Credit Card</button>
+							<form action="{{systemSettings.paypalformlink}}" method="post" style=" display:inline!important;">
+								<input type="hidden" name="business" value="{{systemSettings.paypal.email}}">
+
+								<input type="hidden" name="cmd" value="_xclick">
+
+								<input type="hidden" name="item_name" value="{{ curInvoice._id }}">
+								<input type="hidden" name="amount" value="{{ formatCurrency(curInvoice.netTotal) }}">
+								<input type="hidden" name="currency_code" value="USD">
+
+								<input type="hidden" name="no_note" value="1">
+								<input type="hidden" name="no_shipping" value="1">
+								<input type="hidden" name="charset" value="utf-8">
+
+								<input type="hidden" name="return" value="{{systemSettings.domain}}/api/payment/paypal/success/{{curInvoice._id}}">
+								<input type="hidden" name="cancel_return" value="{{systemSettings.domain}}/api/payment/paypal/cancel/{{curInvoice._id}}">
+								<input type="hidden" name="notify_url" value="{{systemSettings.domain}}/api/payment/paypal/IPN">
+
+								<button type="submit"><i class="fa fa-paypal fa-fw"></i> Pay with PayPal</button>
+							</form>
 						</td>
 					</tr>
 				</tbody>

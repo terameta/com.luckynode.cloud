@@ -36,8 +36,13 @@
 					<li class="list-group-item">
 						<b>Member Since</b> <a class="pull-right">{{ curEndUser.joindate || 'JoinDate' }}</a>
 					</li>
-					<li class="list-group-item"><span editable-text="curEndUser.email" e-required e-size="100" e-placeholder="Email Address">{{curEndUser.email || 'Email Address'}}</span></li>
-					<li class="list-group-item"><span editable-textarea="curEndUser.address" e-rows="7" e-cols="40" e-placeholder="Address" ng-bind-html="formatAddress() || 'Please click edit to change your address'"></span></li>
+					<li class="list-group-item">Email Address: <span editable-text="curEndUser.email" e-required e-size="100" e-placeholder="Email Address">{{curEndUser.email || 'Email Address'}}</span></li>
+					<li class="list-group-item">Billing Address: <span editable-textarea="curEndUser.address" e-rows="7" e-cols="40" e-placeholder="Address" ng-bind-html="formatAddress() || 'Please click edit to change your address'"></span></li>
+					<li class="list-group-item">Post Code:<span editable-text="curEndUser.postcode" e-required e-size="100" e-placeholder="Post Code">{{curEndUser.postcode || 'Please edit your post code'}}</span></li>
+					<li class="list-group-item">City:<span editable-text="curEndUser.city" e-required e-size="100" e-placeholder="City" >{{curEndUser.city || 'Please edit your city'}}</span></li>
+					<li class="list-group-item">State:<span editable-text="curEndUser.state" e-required e-size="100" e-placeholder="State">{{curEndUser.state || 'Please edit your state'}}</span></li>
+					<li class="list-group-item">Country:<span editable-text="curEndUser.country" e-required e-size="100" e-placeholder="Country">{{curEndUser.country || 'Please edit your country'}}</span></li>
+					<li class="list-group-item">Phone Number:<span editable-text="curEndUser.phone" e-required e-size="100" e-placeholder="Phone number">{{curEndUser.phone || 'Please edit phone number'}}</span></li>
 				</ul>
 
 				<button type="button" class="btn btn-primary btn-xs btn-block" ng-click="profileMainEditForm.$show()" ng-show="!profileMainEditForm.$visible">Edit</button>

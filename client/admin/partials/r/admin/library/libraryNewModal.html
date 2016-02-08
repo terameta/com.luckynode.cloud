@@ -1,0 +1,18 @@
+<html>
+	<div class="modal-header">
+		<h3>Pick a name</h3>
+	</div>
+	<div class="modal-body">
+		<div class="container-fluid">
+		<form class="form-horizontal" role="form">
+			<div class="form-group">
+				<input type="text" id="tutorialName" class="form-control" ng-model="curNewTutorial.name" placeholder="Name">
+			</div>
+		</form>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default btn-sm" ng-click="tutorialNewAction();">OK</button>
+		<button type="button" class="btn btn-default btn-sm" ng-click="tutorialNewCancel();">Cancel</button>
+	</div>
+</html>

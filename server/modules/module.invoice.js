@@ -48,22 +48,6 @@ function list(userid){
 	return deferred.promise;
 }
 
-function list(userid){
-	var deferred = Q.defer();
-	var querier = {"details.user":mongojs.ObjectId(userid)};
-	if(!userid)	querier = {};
-	console.log(querier);
-	db.invoices.find(querier, function(err, invoiceList){
-		if(err){
-			deferred.reject(err);
-		} else {
-			console.log(invoiceList);
-			deferred.resolve(invoiceList);
-		}
-	});
-	return deferred.promise;
-}
-
 function startProcess(){
 	assignDate().
 	then(processAll).
@@ -328,6 +312,7 @@ function calculateInvoiceTotal(tokenObject){
 			discountTotal += parseFloat(curItem.finalDiscount);
 		});
 		netTotal += parseFloat(priceTotal) - parseFloat(discountTotal);
+		netTotal = parseFloat(netTotal).toFixed(2);
 		db.invoices.update({_id:tokenObject.invoicenumber}, {$set:{priceTotal:priceTotal, discountTotal:discountTotal, netTotal:netTotal}}, function(err, result){
 			if(err){
 				deferred.reject(err);

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="homeApp">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>epmvirtual - cloud servers for EPM professionals</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<base href="/home/">
+	<link href='https://fonts.googleapis.com/css?family=Hind:400,300,600,500,700&amp;subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+	<!--ICONS-->
+	<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+	<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
+	<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+	<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+	<link rel="manifest" href="/manifest.json">
+	<meta name="msapplication-TileColor" content="#603cba">
+	<meta name="msapplication-TileImage" content="/mstile-144x144.png">
+	<meta name="theme-color" content="#ffffff">
+	<!--LIBRARIES-->
+	<!--nocss-->																								<script src="/lib/jquery/dist/jquery.min.js"></script>
+	<!--nocss-->																								<script src="/lib/angular/angular.min.js"></script>
+	<!--nocss-->																								<script src="/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<!--nocss-->																								<script src="/lib/angular-resource/angular-resource.min.js"></script>
+	<link rel="stylesheet" href="/lib/angular-loading-bar/build/loading-bar.min.css"> 	<script src="/lib/angular-loading-bar/build/loading-bar.min.js"></script>
+	<!--nocss-->																								<script src="/lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">				<script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="/lib/toastr/toastr.min.css">									<script src="/lib/toastr/toastr.min.js"></script>
+	<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">				<!--nojs-->
+	<!--nocss-->																								<script src="/lib/moment/min/moment.min.js"></script>
+	<!--nocss-->																								<!--[if lt IE 9]><script src="/lib/html5shiv/dist/html5shiv.min.js"></script><![endif]-->
+	<!--nocss-->																								<!--[if lt IE 9]><script src="/lib/respond/dest/respond.min.js"></script><![endif]-->
+	<link rel="stylesheet" href="/lib/angular-tree-control/css/tree-control.css">			<script src="/lib/angular-tree-control/angular-tree-control.js"></script>
+	<script type="text/javascript" src="/home/js/epmvirtual.js"></script>
+	<script type="text/javascript" src="/home/partials/home/home.js"></script>
+	<script type="text/javascript" src="/home/partials/pricing/pricing.js"></script>
+	<script type="text/javascript" src="/home/partials/features/features.js"></script>
+	<script type="text/javascript" src="/home/partials/library/library.js"></script>
+
+
+	<!-- Bootstrap & Styles -->
+	<link href="/home/css/bootstrap-theme.css" rel="stylesheet">
+	<link href="/home/css/block_grid_bootstrap.css" rel="stylesheet">
+	<link href="/home/css/font-awesome.min.css" rel="stylesheet">
+	<link href="/home/css/owl.carousel.css" rel="stylesheet">
+	<link href="/home/css/owl.theme.css" rel="stylesheet">
+	<link href="/home/css/animate.min.css" rel="stylesheet" />
+	<link href="/home/css/jquery.circliful.css" rel="stylesheet" />
+	<link href="/home/css/slicknav.css" rel="stylesheet" />
+	<link href="/home/style.css" rel="stylesheet">
+
+
+	<script type="text/javascript">
+		toastr.options = {
+			"closeButton": true,
+			"debug": false,
+			"newestOnTop": true,
+			"progressBar": true,
+			"positionClass": "toast-top-right",
+			"preventDuplicates": false,
+			"onclick": null,
+			"showDuration": "300",
+			"hideDuration": "1000",
+			"timeOut": "5000",
+			"extendedTimeOut": "1000",
+			"showEasing": "swing",
+			"hideEasing": "linear",
+			"showMethod": "fadeIn",
+			"hideMethod": "fadeOut"
+		};
+	</script>
+	<style>
+		#toast-container > div {opacity:1;}
+	</style>
+</head>
+
+<body>
+	<div ui-view="mainMenu"></div>
+	<div ui-view="mainBody" class="content-wrapper"></div>
+	<section class="footer">
+		<div class="row">
+			<div class="col-sm-3">
+				<h4>Choose.</h4>
+				<ul>
+					<li><a href="">Starter Edition</a>
+					</li>
+					<li><a href="">Consulting Edition</a>
+					</li>
+					<li><a href="">Business Edition</a>
+					</li>
+					<li><a href="">Enterprise Edition</a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-sm-3">
+				<h4>Get Support.</h4>
+				<ul>
+					<li><a href="">Contact Us</a>
+					</li>
+					<li><a href="">Knowledge Base</a>
+					</li>
+					<li><a href="">Submit a Ticket</a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-sm-3">
+				&nbsp;
+			</div>
+			<div class="col-sm-3">
+				<h4>Ask.</h4>
+				<ul class="questions">
+					<li><i class="fa fa-phone"></i> US: +1 (646) 741-21-42</li>
+					<li><i class="fa fa-phone"></i> UK: +44 (203) 695-04-02</li>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<!--  End of Footer -->
+	<a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+</body>
+
+</html>

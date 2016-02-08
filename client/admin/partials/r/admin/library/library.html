@@ -1,0 +1,42 @@
+<section class="content-header">
+	<h1>
+		<i class="fa fa-book fa-fw"></i> Library
+		<div class="btn-group" role="group" aria-label="Library List Actions">
+			<button class="btn btn-default btn-sm" ng-click="tutorialNew()">New</button>
+		</div>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+		<li class="active">Library</li>
+	</ol>
+</section>
+<section class="content">
+<div class="row">
+	<table class="table table-striped table-bordered table-hover" ng-if="tutorials.length > 0">
+		<thead>
+			<tr>
+				<th>Row</th>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Short Description</th>
+				<th>Parent</th>
+				<th>Order</th>
+				<th>Details</th>
+			</tr>
+		</thead>
+
+
+		<tbody>
+			<tr ng-repeat="tutorial in tutorials | orderBy:['parent','order']">
+				<td>{{$index +1}}</td>
+				<td>{{tutorial._id}}</td>
+				<td>{{tutorial.name}}</td>
+				<td>{{tutorial.shortDescription}}</td>
+				<td>{{tutorial.parent}}</td>
+				<td>{{tutorial.order}}</td>
+				<td><a ui-sref="r.dashboard.libraryitem({id: tutorial._id})" title="Details"><i class="fa fa-cog fa-fw"></i></a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</section>

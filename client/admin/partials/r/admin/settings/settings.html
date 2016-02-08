@@ -12,29 +12,54 @@
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<form editable-form name="settingsEditForm" onaftersave="save()">
-				<div class="table-responsive">
-					<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
-						<tbody>
-							<tr><td width=200><b>Company Name: 		</b></td><td><span editable-text="settings.companyname">{{ settings.companyname }}</span></td></tr>
-							<tr><td><b>Admin Email Address: 		</b></td><td><span editable-text="settings.adminemail">{{ settings.adminemail }}</span></td></tr>
-							<tr><td><b>Support Email Address: 		</b></td><td><span editable-text="settings.supportemail">{{ settings.supportemail }}</span></td></tr>
-							<tr><td><b>Accounting Email Address: 	</b></td><td><span editable-text="settings.accountingemail">{{ settings.accountingemail }}</span></td></tr>
-							<tr><td><b>Domain: 						</b></td><td><span editable-text="settings.domain">{{ settings.domain }}</span></td></tr>
-							<tr><td><b>Logo URL: 					</b></td><td><span editable-text="settings.logourl">{{ settings.logourl }}</span></td></tr>
-							<tr><td><b>Pay to Text: 				</b></td><td><span editable-textarea="settings.paytotext" e-rows="7" e-cols="40"><pre style="background:transparent;border:0;padding:0">{{ settings.paytotext }}</pre></span></td></tr>
-							<tr><td><b>Counters: 					</b></td><td><ul><li ng-repeat="counter in counters">{{counter._id}} (seq: {{counter.seq}})</li></ul></td></tr>
-							<tr><td><b>Email Letter Head Color: 	</b></td><td><span editable-text="settings.emailletterheadcolor">{{settings.emailletterheadcolor}}</span></td></tr>
-							<tr><td><b>Email Letter Head Logo URL: 	</b></td><td><span editable-text="settings.emailletterheadlogourl">{{settings.emailletterheadlogourl}}</span></td></tr>
-							<tr>
-								<td colspan=2>
-									<button type="button" class="btn btn-primary btn-xs" ng-click="settingsEditForm.$show()" ng-show="!settingsEditForm.$visible">Edit</button>
-									<button type="button" class="btn btn-danger btn-xs" ng-click="deletePlan()" ng-show="!settingsEditForm.$visible">Delete</button>
-									<button type="submit" class="btn btn-success btn-xs" ng-disabled="settingsEditForm.$waiting" ng-show="settingsEditForm.$visible">Save</button>
-									<button type="button" class="btn btn-warning btn-xs" ng-disabled="settingsEditForm.$waiting" ng-click="settingsEditForm.$cancel()" ng-show="settingsEditForm.$visible">Cancel</button>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="table-responsive">
+							<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+								<tbody>
+									<tr><td width=200><b>Company Name: 		</b></td><td><span editable-text="settings.companyname">{{ settings.companyname }}</span></td></tr>
+									<tr><td><b>Admin Email Address: 		</b></td><td><span editable-text="settings.adminemail">{{ settings.adminemail }}</span></td></tr>
+									<tr><td><b>Support Email Address: 		</b></td><td><span editable-text="settings.supportemail">{{ settings.supportemail }}</span></td></tr>
+									<tr><td><b>Accounting Email Address: 	</b></td><td><span editable-text="settings.accountingemail">{{ settings.accountingemail }}</span></td></tr>
+									<tr><td><b>Domain: 						</b></td><td><span editable-text="settings.domain">{{ settings.domain }}</span></td></tr>
+									<tr><td><b>Logo URL: 					</b></td><td><span editable-text="settings.logourl">{{ settings.logourl }}</span></td></tr>
+									<tr><td><b>Pay to Text: 				</b></td><td><span editable-textarea="settings.paytotext" e-rows="7" e-cols="40"><pre style="background:transparent;border:0;padding:0">{{ settings.paytotext }}</pre></span></td></tr>
+									<tr><td><b>Counters: 					</b></td><td><ul><li ng-repeat="counter in counters">{{counter._id}} (seq: {{counter.seq}})</li></ul></td></tr>
+									<tr><td><b>Email Letter Head Color: 	</b></td><td><span editable-text="settings.emailletterheadcolor">{{settings.emailletterheadcolor}}</span></td></tr>
+									<tr><td><b>Email Letter Head Logo URL: 	</b></td><td><span editable-text="settings.emailletterheadlogourl">{{settings.emailletterheadlogourl}}</span></td></tr>
+									<tr>
+										<td colspan=2>
+											<button type="button" class="btn btn-primary btn-xs" ng-click="settingsEditForm.$show()" ng-show="!settingsEditForm.$visible">Edit</button>
+											<button type="button" class="btn btn-danger btn-xs" ng-click="deletePlan()" ng-show="!settingsEditForm.$visible">Delete</button>
+											<button type="submit" class="btn btn-success btn-xs" ng-disabled="settingsEditForm.$waiting" ng-show="settingsEditForm.$visible">Save</button>
+											<button type="button" class="btn btn-warning btn-xs" ng-disabled="settingsEditForm.$waiting" ng-click="settingsEditForm.$cancel()" ng-show="settingsEditForm.$visible">Cancel</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="table-responsive">
+							<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+								<tbody>
+									<tr><td width="200"><b>PayPal API Email:</b></td><td><span editable-text="settings.paypal.email">{{settings.paypal.email}}</span></td></tr>
+									<tr><td width="200"><b>PayPal API Username:</b></td><td><span editable-text="settings.paypal.username">{{settings.paypal.username}}</span></td></tr>
+									<tr><td width="200"><b>PayPal API Password:</b></td><td><span editable-text="settings.paypal.password">{{settings.paypal.password}}</span></td></tr>
+									<tr><td width="200"><b>PayPal API Signature:</b></td><td><span editable-text="settings.paypal.signature">{{settings.paypal.signature}}</span></td></tr>
+									<tr><td width="200"><b>PayPal API isSandBox:</b></td><td><span editable-text="settings.paypal.issandbox">{{settings.paypal.issandbox}}</span></td></tr>
+									<tr><td colspan=2><hr /></td></tr>
+									<tr><td width="200"><b>2CO API Username:</b></td><td><span editable-text="settings.tco.username">{{settings.tco.username}}</span></td></tr>
+									<tr><td width="200"><b>2CO API Password:</b></td><td><span editable-text="settings.tco.password">{{settings.tco.password}}</span></td></tr>
+									<tr><td width="200"><b>2CO API Seller ID:</b></td><td><span editable-text="settings.tco.sellerid">{{settings.tco.sellerid}}</span></td></tr>
+									<tr><td width="200"><b>2CO API Private Key:</b></td><td><span editable-text="settings.tco.privatekey">{{settings.tco.privatekey}}</span></td></tr>
+									<tr><td width="200"><b>2CO API Secret Word:</b></td><td><span editable-text="settings.tco.secret">{{settings.tco.secret}}</span></td></tr>
+									<tr><td width="200"><b>2CO API isDemo:</b></td><td><span editable-text="settings.tco.isdemo">{{settings.tco.isdemo}}</span></td></tr>
+									<tr><td width="200"><b>2CO API isSandBox:</b></td><td><span editable-text="settings.tco.issandbox">{{settings.tco.issandbox}}</span></td></tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 			</form>
 		</div>

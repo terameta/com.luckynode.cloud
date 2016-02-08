@@ -67,13 +67,13 @@
 				<li class="dropdown user user-menu">
 					<a class="dropdown-toggle" data-toggle="dropdown" role="button">
 						<img ng-src="{{ppicurl}}" class="user-image" alt="User Image">
-						<span class="hidden-xs">Ali Rıza Dikici</span>
+						<span class="hidden-xs">{{curEndUser.name + ' ' + curEndUser.surname}}</span>
 					</a>
 					<ul class="dropdown-menu">
 						<!-- User image -->
 						<li class="user-header">
 							<img ng-src="{{ppicurl}}" class="img-circle" alt="User Image">
-							<p>Ali Rıza Dikici - {{curUser.role}}<small>Member since Nov. 2012</small></p>
+							<p>{{curEndUser.name + ' ' + curEndUser.surname}} - {{curUser.role}}<small>Member since Nov. 2012</small></p>
 						</li>
 						<!-- Menu Body -->
 						<li class="user-body">

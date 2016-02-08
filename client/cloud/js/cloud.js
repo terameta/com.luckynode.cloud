@@ -5,6 +5,7 @@ var cloudServices 		= angular.module('cloudServices', ['ngResource']);
 cloudApp.filter('titlecase', function() {
 	return function(input) {
 		var smallWords = /^(a|an|and|as|at|but|by|en|for|if|in|nor|of|on|or|per|the|to|vs?\.?|via)$/i;
+		if(!input) return input;
 
 		input = input.toLowerCase();
 		return input.replace(/[A-Za-z0-9\u00C0-\u00FF]+[^\s-]*/g, function(match, index, title) {
@@ -201,6 +202,7 @@ cloudServices.service('$userService', ['$resource', '$q', '$rootScope', '$localS
 		service.resendVC = resendVC;
 		service.verifycode = verifycode;
 		service.getCurUser = getCurUser;
+		service.getCurUserDetails = getCurUserDetails;
 		service.sendLostPassCode = sendLostPassCode;
 
 		return service;
@@ -266,6 +268,18 @@ cloudServices.service('$userService', ['$resource', '$q', '$rootScope', '$localS
 			if($localStorage.get('apiToken')){
 				$rootScope.curUser = parseJWT($localStorage.get('apiToken'));
 			}
+		}
+
+		function getCurUserDetails(){
+			var deferred = $q.defer();
+			$http.get('/api/client/users/details').
+				success(function(data, status, headers, config){
+					deferred.resolve(data);
+				}).
+				error(function(data, status, headers, config){
+					deferred.reject(data);
+				});
+			return  deferred.promise;
 		}
 
 		function parseJWT(token){

@@ -1,4 +1,5 @@
 var Q				= require('q');
+var mongojs			= require('mongojs');
 
 module.exports = function(app, express, db, tools) {
 	var curModule 		= require('../modules/module.invoice.js')(db);

@@ -262,3 +262,20 @@ angular.module('cloudServices').service('srvcInfo', function locations(){
 
 	return infoService;
 });
+
+angular.module('cloudServices').service('srvcSettings', ['$http', '$q', function srvcSettings($http, $q){
+	var settingsService = {};
+	settingsService.get = function(){
+		var deferred = $q.defer();
+		$http.get('/api/client/settings').
+		success(function(data, status, headers, config){
+			deferred.resolve(data);
+		}).
+		error(function(data, status, headers, config){
+			deferred.reject(data);
+		});
+		return deferred.promise;
+	};
+
+	return settingsService;
+}]);
