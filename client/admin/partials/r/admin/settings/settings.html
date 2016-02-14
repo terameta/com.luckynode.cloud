@@ -25,6 +25,32 @@
 									<tr><td><b>Domain: 						</b></td><td><span editable-text="settings.domain">{{ settings.domain }}</span></td></tr>
 									<tr><td><b>Logo URL: 					</b></td><td><span editable-text="settings.logourl">{{ settings.logourl }}</span></td></tr>
 									<tr><td><b>Pay to Text: 				</b></td><td><span editable-textarea="settings.paytotext" e-rows="7" e-cols="40"><pre style="background:transparent;border:0;padding:0">{{ settings.paytotext }}</pre></span></td></tr>
+									<tr>
+										<td><b>Phone Numbers: 				</b></td>
+										<td>
+											<table class="table table-bordered table-condensed">
+												<thead>
+													<tr>
+														<td>Order</td>
+														<td>Country</td>
+														<td>Number</td>
+														<td>Link Number</td>
+														<td>Delete</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat="phone in settings.phones | orderBy:'order'">
+														<td><span editable-text="phone.order">{{phone.order}}</span></td>
+														<td><span editable-text="phone.country">{{phone.country}}</span></td>
+														<td><span editable-text="phone.number">{{phone.number}}</span></td>
+														<td><span editable-text="phone.linknumber">{{phone.linknumber}}</span></td>
+														<td><button type="button" class="btn btn-danger btn-xs" ng-click="deletePhone(phone.order)"><i class="fa fa-trash fa-fw"></i></button></td>
+													</tr>
+												</tbody>
+											</table>
+											<button type="button" class="btn btn-primary btn-xs" ng-click="addPhone()">Add Phone</button>
+										</td>
+									</tr>
 									<tr><td><b>Counters: 					</b></td><td><ul><li ng-repeat="counter in counters">{{counter._id}} (seq: {{counter.seq}})</li></ul></td></tr>
 									<tr><td><b>Email Letter Head Color: 	</b></td><td><span editable-text="settings.emailletterheadcolor">{{settings.emailletterheadcolor}}</span></td></tr>
 									<tr><td><b>Email Letter Head Logo URL: 	</b></td><td><span editable-text="settings.emailletterheadlogourl">{{settings.emailletterheadlogourl}}</span></td></tr>

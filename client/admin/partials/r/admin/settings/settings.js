@@ -87,6 +87,27 @@ angular.module('cloudControllers').controller('settingsController', ['$scope', '
 
 		$scope.save = srvcSettings.save;
 
+		$scope.addPhone = function(){
+			if(!$rootScope.settings.phones) $rootScope.settings.phones = [];
+			$rootScope.settings.phones.push({country:'US', order:0, number:'000-000-000'});
+			console.log($rootScope.settings);
+		};
+
+		$scope.deletePhone = function(theOrder){
+			if(!confirm("Are you sure you want to delete this phone number?")) return false;
+			var toDelete = -1;
+			$rootScope.settings.phones.forEach(function(curPhone, curIndex){
+				if(curPhone.order == theOrder) {
+					console.log(curPhone,curIndex, "This will be deleted");
+					toDelete = curIndex;
+				}
+			});
+			if(toDelete >= 0){
+				$rootScope.settings.phones.splice(toDelete,1);
+				$scope.save();
+			}
+		};
+
 		//lnToastr.info("We are at settings controller");
 
 	}

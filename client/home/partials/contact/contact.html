@@ -20,7 +20,7 @@
 			<h3>Contact us</h3>
 			<div id="sendstatus"></div>
 			<div id="contactform">
-				<form method="post" action="sendmail.php">
+				<form method="post" ng-submit="sendContact()">
 					<p>
 						<label for="name">Name:*</label>
 						<input type="text" class="form-control" name="name" id="name" tabindex="1" />
@@ -43,11 +43,12 @@
 
 		<div class="col-sm-3 col-sm-offset-1">
 			<h4 class="badge">Sales</h4>		<p><a href="mailto:{{salesemail}}">{{salesemail}}</a></p>
-			<h4 class="badge">Support</h4>	<p><a href="mailto:{{salesemail}}">{{supportemail}}</a></p>
+			<h4 class="badge">Support</h4>	<p><a href="mailto:{{supportemail}}">{{supportemail}}</a></p>
 			<h4 class="badge">Phones</h4>
 			<ul>
-				<li><a href="tel://1-646-741-2142">US: +1 (646) 741-21-42</a></li>
-				<li><a href="tel://44-203-695-0402">UK: +44 (203) 695-04-02</a></li>
+				<li ng-repeat="phone in phones | orderBy:'order'">
+					<a href="tel://{{phone.linknumber}}">{{phone.country}}: {{phone.number}}</a>
+				</li>
 			</ul>
 		</div>
 	</div>

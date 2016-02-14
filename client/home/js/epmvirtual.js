@@ -34,6 +34,7 @@ angular.module('homeServices').service('srvcInformation', ['$resource', '$rootSc
 				$rootScope.logourl				= response.data.logourl;
 				$rootScope.supportemail			= response.data.supportemail;
 				$rootScope.salesemail			= response.data.salesemail;
+				$rootScope.phones					= response.data.phones;
 			}, function errorCallback(response) {
 				deferred.reject();
 			});
