@@ -4,7 +4,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>epmvirtual - cloud servers for EPM professionals</title>
+	<title ng-bind="pageTitle">epmvirtual - cloud servers for EPM professionals</title>
+	<meta name="description" content="{{pageDescription}}">
+	<meta name="keywords" content="{{pageKeywords}}">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<base href="/home/">
 	<link href='https://fonts.googleapis.com/css?family=Hind:400,300,600,500,700&amp;subset=latin,latin-ext' rel='stylesheet' type='text/css'>
@@ -46,6 +48,7 @@
 	<script type="text/javascript" src="/home/partials/pricing/pricing.js"></script>
 	<script type="text/javascript" src="/home/partials/features/features.js"></script>
 	<script type="text/javascript" src="/home/partials/library/library.js"></script>
+	<script type="text/javascript" src="/home/partials/contact/contact.js"></script>
 
 
 	<!-- Bootstrap & Styles -->
@@ -87,34 +90,64 @@
 <body>
 	<div ui-view="mainMenu"></div>
 	<div ui-view="mainBody" class="content-wrapper"></div>
+	<div class="social">
+		<div class="row">
+			<div class="col-sm-6">
+				<ul>
+					<li><a href="https://www.linkedin.com/company/epmvirtual" title="linkedin" target="_blank"><i class="fa fa-linkedin fa-fw"></i></a>
+					</li>
+					<li><a href="https://twitter.com/epmvirtual" title="twitter" target="_blank"><i class="fa fa-twitter fa-fw"></i></a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-sm-6">
+				<div id="mc_embed_signup">
+					<form class="form-inline validate" action="//audemedia.us7.list-manage.com/subscribe/post?u=b5638e105dac814ad84960d90&amp;id=9345afa0aa" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" novalidate>
+						<div class="row no-gutter">
+							<div class="col-sm-9">
+								<input type="email" value="" name="EMAIL" class="form-control" id="mce-EMAIL" placeholder="Subscribe to our newsletter" required>
+								<div style="position: absolute; left: -5000px;">
+									<input type="text" name="b_b5638e105dac814ad84960d90_9345afa0aa" tabindex="-1" value="">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<input type="submit" value="SUBSCRIBE" name="subscribe" id="mc-embedded-subscribe">
+							</div>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 	<section class="footer">
 		<div class="row">
 			<div class="col-sm-3">
 				<h4>Choose.</h4>
 				<ul>
-					<li><a href="">Starter Edition</a>
-					</li>
-					<li><a href="">Consulting Edition</a>
-					</li>
-					<li><a href="">Business Edition</a>
-					</li>
-					<li><a href="">Enterprise Edition</a>
-					</li>
+					<li><a ui-sref="home.pricing">Pricing</a></li>
+					<li><a ui-sref="home.features">Features</a></li>
+					<li><a ui-sref="home.library">Library</a></li>
+					<li><a ui-sref="home.contact">Contact</a></li>
 				</ul>
 			</div>
 			<div class="col-sm-3">
-				<h4>Get Support.</h4>
+				<h4>Info.</h4>
 				<ul>
-					<li><a href="">Contact Us</a>
-					</li>
-					<li><a href="">Knowledge Base</a>
-					</li>
-					<li><a href="">Submit a Ticket</a>
-					</li>
+					<li><a href="hyperionessbase.php">Essbase</a></li>
+					<li><a href="hyperionplanning.php">Planning</a></li>
+					<li><a href="hyperionhfm.php">HFM</a></li>
+					<li><a href="hyperionra.php">Reporting &amp; Analysis</a></li>
 				</ul>
 			</div>
 			<div class="col-sm-3">
-				&nbsp;
+				<h4>&nbsp;</h4>
+				<ul>
+					<li><a href="hyperionhpcm.php">HPCM</a></li>
+					<li><a href="hyperiondrm.php">DRM</a></li>
+					<li><a href="hyperionfdm.php">FDM</a></li>
+					<li><a href="hyperionfdmee.php">FDMEE</a></li>
+				</ul>
 			</div>
 			<div class="col-sm-3">
 				<h4>Ask.</h4>

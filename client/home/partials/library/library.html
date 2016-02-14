@@ -14,52 +14,38 @@
 	</div>
 </div>
 
-<div class="row spacing-70">
+<div class="row spacing-70" ng-show="curTutorial.hasChildren">
 	<div class="col-sm-12 center-block">
-		<h1>Library<hr /></h1>
-		<h3>Browse/Search content through our Hyperion and epmvirtual related library.</h3>
-		<div class="form-group has-success has-feedback">
-			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Search Library" id="searchLibrary" aria-describedby="SearchLibrary" style="padding:15px 0 10px 15px">
-				<span class="input-group-addon"><i class="fa fa-search"></i></span>
-			</div>
+		<h1>Library</h1>
+		<h4>Browse content through our Hyperion and epmvirtual related library.</h4><hr />
+		<div class="col-sm-12">
+			<!--h4>Browse</h4><hr /-->
+			<treecontrol class="tree-light" tree-model="libTree" options="treeOptions" on-selection="showSelected(node)" selected-node="selectedTutorial" expanded-nodes="selectedAncestors">
+				<a ui-sref="home.libraryitem({id:node._id,nameurl:node.nameurl})">{{node.name}}</a>
+			</treecontrol>
 		</div>
-	</div>
-</div>
-
-<div class="row spacing-70">
-	<uib-tabset>
-		<uib-tab heading="Search" selected="searchSelected" select="setSelected('search')">
-			<div class="tab-content" style="border: 1px solid #ddd;padding:20px;border-top:0;">
+		<!--div class="col-sm-6">
+			<h4>Search</h4><hr />
 			<div class="form-group has-success has-feedback">
 				<div class="input-group">
 					<input type="text" class="form-control" placeholder="Search Library" id="searchLibrary" aria-describedby="SearchLibrary" style="padding:15px 0 10px 15px">
 					<span class="input-group-addon"><i class="fa fa-search"></i></span>
 				</div>
 			</div>
-			</div>
-		</uib-tab>
-		<uib-tab heading="Browse" selected="browseSelected" select="setSelected('browse')">
-			<div class="tab-content" style="border: 1px solid #ddd;padding:20px;border-top:0;">
-			<treecontrol class="tree-classic" tree-model="libTree" options="treeOptions" on-selection="showSelected(node)" selected-node="selectedTutorial" expanded-nodes="selectedAncestors">
-				<a ui-sref="home.libraryitem({id:node._id,nameurl:node.nameurl})">{{node.name}}</a>
-			</treecontrol>
-			</div>
-		</uib-tab>
-	</uib-tabset>
-</div>
-
-<div class="row spacing-70">
-	<div class="col-sm-4">
-		<treecontrol class="tree-classic" tree-model="libTree" options="treeOptions" on-selection="showSelected(node)" selected-node="selectedTutorial" expanded-nodes="selectedAncestors">
-			<a ui-sref="home.libraryitem({id:node._id,nameurl:node.nameurl})">{{node.name}}</a>
-		</treecontrol>
+		</div-->
 	</div>
-	<div class="col-sm-8" ng-bind-html="tutorialContent"></div>
 </div>
 
-<div class="row spacing-70">
-	&nbsp;
+<div class="row spacing-70" ng-show="!curTutorial.hasChildren">
+	<div class="col-sm-12 center-block">
+		<h2>{{curTutorial.name}}<hr /></h2>
+	</div>
 </div>
+
+<div class="row">
+	<div class="col-sm-12" ng-bind-html="tutorialContent"></div>
+</div>
+
+<div class="row spacing-70"></div>
 
 </section>

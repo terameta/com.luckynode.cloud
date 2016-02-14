@@ -8,6 +8,43 @@ homeApp.config(['$locationProvider', function($locationProvider){
 }]);
 
 
+homeApp.run(['$rootScope', '$state', function($rootScope, $state) {
+	$rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+		$rootScope.pageTitle = 'epmvirtual - cloud servers for EPM professionals';
+		$rootScope.pageDescription = 'Create a Oracle Hyperion cloud server, with full administrator access, in 15 minutes. Pricing starts at $50/mo with all the installation ready for your use.';
+		$rootScope.pageKeywords = 'Hyperion Server, Hyperion Planning, Hyperion Planning Server, Essbase, Essbase Server, FDMEE, FDMEE Server, HFM, HFM Server, Oracle Hyperion Cloud Server, Hyperion Cloud Server, Oracle Hyperion Virtual Server, Hyperion Virtual Server';
+	});
+}]);
+
+angular.module('homeServices').service('srvcInformation', ['$resource', '$rootScope', '$http', '$q', '$sce',
+	function serverService($resource, $rootScope, $http, $q, $sce) {
+		var service = {};
+
+		service.getInformation = function(){
+			var deferred = $q.defer();
+			$http({
+				method: 'GET',
+				url: '/api/guest/settings'
+			}).then(function successCallback(response) {
+				deferred.resolve();
+				$rootScope.accountingemail 	= response.data.accountingemail;
+				$rootScope.adminemail			= response.data.adminemail;
+				$rootScope.companyname			= response.data.companyname;
+				$rootScope.domain					= response.data.domain;
+				$rootScope.logourl				= response.data.logourl;
+				$rootScope.supportemail			= response.data.supportemail;
+				$rootScope.salesemail			= response.data.salesemail;
+			}, function errorCallback(response) {
+				deferred.reject();
+			});
+			return deferred.promise;
+		};
+
+		return service;
+	}
+]);
+
+
 /*
 //Angular Interceptor is here
 cloudApp.config(function($httpProvider) {

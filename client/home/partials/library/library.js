@@ -31,10 +31,13 @@ angular.module('homeServices').service('srvcLibrary', ['$resource', '$rootScope'
 			return deferred.promise;
 		};
 		service.fetchOne = function(id){
+			var deferred = $q.defer();
 			$rootScope.curTutorial = service.resource.get({id:id}, function(result){
 				$rootScope.tutorialContent = $sce.trustAsHtml($rootScope.curTutorial.content);
+				$rootScope.curTutorial.hasChildren = false;
+				deferred.resolve();
 			});
-
+			return deferred.promise;
 		};
 
 		service.arrange = function(){
@@ -52,6 +55,8 @@ angular.module('homeControllers').controller('libraryController', ['$scope', '$r
 	function($scope, $rootScope, srvcLibrary, $state, $stateParams, $sce){
 		var lnToastr = toastr;
 
+		$rootScope.pageTitle = 'Library | epmvirtual';
+
 		srvcLibrary.fetchAll().then(function(){
 			if($stateParams.id){
 				$rootScope.tutorials.forEach(function(curTutItem, curTutIndex){
@@ -61,6 +66,20 @@ angular.module('homeControllers').controller('libraryController', ['$scope', '$r
 						findAncestors(curTutItem["parent"],$scope.selectedAncestors);
 					}
 				});
+				srvcLibrary.fetchOne($stateParams.id).
+				then(function(){
+					$rootScope.tutorials.forEach(function(curTutItem){
+						if(curTutItem.parent == $rootScope.curTutorial._id){
+							$rootScope.curTutorial.hasChildren = true;
+						}
+					});
+					$rootScope.pageTitle = $rootScope.curTutorial.name + ' | epmvirtual';
+				});
+				$scope.curTutorialID = $stateParams.id;
+			} else {
+				$rootScope.tutorialContent = '';
+				if(!$rootScope.curTutorial) $rootScope.curTutorial = {};
+				$rootScope.curTutorial.hasChildren = true;
 			}
 		});
 
@@ -71,13 +90,6 @@ angular.module('homeControllers').controller('libraryController', ['$scope', '$r
 					findAncestors(curTutItem["parent"], parentList);
 				}
 			});
-		}
-
-		if($stateParams.id){
-			srvcLibrary.fetchOne($stateParams.id);
-			$scope.curTutorialID = $stateParams.id;
-		} else {
-			$rootScope.tutorialContent = '';
 		}
 
 		$scope.treeOptions = {
@@ -97,16 +109,6 @@ angular.module('homeControllers').controller('libraryController', ['$scope', '$r
 
 		$scope.showSelected = function(theNode){
 			//console.log(theNode, $scope.selectedTutorial);
-		};
-
-		$scope.setSelected = function(theSelected){
-			if(theSelected == "search"){
-				$scope.searchSelected = true;
-				$scope.browseSelected = false;
-			} else {
-				$scope.searchSelected = false;
-				$scope.browseSelected = true;
-			}
 		};
 	}
 ]);
