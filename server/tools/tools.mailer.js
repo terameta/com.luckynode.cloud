@@ -1,22 +1,41 @@
+var db;
 var handlebars		= require('handlebars');
 var nodemailer 		= require('nodemailer');
 var smtpTransport 	= require('nodemailer-smtp-transport');
-var transporter 	= nodemailer.createTransport(
-		smtpTransport(
-			{
-				host: 'mail.luckynode.com',
-				port:465 ,
-				secure:true,
-				tls: {rejectUnauthorized: false},
-				auth: { user: 'admin@luckynode.com', pass: 'tKQIbKPyj&qCo2RJ' }
-			}
-		)
-	);
+var transporter;
 
-module.exports = {
-	sendMail: sendMail,
-	sendTemplateMail: sendTemplateMail
+module.exports = function mailerModule(refdb){
+	db = refdb;
+	defineTransporter();
+	var module = {
+		sendMail: sendMail,
+		sendTemplateMail: sendTemplateMail
+	};
+	return module;
 };
+
+function defineTransporter(){
+	db.settings.findOne(function(err, result){
+		if(err){
+			console.log("error getting settings at defineTransporter");
+		} else {
+			transporter = nodemailer.createTransport(
+				smtpTransport({
+					host	: result.mailserver.host,
+					port	: result.mailserver.port,
+					secure	: (result.mailserver.isSecure == 'true'),
+					tls		: {
+						rejectUnauthorized: (result.mailserver.rejectUnauthorized == 'true')
+					},
+					auth	: {
+						user: result.mailserver.user,
+						pass: result.mailserver.pass
+					}
+				})
+			);
+		}
+	});
+}
 
 function sendMail(subject, content, from, to, cc, bcc, attachments){
 	var curVals = {};

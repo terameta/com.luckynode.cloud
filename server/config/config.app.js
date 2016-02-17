@@ -4,10 +4,12 @@ var logger			= require('morgan');
 var bodyParser		= require('body-parser');
 //var cookieParser	= require('cookie-parser');
 var config			= require('../config/config.main.js');
-var tools			= require('../tools/tools.main.js');
+//var tools			= require('../tools/tools.main.js');
+var tools;
 
 
 module.exports = function App(db) {
+	tools 			= require('../tools/tools.main.js')(db);
 	var app = express();
 
 	//view engine setup
