@@ -25,24 +25,35 @@
 		<li class="header">MAIN NAVIGATION</li>
 		<li ng-class="{active : isCurFocus('dashboard')}">
 			<a ui-sref="r.dashboard">
-				<i class="fa fa-dashboard"></i><span>Dashboard</span>
+				<i class="fa fa-home fa-fw"></i><span>&nbsp;&nbsp; Dashboard</span>
 			</a>
 		</li>
 		<li ng-class="{active : isCurFocus('profile')}">
 			<a ui-sref="r.profile">
-				<i class="fa fa-arrows"></i><span>Profile</span>
+				<i class="fa fa-arrows fa-fw"></i><span>&nbsp;&nbsp; Profile</span>
 			</a>
 		</li>
 		<li ng-class="{active : isCurFocus('server')}">
 			<a ui-sref="r.servers" uib-tooltip="You have {{servers.length}} server{{servers.length != 1 ? 's' : ''}}">
-				<i class="fa fa-server"></i><span>Servers</span>
+				<i class="fa fa-server fa-fw"></i><span>&nbsp;&nbsp; Servers</span>
 				<span class="label label-success pull-right" ng-if="servers.length>0">{{servers.length}}</span>
 			</a>
 		</li>
-		<li ng-class="{active : isCurFocus('invoice')}">
+		<!--li ng-class="{active : isCurFocus('invoice')}">
 			<a ui-sref="r.invoices">
-				<i class="fa fa-server"></i><span>Invoices</span>
+				<i class="fa fa-file-text-o fa-fw"></i><span>&nbsp;&nbsp; Invoices</span>
 				<span class="label label-warning pull-right" ng-if="unpaidInvoices>0" uib-tooltip="You have {{unpaidInvoices}} unpaid invoice{{unpaidInvoices != 1 ? 's' : ''}}">{{unpaidInvoices}}</span>
+			</a>
+		</li-->
+		<li ng-class="{active : (isCurFocus('account') || isCurFocus('invoice'))}">
+			<a ui-sref="r.account">
+				<i class="fa fa-file-text-o fa-fw"></i><span>&nbsp;&nbsp; Account</span>
+				<span class="label label-warning pull-right" ng-if="unpaidInvoices>0" uib-tooltip="You have {{unpaidInvoices}} unpaid invoice{{unpaidInvoices != 1 ? 's' : ''}}">{{unpaidInvoices}}</span>
+			</a>
+		</li>
+		<li ng-class="{active : isCurFocus('support')}">
+			<a ui-sref="r.support">
+				<i class="fa fa-flag fa-fw"></i><span>&nbsp;&nbsp; Support</span>
 			</a>
 		</li>
 	</ul>

@@ -1,4 +1,4 @@
-angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
+angular.module('adminApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.storages', {
 			url:"/storages",
 			views: {
@@ -20,7 +20,7 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 		});
 });
 
-angular.module('cloudServices').service('$storage', ['$resource',
+angular.module('adminServices').service('$storage', ['$resource',
 	function storageService($resource) {
 		return ( $resource(
 			'/api/storage/:id',
@@ -30,7 +30,7 @@ angular.module('cloudServices').service('$storage', ['$resource',
 	}
 ]);
 
-angular.module('cloudControllers').controller('storageController', ['$scope', '$rootScope', '$state', '$stateParams', '$storage', '$datacenter', '$http',
+angular.module('adminControllers').controller('storageController', ['$scope', '$rootScope', '$state', '$stateParams', '$storage', '$datacenter', '$http',
 	function($scope, $rootScope, $state, $stateParams, $storage, $datacenter, $http){
 		var lnToastr = toastr;
 		$scope.storageTypes = [

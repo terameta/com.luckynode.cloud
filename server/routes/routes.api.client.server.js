@@ -1,12 +1,13 @@
 var Q					= require('q');
 var topDB 			= '';
 var mongojs 		= require('mongojs');
-var commander		= require('../tools/tools.node.commander.js');
+var commander;
 var path 			= require('path');
 
 module.exports = function(app, express, db, tools) {
 	var serverModule 		= require('../modules/module.server.js')(db);
 	var nodeModule 		= require('../modules/module.node.js')(db);
+	commander 				= require('../tools/tools.node.commander.js')(db);
 	var apiRoutes 			= express.Router();
 	topDB = db;
 

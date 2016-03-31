@@ -1,0 +1,30 @@
+<section class="content-header">
+	<h1>
+		Dashboard
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
+	</ol>
+</section>
+
+<section class="content">
+<div class="row">
+	<div class="col-xs-12 col-sm-6 col-md-4">
+		<div class="box box-default">
+			<div class="box-header with-border">
+				<h2 class="box-title">Your Servers</h2>
+			</div>
+			<div class="box-body">
+				<div ng-if="servers.length == 0">You don't have any servers. <a ui-sref="r.newserver">Let's fix this!</a></div>
+				<div ng-if="servers.length > 0">
+					You have {{servers.length}} server<span ng-if="servers.length > 1">s</span>.
+					<a ui-sref="r.servers" class="btn btn-xs pull-right btn-primary">Show me.</a>
+				</div>
+			</div>
+			<div class="box-footer">
+				<a ui-sref="r.newserver" class="btn btn-sm pull-right btn-primary">Order New Server</a>
+			</div>
+		</div>
+	</div>
+</div>
+</section>

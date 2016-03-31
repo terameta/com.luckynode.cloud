@@ -1,6 +1,55 @@
-var cloudServices = angular.module('cloudServices', ['ngResource']);
+var adminServices = angular.module('adminServices', ['ngResource']);
 
-cloudServices.service('$userService', ['$resource', '$q', '$rootScope', '$localStorage', '$http',
+adminServices.service('srvcConfirm', ['$uibModal', function modal($uibModal){
+
+	var modalDefaults = {
+		backdrop: true,
+		keyboard: true,
+		modalFade: true,
+		templateUrl: '/common/generic/confirmModal.html'
+	};
+
+	var modalOptions = {
+		closeButtonText: 'Cancel',
+		actionButtonText: 'Proceed',
+		headerText: 'Proceed?',
+		bodyText: 'Perform this action?'
+	};
+
+	this.showModal = function(customModalDefaults, customModalOptions) {
+		if (!customModalDefaults) customModalDefaults = {};
+		customModalDefaults.backdrop = 'static';
+		return this.show(customModalDefaults, customModalOptions);
+	};
+
+	this.show = function (customModalDefaults, customModalOptions) {
+		//Create temp objects to work with since we're in a singleton service
+		var tempModalDefaults = {};
+		var tempModalOptions = {};
+
+		//Map angular-ui modal custom defaults to modal defaults defined in service
+		angular.extend(tempModalDefaults, modalDefaults, customModalDefaults);
+
+		//Map modal.html $scope custom properties to defaults defined in service
+		angular.extend(tempModalOptions, modalOptions, customModalOptions);
+
+		if (!tempModalDefaults.controller) {
+			tempModalDefaults.controller = function ($scope, $uibModalInstance) {
+				$scope.modalOptions = tempModalOptions;
+				$scope.modalOptions.ok = function (result) {
+					$uibModalInstance.close(result);
+				};
+				$scope.modalOptions.close = function (result) {
+					$uibModalInstance.dismiss('cancel');
+				};
+			};
+		}
+
+		return $uibModal.open(tempModalDefaults).result;
+	};
+}]);
+
+adminServices.service('$userService', ['$resource', '$q', '$rootScope', '$localStorage', '$http',
     function userService($resource, $q, $rootScope, $localStorage, $http) {
         var service = {};
 
@@ -42,7 +91,7 @@ cloudServices.service('$userService', ['$resource', '$q', '$rootScope', '$localS
     }
 ]);
 
-cloudServices.service('$signinModal', function($uibModal, $rootScope, $localStorage, $timeout) {
+adminServices.service('$signinModal', function($uibModal, $rootScope, $localStorage, $timeout) {
 
     function assignCurrentUser(data) {
         $rootScope.apiToken = data.token;
@@ -62,7 +111,7 @@ cloudServices.service('$signinModal', function($uibModal, $rootScope, $localStor
 
 });
 
-cloudServices.service('$localStorage', function localStorage($window) {
+adminServices.service('$localStorage', function localStorage($window) {
     var localStorageService = {};
     localStorageService.set = set;
     localStorageService.get = get;
@@ -94,7 +143,7 @@ cloudServices.service('$localStorage', function localStorage($window) {
     return localStorageService;
 });
 
-cloudServices.service('srvcLocations', function locations(){
+adminServices.service('srvcLocations', function locations(){
 	var countries = [
 		{name:'Afghanistan', phoneCode:'93', code: 'AF', code3:'AFG'},
 		{name:'Albania', phoneCode:'355', code: 'AL', code3:'ALB'},

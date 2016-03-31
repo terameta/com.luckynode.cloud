@@ -1,6 +1,6 @@
-var cloudControllers = angular.module('cloudControllers', []);
+var adminControllers = angular.module('adminControllers', []);
 
-cloudControllers.controller('dashboardController', ['$scope', '$http', '$userService', '$rootScope', '$datacenter', '$state',
+adminControllers.controller('dashboardController', ['$scope', '$http', '$userService', '$rootScope', '$datacenter', '$state',
 	function($scope, $http, $userService, $rootScope, $datacenter, $state) {
 /*		$scope.managersGo = function(){
 			$state.go("r.dashboard.managers");
@@ -71,35 +71,15 @@ function activateLayout(){
 	//setTimeout(activateLayout,1000);
 }
 
-cloudControllers.controller('profileController', ['$scope', '$routeParams', function($scope, $routeParams) {
+adminControllers.controller('profileController', ['$scope', '$routeParams', function($scope, $routeParams) {
 	console.log("profileController");
 }]);
 
-cloudControllers.controller('welcomeController', function($scope, $uibModal, $state, $http, $q, $userService) {
-
-	$scope.openSignUpModal = function() {
-		var instance = $uibModal.open({
-			templateUrl: 'partials/authentication/signupModal.html',
-			controller: 'signupModalController',
-			controllerAs: 'signupModalController'
-		});
-
-		instance.result.then(
-			function(result) {
-				console.log("Result", result);
-			},
-			function(result) {
-				console.log("Dismissed:", result);
-			}
-		);
-	};
-
-	$scope.openSignInModal = function(){
-		$state.go('dashboard');
-	};
+adminControllers.controller('welcomeController', function($scope, $uibModal, $state, $http, $q, $userService) {
+	$state.go('r.dashboard');
 });
 
-cloudControllers.controller('signupModalController', function($scope, $userService) {
+adminControllers.controller('signupModalController', function($scope, $userService) {
 	this.cancel = $scope.$dismiss;
 	this.submit = function(email, password) {
 		console.log("Register", email, password);
@@ -108,7 +88,7 @@ cloudControllers.controller('signupModalController', function($scope, $userServi
 });
 
 
-cloudControllers.controller('signinModalController', function($scope, $userService) {
+adminControllers.controller('signinModalController', function($scope, $userService) {
 
 	this.cancel = $scope.$dismiss;
 	this.submit = function(email, password) {
@@ -119,7 +99,7 @@ cloudControllers.controller('signinModalController', function($scope, $userServi
 	};
 });
 
-cloudControllers.controller('signoutController', function($scope, $userService, $state) {
+adminControllers.controller('signoutController', function($scope, $userService, $state) {
 	$userService.signout().then(function(result) {
 		$state.go('r.dashboard');
 	});

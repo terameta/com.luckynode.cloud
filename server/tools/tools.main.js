@@ -54,10 +54,69 @@ module.exports = function toolsModule(refdb){
 		jwt						: jwt,
 		logger					: logger,
 		runLocalCommand		: runLocalCommand,
-		whoami					: whoami
+		whoami					: whoami,
+		getSystemSettings		: getSystemSettings,
+		getCounter				: getCounter
 	};
 	return module;
 };
+
+function getCounter(name, tokenObject){
+	var deferred = Q.defer();
+	if(!tokenObject) tokenObject = {};
+	getCounterEnsureExists(name).
+	then(getCounterIncrement).
+	then(function(result){ tokenObject.seq = result; deferred.resolve(tokenObject);}).
+	fail(deferred.reject);
+
+	return deferred.promise;
+}
+
+function getCounterEnsureExists(name){
+	var deferred = Q.defer();
+	db.counters.findOne({_id:name}, function(err, counter){
+		if(err){
+			deferred.reject(err);
+		} else if(!counter) {
+			db.counters.insert({_id:name, seq:10000000}, function(err, result){
+				if(err){
+					deferred.reject(err);
+				} else {
+					deferred.resolve(name);
+				}
+			});
+		} else {
+			deferred.resolve(name);
+		}
+	});
+	return deferred.promise;
+}
+
+function getCounterIncrement(name){
+	var deferred = Q.defer();
+	db.counters.findAndModify({ query: { _id: name }, update: { $inc: { seq: 1 } }, new: true }, function(err, result){
+		if(err){
+			deferred.reject(err);
+		} else {
+			deferred.resolve(result.seq);
+		}
+	});
+	return deferred.promise;
+}
+
+function getSystemSettings(refObj){
+	var deferred = Q.defer();
+	if(!refObj) refObj = {};
+	db.settings.findOne({}, function(err, settings){
+		if(err){
+			deferred.reject(err);
+		} else {
+			refObj.systemSettings = settings;
+			deferred.resolve(refObj);
+		}
+	});
+	return deferred.promise;
+}
 
 function generateLongString(sentLength){
 	var length = sentLength || 128,

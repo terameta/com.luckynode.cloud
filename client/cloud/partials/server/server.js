@@ -1,16 +1,21 @@
 angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
-	$stateProvider.state('r.servers',{
+	$stateProvider.state('r.servers', {
 			url: "/servers",
 			views: {
 				'content@r': 	{ templateUrl: "/cloud/partials/server/serverList.html", controller: 'ctrlServer' }
 			},
 			data: { requireSignin: true }
-		}).state('r.server',{
+		}).state('r.server', {
 			url: "/server/:id",
 			views: {
 				'content@r': 	{ templateUrl: "/cloud/partials/server/serverDetail.html", controller: 'ctrlServer' }
 			},
 			data: { requireSignin: true }
+		}).state('r.newserver', {
+			url:"/newserver",
+			views: {
+				'content@r': 	{ templateUrl: "/cloud/partials/server/newServer.html", controller: 'ctrlServer' }
+			}
 		});
 });
 
@@ -36,8 +41,8 @@ angular.module('cloudServices').service('srvcServer', ['$resource', '$rootScope'
 	}
 ]);
 
-angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', '$q', '$rootScope', '$state', '$stateParams', '$uibModal', 'srvcDataCenter', 'srvcServer', 'srvcPlan', 'srvcImage', 'srvcLocations', 'srvcInfo', 'srvcImageGroup', 'srvcConfirm',
-	function($scope, $http, $q, $rootScope, $state, $stateParams, $uibModal, srvcDataCenter, srvcServer, srvcPlan, srvcImage, srvcLocations, srvcInfo, srvcImageGroup, srvcConfirm) {
+angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', '$q', '$rootScope', '$state', '$stateParams', '$uibModal', 'srvcDataCenter', 'srvcServer', 'srvcPlan', 'srvcImage', 'srvcLocations', 'srvcInfo', 'srvcImageGroup', 'srvcConfirm', 'srvcInvoice',
+	function($scope, $http, $q, $rootScope, $state, $stateParams, $uibModal, srvcDataCenter, srvcServer, srvcPlan, srvcImage, srvcLocations, srvcInfo, srvcImageGroup, srvcConfirm, srvcInvoice) {
 
 		var lnToastr = toastr;
 
@@ -210,9 +215,11 @@ angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', 
 			srvcServer.resource.save($scope.curNewServer, function success(theResult){
 				console.log(theResult);
 				//$scope.fetchServers();
-				//$state.go('r.server');
 				srvcServer.fetchAll();
-				$state.go($state.current, {}, {reload: true});
+				srvcInvoice.fetchAll();
+				//$state.go('r.servers');
+				//$state.go($state.current, {}, {reload: true});
+				$state.go('r.server', {id:theResult._id});
 			}, function failure(issue){
 				lnToastr.error("Server creation failed.<br />Error message:<br />" + issue.data.message);
 			});

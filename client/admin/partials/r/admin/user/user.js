@@ -1,4 +1,4 @@
-angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
+angular.module('adminApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.users', {
 			url:"/users",
 			views: {
@@ -14,7 +14,7 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 		});
 });
 
-angular.module('cloudServices').service('srvcUsers', ['$resource', '$rootScope',
+angular.module('adminServices').service('srvcUsers', ['$resource', '$rootScope',
 	function srvcUsersF($resource, $rootScope) {
 		var service = {};
 
@@ -35,9 +35,11 @@ angular.module('cloudServices').service('srvcUsers', ['$resource', '$rootScope',
 ]);
 
 
-angular.module('cloudControllers').controller('userController', ['$scope', '$rootScope', 'srvcUsers', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage',
+angular.module('adminControllers').controller('userController', ['$scope', '$rootScope', 'srvcUsers', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage',
 	function($scope, $rootScope, srvcUsers, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage){
 		var lnToastr = toastr;
+
+		srvcUsers.fetchAll();
 
 		$scope.discountTypes = [{name: '%', value: 'percentage'}, {name: '$', value: 'currency'}];
 
@@ -51,6 +53,31 @@ angular.module('cloudControllers').controller('userController', ['$scope', '$roo
 			}, function(error){
 				lnToastr.error("User save failed<br>"+error);
 			});
+		};
+
+		$scope.refreshUsers = function(){
+			srvcUsers.fetchAll();
+		};
+
+		$scope.deleteUser = function(curID){
+			$rootScope.users.forEach(function(curDelUser){
+				if(curDelUser._id == curID) $scope.curUser = curDelUser;
+			});
+			if(confirm("Are you sure you want to delete " + $scope.curUser.email)){
+				$scope.curUser.$delete(function(result, error){
+					if(result.status == "fail"){
+						alert("There was an error deleting the user");
+						$state.go($state.current, {}, {reload: true});
+					} else {
+						lnToastr.info("User is deleted");
+						$state.go('r.dashboard.users');
+						srvcUsers.fetchAll();
+					}
+				}, function(issue){
+					lnToastr.error("User is not deleted, please send an email message to admin");
+					srvcUsers.fetchAll();
+				});
+			}
 		};
 	}
 ]);

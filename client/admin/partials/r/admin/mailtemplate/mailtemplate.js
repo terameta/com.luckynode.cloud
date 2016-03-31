@@ -1,4 +1,4 @@
-angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
+angular.module('adminApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.mailtemplates', {
 			url:"/mailtemplates",
 			views: {
@@ -20,7 +20,7 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 		});
 });
 
-angular.module('cloudServices').service('srvcMailTemplate', ['$resource', '$rootScope', '$http', '$q',
+angular.module('adminServices').service('srvcMailTemplate', ['$resource', '$rootScope', '$http', '$q',
 	function serverService($resource, $rootScope, $http, $q) {
 		var service = {};
 
@@ -48,7 +48,7 @@ angular.module('cloudServices').service('srvcMailTemplate', ['$resource', '$root
 	}
 ]);
 
-angular.module('cloudControllers').controller('mailtemplateController', ['$scope', '$rootScope', 'srvcMailTemplate', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage', 'srvcSettings', '$sce',
+angular.module('adminControllers').controller('mailtemplateController', ['$scope', '$rootScope', 'srvcMailTemplate', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage', 'srvcSettings', '$sce',
 	function($scope, $rootScope, srvcMailTemplate, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage, srvcSettings, $sce){
 		var lnToastr = toastr;
 		$scope.curNewMailTemplate = { name:''};
@@ -68,7 +68,7 @@ angular.module('cloudControllers').controller('mailtemplateController', ['$scope
 		}
 
 		$scope.setPreview = function () {
-			$scope.currentPreviewURL = $sce.trustAsResourceUrl($rootScope.settings.domain+"/api/mailtemplate/preview/"+$stateParams.id);
+			$scope.currentPreviewURL = $sce.trustAsResourceUrl("/api/mailtemplate/preview/"+$stateParams.id);
 		};
 
 		$scope.mailTemplateTypes = [{value:"body", name:"Body"}, {value:"attachment", name: "Attachment"}];

@@ -1,0 +1,109 @@
+<section class="content-header">
+	<h1>
+		<i class="fa fa-server fa-fw"></i> New Server
+	</h1>
+	<ol class="breadcrumb">
+		<li><a ui-sref="r.dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
+		<li><a ui-sref="r.servers"><i class="fa fa-server"></i> Servers</a></li>
+		<li class="active">New Server</li>
+	</ol>
+</section>
+
+<section class="content">
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel panel-default">
+			<div class="panel-body" style="padding: 10px 10px 0 10px;">
+				<div class="alert alert-danger" role="alert" ng-if="orderActionAlert">{{orderActionAlert}}</div>
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label for="servername" class="col-sm-2 control-label">Pick a Name</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="servername" name="servername" ng-model="curNewServer.name">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Choose Your Plan</label>
+						<div class="col-sm-10">
+							<div class="row">
+								<div class="col-sm-3" ng-repeat="plan in plans | orderBy: 'order'">
+									<label style="text-align:center;width:100%">
+										<input id="serverplan" name="serverplan" value="{{plan._id}}" type="radio" ng-model="curNewServer.plan" class="btn" style="display:none;" ng-change="planChanged()">
+										<div class="panel" ng-class="plan._id == curNewServer.plan ? 'panel-primary' : 'panel-default'">
+											<div class="panel-heading">{{plan.name}}</div>
+											<div class="panel-body" style="font-weight:normal;text-align:left;padding:0;">
+												<table class="table table-striped">
+													<tbody>
+														<tr><td>CPU</td><td>{{plan.cpu}} core{{plan.cpu > 1?'s':''}}</td></tr>
+														<tr><td>RAM</td><td>{{plan.ram / 1024}} GB</td></tr>
+														<tr><td>Disk</td><td>{{plan.hdd}} GB</td></tr>
+														<tr><td>Bandwidth</td><td>{{plan.bandwidth / 1024}} TB</td></tr>
+														<tr><td>Price</td><td>${{plan.price}}</td></tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Choose an Image</label>
+						<div class="col-sm-10">
+							<uib-tabset>
+								<uib-tab ng-repeat="tab in imageGroupTabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled">
+									<div class="tab-content" style="border: 1px solid #ddd;padding:20px 0 0 0;border-top:0;">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>Select</th>
+												<th>Name</th>
+												<th>Applications</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="image in images | orderBy: 'name' | filter:{group:tab.id, status:'enabled'}">
+												<td>
+													<input id="serverimg" name="serverimg" value="{{image._id}}" type="radio" ng-model="curNewServer.img" class="btn">
+												</td>
+												<td>{{image.name}}</td>
+												<td>
+													<button type="button" style="margin:1px;" class="btn btn-xs btn-info" ng-repeat="app in image.apps">{{app.name}} &nbsp;<span class="badge" ng-if="app.version">{{app.version}}</span></button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									</div>
+								</uib-tab>
+							</uib-tabset>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Choose a Data Center</label>
+						<div class="col-sm-10">
+							<div class="row">
+								<div class="col-sm-2" ng-repeat="dataCenter in dataCenters | orderBy:'order'">
+									<div>
+										<label style="text-align: center; width:100%;">
+											<input id="serverdc" name="serverdc" value="{{dataCenter._id}}" type="radio" ng-model="curNewServer.dc" class="btn" style="display: none;">
+											<div class="panel" ng-class="dataCenter._id == curNewServer.dc ? 'panel-primary' : 'panel-default'">
+												<div class="panel-heading" style="padding:5px;"><span class="flag-icon flag-icon-{{dataCenter.country | lowercase}}" style="width:32px;height:24px;" class="btn"><br /></div>
+												<div class="panel-body" style="padding:10px 0;text-align:center;">{{ (countries | filter:{code:dataCenter.country})[0].name }}</div>
+											</div>
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+				<div class="alert alert-danger" role="alert" ng-if="orderActionAlert">{{orderActionAlert}}</div>
+			</div>
+			<div class="panel-footer" style="text-align:right">
+				<button type="button" class="btn btn-primary btn-sm" ng-click="orderAction();">Place Order</button>
+				<button type="button" class="btn btn-default btn-sm" ng-click="orderCancel();">Cancel</button>
+			</div>
+		</div>
+	</div>
+</div>

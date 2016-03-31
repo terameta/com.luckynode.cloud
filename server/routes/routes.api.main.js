@@ -1,15 +1,24 @@
 var Q 				= require("q");
 var fs 				= require("fs");
-var topDB;
-var commander		= require('../tools/tools.node.commander.js');
+var db;
+var tools;
+var commander;
+var userModule;
 
-module.exports = function(app, express, db, tools) {
-	topDB = db;
+module.exports = function(app, express, refdb, reftools) {
+	db 				= refdb;
+	tools 			= reftools;
+	commander 		= require('../tools/tools.node.commander.js')(db);
+	userModule		= require('../modules/module.user.js')(db);
 
 	var apiRoutes = express.Router();
 
 	apiRoutes.get('/setup', function(req, res) {
-		var adminUser = {
+		userModule.createAdminUser().
+		then(res.json({status:"OK"})).
+		fail(res.status(400).json("Failed to create admin user"));
+
+		/*var adminUser = {
 			email: 'admin@local',
 			pass: tools.generateHash('admin@local'),
 			isAdmin: true
@@ -21,13 +30,19 @@ module.exports = function(app, express, db, tools) {
 					db.users.update({ isAdmin: true }, adminUser, { upsert: true }, function(err, data) {
 						if (err) { res.status(400).json(err); }
 						else {
-							res.json(data);
+							res.json({status:"OK"});
 						}
 					});
 				}
-				else { res.json(data); }
+				else { res.json({status:"OK"}); }
 			}
 		});
+		*/
+		db.templateDocs.update(
+			{templateName:"SampleContactForm"},
+			{templateName:"SampleContactForm", name:"Sample Person", email:"sample@example.com", comments: "Sample comments."},
+			{upsert:true}
+		);
 
 	});
 
@@ -102,7 +117,7 @@ function isThisOurNode(theReq){
 	var deferred = Q.defer();
 	var curNodeIP = '';
 	var isThisOurNode = false;
-	topDB.nodes.find({}, function(err, data){
+	db.nodes.find({}, function(err, data){
 		if(err){
 			deferred.reject("can't connect to database.");
 		} else {

@@ -1,6 +1,12 @@
-var cloudApp 				= angular.module('cloudApp', ['ui.router', 'cloudControllers', 'cloudServices', 'ngSanitize', 'ui.bootstrap', 'angular-loading-bar', 'xeditable', 'checklist-model', 'ngFileUpload']);
+var cloudApp 				= angular.module('cloudApp', ['ui.router', 'cloudControllers', 'cloudServices', 'ngSanitize', 'ui.bootstrap', 'angular-loading-bar', 'xeditable', 'checklist-model', 'ngFileUpload', 'vcRecaptcha']);
+
 var cloudControllers 	= angular.module('cloudControllers', []);
 var cloudServices 		= angular.module('cloudServices', ['ngResource']);
+
+cloudApp.config(['$locationProvider', function($locationProvider){
+	$locationProvider.html5Mode(true);
+}]);
+
 
 cloudApp.filter('titlecase', function() {
 	return function(input) {
@@ -204,8 +210,37 @@ cloudServices.service('$userService', ['$resource', '$q', '$rootScope', '$localS
 		service.getCurUser = getCurUser;
 		service.getCurUserDetails = getCurUserDetails;
 		service.sendLostPassCode = sendLostPassCode;
+		service.changePassword = changePassword;
 
 		return service;
+
+		function changePassword(curPass, newPass, newPas2){
+			var deferred = $q.defer();
+			if(newPass !== newPas2){
+				deferred.reject({type:"manual", error:"New password pair doesn't match"});
+				return deferred.promise;
+			} else if(!newPass){
+				deferred.reject({type:"manual", error:"No new password provided"});
+				return deferred.promise;
+			} else if(!curPass){
+				deferred.reject({type:"manual", error:"No existing password provided"});
+				return deferred.promise;
+			} else if(scorepass(newPass).score < 50){
+				deferred.reject({type:"manual", error:"New password score should be at least moderate"});
+			} else {
+				var cpParams = {
+					curPass: curPass,
+					newPass: newPass
+				};
+				$http.post('/api/users/changepassword', cpParams).
+				success(function(data, status, headers, config){
+					deferred.resolve(data);
+				}).error(function(data, status, headers, config){
+					deferred.reject({type:"fromsystem", error:data});
+				});
+			}
+			return deferred.promise;
+		};
 
 		function signup(username, password){
 			var deferred = $q.defer();
@@ -284,6 +319,7 @@ cloudServices.service('$userService', ['$resource', '$q', '$rootScope', '$localS
 
 		function parseJWT(token){
 			var base64Url = token.split('.')[1];
+			if(!base64Url) return false;
 			var base64 = base64Url.replace('-', '+').replace('_', '/');
 			return JSON.parse($window.atob(base64));
 		}

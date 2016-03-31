@@ -277,5 +277,17 @@ angular.module('cloudServices').service('srvcSettings', ['$http', '$q', function
 		return deferred.promise;
 	};
 
+	settingsService.getLogo = function(){
+		var deferred = $q.defer();
+		$http.get('/api/client/settings/getLogo').
+		success(function(data, status, headers, config){
+			deferred.resolve(data);
+		}).
+		error(function(data, status, headers, config){
+			deferred.reject(data);
+		});
+		return deferred.promise;
+	};
+
 	return settingsService;
 }]);

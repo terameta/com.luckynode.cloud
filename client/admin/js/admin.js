@@ -1,6 +1,11 @@
-var cloudApp = angular.module('cloudApp', ['ui.router', 'cloudControllers', 'cloudServices', 'ngSanitize', 'ui.bootstrap', 'angular-loading-bar', 'xeditable', 'checklist-model', 'ui.ace']);
+var adminApp = angular.module('adminApp', ['ui.router', 'adminControllers', 'adminServices', 'ngSanitize', 'ui.bootstrap', 'angular-loading-bar', 'xeditable', 'checklist-model', 'ui.ace']);
 
-cloudApp.config(function($stateProvider, $urlRouterProvider){
+adminApp.config(['$locationProvider', function($locationProvider){
+	$locationProvider.html5Mode(true);
+}]);
+
+
+adminApp.config(function($stateProvider, $urlRouterProvider){
     $urlRouterProvider.otherwise("r/welcome");
 
     $stateProvider.
@@ -11,9 +16,7 @@ cloudApp.config(function($stateProvider, $urlRouterProvider){
         }).state('r.welcome',{
             url: "/welcome",
             views: {
-            	'':				{templateUrl: "/admin/partials/r/guest/welcome.html"},
-            	//'mainMenu':		{templateUrl: "/partials/r/guest/welcomeMenu.html"},
-            	'mainBody':		{templateUrl: "/admin/partials/r/guest/welcomeBody.html"}
+            	'mainBody': { controller: 'welcomeController'}
             },
             data: { requireSignin: false }
 		}).state('r.dashboard', {
@@ -38,7 +41,7 @@ cloudApp.config(function($stateProvider, $urlRouterProvider){
 });
 
 //Angular Interceptor is here
-cloudApp.config(function($httpProvider) {
+adminApp.config(function($httpProvider) {
 	$httpProvider.interceptors.push(function($timeout, $q, $injector, $rootScope, $localStorage) {
 		var $signinModal, $http, $state;
 
@@ -95,11 +98,11 @@ cloudApp.config(function($httpProvider) {
 
 });
 
-cloudApp.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider){
+adminApp.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider){
     cfpLoadingBarProvider.includeSpinner = false;
 }]);
 
-cloudApp.run(['$rootScope', '$state', '$signinModal', '$localStorage', function($rootScope, $state, $signinModal, $localStorage) {
+adminApp.run(['$rootScope', '$state', '$signinModal', '$localStorage', function($rootScope, $state, $signinModal, $localStorage) {
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
 		var requireSignin = toState.data.requireSignin;
 		$rootScope.apiToken = $localStorage.get('apiToken');

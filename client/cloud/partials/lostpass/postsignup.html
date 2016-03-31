@@ -1,0 +1,17 @@
+	<div class="login-box">
+		<div class="login-logo">
+			<a href="http://luckynode.com" style="font-family:'bree-serif';"><img src="/img/logodashboardfull.png" title="LuckyNode"></a>
+		</div>
+		<div class="login-box-body">
+			<p class="login-box-msg" style="font-size:30px;line-height:30px;">Verify</p>
+			<p>We have sent an e-mail message to your inbox.<br />Please copy & paste the code from this message.</p>
+			<form method="post" style="padding-bottom:30px;" ng-submit="verifyCode()">
+				<div class="form-group has-feedback">
+					<input type="text" ng-model="verificationcode" class="form-control" placeholder="Verification Code" ng-disabled="shouldDisable">
+					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+				</div>
+				<button type="submit" class="btn btn-primary btn-block btn-flat" ng-disabled="shouldDisable">Verify</button>
+				<button type="button" class="btn btn-primary btn-block btn-flat" ng-click="resendVerificationCode()" ng-disabled="shouldDisable">Re-send</button>
+			</form>
+		</div>
+	</div>

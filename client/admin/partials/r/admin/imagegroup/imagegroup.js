@@ -1,4 +1,4 @@
-angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
+angular.module('adminApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.imagegroups', {
 			url:"/imagegroups",
 			views: {
@@ -20,7 +20,7 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 		});
 });
 
-angular.module('cloudServices').service('srvcImageGroup', ['$resource', '$rootScope',
+angular.module('adminServices').service('srvcImageGroup', ['$resource', '$rootScope',
 	function serverService($resource, $rootScope) {
 		var service = {};
 		service.resource = ( $resource(
@@ -45,7 +45,7 @@ angular.module('cloudServices').service('srvcImageGroup', ['$resource', '$rootSc
 	}
 ]);
 
-angular.module('cloudControllers').controller('imagegroupController',['$scope', '$rootScope', '$state', '$stateParams', '$server', '$datacenter', '$plan', 'srvcImageGroup', '$storage',
+angular.module('adminControllers').controller('imagegroupController',['$scope', '$rootScope', '$state', '$stateParams', '$server', '$datacenter', '$plan', 'srvcImageGroup', '$storage',
 	function($scope, $rootScope, $state, $stateParams, $server, $datacenter, $plan, srvcImageGroup, $storage){
 		var lnToastr = toastr;
 

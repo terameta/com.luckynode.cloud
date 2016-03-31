@@ -1,11 +1,11 @@
-var commander		= require('../tools/tools.node.commander.js');
+var commander;
 var handlebars 	= require('handlebars');
 var moment			= require('moment');
 
 module.exports = function(app, express, db, tools) {
 	var mongojs 		= require('mongojs');
 	var templateModule= require('../modules/module.template.js')(db);
-
+	commander 	= require('../tools/tools.node.commander.js')(db);
 	var apiRoutes = express.Router();
 
 	apiRoutes.get('/', tools.checkToken, function(req, res) {
@@ -82,7 +82,8 @@ module.exports = function(app, express, db, tools) {
 	});
 
 	apiRoutes.get('/preview/:id', function(req, res) {
-		templateModule.compile(req.params.id).then(function(result){
+		templateModule.compileByTemplateID(req.params.id).then(function(result){
+			console.log("Aslında buraya geliyor mu ki?");
 			res.send(result);
 		}).fail(function(issue){
 			res.status(500).json({status:"fail", message: issue});

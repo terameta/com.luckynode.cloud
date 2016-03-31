@@ -1,4 +1,4 @@
-angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
+angular.module('adminApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.datacenters', {
 			url:"/datacenters",
 			views: {
@@ -20,7 +20,7 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 		});
 });
 
-angular.module('cloudServices').service('$datacenter', ['$resource',
+angular.module('adminServices').service('$datacenter', ['$resource',
 	function datacenterService($resource) {
 		return ( $resource(
 			'/api/datacenter/:id',
@@ -31,7 +31,7 @@ angular.module('cloudServices').service('$datacenter', ['$resource',
 ]);
 
 
-angular.module('cloudControllers').controller('datacenterController', ['$scope', '$http', '$userService', '$rootScope', '$datacenter', '$state', '$stateParams', '$localStorage', 'srvcLocations',
+angular.module('adminControllers').controller('datacenterController', ['$scope', '$http', '$userService', '$rootScope', '$datacenter', '$state', '$stateParams', '$localStorage', 'srvcLocations',
 	function($scope, $http, $userService, $rootScope, $datacenter, $state, $stateParams, $localStorage, srvcLocations) {
 
 		$scope.countries = srvcLocations.countries;

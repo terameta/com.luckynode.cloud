@@ -2,27 +2,25 @@ var db;
 var Q					= require('q');
 var mongojs 		= require('mongojs');
 var Twocheckout 	= require('2checkout-node');
+var invoiceModule;
 
 module.exports = function(app, express, refdb, tools) {
 	db = refdb;
 
 	var apiRoutes 		= express.Router();
-	var querystring 	= require("querystring");
+	//var querystring 	= require("querystring");
+	invoiceModule 		= require('../modules/module.invoice.js')(db);
 
 	apiRoutes.post('/IPN',  function(req, res) {
+
 		console.log("==========================================================");
 		console.log("==========================================================");
 		console.log("IPN Body");
 		console.log(req.body);
 		console.log("==========================================================");
 		console.log("==========================================================");
-		/*db.invoices.update({_id:parseInt(req.body.item_name,10)}, {$addToSet:{transactions:parseTrx(req.body)}}, function(err, result){
-			if(err){
-				console.log("Transaction add issue:", err);
-			} else {
-				console.log("Transaction recorded to invoice", req.body.item_name);
-			}
-		});*/
+
+		setInvoice({tcoresult:req.body});
 		res.send("OK");
 	});
 
@@ -44,7 +42,7 @@ module.exports = function(app, express, refdb, tools) {
 	});
 
 
-	apiRoutes.post('/pay/:id', tools.checkUserToken, function(req, res){
+	apiRoutes.post('/pay/', tools.checkUserToken, function(req, res){
 		if(!req.user){
 			res.status(400).json({ status: "fail", detail: "no user provided" });
 		} else if(!req.user.id){
@@ -61,7 +59,7 @@ module.exports = function(app, express, refdb, tools) {
 			getSettings(cObject).
 			then(setTCO).
 			then(getUser).
-			then(getInvoice).
+			then(getBalance).
 			then(chargeCard).
 			then(setInvoice).
 			then(function(result){ res.send("OK"); }).
@@ -121,24 +119,17 @@ function getUser(cObject){
 	return deferred.promise;
 }
 
-function getInvoice(cObject){
+function getBalance(cObject){
 	if(!cObject) cObject = {};
 	var deferred = Q.defer();
-	db.invoices.findOne({_id:parseInt(cObject.invoiceid,10)}, function(err, invoice){
-		if(err){
-			deferred.reject(err);
-		} else if(!invoice){
-			deferred.reject("Invoice can't be found");
-		} else {
-			cObject.invoice = invoice;
-			deferred.resolve(cObject);
-		}
-	});
+	cObject.userid = cObject.user._id.toString();
+	invoiceModule.getUserBalance(cObject).then(deferred.resolve).fail(deferred.reject);
 	return deferred.promise;
 }
 
 function chargeCard(cObject){
 	var deferred = Q.defer();
+	//console.log("We are at chargeCard", cObject);
 	if(!cObject){ deferred.reject("No detail provided"); return deferred.promise;}
 
 	console.log(cObject.settings);
@@ -159,9 +150,9 @@ function chargeCard(cObject){
 		}
 	};
 	var theItem = {
-		price: 					Number(parseFloat(cObject.invoice.netTotal).toFixed(2)),
+		price: 					Number(parseFloat(cObject.accountBalance).toFixed(2)),
 		quantity: 				1,
-		name: 					cObject.invoice.details.number,
+		name: 					'Account: ' + cObject.userid,
 		tangible: 				'N',
 		type: 					'product'
 	};
@@ -182,11 +173,17 @@ function chargeCard(cObject){
 function setInvoice(cObject){
 	var deferred = Q.defer();
 	if(!cObject){ deferred.reject("No detail provided"); return deferred.promise;}
-	db.invoices.update({_id:parseInt(cObject.invoiceid,10)}, {$set:{"details.status":"paid"} , $addToSet:{transactions:parseTrx(cObject.tcoresult)}}, function(err, uresult){
+	var transaction = parseTrx(cObject.tcoresult);
+	db.transactions.update({id:transaction.id}, { $set:transaction }, {upsert:true}, function(err, uresult){
 		if(err){
 			deferred.reject(err);
 		} else {
 			deferred.resolve(cObject);
+		}
+	});
+	db.invoices.update({"details.user":mongojs.ObjectId(transaction.userid)}, {$set:{"details.status":"paid"}}, {multi:true}, function(err, iuresult){
+		if(err){
+			console.log("Invoices are not updated", err);
 		}
 	});
 	return deferred.promise;
@@ -194,10 +191,33 @@ function setInvoice(cObject){
 
 function parseTrx(transaction){
 	var toReturn = {};
-	toReturn.id 		= transaction.response.transactionId;
-	toReturn.amount 	= transaction.response.total;
-	toReturn.fee 		= 0;
-	toReturn.method	= '2CO';
-	toReturn.date		= new Date();
+	if(transaction.response){
+		/* This happens immediately after transaction has occured */
+		console.log("XXXXXXXXXXXXXXXXXXXXX==Transaction");
+		toReturn.id 		= transaction.response.transactionId;
+		toReturn.amount 	= transaction.response.total;
+		toReturn.fee 		= 0;
+		toReturn.userid	= transaction.response.lineItems[0].name.toString().replace("Account: ", "");
+	} else {
+		/* This happens with the IPN */
+		console.log("XXXXXXXXXXXXXXXXXXXXX==IPN");
+		toReturn.id 		= transaction.invoice_id;
+		toReturn.amount 	= transaction.item_list_amount_1;
+		toReturn.fee 		= 0;
+		toReturn.userid	= transaction.item_name_1.toString().replace("Account: ", "");
+		toReturn.detail   = "Payment made";
+		if(transaction.message_type == "REFUND_ISSUED"){
+			toReturn.amount = (-1) * toReturn.amount;
+			toReturn.detail = "Refund issued.";
+		} else if(transaction.fraud_status != "pass"){
+			toReturn.amount = 0;
+			toReturn.detail = transaction.message_type + '||' + transaction.message_description;
+		}
+	}
+	toReturn.method		= '2CO';
+	toReturn.date			= new Date();
+	toReturn.feeChecked 	= false;
+	console.log(transaction);
+	console.log(toReturn);
 	return toReturn;
 }

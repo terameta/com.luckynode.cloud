@@ -1,10 +1,11 @@
 var db;
 var Q					= require('q');
 var mongojs 		= require('mongojs');
-var commander		= require('../tools/tools.node.commander.js');
+var commander;
 
 module.exports = function(refdb){
-	db = refdb;
+	db 			= refdb;
+	commander 	= require('../tools/tools.node.commander.js')(db);
 	var module = {
 		deleteServer: undefine,
 		undefine: undefine,
@@ -212,12 +213,42 @@ function findMostFreeNode(curSrv){
 			//deferred.resolve(data);
 			var minMemUsage = 100;
 			var minMemNode = '';
+			var curMinNode = {
+				name:"DontAssignMeEverThisIsANameThatShouldNeverBeAssigned3835213545685443215698455",
+				stats: {
+					cpuCount:0,
+					cpuUsage:1000,
+					memTotal:0,
+					memUsage:1000,
+					assignedCores:1000,
+					assignedMemory:1024*1024*1024,
+					assignedServers:1000
+				}
+			};
 			data.forEach(function(curNode){
+				if(curNode.stats.cpuCount >= curSrv.cpu && curNode.stats.memTotal >= curSrv.ram){
+					if(curNode.stats.assignedMemory < curMinNode.stats.assignedMemory){
+						curMinNode = curNode;
+					} else if(curNode.stats.assignedMemory == curMinNode.stats.assignedMemory){
+						if(curNode.stats.assignedCores < curMinNode.stats.assignedCores){
+							curMinNode = curNode;
+						} else if(curNode.stats.assignedCores == curMinNode.stats.assignedCores){
+							if(curNode.stats.assignedServers < curMinNode.stats.assignedServers){
+								curMinNode = curNode;
+							}
+						}
+					}
+				}
+
 				if(curNode.stats.memUsage < minMemUsage) minMemNode = curNode._id.toString();
 			});
-			curSrv.node = minMemNode;
-			console.log("Selected Node:", minMemNode);
-			deferred.resolve(curSrv);
+			if(curMinNode.name == "DontAssignMeEverThisIsANameThatShouldNeverBeAssigned3835213545685443215698455"){
+				deferred.reject("No nodes are available for assignmentn");
+			} else {
+				curSrv.node = curMinNode._id.toString();
+				console.log("Selected Node:", curSrv.node, curMinNode.name);
+				deferred.resolve(curSrv);
+			}
 		}
 	});
 	return deferred.promise;

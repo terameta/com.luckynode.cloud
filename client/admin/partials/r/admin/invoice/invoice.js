@@ -1,4 +1,4 @@
-angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
+angular.module('adminApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.invoices', {
 			url:"/invoices",
 			views: {
@@ -20,7 +20,7 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 		});
 });
 
-angular.module('cloudServices').service('srvcInvoice', ['$resource', '$rootScope',
+angular.module('adminServices').service('srvcInvoice', ['$resource', '$rootScope',
 	function serverService($resource, $rootScope) {
 		var service = {};
 
@@ -57,7 +57,7 @@ angular.module('cloudServices').service('srvcInvoice', ['$resource', '$rootScope
 	}
 ]);
 
-angular.module('cloudControllers').controller('invoiceController', ['$scope', '$rootScope', 'srvcInvoice', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage',
+angular.module('adminControllers').controller('invoiceController', ['$scope', '$rootScope', 'srvcInvoice', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage',
 	function($scope, $rootScope, srvcInvoice, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage){
 		var lnToastr = toastr;
 

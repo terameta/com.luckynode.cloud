@@ -1,4 +1,4 @@
-angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
+angular.module('adminApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.servers', {
 			url:"/servers",
 			views: {
@@ -20,7 +20,7 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 		});
 });
 
-angular.module('cloudServices').service('$server', ['$resource',
+angular.module('adminServices').service('$server', ['$resource',
 	function serverService($resource) {
 		return ( $resource(
 			'/api/server/:id',
@@ -30,7 +30,7 @@ angular.module('cloudServices').service('$server', ['$resource',
 	}
 ]);
 
-angular.module('cloudControllers').controller('serverController',['$scope', '$rootScope', '$state', '$stateParams', '$server', '$datacenter', '$plan', '$ipblock', '$node', '$image', '$uibModal', '$http', '$q', 'srvcImageGroup', 'srvcUsers',
+angular.module('adminControllers').controller('serverController',['$scope', '$rootScope', '$state', '$stateParams', '$server', '$datacenter', '$plan', '$ipblock', '$node', '$image', '$uibModal', '$http', '$q', 'srvcImageGroup', 'srvcUsers',
 	function($scope, $rootScope, $state, $stateParams, $server, $datacenter, $plan, $ipblock, $node, $image, $uibModal, $http, $q, srvcImageGroup, srvcUsers){
 		$scope.imageDiskDrivers = [{ value:'virtio', text: 'virtio' }, { value:'ide', text: 'ide'}];
 		$scope.imageNetDrivers = [{value:'virtio', text: 'virtio'}, {value:'rtl8139', text: 'Realtek 8139'}, {value:'e1000', text: 'Intel PRO/1000'}];

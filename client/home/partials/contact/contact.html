@@ -18,20 +18,38 @@
 	<div class="row">
 		<div class="col-sm-8">
 			<h3>Contact us</h3>
-			<div id="sendstatus"></div>
+			<div class="alert" ng-class="{'alert-success': sendSuccess, 'alert-danger': sendFail}" ng-if="sendStatus">{{sendStatus}}</div>
 			<div id="contactform">
 				<form method="post" ng-submit="sendContact()">
 					<p>
 						<label for="name">Name:*</label>
-						<input type="text" class="form-control" name="name" id="name" tabindex="1" />
+						<input type="text" class="form-control" name="name" id="name" ng-model="name" tabindex="1"  required="true" oninvalid="this.setCustomValidity('Please let us know your name.')" />
 					</p>
 					<p>
 						<label for="email">Email:*</label>
-						<input type="text" class="form-control" name="email" id="email" tabindex="2" />
+						<input type="email" class="form-control" name="email" id="email" ng-model="email" tabindex="2"  required="true" oninvalid="this.setCustomValidity('Please let us know your e-mail address.')" />
 					</p>
 					<p>
 						<label for="comments">Message:*</label>
-						<textarea class="form-control" name="comments" id="comments" cols="12" rows="6" tabindex="3"></textarea>
+						<textarea class="form-control" name="comments" id="comments" cols="12" rows="6" ng-model="comments" tabindex="3" required="true" oninvalid="this.setCustomValidity('Please let us know your question.')"></textarea>
+					</p>
+					<p>
+						<div vc-recaptcha key="'6Lfw4BgTAAAAAEycZr5o12NKzNvaPFjWY_5A1x3v'" ng-model="cfcResponse"></div>
+						<!--div
+							id="contactGoogleCaptcha"
+							class="g-recaptcha"
+							data-sitekey="6Lfw4BgTAAAAAEycZr5o12NKzNvaPFjWY_5A1x3v"
+							data-callback="capcha_filled"
+							data-expired-callback="capcha_expired">
+						</div>
+						<script type="text/javascript">
+							var onloadCallback = function() {
+								grecaptcha.render('contactGoogleCaptcha', {
+									'sitekey' : '6Lfw4BgTAAAAAEycZr5o12NKzNvaPFjWY_5A1x3v'
+								});
+							};
+						</script>
+						<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script-->
 					</p>
 					<p>
 						<input name="submit" type="submit" id="submit" class="submit" value="Send" tabindex="4" />

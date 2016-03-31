@@ -1,4 +1,4 @@
-angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
+angular.module('adminApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.plans', {
 			url:"/plans",
 			views: {
@@ -20,7 +20,7 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 		});
 });
 
-angular.module('cloudServices').service('$plan', ['$resource',
+angular.module('adminServices').service('$plan', ['$resource',
 	function planService($resource) {
 		return ( $resource(
 			'/api/plan/:id',
@@ -30,7 +30,7 @@ angular.module('cloudServices').service('$plan', ['$resource',
 	}
 ]);
 
-angular.module('cloudControllers').controller('planController', ['$scope', '$rootScope', '$state', '$stateParams', '$plan',
+angular.module('adminControllers').controller('planController', ['$scope', '$rootScope', '$state', '$stateParams', '$plan',
 	function($scope, $rootScope, $state, $stateParams, $plan){
 		$scope.fetchPlans = function(){
 			$rootScope.plans = $plan.query();

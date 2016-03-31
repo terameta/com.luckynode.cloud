@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="adminApp">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>LuckyNode :: Your admin, at your service</title>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<base href="/admin/">
+	<!--ICONS-->
+	<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+	<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
+	<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+	<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+	<link rel="manifest" href="/manifest.json">
+	<meta name="msapplication-TileColor" content="#603cba">
+	<meta name="msapplication-TileImage" content="/mstile-144x144.png">
+	<meta name="theme-color" content="#ffffff">
+	<!--LIBRARIES-->
+	<!--nocss-->																		<script src="/lib/jquery/dist/jquery.min.js"></script>
+	<!--nocss-->																		<script src="/lib/angular/angular.min.js"></script>
+	<!--nocss-->																		<script src="/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<!--nocss-->																		<script src="/lib/angular-resource/angular-resource.min.js"></script>
+	<link rel="stylesheet" href="/lib/angular-loading-bar/build/loading-bar.min.css"> 	<script src="/lib/angular-loading-bar/build/loading-bar.min.js"></script>
+	<!--nocss-->																		<script src="/lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<!--nocss-->																		<script src="/lib/angular-sanitize/angular-sanitize.min.js"></script>
+	<link rel="stylesheet" href="/lib/angular-xeditable/dist/css/xeditable.css">		<script src="/lib/angular-xeditable/dist/js/xeditable.js"></script>
+	<!--nocss-->																		<script src="/lib/checklist-model/checklist-model.js"></script>
+	<link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">			<script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="/lib/handsontable/dist/handsontable.full.css">			<script src="/lib/handsontable/dist/handsontable.full.js"></script>
+	<link rel="stylesheet" href="/lib/toastr/toastr.min.css">							<script src="/lib/toastr/toastr.min.js"></script>
+																						<script src="/lib/no-vnc/include/util.js"></script>
+	<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">			<!--nojs-->
+	<link rel="stylesheet" href="/lib/Ionicons/css/ionicons.min.css">					<!--nojs-->
+	<!--nocss-->																		<script src="/lib/fastclick/lib/fastclick.js"></script>
+	<!--nocss-->																		<script src="/lib/slimScroll/jquery.slimscroll.min.js"></script>
+	<!--nocss-->																		<script src="/lib/sparkline/dist/jquery.sparkline.min.js"></script>
+	<!--nocss-->																		<script src="/lib/Chart.js/Chart.min.js"></script>
+	<link rel="stylesheet" href="/lib/iCheck/skins/square/grey.css">					<script src="/lib/iCheck/icheck.min.js"></script>
+	<link rel="stylesheet" href="/lib/AdminLTE/dist/css/AdminLTE.min.css">				<script src="/lib/AdminLTE/dist/js/app.min.js"></script>
+	<link rel="stylesheet" href="/lib/AdminLTE/dist/css/skins/skin-black.css">			<!--nojs-->
+	<link rel="stylesheet" href="/lib/flag-icon-css/css/flag-icon.min.css">				<!--nojs-->
+	<!--nocss-->																		<script src="/lib/moment/min/moment.min.js"></script>
+	<!--nocss-->																		<!--[if lt IE 9]><script src="/lib/html5shiv/dist/html5shiv.min.js"></script><![endif]-->
+	<!--nocss-->																		<!--[if lt IE 9]><script src="/lib/respond/dest/respond.min.js"></script><![endif]-->
+	<!--nocss-->																		<script src="/lib/ace-builds/src-min-noconflict/ace.js"></script>
+	<!--nocss-->																		<script src="/lib/angular-ui-ace/ui-ace.min.js"></script>
+
+
+
+
+	<!--ADMIN-->
+	<script type="text/javascript" src="/admin/js/admin.js"></script>
+	<script type="text/javascript" src="/admin/js/admincontrollers.js"></script>
+	<script type="text/javascript" src="/admin/js/adminservices.js"></script>
+	<script type="text/javascript" src="/admin/partials/r/admin/manager/manager.js"></script>
+	<script type="text/javascript" src="/admin/partials/r/admin/isofile/isofile.js"></script>
+	<script type="text/javascript" src="/admin/partials/r/admin/server/server.js"></script>
+	<script type="text/javascript" src="/admin/partials/r/admin/image/image.js"></script>
+	<script type="text/javascript" src="/admin/partials/r/admin/imagegroup/imagegroup.js"></script>
+	<script type="text/javascript" src="/admin/partials/r/admin/logs/logs.js"></script>
+	<script type="text/javascript" src="/admin/partials/r/admin/user/user.js"></script>
+	<script type="text/javascript" src="/admin/partials/r/admin/node/node.js"></script>
+	<script type="text/javascript" src="/admin/partials/r/admin/storage/storage.js"></script>
+	<script type="text/javascript" src="/admin/partials/r/admin/plan/plan.js"></script>
+	<script type="text/javascript" src="/admin/partials/r/admin/ipblock/ipblock.js"></script>
+	<script type="text/javascript" src="/admin/partials/r/admin/datacenter/datacenter.js"></script>
+	<script type="text/javascript" src="/admin/partials/r/admin/settings/settings.js"></script>
+	<script type="text/javascript" src="/admin/partials/r/admin/invoice/invoice.js"></script>
+	<script type="text/javascript" src="/admin/partials/r/admin/mailtemplate/mailtemplate.js"></script>
+	<script type="text/javascript" src="/admin/partials/r/admin/library/library.js"></script>
+
+	<script type="text/javascript">
+		toastr.options = {
+			"closeButton": true,
+			"debug": false,
+			"newestOnTop": true,
+			"progressBar": true,
+			"positionClass": "toast-top-right",
+			"preventDuplicates": false,
+			"onclick": null,
+			"showDuration": "300",
+			"hideDuration": "1000",
+			"timeOut": "5000",
+			"extendedTimeOut": "1000",
+			"showEasing": "swing",
+			"hideEasing": "linear",
+			"showMethod": "fadeIn",
+			"hideMethod": "fadeOut"
+		};
+	</script>
+	<style>
+		#toast-container > div {opacity:1;}
+	</style>
+</head>
+
+<body class="hold-transition skin-black sidebar-mini fixed">
+	<div class="wrapper">
+		<div ui-view></div>
+	</div>
+	<!-- ./wrapper -->
+</body>
+
+</html>

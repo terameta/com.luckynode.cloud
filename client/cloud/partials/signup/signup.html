@@ -1,0 +1,33 @@
+	<div class="login-box">
+		<div class="login-box-body">
+			<div class="login-logo" style="background-color:white">
+				<a href="{{domain}}" style="font-family:'bree-serif';"><img ng-src="{{logoURL}}" title="{{domain}}"></a>
+			</div>
+			<p class="login-box-msg" style="font-size:30px;line-height:30px;">Sign Up</p>
+			<div class="alert alert-error" ng-if="signupError">{{signupError}}</div>
+			<form method="post" style="padding-bottom:30px;" ng-submit="signup()">
+				<div class="form-group has-feedback">
+					<input type="email" ng-model="email" class="form-control" placeholder="Email" ng-change="checkPassState()">
+					<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+				</div>
+				<div ng-show="signinWarning" class="alert alert-error" style="padding-top:0px;padding-bottom:0px;margin-top:-12px;">{{signinWarning}}</div>
+				<div class="form-group has-feedback">
+					<input type="password" ng-model="pass" class="form-control" placeholder="Password" ng-change="showStrength()">
+					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+				</div>
+				<div ng-show="passwordStrengthClass" class="alert" ng-class="passwordStrengthClass" style="padding-top:0px;padding-bottom:0px;margin-top:-12px;">{{passwordStrength}}</div>
+				<div class="form-group has-feedback">
+					<input type="password" ng-model="pass2" class="form-control" placeholder="Repeat Password" ng-change="showPassMatch()">
+					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+				</div>
+				<div ng-show="passwordMatch" class="alert" ng-class="passwordMatchClass" style="padding-top:0px;padding-bottom:0px;margin-top:-12px;">{{passwordMatch}}</div>
+				<div vc-recaptcha key="'6Lfw4BgTAAAAAEycZr5o12NKzNvaPFjWY_5A1x3v'" ng-model="cfcResponse"></div><br />
+				<button type="submit" class="btn btn-primary btn-block btn-flat" ng-disabled="(!shouldSignUp && signingup)">Sign Up</button>
+			</form>
+			<br>
+			<a class="text-center" ui-sref="welcome" style="cursor:pointer;">I'm an existing customer, take me to Sign In.</a>
+
+		</div>
+		<!-- /.login-box-body -->
+	</div>
+	<!-- /.login-box -->

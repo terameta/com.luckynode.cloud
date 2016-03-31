@@ -1,4 +1,4 @@
-angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
+angular.module('adminApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.library', {
 			url:"/library",
 			views: {
@@ -20,7 +20,7 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 		});
 });
 
-angular.module('cloudServices').service('srvcLibrary', ['$resource', '$rootScope', '$http', '$q',
+angular.module('adminServices').service('srvcLibrary', ['$resource', '$rootScope', '$http', '$q',
 	function serverService($resource, $rootScope, $http, $q) {
 		var service = {};
 
@@ -33,7 +33,7 @@ angular.module('cloudServices').service('srvcLibrary', ['$resource', '$rootScope
 	}
 ]);
 
-angular.module('cloudControllers').controller('libraryController', ['$scope', '$rootScope', 'srvcLibrary', '$state', '$stateParams', '$localStorage', '$http', '$q', '$uibModal', '$sce', 'srvcSettings',
+angular.module('adminControllers').controller('libraryController', ['$scope', '$rootScope', 'srvcLibrary', '$state', '$stateParams', '$localStorage', '$http', '$q', '$uibModal', '$sce', 'srvcSettings',
 	function($scope, $rootScope, srvcLibrary, $state, $stateParams, $localStorage, $http, $q, $uibModal, $sce, srvcSettings){
 		var lnToastr = toastr;
 		$scope.curNewTutorial = {name:''};

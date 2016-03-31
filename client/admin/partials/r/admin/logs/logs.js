@@ -1,4 +1,4 @@
-angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
+angular.module('adminApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.logs', {
 			url:"/logs",
 			views: {
@@ -20,7 +20,7 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 		})*/;
 });
 
-angular.module('cloudServices').service('$logs', ['$resource',
+angular.module('adminServices').service('$logs', ['$resource',
 	function logService($resource) {
 		return ( $resource(
 			'/api/logs/:id',
@@ -30,7 +30,7 @@ angular.module('cloudServices').service('$logs', ['$resource',
 	}
 ]);
 
-angular.module('cloudControllers').controller('logController',['$scope', '$rootScope', '$state', '$stateParams', '$server', '$datacenter', '$plan', '$ipblock', '$node', '$image', '$uibModal', '$http', '$q', '$logs',
+angular.module('adminControllers').controller('logController',['$scope', '$rootScope', '$state', '$stateParams', '$server', '$datacenter', '$plan', '$ipblock', '$node', '$image', '$uibModal', '$http', '$q', '$logs',
 	function($scope, $rootScope, $state, $stateParams, $server, $datacenter, $plan, $ipblock, $node, $image, $uibModal, $http, $q, $logs){
 		var lnToastr = toastr;
 

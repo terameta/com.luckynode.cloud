@@ -8,6 +8,7 @@ module.exports = function(refdb){
 	db = refdb;
 	var module = {
 		compile									: compile,
+		compileByTemplateID					: compileByTemplateID,
 		getBoundDocument						: getBoundDocument,
 		getInvoiceAttachmentTemplate		: getInvoiceAttachmentTemplate
 	};
@@ -57,9 +58,24 @@ function getBoundDocument(id){
 	return deferred.promise;
 }
 
-function compile(id, docid){
+function compileByTemplateID(templateID, docid){
 	var deferred = Q.defer();
-	db.mailtemplates.findOne({_id:mongojs.ObjectId(id)}, function(err, src) {
+	db.mailtemplates.findOne({_id: mongojs.ObjectId(templateID)}, function(err, result){
+		if(err){
+			deferred.reject(err);
+		} else if(!result) {
+			deferred.reject("No record");
+		} else {
+			deferred.resolve(compile(result.name, docid));
+		}
+	});
+	return deferred.promise;
+}
+
+function compile(templateName, docid){
+	console.log(templateName, docid);
+	var deferred = Q.defer();
+	db.mailtemplates.findOne({name:templateName}, function(err, src) {
 		if(err){
 			deferred.reject(err);
 		} else {

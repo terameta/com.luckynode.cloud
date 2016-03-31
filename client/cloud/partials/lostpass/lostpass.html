@@ -1,0 +1,20 @@
+<div class="login-box">
+	<div class="login-box-body">
+		<div class="login-logo" style="background-color:white">
+			<a href="{{domain}}" style="font-family:'bree-serif';"><img ng-src="{{logoURL}}" title="{{domain}}"></a>
+		</div>
+		<p class="login-box-msg" style="font-size:30px;line-height:30px;">Lost Password</p>
+		<div class="alert alert-error" ng-if="forgotPasswordWarning">{{forgotPasswordWarning}}</div>
+		<form method="post" style="padding-bottom:30px;" ng-submit="requestPassword()">
+			<div class="form-group has-feedback">
+				<input type="email" ng-model="email" class="form-control" placeholder="Email" ng-change="checkPassState()">
+				<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+			</div>
+			<div vc-recaptcha key="'6Lfw4BgTAAAAAEycZr5o12NKzNvaPFjWY_5A1x3v'" ng-model="cfcResponse"></div><br />
+			<button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+		</form>
+		<a ui-sref="welcome">I remember my password now, take me back.</a><br>
+		<a ui-sref="signup">I'm new, sign me up please.</a>
+
+	</div>
+</div>

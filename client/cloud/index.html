@@ -4,8 +4,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>LuckyNode :: Your cloud, at your service</title>
+	<title>epmvirtual - Cloud servers for EPM professionals</title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<base href="/cloud/">
 	<!--ICONS-->
 	<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
 	<link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
@@ -57,6 +58,8 @@
 	<!--nocss-->																		<script src="/lib/ng-file-upload/ng-file-upload.min.js"></script>
 	<link rel="stylesheet" href="/lib/flag-icon-css/css/flag-icon.min.css">				<!--nojs-->
 	<!--nocss-->																		<script type="text/javascript" src="https://www.2checkout.com/checkout/api/2co.min.js"></script>
+	<script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit" async defer></script>
+	<script src="/lib/angular-recaptcha/release/angular-recaptcha.min.js"></script>
 
 
 
@@ -67,6 +70,8 @@
 	<script type="text/javascript" src="/cloud/js/cloudservices.js"></script>
 	<script type="text/javascript" src="/common/js/cloudservices.js"></script>
 	<script type="text/javascript" src="/cloud/partials/welcome/welcome.js"></script>
+	<script type="text/javascript" src="/cloud/partials/signup/signup.js"></script>
+	<script type="text/javascript" src="/cloud/partials/lostpass/lostpass.js"></script>
 	<script type="text/javascript" src="/cloud/partials/dashboard/dashboard.js"></script>
 	<script type="text/javascript" src="/cloud/partials/profile/profile.js"></script>
 	<script type="text/javascript" src="/cloud/partials/server/server.js"></script>
@@ -74,7 +79,9 @@
 	<script type="text/javascript" src="/cloud/partials/plan/plan.js"></script>
 	<script type="text/javascript" src="/cloud/partials/image/image.js"></script>
 	<script type="text/javascript" src="/cloud/partials/imagegroup/imagegroup.js"></script>
+	<script type="text/javascript" src="/cloud/partials/account/account.js"></script>
 	<script type="text/javascript" src="/cloud/partials/invoice/invoice.js"></script>
+	<script type="text/javascript" src="/cloud/partials/support/support.js"></script>
 
 	<script type="text/javascript">
 		toastr.options = {

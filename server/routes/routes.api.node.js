@@ -1,7 +1,7 @@
 module.exports = function(app, express, db, tools) {
 	var mongojs 		= require('mongojs');
 	var deployer		= require('../tools/tools.node.deploy.js');
-	var commander		= require('../tools/tools.node.commander.js');
+	var commander 		= require('../tools/tools.node.commander.js')(db);
 	var fs				= require('fs');
 
 	var apiRoutes = express.Router();

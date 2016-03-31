@@ -1,4 +1,4 @@
-angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
+angular.module('adminApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.managers', {
 			url:"/managers",
 			views: {
@@ -20,7 +20,7 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 		});
 });
 
-angular.module('cloudServices').service('$manager', ['$resource',
+angular.module('adminServices').service('$manager', ['$resource',
 	function managerService($resource){
 		return( $resource(
 			'/api/manager/:id',
@@ -30,7 +30,7 @@ angular.module('cloudServices').service('$manager', ['$resource',
 	}
 ]);
 
-angular.module('cloudControllers').controller('managerController', ['$scope', '$http', '$userService', '$rootScope', '$manager', '$datacenter', '$state', '$stateParams', '$localStorage',
+angular.module('adminControllers').controller('managerController', ['$scope', '$http', '$userService', '$rootScope', '$manager', '$datacenter', '$state', '$stateParams', '$localStorage',
 	function($scope, $http, $userService, $rootScope, $manager, $datacenter, $state, $stateParams, $localStorage) {
 		function validIP4(toCheck) {
 			var ipformat = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;

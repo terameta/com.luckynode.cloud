@@ -32,10 +32,7 @@
 							<tr><td><b>Bandwidth: 	</b></td><td><span editable-text="curServer.bandwidth">{{ curServer.bandwidth }} GB</span></td></tr>
 							<tr>
 								<td colspan=2>
-									<button type="button" class="btn btn-primary btn-xs" ng-click="serverEditForm.$show()" ng-show="!serverEditForm.$visible">Edit</button>
-									<button type="button" class="btn btn-danger btn-xs" ng-click="deleteServer()" ng-show="!serverEditForm.$visible">Delete</button>
-									<button type="submit" class="btn btn-success btn-xs" ng-disabled="serverEditForm.$waiting" ng-show="serverEditForm.$visible">Save</button>
-									<button type="button" class="btn btn-warning btn-xs" ng-disabled="serverEditForm.$waiting" ng-click="serverEditForm.$cancel()" ng-show="serverEditForm.$visible">Cancel</button>
+									<button type="button" class="btn btn-danger btn-xs" ng-click="deleteServerByConfirm(curServer._id)" ng-show="!serverEditForm.$visible">Delete</button>
 								</td>
 							</tr>
 						</tbody>

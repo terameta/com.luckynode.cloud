@@ -1,192 +1,249 @@
 //var sshClient 	= require('ssh2').Client;
-var Q				= require('q');
+var Q					= require('q');
 var tools			= require('../tools/tools.main.js');
 var fs 				= require("fs");
 var mongojs 		= require('mongojs');
-var lnconfiguration	= JSON.parse(fs.readFileSync('luckynode.conf', 'utf8'));
+/*var lnconfiguration	= JSON.parse(fs.readFileSync('luckynode.conf', 'utf8'));
 var cloudConnStr	= lnconfiguration.db.user+':'+lnconfiguration.db.pass+'@'+lnconfiguration.db.server+':'+lnconfiguration.db.port+'/'+lnconfiguration.db.database;
 var cloudColls		= ['storages', 'nodetokens', 'nodes', 'servers'];
-var db 				= mongojs(cloudConnStr, cloudColls, {	authMechanism : 'ScramSHA1' });
+*/
+var db;/* 				= mongojs(cloudConnStr, cloudColls, {	authMechanism : 'ScramSHA1' });*/
+var tools;
 
-module.exports = {
-	assignStoragePools: function(node){
-		//console.log(node);
-		var storages = [];
-		node.storage.forEach(function(curStorage){
-			console.log("curStorage: ", curStorage);
-			storages.push(mongojs.ObjectId(curStorage));
-		});
-		db.storages.find({_id:{$in:storages}}, function(err, data){
-			if(err){
-				console.log(err);
-			} else {
-				data.forEach(function(cPool){
-					cPool.id = cPool._id.toString();
-				});
-				if(node.storage.length == 0){
-					data = [{pool:"NoAssignedPoolForTheNode"}];
-				}
-				var curCommand = { name: 'assignStoragePools', details: data };
-				console.log(data);
-				runCommand(node, curCommand).then(	function(result) { console.log("Deferred Result: ", result); } ).fail( function(issue) { console.log("Deferred Issue: ", issue); } );
-			}
-		});
-	},
-	defineNetworkBridge: function(node, ip, callback){
-		var data = {ip: ip};
-		var curCommand = { name: 'definenetworkbridge', details: data };
-		runCommand(node, curCommand).then(	function(result) { callback(null, result); } ).fail( function(issue) { callback(issue, null); } );
-	},
-	serverDefine: function(node, data, callback){
-		var curCommand = { name: 'serverDefine', details: data};
-		runCommand(node, curCommand).then( function(result){ callback(null, result); } ).fail( function(issue){ callback(issue, null); } );
-	},
-	serverDelete: function(node, data){
-		var deferred = Q.defer();
-		var curCommand = { name: 'serverDelete', details: data};
-		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
-		return deferred.promise;
-	},
-	serverDiskList: function(node, data){
-		var deferred = Q.defer();
-		var curCommand = { name: 'serverDiskList', details: data};
-		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
-		return deferred.promise;
-	},
-	serverAttachISO: function(node, data){
-		var deferred = Q.defer();
-		var curCommand = { name: 'serverAttachISO', details: data};
-		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
-		return deferred.promise;
-	},
-	serverEjectISO: function(node, data){
-		var deferred = Q.defer();
-		var curCommand = { name: 'serverEjectISO', details: data};
-		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
-		return deferred.promise;
-	},
-	serverStart: function(node, data){
-		var deferred = Q.defer();
-		var curCommand = { name: 'serverStart', details: data};
-		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
-		return deferred.promise;
-	},
-	serverShutDown: function(node, data){
-		var deferred = Q.defer();
-		var curCommand = { name: 'serverShutDown', details: data};
-		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
-		return deferred.promise;
-	},
-	serverPowerOff: function(node, data){
-		var deferred = Q.defer();
-		var curCommand = { name: 'serverPowerOff', details: data};
-		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
-		return deferred.promise;
-	},
-	serverReboot: function(node, data){
-		var deferred = Q.defer();
-		var curCommand = { name: 'serverReboot', details: data};
-		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
-		return deferred.promise;
-	},
-	serverState: function(node, data){
-		var deferred = Q.defer();
-		var curCommand = { name: 'serverState', details: data};
-		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
-		return deferred.promise;
-	},
-	serverVNCAddress: function(node, data){
-		var deferred = Q.defer();
-		var curCommand = { name: 'serverVNCAddress', details: data};
-		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
-		return deferred.promise;
-	},
-	serverResize: function(node, data){
-		var deferred = Q.defer();
-		var curCommand = { name: 'serverResize', details: data};
-		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue) { deferred.reject(issue); } );
-		return deferred.promise;
-	},
-	nodeInterfaceList: function(node){
-		var deferred = Q.defer();
-		var data = { myrequest: 'listofinterfaces' };
-		var curCommand = { name: 'nodeInterfaceList', details: data};
-		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
-		return deferred.promise;
-	},
-	nodeBridgeAssign: function(node, data){
-		var deferred = Q.defer();
-		var curCommand = { name: 'nodeBridgeAssign', details: data };
-		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
-		return deferred.promise;
-	},
-	nodeBridgeDetach: function(node, data){
-		var deferred = Q.defer();
-		var curCommand = { name: 'nodeBridgeDetach', details: data };
-		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
-		return deferred.promise;
-	},
-	poolListIsos: function(node, data){
-		var deferred = Q.defer();
-		data.id = data._id.toString();
-		var curCommand = { name: 'poolListIsos', details: data };
-		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
-		return deferred.promise;
-	},
-	volCloneFromServer: function(node, server, data){
-		var deferred = Q.defer();
-		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-		console.log("Node\n",node);
-		console.log("Server\n",server);
-		console.log("Data\n",data);
-		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-		var curCommand = { name: 'volCloneFromServer', details: { server: server, target: data} };
-		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
-		return deferred.promise;
-	},
-	volDelete: function(node, volume){
-		var deferred = Q.defer();
-		var curCommand = { name: 'volDelete', details: {volume: volume} };
-		console.log(volume);
-		if(volume.shouldErase){
-			runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
-		} else {
-			deferred.resolve("Volume delete from the node is not requested.");
-		}
-		return deferred.promise;
-	},
-	sendCommandQ: function(nodequery, command, details){
-		var deferred = Q.defer();
-		sendCommandBase(null, nodequery, command, details).then(deferred.resolve).fail(deferred.reject);
-		return deferred.promise;
-	},
-	sendCommand: function(node, command, details){
-		var deferred = Q.defer();
-		sendCommandBase(node, null, command, details).then(deferred.resolve).fail(deferred.reject);
-		return deferred.promise;
-	},
-	sendVirshQ : function(nodequery, region, command, details){
-		var deferred = Q.defer();
-		sendVirshBase(null, nodequery, region, command, details).then(deferred.resolve).fail(deferred.reject);
-		return deferred.promise;
-	},
-	sendVirsh : function(node, region, command, details){
-		var deferred = Q.defer();
-		sendVirshBase(node, null, region, command, details).then(deferred.resolve).fail(deferred.reject);
-		return deferred.promise;
-	},
-	sendVirshServer : function(server, command, details){
-		var deferred = Q.defer();
-		db.servers.findOne({_id: mongojs.ObjectId(server)}, function(err, sdata){
-			if(err){
-				deferred.reject(err);
-			} else {
-				sendVirshBase(sdata.node, null, 'server', command, details).then(deferred.resolve).fail(deferred.reject);
-			}
-		});
-		return deferred.promise;
-	}
+module.exports = function nodeModule(refdb){
+	db = refdb;
+	tools = require("../tools/tools.main.js")(db);
+	var module = {
+		assignStoragePools: assignStoragePools,
+		defineNetworkBridge: defineNetworkBridge,
+		serverDefine: serverDefine,
+		serverDelete: serverDelete,
+		serverDiskList: serverDiskList,
+		serverAttachISO: serverAttachISO,
+		serverEjectISO: serverEjectISO,
+		serverStart: serverStart,
+		serverShutDown: serverShutDown,
+		serverPowerOff: serverPowerOff,
+		serverReboot: serverReboot,
+		serverState: serverState,
+		serverVNCAddress: serverVNCAddress,
+		serverResize: serverResize,
+		nodeInterfaceList: nodeInterfaceList,
+		nodeBridgeAssign: nodeBridgeAssign,
+		nodeBridgeDetach: nodeBridgeDetach,
+		poolListIsos: poolListIsos,
+		volCloneFromServer: volCloneFromServer,
+		volDelete: volDelete,
+		sendCommandQ: sendCommandQ,
+		sendCommand: sendCommand,
+		sendVirshQ : sendVirshQ,
+		sendVirsh : sendVirsh,
+		sendVirshServer : sendVirshServer
+	};
+	return module;
 };
+
+function assignStoragePools(node){
+	//console.log(node);
+	var storages = [];
+	node.storage.forEach(function(curStorage){
+		console.log("curStorage: ", curStorage);
+		storages.push(mongojs.ObjectId(curStorage));
+	});
+	db.storages.find({_id:{$in:storages}}, function(err, data){
+		if(err){
+			console.log(err);
+		} else {
+			data.forEach(function(cPool){
+				cPool.id = cPool._id.toString();
+			});
+			if(node.storage.length == 0){
+				data = [{pool:"NoAssignedPoolForTheNode"}];
+			}
+			var curCommand = { name: 'assignStoragePools', details: data };
+			console.log(data);
+			runCommand(node, curCommand).then(	function(result) { console.log("Deferred Result: ", result); } ).fail( function(issue) { console.log("Deferred Issue: ", issue); } );
+		}
+	});
+}
+
+function defineNetworkBridge(node, ip, callback){
+	var data = {ip: ip};
+	var curCommand = { name: 'definenetworkbridge', details: data };
+	runCommand(node, curCommand).then(	function(result) { callback(null, result); } ).fail( function(issue) { callback(issue, null); } );
+}
+
+function serverDefine(node, data, callback){
+	var curCommand = { name: 'serverDefine', details: data};
+	runCommand(node, curCommand).then( function(result){ callback(null, result); } ).fail( function(issue){ callback(issue, null); } );
+}
+
+function serverDelete(node, data){
+	var deferred = Q.defer();
+	var curCommand = { name: 'serverDelete', details: data};
+	runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
+	return deferred.promise;
+}
+
+function serverDiskList(node, data){
+	var deferred = Q.defer();
+	var curCommand = { name: 'serverDiskList', details: data};
+	runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
+	return deferred.promise;
+}
+
+function serverAttachISO(node, data){
+	var deferred = Q.defer();
+	var curCommand = { name: 'serverAttachISO', details: data};
+	runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
+	return deferred.promise;
+}
+
+function serverEjectISO(node, data){
+	var deferred = Q.defer();
+	var curCommand = { name: 'serverEjectISO', details: data};
+	runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
+	return deferred.promise;
+}
+
+function serverStart(node, data){
+	var deferred = Q.defer();
+	var curCommand = { name: 'serverStart', details: data};
+	runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
+	return deferred.promise;
+}
+
+function serverShutDown(node, data){
+	var deferred = Q.defer();
+	var curCommand = { name: 'serverShutDown', details: data};
+	runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
+	return deferred.promise;
+}
+
+function serverPowerOff(node, data){
+	var deferred = Q.defer();
+	var curCommand = { name: 'serverPowerOff', details: data};
+	runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
+	return deferred.promise;
+}
+
+function serverReboot(node, data){
+	var deferred = Q.defer();
+	var curCommand = { name: 'serverReboot', details: data};
+	runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
+	return deferred.promise;
+}
+
+function serverState(node, data){
+	var deferred = Q.defer();
+	var curCommand = { name: 'serverState', details: data};
+	runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
+	return deferred.promise;
+}
+
+function serverVNCAddress(node, data){
+	var deferred = Q.defer();
+	var curCommand = { name: 'serverVNCAddress', details: data};
+	runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
+	return deferred.promise;
+}
+
+function serverResize(node, data){
+	var deferred = Q.defer();
+	var curCommand = { name: 'serverResize', details: data};
+	runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue) { deferred.reject(issue); } );
+	return deferred.promise;
+}
+
+function nodeInterfaceList(node){
+	var deferred = Q.defer();
+	var data = { myrequest: 'listofinterfaces' };
+	var curCommand = { name: 'nodeInterfaceList', details: data};
+	runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
+	return deferred.promise;
+}
+
+function nodeBridgeAssign(node, data){
+	var deferred = Q.defer();
+	var curCommand = { name: 'nodeBridgeAssign', details: data };
+	runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
+	return deferred.promise;
+}
+
+function nodeBridgeDetach(node, data){
+	var deferred = Q.defer();
+	var curCommand = { name: 'nodeBridgeDetach', details: data };
+	runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
+	return deferred.promise;
+}
+
+function poolListIsos(node, data){
+	var deferred = Q.defer();
+	data.id = data._id.toString();
+	var curCommand = { name: 'poolListIsos', details: data };
+	runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
+	return deferred.promise;
+}
+
+function volCloneFromServer(node, server, data){
+	var deferred = Q.defer();
+	console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+	console.log("Node\n",node);
+	console.log("Server\n",server);
+	console.log("Data\n",data);
+	console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+	var curCommand = { name: 'volCloneFromServer', details: { server: server, target: data} };
+	runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
+	return deferred.promise;
+}
+
+function volDelete(node, volume){
+	var deferred = Q.defer();
+	var curCommand = { name: 'volDelete', details: {volume: volume} };
+	console.log(volume);
+	if(volume.shouldErase){
+		runCommand(node, curCommand).then( function(result){ deferred.resolve(result); } ).fail( function(issue){ deferred.reject(issue); } );
+	} else {
+		deferred.resolve("Volume delete from the node is not requested.");
+	}
+	return deferred.promise;
+}
+
+function sendCommandQ(nodequery, command, details){
+	var deferred = Q.defer();
+	sendCommandBase(null, nodequery, command, details).then(deferred.resolve).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function sendCommand(node, command, details){
+	var deferred = Q.defer();
+	sendCommandBase(node, null, command, details).then(deferred.resolve).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function sendVirshQ(nodequery, region, command, details){
+	var deferred = Q.defer();
+	sendVirshBase(null, nodequery, region, command, details).then(deferred.resolve).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function sendVirsh(node, region, command, details){
+	var deferred = Q.defer();
+	sendVirshBase(node, null, region, command, details).then(deferred.resolve).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function sendVirshServer(server, command, details){
+	var deferred = Q.defer();
+	db.servers.findOne({_id: mongojs.ObjectId(server)}, function(err, sdata){
+		if(err){
+			deferred.reject(err);
+		} else {
+			sendVirshBase(sdata.node, null, 'server', command, details).then(deferred.resolve).fail(deferred.reject);
+		}
+	});
+	return deferred.promise;
+}
 
 function sendVirshBase(node, nodequery, region, command, details){
 	var deferred = Q.defer();

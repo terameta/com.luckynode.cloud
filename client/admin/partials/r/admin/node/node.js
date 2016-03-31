@@ -1,4 +1,4 @@
-angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
+angular.module('adminApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.nodes', {
 			url:"/nodes",
 			views: {
@@ -20,7 +20,7 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 		});
 });
 
-angular.module('cloudServices').service('$node', ['$resource',
+angular.module('adminServices').service('$node', ['$resource',
 	function nodeService($resource) {
 		return ( $resource(
 			'/api/node/:id',
@@ -30,7 +30,7 @@ angular.module('cloudServices').service('$node', ['$resource',
 	}
 ]);
 
-angular.module('cloudControllers').controller('nodeController', ['$scope', '$rootScope', '$node', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage', '$sce',
+angular.module('adminControllers').controller('nodeController', ['$scope', '$rootScope', '$node', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage', '$sce',
 	function($scope, $rootScope, $node, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage, $sce){
 		$scope.newnode = {};
 		function validIP4(toCheck) {

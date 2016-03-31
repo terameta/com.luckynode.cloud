@@ -1,9 +1,9 @@
-var commander		= require('../tools/tools.node.commander.js');
+var commander;
 var urlparser		= require('url');
 
 module.exports = function(app, express, db, tools) {
 	var mongojs 		= require('mongojs');
-
+	commander 			= require('../tools/tools.node.commander.js')(db);
 	var apiRoutes = express.Router();
 
 	apiRoutes.get('/', tools.checkToken, function(req, res) {

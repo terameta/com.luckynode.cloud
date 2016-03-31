@@ -1,4 +1,4 @@
-angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
+angular.module('adminApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.isofiles', {
 			url:"/isofiles",
 			views: {
@@ -20,7 +20,7 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 		});
 });
 
-angular.module('cloudServices').service('$isofile', ['$resource',
+angular.module('adminServices').service('$isofile', ['$resource',
 	function serverService($resource) {
 		return ( $resource(
 			'/api/isofile/:id',
@@ -30,7 +30,7 @@ angular.module('cloudServices').service('$isofile', ['$resource',
 	}
 ]);
 
-angular.module('cloudControllers').controller('isofileController', ['$scope', '$rootScope', '$isofile', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage',
+angular.module('adminControllers').controller('isofileController', ['$scope', '$rootScope', '$isofile', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage',
 	function($scope, $rootScope, $isofile, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage){
 		$scope.isofiletypes = [{name: 'iso', value: 'iso'}];
 		$scope.isoarchitectures = [{name: 'i386', value: 'i386'}, {name: 'x86_64', value: 'x86_64'}];

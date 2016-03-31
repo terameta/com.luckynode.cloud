@@ -5,7 +5,7 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 			//	'': 			{ templateUrl: "/cloud/partials/dashboard/dashboard.html", controller: 'dashboardController' },
 			//	'mainMenu@dashboard': 	{ templateUrl: "/cloud/partials/dashboard/dashboardMenu.html" },
 			//	'sidebar@dashboard': { templateUrl: "/cloud/partials/dashboard/dashboardSideBar.html" },
-				'content@r': { templateUrl: "/cloud/partials/dashboard/dashboardContent.html", controller: 'dashboardController' }
+				'content@r': { templateUrl: "/cloud/partials/dashboard/dashboard.html", controller: 'dashboardController' }
 			},
             data: { requireSignin: true }
 		});
@@ -34,12 +34,14 @@ angular.module('cloudControllers').controller('dashboardController', ['$scope', 
 
 		$userService.getCurUser();
 
+		$scope.memberSince = '';
+
 		$userService.getCurUserDetails().then(function(result){
-			console.log(result);
+			/*console.log(result);
 			console.log($rootScope.curEndUser);
 			console.log($rootScope.user);
-			console.log($rootScope.curUser);
-
+			console.log($rootScope.curUser);*/
+			$scope.memberSince = moment($rootScope.curEndUser.joindate).format('DD.MMM.YYYY');
 		});
 
 		$rootScope.ppicurl = '/img/noprofileimage128.png';

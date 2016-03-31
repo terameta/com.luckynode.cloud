@@ -1,4 +1,4 @@
-angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
+angular.module('adminApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.settings', {
 			url:"/settings",
 			views: {
@@ -8,7 +8,7 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 		});
 });
 
-angular.module('cloudServices').service('srvcSettings', ['$resource', '$rootScope', '$http', '$q',
+angular.module('adminServices').service('srvcSettings', ['$resource', '$rootScope', '$http', '$q',
 	function srvcUsersF($resource, $rootScope, $http, $q) {
 		var service = {};
 
@@ -81,7 +81,7 @@ angular.module('cloudServices').service('srvcSettings', ['$resource', '$rootScop
 ]);
 
 
-angular.module('cloudControllers').controller('settingsController', ['$scope', '$rootScope', 'srvcSettings', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage',
+angular.module('adminControllers').controller('settingsController', ['$scope', '$rootScope', 'srvcSettings', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage',
 	function($scope, $rootScope, srvcSettings, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage){
 		var lnToastr = toastr;
 

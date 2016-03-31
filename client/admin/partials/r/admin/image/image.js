@@ -1,4 +1,4 @@
-angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
+angular.module('adminApp').config(function($stateProvider, $urlRouterProvider){
 	$stateProvider.state('r.dashboard.images', {
 			url:"/images",
 			views: {
@@ -26,7 +26,7 @@ angular.module('cloudApp').config(function($stateProvider, $urlRouterProvider){
 		});
 });
 
-angular.module('cloudServices').service('$image', ['$resource',
+angular.module('adminServices').service('$image', ['$resource',
 	function serverService($resource) {
 		return ( $resource(
 			'/api/image/:id',
@@ -36,7 +36,7 @@ angular.module('cloudServices').service('$image', ['$resource',
 	}
 ]);
 
-angular.module('cloudControllers').controller('imageController',['$scope', '$rootScope', '$state', '$stateParams', '$server', '$datacenter', '$plan', '$image', '$storage', 'srvcImageGroup', '$http',
+angular.module('adminControllers').controller('imageController',['$scope', '$rootScope', '$state', '$stateParams', '$server', '$datacenter', '$plan', '$image', '$storage', 'srvcImageGroup', '$http',
 	function($scope, $rootScope, $state, $stateParams, $server, $datacenter, $plan, $image, $storage, srvcImageGroup,$http){
 		srvcImageGroup.fetchAll();
 

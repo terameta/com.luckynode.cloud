@@ -3,20 +3,83 @@ var Q					= require('q');
 var mongojs 		= require('mongojs');
 var moment			= require('moment');
 var pdf 				= require('html-pdf');
-var tools			= require("../tools/tools.main.js");
+var tools;
 var templateModule;
 
 module.exports = function(refdb){
 	db = refdb;
 	templateModule = require("../modules/module.template.js")(db);
-
+	tools = require("../tools/tools.main.js")(db);
 	var module = {
 		startProcess	: startProcess,
 		list				: list,
+		getUserBalance : getUserBalance,
 		fetchOne			: fetchOne
 	};
 	return module;
 };
+
+function getUserBalance(refObj){
+	var deferred = Q.defer();
+	//console.log("We are at getUserBalance", refObj);
+	if(!refObj){
+		deferred.reject("No information passed");
+		return deferred.promise;
+	}
+	listToObject(refObj).
+	then(getUserTransactions).
+	then(calculateUserBalance).
+	then(deferred.resolve).
+	fail(deferred.reject);
+	return deferred.promise;
+}
+
+function calculateUserBalance(refObj){
+	var deferred = Q.defer();
+	var accountBalance = 0;
+	var allTransactions = [];
+	if(refObj.invoiceList){
+		refObj.invoiceList.forEach(function(curInvoice){
+			//console.log("Invoice:::", curInvoice);
+			accountBalance += parseFloat(curInvoice.netTotal);
+			allTransactions.push({id:curInvoice._id, date:curInvoice.details.date, transactionBy:'Invoice', amountSpent:curInvoice.netTotal, details:'Invoice Generated'});
+		});
+	}
+	if(refObj.transactions){
+		refObj.transactions.forEach(function(curTrx){
+			//console.log("Transaction:::", curTrx);
+			accountBalance -= parseFloat(curTrx.amount);
+			allTransactions.push({id:curTrx.id, date:curTrx.date, transactionBy:curTrx.method, amountPaid:curTrx.amount, details:curTrx.detail});
+		});
+	}
+	refObj.accountBalance = accountBalance;
+	refObj.transactions = allTransactions;
+	delete refObj.invoiceList;
+	deferred.resolve(refObj);
+	return deferred.promise;
+}
+
+function getUserTransactions(refObj){
+	var deferred = Q.defer();
+	db.transactions.find({userid:refObj.userid}, function(err, trxList){
+		if(err){
+			deferred.reject(err);
+		} else {
+			refObj.transactions = trxList;
+			deferred.resolve(refObj);
+		}
+	});
+	return deferred.promise;
+}
+
+function listToObject(refObj){
+	var deferred = Q.defer();
+	list(refObj.userid).then(function(invoiceList){
+		refObj.invoiceList = invoiceList;
+		deferred.resolve(refObj);
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
 
 function fetchOne(userid, invoiceid){
 	var deferred = Q.defer();
@@ -37,7 +100,7 @@ function list(userid){
 	var deferred = Q.defer();
 	var querier = {"details.user":mongojs.ObjectId(userid)};
 	if(!userid)	querier = {};
-	console.log(querier);
+	//console.log(querier);
 	db.invoices.find(querier, function(err, invoiceList){
 		if(err){
 			deferred.reject(err);
@@ -134,6 +197,7 @@ function processCurrent(id){
 
 function findPrice(tokenObject){
 	var deferred = Q.defer();
+	//console.log(tokenObject);
 	db.servers.findOne({_id:mongojs.ObjectId(tokenObject.id)}, function(err, server){
 		if(err){
 			deferred.reject(err);
@@ -166,6 +230,7 @@ function findPrice(tokenObject){
 
 function findDiscount(tokenObject){
 	var deferred = Q.defer();
+	//console.log("FindDiscount", tokenObject);
 	db.users.findOne({_id:mongojs.ObjectId(tokenObject.server.owner)}, function(err, user){
 		if(err){
 			deferred.reject(err);
@@ -210,8 +275,12 @@ function findDiscount(tokenObject){
 					if(user.discountType == 'percentage') tokenObject.discountDescription += '('+user.discountAmount+'%) ';
 				}
 			}
-			tokenObject.discountDescription = tokenObject.discountDescription.trim();
-			//console.log(tokenObject.discount, tokenObject.discountDescription);
+			if(tokenObject.discountDescription){
+				tokenObject.discountDescription = tokenObject.discountDescription.trim();
+			} else {
+				tokenObject.discountDescription = "-";
+			}
+			//console.log("ZZZ", tokenObject.discount, tokenObject.discountDescription);
 			deferred.resolve(tokenObject);
 		}
 	});
@@ -219,8 +288,9 @@ function findDiscount(tokenObject){
 }
 
 function findPayTo(tokenObject){
+	//console.log("FindPayTo", tokenObject);
 	var deferred = Q.defer();
-	tokenObject.payTo = tokenObject.user.payto.toString().trim();
+	if(tokenObject.user.payto) tokenObject.payTo = tokenObject.user.payto.toString().trim();
 	if(tokenObject.payTo){
 		deferred.resolve(tokenObject);
 	} else {
@@ -238,6 +308,7 @@ function findPayTo(tokenObject){
 }
 
 function getInvoiceNumber(tokenObject){
+	//console.log("GetInvoiceNumber", tokenObject);
 	var deferred = Q.defer();
 	db.invoices.findOne({"details.user":mongojs.ObjectId(tokenObject.user._id), "details.status":"Unpaid"}, {_id:1}, function(err, invoice){
 		if(err){
@@ -454,9 +525,10 @@ function setupMailObject(mObject){
 
 function setupMailPDF(mObject){
 	var deferred = Q.defer();
-	templateModule.getInvoiceAttachmentTemplate().then(function(invoiceAttachmentTemplateID){
+	/*templateModule.getInvoiceAttachmentTemplate().then(function(invoiceAttachmentTemplateID){
 		return templateModule.compile(invoiceAttachmentTemplateID,mObject.invoiceID);
-	}).then(function(compiledHTML){
+	})*/
+	templateModule.compile("Invoice Attachment", mObject.invoiceID).then(function(compiledHTML){
 		var options = {format:'A4'};
 		pdf.create(compiledHTML, options).toFile('./uploads/invoice'+mObject.invoiceID+'.pdf', function(err, res) {
 			if (err){
@@ -473,8 +545,9 @@ function setupMailPDF(mObject){
 }
 
 function sendInvoiceMail(mObject){
-	console.log("We are here too");
+	//console.log("We are here too");
 	var deferred = Q.defer();
+	//console.log("Tools:", tools);
 	tools.mailer.sendMail(mObject.subject, mObject.content, mObject.from, mObject.to, null, null, [{filename:'Invoice'+mObject.invoiceID+'.pdf', path:'./uploads/invoice'+mObject.invoiceID+'.pdf'}]);
 	deferred.resolve(mObject);
 	return deferred.promise;
