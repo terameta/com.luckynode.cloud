@@ -44,7 +44,7 @@ module.exports = function(app, express, db, tools) {
 			curNewServer.owner = req.user.id;
 			newServerInsert(curNewServer).
 				then(serverAssignIP).
-				then(serverFindMostFreeNode).
+				then(serverModule.findMostFreeNode).
 				then(function(result){ curNewServer.id = curNewServer._id.toString(); 								return serverFindNode(curNewServer);			}).
 				then(function(result){ curNewServerNode = result; curNewServer.bridge = result.netBridge;		return serverFindIPBlock(curNewServer);		}).
 				then(function(result){																								return serverUpdate(curNewServer);				}).
