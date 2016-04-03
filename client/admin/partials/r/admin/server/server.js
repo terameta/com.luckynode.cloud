@@ -151,7 +151,7 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 			var deferred = $q.defer();
 			$http.get('/api/server/startConsoleOnTheServer/'+$scope.curServer._id).success(function(data, status, headers, config) {
 				deferred.resolve(data);
-				console.log("We are here before loading scripts");
+				//console.log("We are here before loading scripts");
 			}).error(function(data, status, headers, config) {
 				deferred.reject(data);
 			});
@@ -159,12 +159,21 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 		};
 
 		$scope.startConsoleCanvas = function(thePort){
-			console.log("We are loading scripts ---");
-			Util.load_scripts(["../../lib/no-vnc/include/webutil.js", "base64.js", "websock.js", "des.js",
-				"keysymdef.js", "keyboard.js", "input.js", "display.js",
-				"jsunzip.js", "rfb.js", "keysym.js", "zobelek.js"
+			//console.log("We are loading scripts ---");
+			Util.load_scripts([
+				"../../lib/no-vnc/include/webutil.js",
+				"../../lib/no-vnc/include/base64.js",
+				"../../lib/no-vnc/include/websock.js",
+				"../../lib/no-vnc/include/des.js",
+				"../../lib/no-vnc/include/keysymdef.js",
+				"../../lib/no-vnc/include/keyboard.js",
+				"../../lib/no-vnc/include/input.js",
+				"../../lib/no-vnc/include/display.js",
+				"../../lib/no-vnc/include/jsunzip.js",
+				"../../lib/no-vnc/include/rfb.js",
+				"../../lib/no-vnc/include/keysym.js"
 			]);
-			console.log("We areeeeee heeeeererere");
+			//console.log("We areeeeee heeeeererere");
 
 			//var rfb;
 
