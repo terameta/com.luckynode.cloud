@@ -378,7 +378,7 @@ module.exports = function(app, express, db, tools) {
 
 function persistentInitiateVNCProxy(host, port, localport, tools){
 	var deferred = Q.defer();
-	var curCommand = path.resolve('.') + '/client/lib/no-vnc/utils/websockify '+localport+' '+ host +':'+ port +' --cert /etc/nginx/ssl/www_epmvirtual_com.crt --key /etc/nginx/ssl/www_epmvirtual_com.key --ssl-only -D --run-once --timeout=60 >> /tmp/websockify.log';
+	var curCommand = path.resolve('.') + '/client/lib/no-vnc/utils/websockify '+localport+' '+ host +':'+ port +' --cert /etc/nginx/ssl/www_epmvirtual_com.crt --key /etc/nginx/ssl/www_epmvirtual_com.key --ssl-only -D --run-once --timeout=60';
 	tools.runLocalCommand(curCommand).then(function(result){
 		console.log("==========================================================");
 		console.log("==========================================================");
