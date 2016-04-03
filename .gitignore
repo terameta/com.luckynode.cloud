@@ -3,6 +3,7 @@
 .git
 npm-debug.log
 luckynode.config
+luckynode.conf
 monger.luckynode.ca.pem
 client/lib/*
 node_modules
