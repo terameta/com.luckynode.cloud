@@ -380,6 +380,11 @@ function persistentInitiateVNCProxy(host, port, localport, tools){
 	var deferred = Q.defer();
 	var curCommand = path.resolve('.') + '/client/lib/no-vnc/utils/websockify '+localport+' '+ host +':'+ port +' --cert /etc/nginx/ssl/www_epmvirtual_com.pem --ssl-only -D --run-once --timeout=60';
 	tools.runLocalCommand(curCommand).then(function(result){
+		console.log("==========================================================");
+		console.log("==========================================================");
+		console.log(result);
+		console.log("==========================================================");
+		console.log("==========================================================");
 		deferred.resolve(localport);
 	}).fail(function(issue){
 		if(issue.indexOf("socket.error: [Errno 98] Address already in use") >= 0){
