@@ -160,7 +160,7 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 
 		$scope.startConsoleCanvas = function(thePort){
 			console.log("We are loading scripts ---");
-			Util.load_scripts(["/lib/no-vnc/include/webutil.js", "base64.js", "websock.js", "des.js",
+			Util.load_scripts(["../lib/no-vnc/include/webutil.js", "base64.js", "websock.js", "des.js",
 				"keysymdef.js", "keyboard.js", "input.js", "display.js",
 				"jsunzip.js", "rfb.js", "keysym.js", "zobelek.js"
 			]);
