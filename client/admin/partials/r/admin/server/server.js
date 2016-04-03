@@ -136,7 +136,7 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 
 			$scope.startConsoleOnTheServer().then(
 				function(result){
-					console.log(result);
+					console.log(result, "---");
 					$scope.startConsoleCanvas(result.port);
 				},
 				function(issue){
@@ -151,6 +151,7 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 			var deferred = $q.defer();
 			$http.get('/api/server/startConsoleOnTheServer/'+$scope.curServer._id).success(function(data, status, headers, config) {
 				deferred.resolve(data);
+				console.log("We are here before loading scripts");
 			}).error(function(data, status, headers, config) {
 				deferred.reject(data);
 			});
@@ -158,11 +159,12 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 		};
 
 		$scope.startConsoleCanvas = function(thePort){
-			//console.log("We are loading scripts");
-			Util.load_scripts(["webutil.js", "base64.js", "websock.js", "des.js",
+			console.log("We are loading scripts ---");
+			Util.load_scripts(["/lib/no-vnc/include/webutil.js", "base64.js", "websock.js", "des.js",
 				"keysymdef.js", "keyboard.js", "input.js", "display.js",
-				"jsunzip.js", "rfb.js", "keysym.js"
+				"jsunzip.js", "rfb.js", "keysym.js", "zobelek.js"
 			]);
+			console.log("We areeeeee heeeeererere");
 
 			//var rfb;
 
