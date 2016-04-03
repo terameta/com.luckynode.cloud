@@ -20,7 +20,6 @@ if( cluster.isMaster ) {
     for( var i = 0; i < cCPUs; i++ ) {
         var workerpid = cluster.fork(worker_env).process.pid;
     }
-
     cronerpid = cluster.fork(croner_env).process.pid;
 
     cluster.on( 'online', function( worker ) {
