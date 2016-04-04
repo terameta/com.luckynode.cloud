@@ -34,7 +34,7 @@
 								<td><b>Owner: 		</b></td>
 								<td>{{curServer.owner}}
 									<span editable-select="curServer.owner" e-ng-options="user._id as user.name for user in users">
-										{{ (users | filter:{_id: curServer.owner})[0].name || 'Not set' }}
+										{{ (users | filter:{_id: curServer.owner})[0].email || 'Not set' }}
 									</span>
 								</td>
 							</tr>
