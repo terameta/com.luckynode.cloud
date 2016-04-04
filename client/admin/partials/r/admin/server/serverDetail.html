@@ -39,6 +39,10 @@
 								</td>
 							</tr>
 							<tr>
+								<td><b>Next Invoice Date: </b></td>
+								<td><span editable-combodate="curServer.nextinvoicedate">{{ (curServer.nextinvoicedate | date:"medium") || 'empty' }}</span></td>
+							</tr>
+							<tr>
 								<td colspan=2>
 									<button type="button" class="btn btn-primary btn-xs" ng-click="serverEditForm.$show()" ng-show="!serverEditForm.$visible">Edit</button>
 									<button type="button" class="btn btn-danger btn-xs" ng-click="deleteServer()" ng-show="!serverEditForm.$visible">Delete</button>
