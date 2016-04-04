@@ -40,7 +40,7 @@
 							</tr>
 							<tr>
 								<td><b>Next Invoice Date: </b></td>
-								<td><span editable-combodate="curServer.nextinvoicedate" data-combodate="{'minYear':'2000', 'maxYear':'2100'}">{{ (curServer.nextinvoicedate | date:"yyyy-MM-dd HH:mm:ss Z") || 'empty' }}</span></td>
+								<td><span editable-combodate="curServer.nextinvoicedate" data-maxYear="2100">{{ (curServer.nextinvoicedate | date:"yyyy-MM-dd HH:mm:ss Z") || 'empty' }}</span></td>
 							</tr>
 							<tr>
 								<td colspan=2>
