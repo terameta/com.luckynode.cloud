@@ -30,6 +30,7 @@
 							<tr><td><b>RAM: 		</b></td><td><span editable-text="curServer.ram">{{ curServer.ram }} MB</span></td></tr>
 							<tr><td><b>HDD: 		</b></td><td><span editable-text="curServer.hdd">{{ curServer.hdd }} GB</span></td></tr>
 							<tr><td><b>Bandwidth: 	</b></td><td><span editable-text="curServer.bandwidth">{{ curServer.bandwidth }} GB</span></td></tr>
+							<tr><td><b>Owner: 		</b></td><td>{{curServer.owner}}</td></tr>
 							<tr>
 								<td colspan=2>
 									<button type="button" class="btn btn-primary btn-xs" ng-click="serverEditForm.$show()" ng-show="!serverEditForm.$visible">Edit</button>
