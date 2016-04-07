@@ -4,7 +4,7 @@ var fs 				= require("fs");
 
 var mongojs 		= require('mongojs');
 var lnconfiguration	= JSON.parse(fs.readFileSync('luckynode.conf', 'utf8'));
-console.log(lnconfiguration);
+//console.log(lnconfiguration);
 var cloudConnStr	= lnconfiguration.db.connstr;
 var cloudColls		= ['users','datacenters','nodes','ipblocks','storages','nodecs','nodetokens','managers','plans','servers','images', 'imagegroups','isofiles', 'logs', 'userfiles', 'settings', 'invoices', 'counters', 'mailtemplates', 'library', 'templateDocs', 'userRequests', 'transactions'];
 var db 				= mongojs(cloudConnStr, cloudColls, { authMechanism : 'ScramSHA1' });
