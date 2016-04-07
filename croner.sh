@@ -1,5 +1,6 @@
 #!/bin/bash
 cd ~/cloud.luckynode.com
+pwd
 date
 git fetch origin
 reslog=$(git log HEAD..origin/master --oneline)
