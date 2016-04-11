@@ -161,6 +161,8 @@ function processAll(){
 					break;
 				}
 			}
+			console.log(toProcess);
+			/*
 			if(toProcess == "No more invoices to process"){
 				deferred.resolve(toProcess);
 			} else {
@@ -168,11 +170,11 @@ function processAll(){
 				locknProcessCurrent(toProcess).then(function(result){
 					deferred.resolve(processAll());
 				}).fail(deferred.reject);
-			}
+			}*/
 		}
 	});
 
-	/*db.servers.find({nextinvoicedate: {$lt: new Date()}, invoicestat: 'OK'},{_id:1}, function(err, result){
+	db.servers.find({nextinvoicedate: {$lt: new Date()}, invoicestat: 'OK'},{_id:1}, function(err, result){
 		if(err){
 			console.log("processAll failed");
 			deferred.reject(err);
@@ -196,7 +198,7 @@ function processAll(){
 				deferred.resolve(processAll());
 			}).fail(deferred.reject);
 		}
-	});*/
+	});
 	return deferred.promise;
 }
 
