@@ -149,7 +149,7 @@ function assignDate(){
 function processAll(){
 	console.log("We are at processAll");
 	var deferred = Q.defer();
-	db.servers.find(function(err, serverList){
+	db.servers.find({invoicestat: 'OK'}, function(err, serverList){
 		if(err){
 			console.log("Invoice module processAll failed");
 		} else {
