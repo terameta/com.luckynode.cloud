@@ -51,6 +51,7 @@
 								<td>
 									<span editable-select="curServer.plan" e-ng-options="plan._id as plan.name for plan in plans">
 										{{ (plans | filter:{_id: curServer.plan})[0].name || 'Not set' }}
+										<pre>{{ (plans | filter:{_id: curServer.plan})[0].name }}</pre>
 									</span>
 								</td>
 							</tr>
