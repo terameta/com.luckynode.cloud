@@ -47,6 +47,14 @@
 								<td><span editable-combodate="curServer.nextinvoicedate" e-max-year="2100">{{ (curServer.nextinvoicedate | date:"yyyy-MM-dd HH:mm:ss Z") || 'empty' }}</span></td>
 							</tr>
 							<tr>
+								<td><b>Plan: 		</b></td>
+								<td>
+									<span editable-select="curServer.plan" e-ng-options="plan._id as plan.name for plan in plans">
+										{{ (plans | filter:{_id: curServerplan}[0].name || 'Not set' }}
+									</span>
+								</td>
+							</tr>
+							<tr>
 								<td colspan=2>
 									<button type="button" class="btn btn-primary btn-xs" ng-click="serverEditForm.$show()" ng-show="!serverEditForm.$visible">Edit</button>
 									<button type="button" class="btn btn-danger btn-xs" ng-click="deleteServer()" ng-show="!serverEditForm.$visible">Delete</button>
