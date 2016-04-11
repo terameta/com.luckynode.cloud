@@ -112,6 +112,7 @@ function list(userid){
 }
 
 function startProcess(){
+	console.log("Invoicing process is starting:", new Date());
 	assignDate().
 	then(processAll).
 	then(processAllMail).
