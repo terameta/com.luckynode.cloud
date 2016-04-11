@@ -582,7 +582,7 @@ function sendInvoiceMail(mObject){
 	//console.log("We are here too");
 	var deferred = Q.defer();
 	//console.log("Tools:", tools);
-	tools.mailer.sendMail(mObject.subject, mObject.content, mObject.from, mObject.to, null, null, [{filename:'Invoice'+mObject.invoiceID+'.pdf', path:'./uploads/invoice'+mObject.invoiceID+'.pdf'}]);
+	tools.mailer.sendMail(mObject.subject, mObject.content, mObject.from, mObject.to, mObject.settings.accountingemail, null, [{filename:'Invoice'+mObject.invoiceID+'.pdf', path:'./uploads/invoice'+mObject.invoiceID+'.pdf'}]);
 	deferred.resolve(mObject);
 	return deferred.promise;
 }
