@@ -157,10 +157,12 @@ function processAll(){
 			console.log("No more invoices to process");
 			db.servers.find({},{_id:1, nextinvoicedate:1, name:1}, function(err, result){
 				result.forEach(function(curServer){
-					if(curServer.nextinvoicedate < new Date()){
-						console.log("AAAA", curServer.name, curServer.nextinvoicedate,"----", new Date());
+					var momentedInvDate = moment(curServer.nextinvoicedate);
+					var momentedCurDate = moment(new Date());
+					if(momentedInvDate < momentedCurDate){
+						console.log("AAAA", curServer.name, momentedInvDate,"----", momentedCurDate);
 					} else {
-						console.log("BBBB", curServer.name, curServer.nextinvoicedate,"----", new Date());
+						console.log("BBBB", curServer.name, momentedInvDate,"----", momentedCurDate);
 					}
 				});
 			});
