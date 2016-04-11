@@ -157,7 +157,7 @@ function processAll(){
 			console.log("No more invoices to process");
 			db.servers.find({},{_id:1, nextinvoicedate:1, name:1}, function(err, result){
 				result.forEach(function(curServer){
-					console.log(curServer, new Date());
+					console.log(curServer.name, curServer.nextinvoicedate, new Date());
 				});
 			});
 			deferred.resolve("No more invoices to process");
