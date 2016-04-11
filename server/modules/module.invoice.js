@@ -211,6 +211,7 @@ function findPrice(tokenObject){
 				db.plans.findOne({_id:mongojs.ObjectId(server.plan)}, function(err, plan){
 					if(err){
 						deferred.reject(err);
+						console.log("No plan assigned for the server:", tokenObject.id);
 					} else {
 						db.servers.update({_id:mongojs.ObjectId(tokenObject.id)}, {$set: {price: plan.price}}, function(uerr, uresult) {
 							if(uerr){
