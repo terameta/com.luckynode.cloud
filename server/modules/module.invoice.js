@@ -156,6 +156,7 @@ function processAll(){
 			for(var i = 0; i < serverList.length; i++){
 				if(moment(serverList[i].nextinvoicedate) < moment(new Date())){
 					console.log("We should invoice", serverList[i].name);
+					break;
 				}
 			}
 		}
