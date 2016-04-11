@@ -43,6 +43,12 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 			}
 		});
 
+		$scope.fetchPlans = function(){
+			$rootScope.plans = $plan.query();
+		};
+
+		$scope.fetchPlans();
+
 		var lnToastr = toastr;
 
 		$scope.curISOAttachTarget = '';
