@@ -162,7 +162,7 @@ function processAll(){
 				}
 			}
 			console.log(toProcess);
-			/*
+
 			if(toProcess == "No more invoices to process"){
 				deferred.resolve(toProcess);
 			} else {
@@ -170,7 +170,7 @@ function processAll(){
 				locknProcessCurrent(toProcess).then(function(result){
 					deferred.resolve(processAll());
 				}).fail(deferred.reject);
-			}*/
+			}
 		}
 	});
 
