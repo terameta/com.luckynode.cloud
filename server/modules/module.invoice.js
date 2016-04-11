@@ -153,17 +153,26 @@ function processAll(){
 		if(err){
 			console.log("Invoice module processAll failed");
 		} else {
+			var toProcess = "No more invoices to process";
 			for(var i = 0; i < serverList.length; i++){
 				if(moment(serverList[i].nextinvoicedate) < moment(new Date())){
 					console.log("We should invoice", serverList[i].name);
-					console.log(serverList[i]._id);
+					toProcess = serverList[i]._id;
 					break;
 				}
+			}
+			if(toProcess == "No more invoices to process"){
+				deferred.resolve(toProcess);
+			} else {
+				console.log("We will now process " + toProcess);
+				locknProcessCurrent(toProcess).then(function(result){
+					deferred.resolve(processAll());
+				}).fail(deferred.reject);
 			}
 		}
 	});
 
-	db.servers.find({nextinvoicedate: {$lt: new Date()}, invoicestat: 'OK'},{_id:1}, function(err, result){
+	/*db.servers.find({nextinvoicedate: {$lt: new Date()}, invoicestat: 'OK'},{_id:1}, function(err, result){
 		if(err){
 			console.log("processAll failed");
 			deferred.reject(err);
@@ -187,7 +196,7 @@ function processAll(){
 				deferred.resolve(processAll());
 			}).fail(deferred.reject);
 		}
-	});
+	});*/
 	return deferred.promise;
 }
 
