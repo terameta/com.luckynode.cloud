@@ -149,6 +149,18 @@ function assignDate(){
 function processAll(){
 	console.log("We are at processAll");
 	var deferred = Q.defer();
+	db.servers.find(function(err, serverList){
+		if(err){
+			console.log("Invoice module processAll failed");
+		} else {
+			for(var i = 0; i < serverList.length; i++){
+				if(moment(serverList[i].nextinvoicedate) < moment(new Date())){
+					console.log("We should invoice", serverList[i].name);
+				}
+			}
+		}
+	});
+
 	db.servers.find({nextinvoicedate: {$lt: new Date()}, invoicestat: 'OK'},{_id:1}, function(err, result){
 		if(err){
 			console.log("processAll failed");
@@ -162,7 +174,7 @@ function processAll(){
 					if(momentedInvDate < momentedCurDate){
 						console.log("AAAA", curServer.name, momentedInvDate.format(),"----", momentedCurDate.format());
 					} else {
-						console.log("BBBB", curServer.name, momentedInvDate.format(),"----", momentedCurDate.format());
+						//console.log("BBBB", curServer.name, momentedInvDate.format(),"----", momentedCurDate.format());
 					}
 				});
 			});
