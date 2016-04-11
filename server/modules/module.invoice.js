@@ -123,14 +123,18 @@ function startProcess(){
 
 function assignDate(){
 	var deferred = Q.defer();
+	console.log("Assigning dates");
 	db.servers.find( { nextinvoicedate: { $exists: false } }, { createdat:1}, function(err, result) {
 		if(err){
 			deferred.reject(err);
+			console.log("Assigning dates failed");
 		} else if(result.length == 0) {
+			console.log("Assigning dates: ALL OK, every server is assigned");
 			deferred.resolve("All OK");
 		} else {
 			db.servers.update({_id:result[0]._id, nextinvoicedate: { $exists: false }, invoicestat: {$exists: false} }, { $set:{nextinvoicedate:result[0].createdat, invoicestat:'OK'} }, function(uerr, uresult){
 				if(uerr){
+					console.log("Assign dates failed at the update");
 					deferred.reject(uerr);
 				} else {
 					console.log(uresult);
