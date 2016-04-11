@@ -241,7 +241,7 @@ function processCurrent(id){
 
 function findPrice(tokenObject){
 	var deferred = Q.defer();
-	//console.log(tokenObject);
+	console.log("Finding price for: ", tokenObject.id);
 	db.servers.findOne({_id:mongojs.ObjectId(tokenObject.id)}, function(err, server){
 		if(err){
 			deferred.reject(err);
