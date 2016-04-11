@@ -160,9 +160,9 @@ function processAll(){
 					var momentedInvDate = moment(curServer.nextinvoicedate);
 					var momentedCurDate = moment(new Date());
 					if(momentedInvDate < momentedCurDate){
-						console.log("AAAA", curServer.name, momentedInvDate,"----", momentedCurDate);
+						console.log("AAAA", curServer.name, momentedInvDate.format(),"----", momentedCurDate.format());
 					} else {
-						console.log("BBBB", curServer.name, momentedInvDate,"----", momentedCurDate);
+						console.log("BBBB", curServer.name, momentedInvDate.format(),"----", momentedCurDate.format());
 					}
 				});
 			});
