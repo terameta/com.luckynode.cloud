@@ -174,7 +174,7 @@ function processAll(){
 		}
 	});
 
-	db.servers.find({nextinvoicedate: {$lt: new Date()}, invoicestat: 'OK'},{_id:1}, function(err, result){
+	/*db.servers.find({nextinvoicedate: {$lt: new Date()}, invoicestat: 'OK'},{_id:1}, function(err, result){
 		if(err){
 			console.log("processAll failed");
 			deferred.reject(err);
@@ -198,7 +198,7 @@ function processAll(){
 				deferred.resolve(processAll());
 			}).fail(deferred.reject);
 		}
-	});
+	});*/
 	return deferred.promise;
 }
 
