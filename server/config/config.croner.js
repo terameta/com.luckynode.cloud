@@ -5,7 +5,7 @@ module.exports = function Croner(db) {
 	//var cronFs			= require('../tools/tools.crons')(db);
 	var invoiceModule 		= require('../modules/module.invoice.js')(db);
 	var jobS = new croner(
-		'* * * * * *',
+		'30 * * * * *',
 		function(){
 			invoiceModule.startProcess();
 		}, function(){
