@@ -147,11 +147,14 @@ function assignDate(){
 }
 
 function processAll(){
+	console.log("We are at processAll");
 	var deferred = Q.defer();
 	db.servers.find({nextinvoicedate: {$lt: new Date()}, invoicestat: 'OK'},{_id:1}, function(err, result){
 		if(err){
+			console.log("processAll failed");
 			deferred.reject(err);
 		} else if(result.length == 0) {
+			console.log("No more invoices to process");
 			deferred.resolve("No more invoices to process");
 		} else {
 			console.log("We will now process "+ result.length);
