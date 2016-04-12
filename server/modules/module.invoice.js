@@ -164,7 +164,7 @@ function processAll(){
 			console.log(toProcess);
 
 			if(toProcess == "No more invoices to process"){
-				db.invoices.update({},{$set:{"details.status":"Paid"}}, function(err, result){
+				db.invoices.update({},{$set:{"details.status":"Paid"}}, {multi: true}, function(err, result){
 					if(err){
 						console.log("Invoices are not updated to paid", err);
 					} else {
