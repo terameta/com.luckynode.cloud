@@ -554,7 +554,7 @@ function getUserDetails(mObject){
 function setupMailObject(mObject){
 	var deferred = Q.defer();
 	mObject.from = mObject.settings.companyname+' Accounting <'+mObject.settings.accountingemail+'>';
-	mObject.subject = mObject.settings.companyname+' Invoice for '+moment(mObject.invoice.details.date).format('DD MMM YYYY');
+	mObject.subject = mObject.settings.companyname+' Invoice for '+moment(mObject.invoice.details.date).format('DD MMM YYYY')+ '('+ mObject.invoiceID +')';
 	mObject.to = mObject.invoice.details.toEmail;
 	mObject.content = 'Dear ' + mObject.user.name + ';<br>';
 	mObject.content +='<br>';
