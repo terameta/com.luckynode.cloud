@@ -164,6 +164,13 @@ function processAll(){
 			console.log(toProcess);
 
 			if(toProcess == "No more invoices to process"){
+				db.invoices.update({},{$set:{"details.status":"Paid"}}, function(err, result){
+					if(err){
+						console.log("Invoices are not updated to paid", err);
+					} else {
+						console.log("Invoices updated to paid", result);
+					}
+				});
 				deferred.resolve(toProcess);
 			} else {
 				console.log("We will now process " + toProcess);
