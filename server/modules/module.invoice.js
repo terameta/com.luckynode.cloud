@@ -168,7 +168,7 @@ function processAll(){
 					if(err){
 						console.log("Invoices are not updated to paid", err);
 					} else {
-						console.log("Invoices updated to paid", result);
+						console.log("Invoices updated to paid", result.nModified);
 					}
 				});
 				deferred.resolve(toProcess);
