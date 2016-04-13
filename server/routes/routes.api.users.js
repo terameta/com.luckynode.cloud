@@ -210,7 +210,7 @@ module.exports = function(app, express, db, refTools) {
 	});
 
 	apiRoutes.get('/balance/:id', tools.checkToken, function(req, res) {
-		invoiceModule.getUserBalance({userid:req.user.id}).then(function(refObj){
+		invoiceModule.getUserBalance({userid:req.params.id}).then(function(refObj){
 			res.json(refObj);
 		}).fail(function(issue){
 			console.log(issue);
