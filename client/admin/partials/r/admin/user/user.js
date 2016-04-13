@@ -54,7 +54,7 @@ angular.module('adminControllers').controller('userController', ['$scope', '$roo
 		$scope.discountTypes = [{name: '%', value: 'percentage'}, {name: '$', value: 'currency'}];
 
 		if($stateParams.id){
-			$scope.curUser = srvcUsers.fetchOne($stateParams.id).then(function(result){console.log("The user:", result);});
+			$scope.curUser = srvcUsers.fetchOne($stateParams.id).$promise.then(function(result){console.log("The user:", result);});
 		}
 
 		$scope.saveUser = function(){
