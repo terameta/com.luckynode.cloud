@@ -22,49 +22,45 @@
 	<uib-tabset>
 		<uib-tab index="0" heading="Details">
 			<div class="col-xs-12 col-sm-12 col-md-12">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<form editable-form name="userEditForm" onaftersave="saveUser()">
-							<div class="table-responsive">
-								<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
-									<tbody>
-										<tr><td width=150><b>Name: 	</b></td><td><span editable-text="curUser.name">{{ curUser.name }}</span> <span editable-text="curUser.surname">{{ curUser.surname }}</span></td></tr>
-										<tr><td><b>Email Address: 	</b></td><td><span editable-text="curUser.email" e-size="100">{{ curUser.email }}</span></td></tr>
-										<tr><td><b>Role: 			</b></td><td>{{ curUser.role }}</td></tr>
-										<tr><td><b>isVerified: 		</b></td><td>{{ curUser.verified }}</td></tr>
-										<tr><td><b>Profession: 		</b></td><td><span editable-text="curUser.profession" e-size="100">{{ curUser.profession }}</span></td></tr>
-										<tr><td><b>Address: 		</b></td><td><span editable-textarea="curUser.address" e-rows="5" e-cols="100"><pre style="background:transparent;border:0;padding:0">{{ curUser.address }}</pre></span></td></tr>
-										<tr><td><b>hasPicture: 		</b></td><td>{{ curUser.haspicture }}</td></tr>
-										<tr><td><b>Pay to: 			</b></td><td><span editable-textarea="curUser.payto" e-rows="5" e-cols="100"><pre style="background:transparent;border:0;padding:0">{{ curUser.payto }}</pre></span></td></tr>
-										<tr>
-											<td><b>Discount: 		</b></td>
-											<td><span editable-text="curUser.discountAmount">{{ curUser.discountAmount }}</span>
-												<span editable-select="curUser.discountType" e-ng-options="discountType.value as discountType.name for discountType in discountTypes" style="display:inline-block;">
-													<span ng-if="curUser.discountType" ng-repeat="discountType in discountTypes | filter:{value:curUser.discountType}">{{discountType.name}}</span>
-												</span>
-											</td>
-										</tr>
-										<tr><td><b>Join Date: 		</b></td><td><span editable-text="curUser.joindate" e-size="100">{{ curUser.joindate }}</span></td></tr>
-										<tr><td><b>Notes: 			</b></td><td><span editable-textarea="curUser.notes" e-rows="15" e-cols="100"><pre style="background:transparent;border:0;padding:0">{{ curUser.notes }}</pre></span></td></tr>
-										<tr>
-											<td colspan=2>
-												<button type="button" class="btn btn-primary btn-xs" ng-click="userEditForm.$show()" ng-show="!userEditForm.$visible">Edit</button>
-												<button type="button" class="btn btn-danger btn-xs" ng-click="deleteUser()" ng-show="!userEditForm.$visible">Delete</button>
-												<button type="submit" class="btn btn-success btn-xs" ng-disabled="userEditForm.$waiting" ng-show="userEditForm.$visible">Save</button>
-												<button type="button" class="btn btn-warning btn-xs" ng-disabled="userEditForm.$waiting" ng-click="userEditForm.$cancel()" ng-show="userEditForm.$visible">Cancel</button>
-											</td>
-										</tr>
-										<!--tr>
-											<td colspan="2">
-												<pre>{{curUser | json}}</pre>
-											</td>
-										</tr-->
-									</tbody>
-								</table>
-							</div>
-						</form>
+				<form editable-form name="userEditForm" onaftersave="saveUser()">
+					<div class="table-responsive">
+						<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+							<tbody>
+								<tr><td width=150><b>Name: 	</b></td><td><span editable-text="curUser.name">{{ curUser.name }}</span> <span editable-text="curUser.surname">{{ curUser.surname }}</span></td></tr>
+								<tr><td><b>Email Address: 	</b></td><td><span editable-text="curUser.email" e-size="100">{{ curUser.email }}</span></td></tr>
+								<tr><td><b>Role: 			</b></td><td>{{ curUser.role }}</td></tr>
+								<tr><td><b>isVerified: 		</b></td><td>{{ curUser.verified }}</td></tr>
+								<tr><td><b>Profession: 		</b></td><td><span editable-text="curUser.profession" e-size="100">{{ curUser.profession }}</span></td></tr>
+								<tr><td><b>Address: 		</b></td><td><span editable-textarea="curUser.address" e-rows="5" e-cols="100"><pre style="background:transparent;border:0;padding:0">{{ curUser.address }}</pre></span></td></tr>
+								<tr><td><b>hasPicture: 		</b></td><td>{{ curUser.haspicture }}</td></tr>
+								<tr><td><b>Pay to: 			</b></td><td><span editable-textarea="curUser.payto" e-rows="5" e-cols="100"><pre style="background:transparent;border:0;padding:0">{{ curUser.payto }}</pre></span></td></tr>
+								<tr>
+									<td><b>Discount: 		</b></td>
+									<td><span editable-text="curUser.discountAmount">{{ curUser.discountAmount }}</span>
+										<span editable-select="curUser.discountType" e-ng-options="discountType.value as discountType.name for discountType in discountTypes" style="display:inline-block;">
+											<span ng-if="curUser.discountType" ng-repeat="discountType in discountTypes | filter:{value:curUser.discountType}">{{discountType.name}}</span>
+										</span>
+									</td>
+								</tr>
+								<tr><td><b>Join Date: 		</b></td><td><span editable-text="curUser.joindate" e-size="100">{{ curUser.joindate }}</span></td></tr>
+								<tr><td><b>Notes: 			</b></td><td><span editable-textarea="curUser.notes" e-rows="15" e-cols="100"><pre style="background:transparent;border:0;padding:0">{{ curUser.notes }}</pre></span></td></tr>
+								<tr>
+									<td colspan=2>
+										<button type="button" class="btn btn-primary btn-xs" ng-click="userEditForm.$show()" ng-show="!userEditForm.$visible">Edit</button>
+										<button type="button" class="btn btn-danger btn-xs" ng-click="deleteUser()" ng-show="!userEditForm.$visible">Delete</button>
+										<button type="submit" class="btn btn-success btn-xs" ng-disabled="userEditForm.$waiting" ng-show="userEditForm.$visible">Save</button>
+										<button type="button" class="btn btn-warning btn-xs" ng-disabled="userEditForm.$waiting" ng-click="userEditForm.$cancel()" ng-show="userEditForm.$visible">Cancel</button>
+									</td>
+								</tr>
+								<!--tr>
+									<td colspan="2">
+										<pre>{{curUser | json}}</pre>
+									</td>
+								</tr-->
+							</tbody>
+						</table>
 					</div>
-				</div>
+				</form>
 			</div>
 		</uib-tab>
 		<uib-tab index="1" heading="Transactions">
