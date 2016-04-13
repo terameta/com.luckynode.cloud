@@ -64,10 +64,7 @@
 		<uib-tab index="1" heading="Transactions">
 			<div class="box box-default">
 				<div class="box-header with-border">
-					<h2 class="box-title"><b>Your Account Balance</b></h2>
-				</div>
-				<div class="box-body">
-					Current account balance is <b>{{formatCurrency(curUser.accountBalance)}}</b>.
+					<h2 class="box-title"><b>Current Account Balance {{formatCurrency(curUser.accountBalance)}}</b></h2>
 				</div>
 			</div>
 			<table class="table table-striped table-bordered table-hover" ng-if="curUser.accountTransactions.length > 0">
