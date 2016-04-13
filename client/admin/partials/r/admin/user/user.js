@@ -14,14 +14,24 @@ angular.module('adminApp').config(function($stateProvider, $urlRouterProvider){
 		});
 });
 
-angular.module('adminServices').service('srvcUsers', ['$resource', '$rootScope',
-	function srvcUsersF($resource, $rootScope) {
+angular.module('adminServices').service('srvcUsers', ['$resource', '$rootScope', '$http',
+	function srvcUsersF($resource, $rootScope, $http) {
 		var service = {};
 
 		service.resource = $resource( '/api/users/:id', { id: '@_id' }, { update: { method: 'PUT' } });
 
 		service.fetchAll = function(){
 			$rootScope.users = service.resource.query();
+		};
+
+		service.accountBalance = function(userid){
+			$http.get('/api/users/balance/'+userid).then(function /*success*/(response){
+				$rootScope.accountBalance = response.data.accountBalance;
+				$rootScope.shouldMakePayment = ($rootScope.accountBalance > 0);
+				$rootScope.accountTransactions = response.data.transactions;
+			}, function /*fail*/(response){
+				console.log("Fail:", response);
+			});
 		};
 
 		service.fetchAll();
