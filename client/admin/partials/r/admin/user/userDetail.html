@@ -67,14 +67,7 @@
 					<h2 class="box-title"><b>Your Account Balance</b></h2>
 				</div>
 				<div class="box-body">
-					<div ng-if="shouldMakePayment">
-						Your current account balance is <b>{{formatCurrency(curUser.accountBalance)}}</b>.<br />
-						Please make a payment to ensure service continuity.
-					</div>
-					<div ng-if="!shouldMakePayment">
-						Your current account balance is <b>{{formatCurrency(accountBalance)}}</b>.<br />
-						Currently there is no need to pay anything.
-					</div>
+					Current account balance is <b>{{formatCurrency(curUser.accountBalance)}}</b>.
 				</div>
 			</div>
 			<table class="table table-striped table-bordered table-hover" ng-if="curUser.accountTransactions.length > 0">
