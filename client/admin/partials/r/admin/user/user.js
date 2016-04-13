@@ -94,5 +94,21 @@ angular.module('adminControllers').controller('userController', ['$scope', '$roo
 				});
 			}
 		};
+
+		$scope.formatCurrency = function(value){
+			if(parseFloat(value) >= 0){
+				return '$' + parseFloat(value).toFixed(2);
+			} else {
+				return '$(' + parseFloat(value).toFixed(2)*(-1) + ')';
+			}
+		};
+
+		$scope.formatDate = function(value){
+			return moment(value).format('Do MMMM, YYYY');
+		};
+
+		$scope.formatDateTime = function(value){
+			return moment(value).format('Do MMMM, YYYY - HH:mm');
+		};
 	}
 ]);
