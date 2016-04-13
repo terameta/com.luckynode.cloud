@@ -56,7 +56,7 @@ angular.module('adminControllers').controller('userController', ['$scope', '$roo
 		if($stateParams.id){
 			$scope.curUser = srvcUsers.fetchOne($stateParams.id);
 			$scope.curUser.$promise.then(function(){
-				console.log("We fetched the user");
+				srvcUsers.accountBalance($scope.curUser);
 			});
 		}
 
