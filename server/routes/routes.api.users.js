@@ -3,11 +3,13 @@ var mongojs 		= require('mongojs');
 var Q					= require('q');
 var tools;
 var userModule;
+var invoiceModule;
 
 module.exports = function(app, express, db, refTools) {
 	topDB 			= db;
 	tools 			= refTools;
 	userModule 		= require("../modules/module.user.js")(db);
+	invoiceModule 	= require('../modules/module.invoice.js')(db);
 	var apiRoutes 	= express.Router();
 
 	function generateToken(user){
@@ -205,6 +207,15 @@ module.exports = function(app, express, db, refTools) {
 				}
 			});
 		}
+	});
+
+	apiRoutes.get('/balance/:id', tools.checkToken, function(req, res) {
+		invoiceModule.getUserBalance({userid:req.user.id}).then(function(refObj){
+			res.json(refObj);
+		}).fail(function(issue){
+			console.log(issue);
+			res.status(500).json({ status: 'fail', message: "Can't list invoices" });
+		});
 	});
 
 	app.use('/api/users', apiRoutes);
