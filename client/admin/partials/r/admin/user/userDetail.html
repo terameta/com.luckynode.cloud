@@ -87,4 +87,37 @@
 		</table>
 	</div>
 </div>
+
+<div class="row">
+	<uib-tabset>
+		<uib-tab>
+			<div class="col-xs-12 col-sm-12 col-md-12">
+				<table class="table table-striped table-bordered table-hover" ng-if="curUser.accountTransactions.length > 0">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th align="center">Date</th>
+							<th align="center">Source</th>
+							<th align="center">Details</th>
+							<th align="center">Amount Spent</th>
+							<th align="center">Amount Paid</th>
+							<th><i class="fa fa-cog fa-fw"></i></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="transaction in curUser.accountTransactions | orderBy:'-date'">
+							<td>{{transaction.id}}</td>
+							<td>{{formatDateTime(transaction.date)}}</td>
+							<td>{{transaction.transactionBy}}</td>
+							<td>{{transaction.details}}</td>
+							<td align=right>{{formatCurrency(transaction.amountSpent || 0)}}</td>
+							<td align=right>{{formatCurrency(transaction.amountPaid || 0)}}</td>
+							<td><a ng-if="(transaction.transactionBy=='Invoice')" ui-sref="r.invoice({id: transaction.id})"><i class="fa fa-cog fa-fw"></i></a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</uib-tab>
+	</uib-tabset>
+</div>
 </section>
