@@ -62,20 +62,18 @@
 			</form>
 		</uib-tab>
 		<uib-tab index="1" heading="Transactions">
-			<div class="col-xs-12 col-sm-6 col-md-3">
-				<div class="box box-default">
-					<div class="box-header with-border">
-						<h2 class="box-title"><b>Your Account Balance</b></h2>
+			<div class="box box-default">
+				<div class="box-header with-border">
+					<h2 class="box-title"><b>Your Account Balance</b></h2>
+				</div>
+				<div class="box-body">
+					<div ng-if="shouldMakePayment">
+						Your current account balance is <b>{{formatCurrency(curUser.accountBalance)}}</b>.<br />
+						Please make a payment to ensure service continuity.
 					</div>
-					<div class="box-body">
-						<div ng-if="shouldMakePayment">
-							Your current account balance is <b>{{formatCurrency(accountBalance)}}</b>.<br />
-							Please make a payment to ensure service continuity.
-						</div>
-						<div ng-if="!shouldMakePayment">
-							Your current account balance is <b>{{formatCurrency(accountBalance)}}</b>.<br />
-							Currently there is no need to pay anything.
-						</div>
+					<div ng-if="!shouldMakePayment">
+						Your current account balance is <b>{{formatCurrency(accountBalance)}}</b>.<br />
+						Currently there is no need to pay anything.
 					</div>
 				</div>
 			</div>
