@@ -16,7 +16,7 @@ module.exports = function(app, express, db, tools) {
 	});
 
 	apiRoutes.get('/:id', tools.checkToken, function(req, res) {
-		db.transactions.findOne({_id:parseInt(req.params.id,10)}, function(err, data){
+		db.transactions.findOne({_id:mongojs.ObjectId(req.params.id)}, function(err, data){
 			if(err){
 				res.status(500).json({status: "fail"});
 			} else {
@@ -29,7 +29,7 @@ module.exports = function(app, express, db, tools) {
 		if(!req.params.id){
 			res.status(400).json({ status: "fail", detail: "no data provided" });
 		} else {
-			db.transactions.remove({_id: parseInt(req.params.id,10)}, function(err, data){
+			db.transactions.remove({_id: mongojs.ObjectId(req.params.id)}, function(err, data){
 				if(err){
 					res.status(500).json({ status: "fail" });
 				} else {
