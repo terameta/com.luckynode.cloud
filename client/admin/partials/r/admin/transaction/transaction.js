@@ -95,5 +95,13 @@ angular.module('adminControllers').controller('transactionController', ['$scope'
 				});
 			}
 		};
+
+		$scope.list2CO = function(){
+			$http.get('/api/payment/tco/list').then(function(result){
+				console.log(result);
+			}, function(issue){
+				console.log(issue);
+			});
+		};
 	}
 ]);
