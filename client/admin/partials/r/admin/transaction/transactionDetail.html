@@ -12,65 +12,77 @@
 
 <section class="content">
 <div class="row">
-<div class="panel panel-default">
-	<div class="panel-body">
-		<form editable-form name="transactionEditForm" onaftersave="saveTransaction()">
-			<div class="table-responsive">
-				<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
-					<tbody>
-						<tr><td width="120"><b>Number: 			</b></td><td>{{ curTransaction._id }}</td></tr>
-						<tr><td> 			<b>Amount: 			</b></td><td>{{ formatCurrency(curTransaction.totalValue) }} 	</td></tr>
-						<tr><td>			<b>Status: 			</b></td><td>{{ curTransaction.details.status }} 				</td></tr>
-						<tr><td>			<b>Date: 			</b></td><td>{{ formatDate(curTransaction.details.date) }} 		</td></tr>
-						<tr><td>			<b>To: 				</b></td><td>{{ curTransaction.details.to }} 					</td></tr>
-						<tr><td>			<b>Address: 		</b></td><td><pre style="background:transparent;border:0;padding:0;margin:0">{{ curTransaction.details.toAddress }}</pre></td></tr>
-						<tr><td>			<b>E-Mail Address: 	</b></td><td>{{ curTransaction.details.toEmail }} 				</td></tr>
-						<tr><td>			<b>Pay To: 		</b></td><td><pre style="background:transparent;border:0;padding:0;margin:0">{{ curTransaction.details.payTo }}</pre></td></tr>
-						<tr>
-							<td><b>Items:</b></td>
-							<td>
-								<table class="table table-bordered table-condensed table-fluid">
-									<tr>
-										<th>Name</th>
-										<th>Type</th>
-										<th>Effective Dates</th>
-										<th>Base Price</th>
-										<th>Base Discount</th>
-										<th>Final Price</th>
-										<th>Final Discount</th>
-										<th>Net</th>
-									</tr>
-									<tr ng-repeat="curItem in curTransaction.items">
-										<td>{{curItem.name}}</td>
-										<td>{{curItem.type}}</td>
-										<td>{{curItem.between}}</td>
-										<td align="right">{{formatCurrency(curItem.price)}}</td>
-										<td align="right">{{formatCurrency(curItem.discount)}}</td>
-										<td align="right">{{formatCurrency(curItem.finalPrice)}}</td>
-										<td align="right">{{formatCurrency(curItem.finalDiscount)}}</td>
-										<td align="right">{{formatCurrency(curItem.finalPrice - curItem.finalDiscount)}}</td>
-									</tr>
-									<tr>
-										<td align="right" colspan="7"><b>Grand Total</b></td>
-										<td align="right"><b>{{ formatCurrency(curTransaction.totalValue) }}</b></td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-						<tr>
-							<td colspan=2>
-								<button type="button" class="btn btn-primary btn-xs" ng-click="transactionEditForm.$show()" ng-show="!transactionEditForm.$visible">Edit</button>
-								<button type="button" class="btn btn-danger btn-xs" ng-click="deleteTransaction()" ng-show="!transactionEditForm.$visible">Delete</button>
-								<button type="submit" class="btn btn-success btn-xs" ng-disabled="transactionEditForm.$waiting" ng-show="transactionEditForm.$visible">Save</button>
-								<button type="button" class="btn btn-warning btn-xs" ng-disabled="transactionEditForm.$waiting" ng-click="transactionEditForm.$cancel()" ng-show="transactionEditForm.$visible">Cancel</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</form>
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<uib-tabset>
+			<uib-tab index="0" heading="Details">
+				<form editable-form name="transactionEditForm" onaftersave="saveTransaction()">
+					<div class="table-responsive">
+						<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+							<tbody>
+								<tr><td width="120"><b>Number: 			</b></td><td>{{ curTransaction._id }}</td></tr>
+								<tr><td> 			<b>Amount: 			</b></td><td>{{ formatCurrency(curTransaction.totalValue) }} 	</td></tr>
+								<tr><td>			<b>Status: 			</b></td><td>{{ curTransaction.details.status }} 				</td></tr>
+								<tr><td>			<b>Date: 			</b></td><td>{{ formatDate(curTransaction.details.date) }} 		</td></tr>
+								<tr><td>			<b>To: 				</b></td><td>{{ curTransaction.details.to }} 					</td></tr>
+								<tr><td>			<b>Address: 		</b></td><td><pre style="background:transparent;border:0;padding:0;margin:0">{{ curTransaction.details.toAddress }}</pre></td></tr>
+								<tr><td>			<b>E-Mail Address: 	</b></td><td>{{ curTransaction.details.toEmail }} 				</td></tr>
+								<tr><td>			<b>Pay To: 		</b></td><td><pre style="background:transparent;border:0;padding:0;margin:0">{{ curTransaction.details.payTo }}</pre></td></tr>
+								<tr>
+									<td><b>Items:</b></td>
+									<td>
+										<table class="table table-bordered table-condensed table-fluid">
+											<tr>
+												<th>Name</th>
+												<th>Type</th>
+												<th>Effective Dates</th>
+												<th>Base Price</th>
+												<th>Base Discount</th>
+												<th>Final Price</th>
+												<th>Final Discount</th>
+												<th>Net</th>
+											</tr>
+											<tr ng-repeat="curItem in curTransaction.items">
+												<td>{{curItem.name}}</td>
+												<td>{{curItem.type}}</td>
+												<td>{{curItem.between}}</td>
+												<td align="right">{{formatCurrency(curItem.price)}}</td>
+												<td align="right">{{formatCurrency(curItem.discount)}}</td>
+												<td align="right">{{formatCurrency(curItem.finalPrice)}}</td>
+												<td align="right">{{formatCurrency(curItem.finalDiscount)}}</td>
+												<td align="right">{{formatCurrency(curItem.finalPrice - curItem.finalDiscount)}}</td>
+											</tr>
+											<tr>
+												<td align="right" colspan="7"><b>Grand Total</b></td>
+												<td align="right"><b>{{ formatCurrency(curTransaction.totalValue) }}</b></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+								<tr>
+									<td colspan=2>
+										<button type="button" class="btn btn-primary btn-xs" ng-click="transactionEditForm.$show()" ng-show="!transactionEditForm.$visible">Edit</button>
+										<button type="button" class="btn btn-danger btn-xs" ng-click="deleteTransaction()" ng-show="!transactionEditForm.$visible">Delete</button>
+										<button type="submit" class="btn btn-success btn-xs" ng-disabled="transactionEditForm.$waiting" ng-show="transactionEditForm.$visible">Save</button>
+										<button type="button" class="btn btn-warning btn-xs" ng-disabled="transactionEditForm.$waiting" ng-click="transactionEditForm.$cancel()" ng-show="transactionEditForm.$visible">Cancel</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</form>
+			</uib-tab>
+			<uib-tab index="1" heading="Source Code">
+				<pre>{{curTransaction | json}}</pre>
+			</uib-tab>
+		</uib-tabset>
 	</div>
 </div>
 
-</div>
+
+
+<!--div class="panel panel-default">
+	<div class="panel-body">
+
+	</div>
+</div-->
 </section>
