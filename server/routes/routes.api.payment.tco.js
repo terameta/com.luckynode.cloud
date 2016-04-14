@@ -78,6 +78,7 @@ module.exports = function(app, express, refdb, tools) {
 			res.send(result);
 		}).
 		fail(function(issue){
+			console.log(issue);
 			res.status(500).json({status:"fail", message:issue});
 		});
 	});
