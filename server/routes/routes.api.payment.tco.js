@@ -102,6 +102,7 @@ function getSettings(cObject){
 
 function setTCO(cObject){
 	if(!cObject) cObject = {};
+	console.log("SetTCO", cObject);
 	var deferred = Q.defer();
 	cObject.tco = new Twocheckout({
 		apiUser: 	cObject.settings.tco.username, 										// Admin API Username, required for Admin API bindings
