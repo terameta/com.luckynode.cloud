@@ -38,6 +38,7 @@ angular.module('adminServices').service('srvcTransaction', ['$resource', '$rootS
 				console.log(result);
 				result.$promise.then(function(){
 					calculateTotalValue(result, 'one');
+					console.log(result);
 				});
 
 			});
