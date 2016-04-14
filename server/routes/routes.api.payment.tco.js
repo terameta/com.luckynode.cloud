@@ -74,8 +74,9 @@ module.exports = function(app, express, refdb, tools) {
 		var cObject = {};
 		getSettings(cObject).
 		then(setTCO).
+		then(listTCO).
 		then(function(result){
-			res.send(result);
+			res.send(result.transactionList);
 		}).
 		fail(function(issue){
 			console.log(issue);
@@ -101,10 +102,8 @@ function getSettings(cObject){
 }
 
 function setTCO(cObject){
-	if(!cObject) cObject = {};
-	console.log("SetTCO");
-	console.log(cObject);
 	var deferred = Q.defer();
+	if(!cObject){ deferred.reject({onFunction:"setTCO", err:"No Object Passed"}); return deferred.promise;}
 	cObject.tco = new Twocheckout({
 		apiUser: 	cObject.settings.tco.username, 										// Admin API Username, required for Admin API bindings
 		apiPass: 	cObject.settings.tco.password, 										// Admin API Password, required for Admin API bindings
@@ -114,8 +113,23 @@ function setTCO(cObject){
 		demo: 		cObject.settings.tco.isdemo.toString() === 'true', 			// Set to true if testing response with demo sales
 		sandbox: 	cObject.settings.tco.issandbox.toString() === 'true' 			// Uses 2Checkout sandbox URL for all bindings
 	});
-	console.log(cObject);
 	deferred.resolve(cObject);
+	return deferred.promise;
+}
+
+function listTCO(cObject){
+	var deferred = Q.defer();
+	if(!cObject){ deferred.reject({onFunction:"listTCO", err:"No Object Passed"}); return deferred.promise;}
+	if(!cObject.tco){ deferred.reject({onFunction:"listTCO", err:"No Object Passed"}); return deferred.promise;}
+
+	cObject.tco.sales.list({pagesize:"100"}, function(err, data){
+		if(err){
+			deferred.reject({onFunction:"listTCO", err:err});
+		} else {
+			cObject.transactionList = data;
+			deferred.resolve(cObject);
+		}
+	});
 	return deferred.promise;
 }
 
