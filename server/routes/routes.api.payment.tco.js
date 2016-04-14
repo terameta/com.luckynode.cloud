@@ -91,7 +91,7 @@ function getSettings(cObject){
 	var deferred = Q.defer();
 	db.settings.findOne(function(err, settings){
 		if(err){
-			deferred.reject(err);
+			deferred.reject({onFunction:"getSettings", err:err});
 		} else {
 			cObject.settings = settings;
 			deferred.resolve(cObject);
