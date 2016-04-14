@@ -57,8 +57,8 @@ angular.module('adminServices').service('srvcTransaction', ['$resource', '$rootS
 	}
 ]);
 
-angular.module('adminControllers').controller('transactionController', ['$scope', '$rootScope', 'srvcTransaction', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage',
-	function($scope, $rootScope, srvcTransaction, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage){
+angular.module('adminControllers').controller('transactionController', ['$scope', '$rootScope', 'srvcTransaction', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage', 'srvcUsers',
+	function($scope, $rootScope, srvcTransaction, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage, srvcUsers){
 		var lnToastr = toastr;
 
 		srvcTransaction.fetchAll();
