@@ -35,11 +35,8 @@ angular.module('adminServices').service('srvcTransaction', ['$resource', '$rootS
 		};
 		service.fetchOne = function(id){
 			$rootScope.curTransaction = service.resource.get({id:id}, function(result){
-				console.log(result);
 				result.$promise.then(function(){
 					calculateTotalValue(result, 'one');
-					console.log(result);
-					console.log($rootScope.curTransaction, id);
 				});
 
 			});
