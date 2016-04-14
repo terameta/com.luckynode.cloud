@@ -75,8 +75,7 @@ module.exports = function(app, express, refdb, tools) {
 		getSettings(cObject).
 		then(setTCO).
 		then(function(result){
-			console.log(result);
-			res.send("OK");
+			res.send(result);
 		});
 	});
 
