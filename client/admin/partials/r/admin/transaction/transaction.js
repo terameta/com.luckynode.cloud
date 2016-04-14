@@ -35,6 +35,7 @@ angular.module('adminServices').service('srvcTransaction', ['$resource', '$rootS
 		};
 		service.fetchOne = function(id){
 			$rootScope.curTransaction = service.resource.get({id:id}, function(result){
+				console.log(result);
 				result.$promise.then(function(){
 					calculateTotalValue(result, 'one');
 				});
@@ -62,7 +63,7 @@ angular.module('adminControllers').controller('transactionController', ['$scope'
 		var lnToastr = toastr;
 
 		srvcTransaction.fetchAll();
-		if($stateParams.id){ srvcTransaction.fetchOne($stateParams.id).$promise.then(function(result){console.log("Hede:", result);});	}
+		if($stateParams.id){ srvcTransaction.fetchOne($stateParams.id);	}
 
 		$scope.saveTransaction = function(){
 			$scope.curTransaction.$update(function(result){
