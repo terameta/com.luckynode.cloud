@@ -16,7 +16,7 @@
 	<table class="table table-striped table-bordered table-hover" ng-if="transactions.length > 0">
 		<thead>
 			<tr>
-				<th>Our ID</th>
+				<!--th>Our ID</th-->
 				<th>Processor</th>
 				<th>Processor ID</th>
 				<th>Amount</th>
@@ -31,7 +31,7 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="transaction in transactions | orderBy:'-date'">
-				<td>{{transaction._id}}</td>
+				<!--td>{{transaction._id}}</td-->
 				<td>{{transaction.method}}</td>
 				<td>{{transaction.id}}</td>
 				<td>{{transaction.amount}}</td>
