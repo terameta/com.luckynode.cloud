@@ -12,53 +12,59 @@
 </section>
 
 <section class="content">
-<div class="row">
-	<table class="table table-striped table-bordered table-hover" ng-if="servers.length > 0">
-		<thead>
-			<tr>
-				<th>Row</th>
-				<th>Name</th>
-				<th>CPU</th>
-				<th>Disk Size</th>
-				<th>RAM</th>
-				<th>Bandwidth</th>
-				<th>Data Center</th>
-				<th>Node</th>
-				<th>IP Address</th>
-				<th>MAC Address</th>
-				<th>Base Image</th>
-				<th>Status</th>
-				<th>Owner</th>
-				<th>Details</th>
-			</tr>
-		</thead>
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12">
+			<uib-tabset>
+				<uib-tab index="0" heading="List">
+					<table class="table table-striped table-bordered table-hover" ng-if="servers.length > 0">
+						<thead>
+							<tr>
+								<th>Row</th>
+								<th>Name</th>
+								<th>CPU</th>
+								<th>Disk Size</th>
+								<th>RAM</th>
+								<th>Bandwidth</th>
+								<th>Data Center</th>
+								<th>Node</th>
+								<th>IP Address</th>
+								<th>MAC Address</th>
+								<th>Base Image</th>
+								<th>Status</th>
+								<th>Owner</th>
+								<th>Details</th>
+							</tr>
+						</thead>
 
 
-		<tbody>
-			<tr ng-repeat="server in servers | orderBy:'name'">
-				<td>{{$index +1}}</td>
-				<td>{{server.name}}</td>
-				<td>{{server.cpu}} vCores</td>
-				<td>{{server.hdd}}GB</td>
-				<td>{{server.ram}}MB</td>
-				<td>{{server.bandwidth}}GB</td>
-				<td>{{ (dataCenters | filter:{_id:server.dc._id})[0].name }}</td>
-				<td>{{ (nodes | filter:{_id:server.node})[0].name }}</td>
-				<td>{{server.ip}}</td>
-				<td>{{server.mac}}</td>
-				<td>
-					{{ (images | filter:{_id:server.image})[0].name}}
-					({{ (imagegroups | filter:{_id:((images | filter:{_id:server.image})[0].group)})[0].name }})
-				</td>
-				<td>{{server.status}}</td>
-				<td>
-					{{ (users | filter:{_id:server.owner})[0].name }}
-					{{ (users | filter:{_id:server.owner})[0].surname }}
-				</td>
-				<td><a ui-sref="r.dashboard.server({id: server._id})" title="Details"><i class="fa fa-cog fa-fw"></i></a></td>
-				<td></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
+						<tbody>
+							<tr ng-repeat="server in servers | orderBy:'name'">
+								<td>{{$index +1}}</td>
+								<td>{{server.name}}</td>
+								<td>{{server.cpu}} vCores</td>
+								<td>{{server.hdd}}GB</td>
+								<td>{{server.ram}}MB</td>
+								<td>{{server.bandwidth}}GB</td>
+								<td>{{ (dataCenters | filter:{_id:server.dc._id})[0].name }}</td>
+								<td>{{ (nodes | filter:{_id:server.node})[0].name }}</td>
+								<td>{{server.ip}}</td>
+								<td>{{server.mac}}</td>
+								<td>
+									{{ (images | filter:{_id:server.image})[0].name}}
+									({{ (imagegroups | filter:{_id:((images | filter:{_id:server.image})[0].group)})[0].name }})
+								</td>
+								<td>{{server.status}}</td>
+								<td>
+									{{ (users | filter:{_id:server.owner})[0].name }}
+									{{ (users | filter:{_id:server.owner})[0].surname }}
+								</td>
+								<td><a ui-sref="r.dashboard.server({id: server._id})" title="Details"><i class="fa fa-cog fa-fw"></i></a></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</uib-tab>
+			</uib-tabset>
+		</div>
+	</div>
 </section>

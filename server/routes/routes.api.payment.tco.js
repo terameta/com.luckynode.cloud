@@ -70,6 +70,16 @@ module.exports = function(app, express, refdb, tools) {
 		}
 	});
 
+	apiRoutes.get('/list', tools.checkToken, function(req, res){
+		var cObject = {};
+		getSettings(cObject).
+		then(setTCO).
+		then(function(result){
+			console.log(result);
+			res.send("OK");
+		});
+	});
+
 	app.use('/api/payment/tco', apiRoutes);
 };
 
