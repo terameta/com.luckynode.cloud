@@ -114,6 +114,7 @@ function setTCO(cObject){
 		demo: 		cObject.settings.tco.isdemo.toString() === 'true', 			// Set to true if testing response with demo sales
 		sandbox: 	cObject.settings.tco.issandbox.toString() === 'true' 			// Uses 2Checkout sandbox URL for all bindings
 	});
+	console.log(cObject);
 	deferred.resolve(cObject);
 	return deferred.promise;
 }
