@@ -76,6 +76,9 @@ module.exports = function(app, express, refdb, tools) {
 		then(setTCO).
 		then(function(result){
 			res.send(result);
+		}).
+		fail(function(issue){
+			res.status(500).json({status:"fail", message:issue});
 		});
 	});
 
