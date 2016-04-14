@@ -19,45 +19,33 @@
 					<div class="table-responsive">
 						<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
 							<tbody>
-								<tr><td width="120"><b>Number: 			</b></td><td>{{ curTransaction._id }}</td></tr>
-								<tr><td> 			<b>Amount: 			</b></td><td>{{ formatCurrency(curTransaction.totalValue) }} 	</td></tr>
-								<tr><td>			<b>Status: 			</b></td><td>{{ curTransaction.details.status }} 				</td></tr>
-								<tr><td>			<b>Date: 			</b></td><td>{{ formatDate(curTransaction.details.date) }} 		</td></tr>
-								<tr><td>			<b>To: 				</b></td><td>{{ curTransaction.details.to }} 					</td></tr>
-								<tr><td>			<b>Address: 		</b></td><td><pre style="background:transparent;border:0;padding:0;margin:0">{{ curTransaction.details.toAddress }}</pre></td></tr>
-								<tr><td>			<b>E-Mail Address: 	</b></td><td>{{ curTransaction.details.toEmail }} 				</td></tr>
-								<tr><td>			<b>Pay To: 		</b></td><td><pre style="background:transparent;border:0;padding:0;margin:0">{{ curTransaction.details.payTo }}</pre></td></tr>
+								"feeChecked": false
+								<th>Fee Checked</th>
+								<th>Actions</th>
+								<!--th>Source Code</th-->
+
+
+								<tr><td width="120">	<b>Processor: 		</b></td><td>{{ curTransaction.method }}</td></tr>
+								<tr><td> 				<b>Processor ID: 	</b></td><td><span editable-text="curTransaction.id" e-size="100">{{ curTransaction.id }}</span></td></tr>
+								<tr><td> 				<b>Amount: 			</b></td><td><span editable-text="curTransaction.amount" e-size="100">{{ formatCurrency(curTransaction.amount) }}</span></td></tr>
+								<tr><td> 				<b>Fee: 				</b></td><td><span editable-text="curTransaction.fee" e-size="100">{{ formatCurrency(curTransaction.fee) }}</span></td></tr>
 								<tr>
-									<td><b>Items:</b></td>
+									<td><b>User: 		</b></td>
 									<td>
-										<table class="table table-bordered table-condensed table-fluid">
-											<tr>
-												<th>Name</th>
-												<th>Type</th>
-												<th>Effective Dates</th>
-												<th>Base Price</th>
-												<th>Base Discount</th>
-												<th>Final Price</th>
-												<th>Final Discount</th>
-												<th>Net</th>
-											</tr>
-											<tr ng-repeat="curItem in curTransaction.items">
-												<td>{{curItem.name}}</td>
-												<td>{{curItem.type}}</td>
-												<td>{{curItem.between}}</td>
-												<td align="right">{{formatCurrency(curItem.price)}}</td>
-												<td align="right">{{formatCurrency(curItem.discount)}}</td>
-												<td align="right">{{formatCurrency(curItem.finalPrice)}}</td>
-												<td align="right">{{formatCurrency(curItem.finalDiscount)}}</td>
-												<td align="right">{{formatCurrency(curItem.finalPrice - curItem.finalDiscount)}}</td>
-											</tr>
-											<tr>
-												<td align="right" colspan="7"><b>Grand Total</b></td>
-												<td align="right"><b>{{ formatCurrency(curTransaction.totalValue) }}</b></td>
-											</tr>
-										</table>
+										<span editable-select="curTransaction.userid" e-ng-options="user._id as user.name+' '+user.surname+' ('+user.email+')' for user in users">
+											{{ (users | filter:{_id: curTransaction.userid})[0].name || '' }}
+											{{ (users | filter:{_id: curTransaction.userid})[0].surname || '' }}
+											({{ (users | filter:{_id: curTransaction.userid})[0].email || 'Not set' }})
+										</span>
 									</td>
 								</tr>
+								<tr><td> 				<b>Details: 		</b></td><td><span editable-text="curTransaction.detail" e-size="100">{{ curTransaction.detail }}</span></td></tr>
+								<tr><td>					<b>Date: 			</b></td><td>{{ formatDate(curTransaction.details.date) }} 		</td></tr>
+								<tr>
+									<td><b>Date: </b></td>
+									<td><span editable-combodate="curTransaction.date" e-max-year="2100">{{ (curTransaction.date | date:"yyyy-MM-dd HH:mm:ss Z") || 'empty' }}</span></td>
+								</tr>
+								<tr><td>					<b>Fee Checked: 	</b></td><td>{{ curTransaction.feeChecked }} 					</td></tr>
 								<tr>
 									<td colspan=2>
 										<button type="button" class="btn btn-primary btn-xs" ng-click="transactionEditForm.$show()" ng-show="!transactionEditForm.$visible">Edit</button>
