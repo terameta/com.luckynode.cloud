@@ -62,7 +62,7 @@ angular.module('adminControllers').controller('transactionController', ['$scope'
 		var lnToastr = toastr;
 
 		srvcTransaction.fetchAll();
-		if($stateParams.id){ srvcTransaction.fetchOne($stateParams.id);	}
+		if($stateParams.id){ srvcTransaction.fetchOne($stateParams.id).$promise.then(function(result){console.log("Hede:", result);});	}
 
 		$scope.saveTransaction = function(){
 			$scope.curTransaction.$update(function(result){
