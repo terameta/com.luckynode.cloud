@@ -122,7 +122,7 @@ function listTCO(cObject){
 	if(!cObject){ deferred.reject({onFunction:"listTCO", err:"No Object Passed"}); return deferred.promise;}
 	if(!cObject.tco){ deferred.reject({onFunction:"listTCO", err:"No Object Passed"}); return deferred.promise;}
 
-	cObject.tco.sales.list({pagesize:"100", sort_col:"date_placed", sort_dir:"DESC", active_recurrings:1}, function(err, data){
+	cObject.tco.sales.list({pagesize:"100", sort_col:"date_placed", sort_dir:"ASC", active_recurrings:1}, function(err, data){
 		if(err){
 			deferred.reject({onFunction:"listTCO", err:err});
 		} else {
