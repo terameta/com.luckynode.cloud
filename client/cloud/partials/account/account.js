@@ -74,7 +74,7 @@ angular.module('cloudControllers').controller('ctrlAccount', ['$scope', '$http',
 				expMonth: $("#expMonth").val(),
 				expYear: $("#expYear").val()
 			};
-
+			console.log("Args:",args);
 			// Make the token request
 			TCO.requestToken($scope.submitCC.sCallBack, $scope.submitCC.eCallBack, args);
 		};
