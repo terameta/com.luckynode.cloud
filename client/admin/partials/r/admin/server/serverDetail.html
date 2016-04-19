@@ -55,7 +55,7 @@
 									</span>
 								</td>
 							</tr>
-							<tr><td><b>Node: 		</b></td><td>{{nodes | json}}</td></tr>
+							<tr><td><b>Node: 		</b></td><td>{{ (nodes | filter:{_id:curServer.node})[0].name || 'Not set'}}</td></tr>
 							<tr><td><b>Price: 		</b></td><td><span editable-text="curServer.price">{{ curServer.price }}</span></td></tr>
 							<tr><td><b>Invoice Status: 		</b></td><td><span editable-text="curServer.invoicestat">{{ curServer.invoicestat }}</span></td></tr>
 							<tr>
