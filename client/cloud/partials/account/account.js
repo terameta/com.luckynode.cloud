@@ -62,7 +62,7 @@ angular.module('cloudControllers').controller('ctrlAccount', ['$scope', '$http',
 		$scope.submitCC = function(){
 			$scope.submitCCdisabled = true;
 			$scope.ccDetails.info = '<i class="fa fa-circle-o-notch fa-spin"></i> Please wait validating...';
-			TCO.loadPubKey('sandbox', $scope.submitCCTokenRequest);
+			TCO.loadPubKey('production', $scope.submitCCTokenRequest);
 		};
 
 		$scope.submitCCTokenRequest = function(){
