@@ -91,7 +91,7 @@ angular.module('cloudControllers').controller('ctrlAccount', ['$scope', '$http',
 
 		$scope.submitCC.eCallBack = function (error){
 			console.log(error);
-			$scope.ccDetails.info = '<i class="fa fa-times fa-fw"></i> Failure to validate card. Please check details below.';
+			$scope.ccDetails.info = '<i class="fa fa-times fa-fw"></i> Failure to validate card. Please check details below.<br />'+error.errorMsg;
 			$scope.submitCCdisabled = false;
 			$scope.$apply();
 		};
