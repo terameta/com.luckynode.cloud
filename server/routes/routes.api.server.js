@@ -405,12 +405,14 @@ function isThisOurServer(refObject){
 				if(curServer.ip == ip){
 					isThisOurSrv = true;
 					refObject.serverid = curServer._id;
+					console.log(curServer._id);
 				}
 				if(curServer.ipList){
 					curServer.ipList.forEach(function(curIP){
 						if(curIP == ip){
 							isThisOurSrv = true;
 							refObject.serverid = curServer._id;
+							console.log(curServer._id);
 						}
 					});
 				}
