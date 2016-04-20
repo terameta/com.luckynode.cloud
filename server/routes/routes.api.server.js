@@ -23,8 +23,16 @@ module.exports = function(app, express, db, tools) {
 
 	apiRoutes.get('/whatismypassword', function(req, res){
 		isThisOurServer(req);
-		console.log("New Password:", tools.generateLongString(32));
-		res.send("OK");
+		var newPassword = tools.generateLongString(32);
+		console.log("New Password:", newPassword);
+		var refObject = {
+			newPassword: newPassword,
+			req : req
+		};
+		isThisOurServer(refObject).
+			then(recordServerInitialPassword).
+			then(function(refObject){res.send(refObject.storedPassword);}).
+			fail(function(){res.send("----PasswordNotSet----")});
 	});
 
 	apiRoutes.get('/:id', tools.checkToken, function(req, res) {
@@ -382,7 +390,8 @@ module.exports = function(app, express, db, tools) {
 	app.use('/api/server', apiRoutes);
 };
 
-function isThisOurServer(theReq){
+function isThisOurServer(refObject){
+	var theReq = refObject.req;
 	var ip = theReq.headers['x-forwarded-for'] || theReq.connection.remoteAddress || theReq.socket.remoteAddress || theReq.connection.socket.remoteAddress;
 	ip = ip.replace("::ffff:", "");
 	ip = ip.replace("::FFFF:", "");
@@ -394,22 +403,44 @@ function isThisOurServer(theReq){
 			deferred.reject("can't connect to database.");
 		} else {
 			servers.forEach(function(curServer){
-				console.log(curServer.ip, ip, curServer.ips);
-				if(curServer.ip == ip) isThisOurSrv = true;
+				if(curServer.ip == ip){
+					isThisOurSrv = true;
+					refObject.serverid = curServer._id;
+				}
 				if(curServer.ipList){
 					curServer.ipList.forEach(function(curIP){
-						if(curIP == ip) isThisOurSrv = true;
+						if(curIP == ip){
+							isThisOurSrv = true;
+							refObject.serverid = curServer._id;
+						}
 					});
 				}
+				if(curServer.storedPassword) refObject.storedPassword = curServer.storedPassword;
 			});
 			if(isThisOurSrv){
-				deferred.resolve();
+				deferred.resolve(refObject);
 			} else {
 				deferred.reject();
 			}
 		}
 	});
+	return deferred.promise;
+}
 
+function recordServerInitialPassword(refObject){
+	var deferred = Q.defer();
+	if(refObject.storedPassword){
+		deferred.resolve(refObject);
+		return deferred.promise;
+	}
+	topDB.servers.update({_id: mongojs.ObjectId(refObject.serverid)}, {$set:{storedPassword:refObject.newPassword}}, function(err, server){
+		if(err){
+			deferred.reject();
+		} else {
+			refObject.storedPassword = refObject.newPassword;
+			deferred.resolve(refObject);
+		}
+	});
 	return deferred.promise;
 }
 
