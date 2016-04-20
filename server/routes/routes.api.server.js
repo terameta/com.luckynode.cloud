@@ -390,10 +390,6 @@ module.exports = function(app, express, db, tools) {
 };
 
 function isThisOurServer(refObject){
-	console.log("=============================================================");
-	console.log("=============================================================");
-	console.log("=============================================================");
-	console.log(refObject);
 	var theReq = refObject.req;
 	var ip = theReq.headers['x-forwarded-for'] || theReq.connection.remoteAddress || theReq.socket.remoteAddress || theReq.connection.socket.remoteAddress;
 	ip = ip.replace("::ffff:", "");
