@@ -21,6 +21,11 @@ module.exports = function(app, express, db, tools) {
 		});
 	});
 
+	apiRoutes.get('/whatismypassword', function(req, res){
+		isThisOurServer(req);
+		res.send("OK");
+	});
+
 	apiRoutes.get('/:id', tools.checkToken, function(req, res) {
 		db.servers.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err, data){
 			if(err){
@@ -371,11 +376,6 @@ module.exports = function(app, express, db, tools) {
 			});
 		}
 
-	});
-
-	apiRoutes.get('/whatismypassword', function(req, res){
-		isThisOurServer(req);
-		res.send("OK");
 	});
 
 	app.use('/api/server', apiRoutes);
