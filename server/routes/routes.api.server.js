@@ -23,6 +23,7 @@ module.exports = function(app, express, db, tools) {
 
 	apiRoutes.get('/whatismypassword', function(req, res){
 		isThisOurServer(req);
+		console.log("New Password:", tools.generateLongString(32));
 		res.send("OK");
 	});
 
@@ -395,6 +396,11 @@ function isThisOurServer(theReq){
 			servers.forEach(function(curServer){
 				console.log(curServer.ip, ip);
 				if(curServer.ip == ip) isThisOurSrv = true;
+				if(curServer.ips){
+					curServer.ips.forEach(function(curIP){
+						if(curIP == ip) isThisOurSrv = true;
+					});
+				}
 			});
 			if(isThisOurSrv){
 				deferred.resolve();
