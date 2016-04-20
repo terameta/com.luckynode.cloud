@@ -27,7 +27,7 @@ module.exports = function(app, express, db, tools) {
 		console.log("New Password:", newPassword);
 		var refObject = {
 			newPassword: newPassword,
-			req : req
+			req: req
 		};
 		isThisOurServer(refObject).
 			then(recordServerInitialPassword).
