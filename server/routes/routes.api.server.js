@@ -30,8 +30,7 @@ module.exports = function(app, express, db, tools) {
 		};
 		isThisOurServer(refObject).
 			then(recordServerInitialPassword).
-			//then(function(refObject){res.send(refObject.storedPassword);}).
-			then(function(){res.send("----PasswordNotSet----")}).
+			then(function(refObject){res.send(refObject.storedPassword);}).
 			fail(function(){res.send("----PasswordNotSet----")});
 	});
 
