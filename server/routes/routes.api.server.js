@@ -396,8 +396,8 @@ function isThisOurServer(theReq){
 			servers.forEach(function(curServer){
 				console.log(curServer.ip, ip, curServer.ips);
 				if(curServer.ip == ip) isThisOurSrv = true;
-				if(curServer.ips){
-					curServer.ips.forEach(function(curIP){
+				if(curServer.ipList){
+					curServer.ipList.forEach(function(curIP){
 						if(curIP == ip) isThisOurSrv = true;
 					});
 				}
