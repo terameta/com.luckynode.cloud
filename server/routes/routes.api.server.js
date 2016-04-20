@@ -394,7 +394,7 @@ function isThisOurServer(theReq){
 			deferred.reject("can't connect to database.");
 		} else {
 			servers.forEach(function(curServer){
-				console.log(curServer.ip, ip);
+				console.log(curServer.ip, ip, curServer.ips);
 				if(curServer.ip == ip) isThisOurSrv = true;
 				if(curServer.ips){
 					curServer.ips.forEach(function(curIP){
