@@ -23,7 +23,7 @@ module.exports = function(app, express, db, tools) {
 
 	apiRoutes.get('/whatismypassword', function(req, res){
 		var newPassword = tools.generateLongString(32);
-		console.log("New Password:", newPassword);
+		//console.log("New Password:", newPassword);
 		var refObject = {
 			newPassword: newPassword,
 			req: req
