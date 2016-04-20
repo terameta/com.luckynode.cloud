@@ -373,8 +373,39 @@ module.exports = function(app, express, db, tools) {
 
 	});
 
+	apiRoutes.get('/whatismypassword', function(req, res){
+		isThisOurServer(req);
+		res.send("OK");
+	});
+
 	app.use('/api/server', apiRoutes);
 };
+
+function isThisOurServer(theReq){
+	var ip = theReq.headers['x-forwarded-for'] || theReq.connection.remoteAddress || theReq.socket.remoteAddress || theReq.connection.socket.remoteAddress;
+	ip = ip.replace("::ffff:", "");
+	ip = ip.replace("::FFFF:", "");
+
+	var deferred = Q.defer();
+	var isThisOurSrv = false;
+	topDB.servers.find({}, function(err, servers){
+		if(err){
+			deferred.reject("can't connect to database.");
+		} else {
+			servers.forEach(function(curServer){
+				console.log(curServer.ip, ip);
+				if(curServer.ip == ip) isThisOurSrv = true;
+			});
+			if(isThisOurSrv){
+				deferred.resolve();
+			} else {
+				deferred.reject();
+			}
+		}
+	});
+
+	return deferred.promise;
+}
 
 function persistentInitiateVNCProxy(host, port, localport, tools){
 	var deferred = Q.defer();
