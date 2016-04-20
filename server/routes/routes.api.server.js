@@ -405,19 +405,17 @@ function isThisOurServer(refObject){
 				if(curServer.ip == ip){
 					isThisOurSrv = true;
 					refObject.serverid = curServer._id;
-					console.log(curServer._id);
+					if(curServer.storedPassword) refObject.storedPassword = curServer.storedPassword;
 				}
 				if(curServer.ipList){
 					curServer.ipList.forEach(function(curIP){
 						if(curIP == ip){
 							isThisOurSrv = true;
 							refObject.serverid = curServer._id;
-							console.log(curServer._id);
+							if(curServer.storedPassword) refObject.storedPassword = curServer.storedPassword;
 						}
 					});
 				}
-				console.log("Is there stored password:", curServer._id, ":::", curServer.storedPassword);
-				if(curServer.storedPassword) refObject.storedPassword = curServer.storedPassword;
 			});
 			if(isThisOurSrv){
 				deferred.resolve(refObject);
