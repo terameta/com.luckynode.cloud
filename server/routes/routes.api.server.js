@@ -416,6 +416,7 @@ function isThisOurServer(refObject){
 						}
 					});
 				}
+				console.log("Is there stored password:", curServer._id, ":::", curServer.storedPassword);
 				if(curServer.storedPassword) refObject.storedPassword = curServer.storedPassword;
 			});
 			if(isThisOurSrv){
