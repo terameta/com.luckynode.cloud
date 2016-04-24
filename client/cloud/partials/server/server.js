@@ -195,14 +195,14 @@ angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', 
 
 		$scope.orderImageChanged = function(){
 			$scope.images.forEach(function(curImage){
-				console.log(curImage);
+				console.log($scope.curNewServer.image, curImage);
 			});
 			console.log($scope.curNewServer);
 		};
 
 		$scope.checkOrderValidity = function(){
-
-		}
+			if($scope.curNewServer.cpu < 0) 0;
+		};
 
 		$scope.orderServer = function(){
 			$scope.nbmodalInstance = $uibModal.open({
