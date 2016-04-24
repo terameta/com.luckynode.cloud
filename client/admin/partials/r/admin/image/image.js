@@ -300,6 +300,9 @@ angular.module('adminControllers').controller('imageController',['$scope', '$roo
 			});
 		};
 
+		$scope.curApp2AddName = '';
+		$scope.curApp2AddVersion = '';
+
 		$scope.addApp2Image = function(){
 			if(!$scope.curImage.apps) $scope.curImage.apps = [];
 			var curMaxOrder = 0;
