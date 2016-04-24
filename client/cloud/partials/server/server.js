@@ -191,17 +191,26 @@ angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', 
 					$scope.curNewServer.ram = curPlan.ram;
 				}
 			});
+			$scope.checkOrderValidity();
 		};
 
 		$scope.orderImageChanged = function(){
 			$scope.images.forEach(function(curImage){
-				console.log($scope.curNewServer.img, curImage);
+				if(curImage._id == $scope.curNewServer.img){
+					$scope.curNewServer.requirements = curImage.requirements;
+				}
 			});
-			console.log($scope.curNewServer);
+			$scope.checkOrderValidity();
 		};
 
 		$scope.checkOrderValidity = function(){
-			if($scope.curNewServer.cpu < 0) 0;
+			if(!$scope.curNewServer.plan) return false;
+			if(!$scope.curNewServer.img) return false;
+			if(!$scope.curNewServer.requirements){ 											$scope.curNewServer.issue = 'No image requirements defined'; return false; }
+			if($scope.curNewServer.cpu < $scope.curNewServer.requirements.cpu){		$scope.curNewServer.issue = 'Not enough CPU cores on the selected plan'; return false; }
+			if($scope.curNewServer.ram < $scope.curNewServer.requirements.ram){		$scope.curNewServer.issue = 'Not enough memory on the selected plan'; return false; }
+			if($scope.curNewServer.hdd < $scope.curNewServer.requirements.hdd){		$scope.curNewServer.issue = 'Not enough disk space on the selected plan'; return false; }
+			return true;
 		};
 
 		$scope.orderServer = function(){
@@ -221,6 +230,8 @@ angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', 
 			if(!$scope.curNewServer.plan){ 	$scope.orderActionAlert = 'Please choose a plan for your new server.'; 			return 0; }
 			if(!$scope.curNewServer.img){ 	$scope.orderActionAlert = 'Please choose a image for your new server.'; 		return 0; }
 			if(!$scope.curNewServer.dc){ 		$scope.orderActionAlert = 'Please choose a datacenter for your new server.'; 	return 0; }
+			$scope.curNewServer.issue = '';
+			if(!$scope.checkOrderValidity){ 	$scope.orderActionAlert = $scope.curNewServer.issue; 									return 0; }
 			$scope.orderActionAlert = '';
 
 			srvcServer.resource.save($scope.curNewServer, function success(theResult){
