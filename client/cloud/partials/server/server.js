@@ -195,7 +195,7 @@ angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', 
 
 		$scope.orderImageChanged = function(){
 			$scope.images.forEach(function(curImage){
-				console.log($scope.curNewServer, curImage);
+				console.log($scope.curNewServer.img, curImage);
 			});
 			console.log($scope.curNewServer);
 		};
