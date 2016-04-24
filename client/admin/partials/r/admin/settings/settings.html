@@ -152,6 +152,29 @@
 						</div>
 					</div>
 				</uib-tab>
+				<uib-tab index="1" heading="Back Blaze">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<form editable-form name="settingsEditFormBackBlaze" onaftersave="save()">
+								<div class="table-responsive">
+									<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+										<tbody>
+											<tr><td><b>Host:</b></td><td><span editable-text="settings.backblaze.accountid">{{settings.backblaze.accountid}}</span></td></tr>
+											<tr><td><b>Port:</b></td><td><span editable-text="settings.backblaze.applicationkey">{{settings.backblaze.applicationkey}}</span></td></tr>
+											<tr>
+												<td colspan=2>
+													<button type="button" class="btn btn-primary btn-xs" ng-click="settingsEditFormBackBlaze.$show()" ng-show="!settingsEditFormBackBlaze.$visible">Edit</button>
+													<button type="submit" class="btn btn-success btn-xs" ng-disabled="settingsEditFormBackBlaze.$waiting" ng-show="settingsEditFormBackBlaze.$visible">Save</button>
+													<button type="button" class="btn btn-warning btn-xs" ng-disabled="settingsEditFormBackBlaze.$waiting" ng-click="settingsEditFormBackBlaze.$cancel()" ng-show="settingsEditFormBackBlaze.$visible">Cancel</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</form>
+						</div>
+					</div>
+				</uib-tab>
 			</uib-tabset>
 		</div>
 	</div>
