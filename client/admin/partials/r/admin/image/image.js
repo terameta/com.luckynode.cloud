@@ -313,6 +313,7 @@ angular.module('adminControllers').controller('imageController',['$scope', '$roo
 				version: $scope.curApp2AddVersion,
 				order: curMaxOrder
 			};
+			console.log(curApp2Add);
 			var shouldAdd = true;
 			$scope.curImage.apps.forEach(function(curExistingApp){
 				if(curExistingApp.name == curApp2Add.name && curExistingApp.version == curApp2Add.version) shouldAdd = false;
