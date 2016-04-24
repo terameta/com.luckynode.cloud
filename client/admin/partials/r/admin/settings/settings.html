@@ -99,7 +99,7 @@
 				<uib-tab index="1" heading="2CO">
 					<div class="panel panel-default">
 						<div class="panel-body">
-							<form editable-form name="settingsEditFormPayPal" onaftersave="save()">
+							<form editable-form name="settingsEditForm2co" onaftersave="save()">
 								<div class="table-responsive">
 									<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
 										<tbody>
@@ -111,6 +111,13 @@
 											<tr><td width="200"><b>2CO API Secret Word:</b></td><td><span editable-text="settings.tco.secret">{{settings.tco.secret}}</span></td></tr>
 											<tr><td width="200"><b>2CO API isDemo:</b></td><td><span editable-text="settings.tco.isdemo">{{settings.tco.isdemo}}</span></td></tr>
 											<tr><td width="200"><b>2CO API isSandBox:</b></td><td><span editable-text="settings.tco.issandbox">{{settings.tco.issandbox}}</span></td></tr>
+											<tr>
+												<td colspan=2>
+													<button type="button" class="btn btn-primary btn-xs" ng-click="settingsEditForm2co.$show()" ng-show="!settingsEditForm2co.$visible">Edit</button>
+													<button type="submit" class="btn btn-success btn-xs" ng-disabled="settingsEditForm2co.$waiting" ng-show="settingsEditForm2co.$visible">Save</button>
+													<button type="button" class="btn btn-warning btn-xs" ng-disabled="settingsEditForm2co.$waiting" ng-click="settingsEditForm2co.$cancel()" ng-show="settingsEditForm2co.$visible">Cancel</button>
+												</td>
+											</tr>
 										</tbody>
 									</table>
 								</div>
@@ -121,7 +128,7 @@
 				<uib-tab index="1" heading="Mail Server">
 					<div class="panel panel-default">
 						<div class="panel-body">
-							<form editable-form name="settingsEditFormPayPal" onaftersave="save()">
+							<form editable-form name="settingsEditFormMailServer" onaftersave="save()">
 								<div class="table-responsive">
 									<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
 										<tbody>
@@ -131,6 +138,13 @@
 											<tr><td><b>Reject Unauthorized:</b></td><td><span editable-text="settings.mailserver.rejectUnauthorized">{{settings.mailserver.rejectUnauthorized}}</span></td></tr>
 											<tr><td><b>User:</b></td><td><span editable-text="settings.mailserver.user">{{settings.mailserver.user}}</span></td></tr>
 											<tr><td><b>Pass:</b></td><td><span editable-text="settings.mailserver.pass">{{settings.mailserver.pass}}</span></td></tr>
+											<tr>
+												<td colspan=2>
+													<button type="button" class="btn btn-primary btn-xs" ng-click="settingsEditFormMailServer.$show()" ng-show="!settingsEditFormMailServer.$visible">Edit</button>
+													<button type="submit" class="btn btn-success btn-xs" ng-disabled="settingsEditFormMailServer.$waiting" ng-show="settingsEditFormMailServer.$visible">Save</button>
+													<button type="button" class="btn btn-warning btn-xs" ng-disabled="settingsEditFormMailServer.$waiting" ng-click="settingsEditFormMailServer.$cancel()" ng-show="settingsEditFormMailServer.$visible">Cancel</button>
+												</td>
+											</tr>
 										</tbody>
 									</table>
 								</div>
