@@ -200,6 +200,10 @@ angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', 
 			console.log($scope.curNewServer);
 		};
 
+		$scope.checkOrderValidity = function(){
+
+		}
+
 		$scope.orderServer = function(){
 			$scope.nbmodalInstance = $uibModal.open({
 				animation: true,
