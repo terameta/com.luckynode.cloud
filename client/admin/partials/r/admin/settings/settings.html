@@ -75,7 +75,7 @@
 						<div class="panel-body">
 							<form editable-form name="settingsEditFormPayPal" onaftersave="save()">
 								<div class="table-responsive">
-									<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+									<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid" style="width: auto;">
 										<tbody>
 											<tr><td width="200"><b>PayPal API Email:</b></td><td><span editable-text="settings.paypal.email">{{settings.paypal.email}}</span></td></tr>
 											<tr><td width="200"><b>PayPal API Username:</b></td><td><span editable-text="settings.paypal.username">{{settings.paypal.username}}</span></td></tr>
@@ -96,12 +96,12 @@
 						</div>
 					</div>
 				</uib-tab>
-				<uib-tab index="1" heading="2CO">
+				<uib-tab index="2" heading="2CO">
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<form editable-form name="settingsEditForm2co" onaftersave="save()">
 								<div class="table-responsive">
-									<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+									<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid" style="width: auto;">
 										<tbody>
 											<tr><td width="200"><b>2CO API Username:</b></td><td><span editable-text="settings.tco.username">{{settings.tco.username}}</span></td></tr>
 											<tr><td width="200"><b>2CO API Password:</b></td><td><span editable-text="settings.tco.password">{{settings.tco.password}}</span></td></tr>
@@ -125,12 +125,12 @@
 						</div>
 					</div>
 				</uib-tab>
-				<uib-tab index="1" heading="Mail Server">
+				<uib-tab index="3" heading="Mail Server">
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<form editable-form name="settingsEditFormMailServer" onaftersave="save()">
 								<div class="table-responsive">
-									<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+									<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid" style="width: auto;">
 										<tbody>
 											<tr><td><b>Host:</b></td><td><span editable-text="settings.mailserver.host">{{settings.mailserver.host}}</span></td></tr>
 											<tr><td><b>Port:</b></td><td><span editable-text="settings.mailserver.port">{{settings.mailserver.port}}</span></td></tr>
@@ -152,15 +152,15 @@
 						</div>
 					</div>
 				</uib-tab>
-				<uib-tab index="1" heading="Back Blaze">
+				<uib-tab index="4" heading="Back Blaze">
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<form editable-form name="settingsEditFormBackBlaze" onaftersave="save()">
 								<div class="table-responsive">
-									<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+									<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid" style="width: auto;">
 										<tbody>
-											<tr><td><b>Host:</b></td><td><span editable-text="settings.backblaze.accountid">{{settings.backblaze.accountid}}</span></td></tr>
-											<tr><td><b>Port:</b></td><td><span editable-text="settings.backblaze.applicationkey">{{settings.backblaze.applicationkey}}</span></td></tr>
+											<tr><td><b>Account ID:</b></td><td><span editable-text="settings.backblaze.accountid">{{settings.backblaze.accountid}}</span></td></tr>
+											<tr><td><b>Application Key:</b></td><td><span editable-text="settings.backblaze.applicationkey">{{settings.backblaze.applicationkey}}</span></td></tr>
 											<tr>
 												<td colspan=2>
 													<button type="button" class="btn btn-primary btn-xs" ng-click="settingsEditFormBackBlaze.$show()" ng-show="!settingsEditFormBackBlaze.$visible">Edit</button>
