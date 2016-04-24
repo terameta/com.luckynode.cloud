@@ -9,6 +9,30 @@
 </section>
 
 <section class="content">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12">
+			<uib-tabset>
+				<uib-tab index="0" heading="General">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<form editable-form name="settingsEditForm" onaftersave="save()">
+								<div class="table-responsive">
+									<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+										<tbody>
+											<tr><td width=200><b>Company Name: 		</b></td><td><span editable-text="settings.companyname">{{ settings.companyname }}</span></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</form>
+						</div>
+					</div>
+				</uib-tab>
+			</uib-tabset>
+			<div class="panel panel-default">
+				<div class=""
+			</div>
+		</div>
+	</div>
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<form editable-form name="settingsEditForm" onaftersave="save()">

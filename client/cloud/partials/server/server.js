@@ -204,24 +204,12 @@ angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', 
 		};
 
 		$scope.checkOrderValidity = function(){
-			console.log("We are at checkOrderValidity");
-			console.log($scope.curNewServer.requirements);
-			console.log($scope.curNewServer.cpu);
-			console.log($scope.curNewServer.ram);
-			console.log($scope.curNewServer.hdd);
-			console.log("AT A");
 			if(!$scope.curNewServer.plan) return false;
-			console.log("AT B");
 			if(!$scope.curNewServer.img) return false;
-			console.log("AT C");
 			if(!$scope.curNewServer.requirements){ 											$scope.curNewServer.issue = 'No image requirements defined'; return false; }
-			console.log("AT D");
 			if($scope.curNewServer.cpu < $scope.curNewServer.requirements.cpu){		$scope.curNewServer.issue = 'Not enough CPU cores on the selected plan'; return false; }
-			console.log("AT E");
 			if($scope.curNewServer.ram < $scope.curNewServer.requirements.ram){		$scope.curNewServer.issue = 'Not enough memory on the selected plan'; return false; }
-			console.log("AT F");
 			if($scope.curNewServer.hdd < $scope.curNewServer.requirements.hdd){		$scope.curNewServer.issue = 'Not enough disk space on the selected plan'; return false; }
-			console.log("AT G");
 			return true;
 		};
 
@@ -237,7 +225,6 @@ angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', 
 		$scope.orderActionAlert = '';
 
 		$scope.orderAction = function(){
-			console.log("We are at order action");
 			if(!$scope.curNewServer.name){ 	$scope.orderActionAlert = 'Please provide a name for your new server.'; 		return 0; }
 			if(!$scope.curNewServer.plan){ 	$scope.orderActionAlert = 'Please choose a plan for your new server.'; 			return 0; }
 			if(!$scope.curNewServer.img){ 	$scope.orderActionAlert = 'Please choose a image for your new server.'; 		return 0; }
