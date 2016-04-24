@@ -53,6 +53,17 @@
 													<button type="button" class="btn btn-primary btn-xs" ng-click="addPhone()">Add Phone</button>
 												</td>
 											</tr>
+											<tr><td><b>Counters: 					</b></td><td><ul><li ng-repeat="counter in counters">{{counter._id}} (seq: {{counter.seq}})</li></ul></td></tr>
+											<tr><td><b>Email Letter Head Color: 	</b></td><td><span editable-text="settings.emailletterheadcolor">{{settings.emailletterheadcolor}}</span></td></tr>
+											<tr><td><b>Email Letter Head Logo URL: 	</b></td><td><span editable-text="settings.emailletterheadlogourl">{{settings.emailletterheadlogourl}}</span></td></tr>
+											<tr>
+												<td colspan=2>
+													<button type="button" class="btn btn-primary btn-xs" ng-click="settingsEditForm.$show()" ng-show="!settingsEditForm.$visible">Edit</button>
+													<button type="button" class="btn btn-danger btn-xs" ng-click="deletePlan()" ng-show="!settingsEditForm.$visible">Delete</button>
+													<button type="submit" class="btn btn-success btn-xs" ng-disabled="settingsEditForm.$waiting" ng-show="settingsEditForm.$visible">Save</button>
+													<button type="button" class="btn btn-warning btn-xs" ng-disabled="settingsEditForm.$waiting" ng-click="settingsEditForm.$cancel()" ng-show="settingsEditForm.$visible">Cancel</button>
+												</td>
+											</tr>
 										</tbody>
 									</table>
 								</div>
@@ -70,26 +81,7 @@
 		<div class="panel-body">
 			<form editable-form name="settingsEditForm" onaftersave="save()">
 				<div class="row">
-					<div class="col-sm-6">
-						<div class="table-responsive">
-							<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
-								<tbody>
 
-									<tr><td><b>Counters: 					</b></td><td><ul><li ng-repeat="counter in counters">{{counter._id}} (seq: {{counter.seq}})</li></ul></td></tr>
-									<tr><td><b>Email Letter Head Color: 	</b></td><td><span editable-text="settings.emailletterheadcolor">{{settings.emailletterheadcolor}}</span></td></tr>
-									<tr><td><b>Email Letter Head Logo URL: 	</b></td><td><span editable-text="settings.emailletterheadlogourl">{{settings.emailletterheadlogourl}}</span></td></tr>
-									<tr>
-										<td colspan=2>
-											<button type="button" class="btn btn-primary btn-xs" ng-click="settingsEditForm.$show()" ng-show="!settingsEditForm.$visible">Edit</button>
-											<button type="button" class="btn btn-danger btn-xs" ng-click="deletePlan()" ng-show="!settingsEditForm.$visible">Delete</button>
-											<button type="submit" class="btn btn-success btn-xs" ng-disabled="settingsEditForm.$waiting" ng-show="settingsEditForm.$visible">Save</button>
-											<button type="button" class="btn btn-warning btn-xs" ng-disabled="settingsEditForm.$waiting" ng-click="settingsEditForm.$cancel()" ng-show="settingsEditForm.$visible">Cancel</button>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
 					<div class="col-sm-6">
 						<div class="table-responsive">
 							<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
