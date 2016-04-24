@@ -7,8 +7,8 @@ module.exports = function(app, express, db, tools) {
 			if(err){
 				res.status(500).send(err);
 			} else {
-				console.log(settings);
-				res.send(settings.backblaze.enabledips + ":::"+ req.ip);
+				console.log(settings.backblaze, req.ip);
+				res.send(settings.backblaze.enabledips);
 			}
 		});
 	});
