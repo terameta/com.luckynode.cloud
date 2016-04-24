@@ -204,6 +204,11 @@ angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', 
 		};
 
 		$scope.checkOrderValidity = function(){
+			console.log("We are at checkOrderValidity");
+			console.log($scope.curNewServer.requirements);
+			console.log($scope.curNewServer.cpu);
+			console.log($scope.curNewServer.ram);
+			console.log($scope.curNewServer.hdd);
 			if(!$scope.curNewServer.plan) return false;
 			if(!$scope.curNewServer.img) return false;
 			if(!$scope.curNewServer.requirements){ 											$scope.curNewServer.issue = 'No image requirements defined'; return false; }
