@@ -8,3 +8,4 @@ monger.luckynode.ca.pem
 client/lib/*
 node_modules
 node_modules/*
+client/robots.txt
