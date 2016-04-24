@@ -300,8 +300,10 @@ angular.module('adminControllers').controller('imageController',['$scope', '$roo
 			});
 		};
 
-		$scope.curApp2AddName = '';
-		$scope.curApp2AddVersion = '';
+		$scope.curApp2Add = {
+			name: '',
+			version: ''
+		};
 
 		$scope.addApp2Image = function(){
 			if(!$scope.curImage.apps) $scope.curImage.apps = [];
@@ -312,8 +314,8 @@ angular.module('adminControllers').controller('imageController',['$scope', '$roo
 			curMaxOrder++;
 
 			var curApp2Add = {
-				name: $scope.curApp2AddName,
-				version: $scope.curApp2AddVersion,
+				name: $scope.curApp2Add.name,
+				version: $scope.curApp2Add.version,
 				order: curMaxOrder
 			};
 			console.log(curApp2Add);
