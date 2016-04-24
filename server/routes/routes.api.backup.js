@@ -10,7 +10,16 @@ module.exports = function(app, express, db, tools) {
 				console.log(settings.backblaze, req.ip);
 				var ipList = settings.backblaze.enabledips.split(",");
 				console.log(ipList);
-				res.send(settings.backblaze.enabledips);
+				var shouldWeSend = false;
+				ipList.forEach(function(curIP){
+					if(curIP == req.ip) shouldWeSend = true;
+				});
+				if(shouldWeSend){
+					delete settings.backblaze.enabledips;
+					res.send(settings.backblaze);
+				} else {
+					res.status(400).send("Not authorized");
+				}
 			}
 		});
 	});
