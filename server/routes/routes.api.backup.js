@@ -3,7 +3,7 @@ module.exports = function(app, express, db, tools) {
 	var apiRoutes 		= express.Router();
 
 	apiRoutes.get('/b2credentials', function(req, res) {
-		db.settings.find({}, function(err, settings){
+		db.settings.findOne({}, function(err, settings){
 			if(err){
 				res.status(500).send(err);
 			} else {
