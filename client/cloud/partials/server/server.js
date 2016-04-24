@@ -243,7 +243,7 @@ angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', 
 			if(!$scope.curNewServer.img){ 	$scope.orderActionAlert = 'Please choose a image for your new server.'; 		return 0; }
 			if(!$scope.curNewServer.dc){ 		$scope.orderActionAlert = 'Please choose a datacenter for your new server.'; 	return 0; }
 			$scope.curNewServer.issue = '';
-			if(!$scope.checkOrderValidity){ 	$scope.orderActionAlert = $scope.curNewServer.issue; 									return 0; }
+			if(!$scope.checkOrderValidity()){ 	$scope.orderActionAlert = $scope.curNewServer.issue; 									return 0; }
 			$scope.orderActionAlert = '';
 
 			srvcServer.resource.save($scope.curNewServer, function success(theResult){
