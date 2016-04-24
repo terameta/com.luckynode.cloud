@@ -104,8 +104,20 @@
 											<tr><td width="200"><b>2CO API Secret Word:</b></td><td><span editable-text="settings.tco.secret">{{settings.tco.secret}}</span></td></tr>
 											<tr><td width="200"><b>2CO API isDemo:</b></td><td><span editable-text="settings.tco.isdemo">{{settings.tco.isdemo}}</span></td></tr>
 											<tr><td width="200"><b>2CO API isSandBox:</b></td><td><span editable-text="settings.tco.issandbox">{{settings.tco.issandbox}}</span></td></tr>
-											<tr><td colspan=2><hr /></td></tr>
-											<tr><td colspan=2><b>Mail Server Settings:</b></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</form>
+						</div>
+					</div>
+				</uib-tab>
+				<uib-tab index="1" heading="Mail Server">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<form editable-form name="settingsEditFormPayPal" onaftersave="save()">
+								<div class="table-responsive">
+									<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+										<tbody>
 											<tr><td><b>Host:</b></td><td><span editable-text="settings.mailserver.host">{{settings.mailserver.host}}</span></td></tr>
 											<tr><td><b>Port:</b></td><td><span editable-text="settings.mailserver.port">{{settings.mailserver.port}}</span></td></tr>
 											<tr><td><b>isSecure:</b></td><td><span editable-text="settings.mailserver.isSecure">{{settings.mailserver.isSecure}}</span></td></tr>
