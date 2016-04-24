@@ -132,7 +132,9 @@
 								<div class="table-responsive">
 									<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid" style="width: auto;">
 										<tbody>
-											<tr><td><b>Memory: 			</b></td><td><span editable-text="curImage.requirements.ram">{{ curImage.requirements.ram }}</span></td></tr>
+											<tr><td><b>CPU: 			</b></td><td><span editable-text="curImage.requirements.cpu">{{ curImage.requirements.cpu }}</span></td></tr>
+											<tr><td><b>RAM: 			</b></td><td><span editable-text="curImage.requirements.ram">{{ curImage.requirements.ram }}</span></td></tr>
+											<tr><td><b>HDD: 			</b></td><td><span editable-text="curImage.requirements.hdd">{{ curImage.requirements.hdd }}</span></td></tr>
 											<tr>
 												<td colspan=2>
 													<button type="button" class="btn btn-primary btn-xs" ng-click="imageEditFormReq.$show()" ng-show="!imageEditFormReq.$visible">Edit</button>
