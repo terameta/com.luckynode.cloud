@@ -59,7 +59,6 @@
 											<tr>
 												<td colspan=2>
 													<button type="button" class="btn btn-primary btn-xs" ng-click="settingsEditForm.$show()" ng-show="!settingsEditForm.$visible">Edit</button>
-													<button type="button" class="btn btn-danger btn-xs" ng-click="deletePlan()" ng-show="!settingsEditForm.$visible">Delete</button>
 													<button type="submit" class="btn btn-success btn-xs" ng-disabled="settingsEditForm.$waiting" ng-show="settingsEditForm.$visible">Save</button>
 													<button type="button" class="btn btn-warning btn-xs" ng-disabled="settingsEditForm.$waiting" ng-click="settingsEditForm.$cancel()" ng-show="settingsEditForm.$visible">Cancel</button>
 												</td>
@@ -71,49 +70,43 @@
 						</div>
 					</div>
 				</uib-tab>
-			</uib-tabset>
-			<div class="panel panel-default">
-				<div class=""
-			</div>
-		</div>
-	</div>
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<form editable-form name="settingsEditForm" onaftersave="save()">
-				<div class="row">
-
-					<div class="col-sm-6">
-						<div class="table-responsive">
-							<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
-								<tbody>
-									<tr><td width="200"><b>PayPal API Email:</b></td><td><span editable-text="settings.paypal.email">{{settings.paypal.email}}</span></td></tr>
-									<tr><td width="200"><b>PayPal API Username:</b></td><td><span editable-text="settings.paypal.username">{{settings.paypal.username}}</span></td></tr>
-									<tr><td width="200"><b>PayPal API Password:</b></td><td><span editable-text="settings.paypal.password">{{settings.paypal.password}}</span></td></tr>
-									<tr><td width="200"><b>PayPal API Signature:</b></td><td><span editable-text="settings.paypal.signature">{{settings.paypal.signature}}</span></td></tr>
-									<tr><td width="200"><b>PayPal API isSandBox:</b></td><td><span editable-text="settings.paypal.issandbox">{{settings.paypal.issandbox}}</span></td></tr>
-									<tr><td colspan=2><hr /></td></tr>
-									<tr><td width="200"><b>2CO API Username:</b></td><td><span editable-text="settings.tco.username">{{settings.tco.username}}</span></td></tr>
-									<tr><td width="200"><b>2CO API Password:</b></td><td><span editable-text="settings.tco.password">{{settings.tco.password}}</span></td></tr>
-									<tr><td width="200"><b>2CO API Seller ID:</b></td><td><span editable-text="settings.tco.sellerid">{{settings.tco.sellerid}}</span></td></tr>
-									<tr><td width="200"><b>2CO API Private Key:</b></td><td><span editable-text="settings.tco.privatekey">{{settings.tco.privatekey}}</span></td></tr>
-									<tr><td width="200"><b>2CO API Publishable Key:</b></td><td><span editable-text="settings.tco.publishablekey">{{settings.tco.publishablekey}}</span></td></tr>
-									<tr><td width="200"><b>2CO API Secret Word:</b></td><td><span editable-text="settings.tco.secret">{{settings.tco.secret}}</span></td></tr>
-									<tr><td width="200"><b>2CO API isDemo:</b></td><td><span editable-text="settings.tco.isdemo">{{settings.tco.isdemo}}</span></td></tr>
-									<tr><td width="200"><b>2CO API isSandBox:</b></td><td><span editable-text="settings.tco.issandbox">{{settings.tco.issandbox}}</span></td></tr>
-									<tr><td colspan=2><hr /></td></tr>
-									<tr><td colspan=2><b>Mail Server Settings:</b></td></tr>
-									<tr><td><b>Host:</b></td><td><span editable-text="settings.mailserver.host">{{settings.mailserver.host}}</span></td></tr>
-									<tr><td><b>Port:</b></td><td><span editable-text="settings.mailserver.port">{{settings.mailserver.port}}</span></td></tr>
-									<tr><td><b>isSecure:</b></td><td><span editable-text="settings.mailserver.isSecure">{{settings.mailserver.isSecure}}</span></td></tr>
-									<tr><td><b>Reject Unauthorized:</b></td><td><span editable-text="settings.mailserver.rejectUnauthorized">{{settings.mailserver.rejectUnauthorized}}</span></td></tr>
-									<tr><td><b>User:</b></td><td><span editable-text="settings.mailserver.user">{{settings.mailserver.user}}</span></td></tr>
-									<tr><td><b>Pass:</b></td><td><span editable-text="settings.mailserver.pass">{{settings.mailserver.pass}}</span></td></tr>
-								</tbody>
-							</table>
+				<uib-tab index="1" heading="PayPal">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<form editable-form name="settingsEditFormPayPal" onaftersave="save()">
+								<div class="table-responsive">
+									<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+										<tbody>
+											<tr><td width="200"><b>PayPal API Email:</b></td><td><span editable-text="settings.paypal.email">{{settings.paypal.email}}</span></td></tr>
+											<tr><td width="200"><b>PayPal API Username:</b></td><td><span editable-text="settings.paypal.username">{{settings.paypal.username}}</span></td></tr>
+											<tr><td width="200"><b>PayPal API Password:</b></td><td><span editable-text="settings.paypal.password">{{settings.paypal.password}}</span></td></tr>
+											<tr><td width="200"><b>PayPal API Signature:</b></td><td><span editable-text="settings.paypal.signature">{{settings.paypal.signature}}</span></td></tr>
+											<tr><td width="200"><b>PayPal API isSandBox:</b></td><td><span editable-text="settings.paypal.issandbox">{{settings.paypal.issandbox}}</span></td></tr>
+											<tr><td colspan=2><hr /></td></tr>
+											<tr><td width="200"><b>2CO API Username:</b></td><td><span editable-text="settings.tco.username">{{settings.tco.username}}</span></td></tr>
+											<tr><td width="200"><b>2CO API Password:</b></td><td><span editable-text="settings.tco.password">{{settings.tco.password}}</span></td></tr>
+											<tr><td width="200"><b>2CO API Seller ID:</b></td><td><span editable-text="settings.tco.sellerid">{{settings.tco.sellerid}}</span></td></tr>
+											<tr><td width="200"><b>2CO API Private Key:</b></td><td><span editable-text="settings.tco.privatekey">{{settings.tco.privatekey}}</span></td></tr>
+											<tr><td width="200"><b>2CO API Publishable Key:</b></td><td><span editable-text="settings.tco.publishablekey">{{settings.tco.publishablekey}}</span></td></tr>
+											<tr><td width="200"><b>2CO API Secret Word:</b></td><td><span editable-text="settings.tco.secret">{{settings.tco.secret}}</span></td></tr>
+											<tr><td width="200"><b>2CO API isDemo:</b></td><td><span editable-text="settings.tco.isdemo">{{settings.tco.isdemo}}</span></td></tr>
+											<tr><td width="200"><b>2CO API isSandBox:</b></td><td><span editable-text="settings.tco.issandbox">{{settings.tco.issandbox}}</span></td></tr>
+											<tr><td colspan=2><hr /></td></tr>
+											<tr><td colspan=2><b>Mail Server Settings:</b></td></tr>
+											<tr><td><b>Host:</b></td><td><span editable-text="settings.mailserver.host">{{settings.mailserver.host}}</span></td></tr>
+											<tr><td><b>Port:</b></td><td><span editable-text="settings.mailserver.port">{{settings.mailserver.port}}</span></td></tr>
+											<tr><td><b>isSecure:</b></td><td><span editable-text="settings.mailserver.isSecure">{{settings.mailserver.isSecure}}</span></td></tr>
+											<tr><td><b>Reject Unauthorized:</b></td><td><span editable-text="settings.mailserver.rejectUnauthorized">{{settings.mailserver.rejectUnauthorized}}</span></td></tr>
+											<tr><td><b>User:</b></td><td><span editable-text="settings.mailserver.user">{{settings.mailserver.user}}</span></td></tr>
+											<tr><td><b>Pass:</b></td><td><span editable-text="settings.mailserver.pass">{{settings.mailserver.pass}}</span></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</form>
 						</div>
 					</div>
-				</div>
-			</form>
+				</uib-tab>
+			</uib-tabset>
 		</div>
 	</div>
 </section>
