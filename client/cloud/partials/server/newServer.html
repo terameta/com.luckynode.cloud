@@ -65,7 +65,7 @@
 										<tbody>
 											<tr ng-repeat="image in images | orderBy: 'name' | filter:{group:tab.id, status:'enabled'}">
 												<td>
-													<input id="serverimg" name="serverimg" value="{{image._id}}" type="radio" ng-model="curNewServer.img" class="btn">
+													<input id="serverimg" name="serverimg" value="{{image._id}}" type="radio" ng-model="curNewServer.img" class="btn" ng-change="orderImageChanged()">
 												</td>
 												<td>{{image.name}}</td>
 												<td>

@@ -193,6 +193,13 @@ angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', 
 			});
 		};
 
+		$scope.orderImageChanged = function(){
+			$scope.images.forEach(function(curImage){
+				console.log(curImage);
+			});
+			console.log($scope.curNewServer);
+		};
+
 		$scope.orderServer = function(){
 			$scope.nbmodalInstance = $uibModal.open({
 				animation: true,
