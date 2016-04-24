@@ -237,7 +237,7 @@ angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', 
 		$scope.orderActionAlert = '';
 
 		$scope.orderAction = function(){
-
+			console.log("We are at order action");
 			if(!$scope.curNewServer.name){ 	$scope.orderActionAlert = 'Please provide a name for your new server.'; 		return 0; }
 			if(!$scope.curNewServer.plan){ 	$scope.orderActionAlert = 'Please choose a plan for your new server.'; 			return 0; }
 			if(!$scope.curNewServer.img){ 	$scope.orderActionAlert = 'Please choose a image for your new server.'; 		return 0; }
