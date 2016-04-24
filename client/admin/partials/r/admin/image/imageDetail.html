@@ -108,8 +108,8 @@
 						<form ng-submit="addApp2Image()">
 							<table class="table table-bordered table-condensed table-striped table-fluid"  style="width: auto;">
 								<tr>
-									<td><input type="text" class="form-control" ng-model="curApp2AddName" placeholder="Application Name"></td>
-									<td><input type="text" class="form-control" ng-model="curApp2AddVersion" placeholder="Version"></td>
+									<td><input type="text" class="form-control" ng-model="curApp2Add.name" placeholder="Application Name"></td>
+									<td><input type="text" class="form-control" ng-model="curApp2Add.version" placeholder="Version"></td>
 									<td><button type="submit" class="btn btn-xs btn-default">Add</button></td>
 								</tr>
 								<tr ng-repeat="curApp in curImage.apps">
