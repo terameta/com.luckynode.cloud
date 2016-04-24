@@ -161,6 +161,7 @@
 										<tbody>
 											<tr><td><b>Account ID:</b></td><td><span editable-text="settings.backblaze.accountid">{{settings.backblaze.accountid}}</span></td></tr>
 											<tr><td><b>Application Key:</b></td><td><span editable-text="settings.backblaze.applicationkey">{{settings.backblaze.applicationkey}}</span></td></tr>
+											<tr><td><b>Enabled IPs (csv list):</b></td><td><span editable-textarea="settings.backblaze.enabledips" e-rows="7" e-cols="40">{{settings.backblaze.enabledips}}</span></td></tr>
 											<tr>
 												<td colspan=2>
 													<button type="button" class="btn btn-primary btn-xs" ng-click="settingsEditFormBackBlaze.$show()" ng-show="!settingsEditFormBackBlaze.$visible">Edit</button>
