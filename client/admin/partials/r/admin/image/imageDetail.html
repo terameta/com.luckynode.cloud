@@ -125,6 +125,32 @@
 						</form>
 					</div>
 				</uib-tab>
+				<uib-tab index="2" heading="Requirements">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<form editable-form name="imageEditFormReq" onaftersave="saveImage()">
+								<div class="table-responsive">
+									<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid" style="width: auto;">
+										<tbody>
+											<tr><td><b>Memory: 			</b></td><td><span editable-text="curImage.requirements.ram">{{ curImage.requirements.ram }}</span></td></tr>
+											<tr>
+												<td colspan=2>
+													<button type="button" class="btn btn-primary btn-xs" ng-click="imageEditFormReq.$show()" ng-show="!imageEditFormReq.$visible">Edit</button>
+													<button type="button" class="btn btn-danger btn-xs" ng-click="deleteImage()" ng-show="!imageEditFormReq.$visible">Delete</button>
+													<button type="submit" class="btn btn-success btn-xs" ng-disabled="imageEditFormReq.$waiting" ng-show="imageEditFormReq.$visible">Save</button>
+													<button type="button" class="btn btn-warning btn-xs" ng-disabled="imageEditFormReq.$waiting" ng-click="imageEditFormReq.$cancel()" ng-show="imageEditFormReq.$visible">Cancel</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</form>
+						</div>
+					</div>
+				</uib-tab>
+				<uib-tab index="3" heading="Source Code">
+					<pre>{{curImage | json}}</pre>
+				</uib-tab>
 			</uib-tabset>
 		</div>
 	</div>
