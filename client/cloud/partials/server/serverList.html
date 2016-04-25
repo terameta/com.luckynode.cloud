@@ -31,7 +31,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="server in servers">
+							<tr ng-repeat="server in servers | orderBy:'name'">
 								<td><li>&nbsp;</li></td>
 								<td>{{server.domstate | titlecase}}</td>
 								<td>{{server.name}}</td>
