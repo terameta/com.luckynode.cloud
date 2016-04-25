@@ -42,8 +42,6 @@ module.exports = function(app, express, db, tools) {
 	apiRoutes.put('/:id', tools.checkToken, function(req, res){
 		if ( !req.body ) {
 			res.status(400).json({ status: "fail", detail: "no data provided" });
-		} else if ( !req.body.name ) {
-			res.status(400).json({ status: "fail", detail: "storage should have a name" });
 		} else if ( !req.body._id ) {
 			res.status(400).json({ status: "fail", detail: "storage should have an _id" });
 		} else {
