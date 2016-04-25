@@ -26,7 +26,7 @@
 								<th>RAM</th>
 								<th>Disk</th>
 								<th>DC</th>
-								<th>Created on</th>
+								<!--th>Created on</th-->
 								<th>Details</th>
 							</tr>
 						</thead>
@@ -38,7 +38,7 @@
 								<td>{{server.ram / 1024}}G</td>
 								<td>{{server.hdd}}G</td>
 								<td>{{ (dataCenters | filter:{_id:server.dc._id})[0].name }}</td>
-								<td>{{formatDate(server.createdat)}}</td>
+								<!--td>{{formatDate(server.createdat)}}</td-->
 								<td>
 									<a ui-sref="r.server({id: server._id})" title="Details"><i class="fa fa-cog fa-fw"></i></a>
 									<!--a style="cursor:pointer;" title="Delete" ng-click="deleteServerByConfirm(server._id)"><i class="fa fa-trash fa-fw"></i></a-->
