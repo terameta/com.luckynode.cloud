@@ -19,7 +19,7 @@
 				<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
 					<tbody>
 						<tr><td width="120"><b>Number: 			</b></td><td>{{ curInvoice._id }}</td></tr>
-						<tr><td> 			<b>Amount: 			</b></td><td><span editable-text="curInvoice.totalValue">{{ formatCurrency(curInvoice.totalValue) }}</span></td></tr>
+						<tr><td> 			<b>Amount: 			</b></td><td>{{ formatCurrency(curInvoice.totalValue) }}</td></tr>
 						<tr><td>			<b>Status: 			</b></td><td><span editable-text="curInvoice.details.status">{{ curInvoice.details.status }}</span></td></tr>
 						<tr><td>			<b>Date: 			</b></td><td>{{ formatDate(curInvoice.details.date) }} 		</td></tr>
 						<tr><td>			<b>To: 				</b></td><td>{{ curInvoice.details.to }} 					</td></tr>
@@ -44,10 +44,10 @@
 										<td>{{curItem.name}}</td>
 										<td>{{curItem.type}}</td>
 										<td>{{curItem.between}}</td>
-										<td align="right">{{formatCurrency(curItem.price)}}</td>
-										<td align="right">{{formatCurrency(curItem.discount)}}</td>
-										<td align="right">{{formatCurrency(curItem.finalPrice)}}</td>
-										<td align="right">{{formatCurrency(curItem.finalDiscount)}}</td>
+										<td align="right"><span editable-text="curItem.price">{{formatCurrency(curItem.price)}}</span></td>
+										<td align="right"><span editable-text="curItem.discount">{{formatCurrency(curItem.discount)}}</span></td>
+										<td align="right"><span editable-text="curItem.finalPrice">{{formatCurrency(curItem.finalPrice)}}</span></td>
+										<td align="right"><span editable-text="curItem.finalDiscount">{{formatCurrency(curItem.finalDiscount)}}</span></td>
 										<td align="right">{{formatCurrency(curItem.finalPrice - curItem.finalDiscount)}}</td>
 									</tr>
 									<tr>
