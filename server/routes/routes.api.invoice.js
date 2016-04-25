@@ -47,6 +47,8 @@ module.exports = function(app, express, db, tools) {
 		} else {
 			var curid = req.body._id;
 			delete req.body._id;
+			console.log(req.body);
+			console.log(curid);
 			db.invoices.update({_id: mongojs.ObjectId(curid)}, {$set:req.body}, function(err, data){
 				if( err ){
 					res.status(500).json({ status: "fail" });
