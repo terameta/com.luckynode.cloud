@@ -76,6 +76,18 @@ angular.module('adminControllers').controller('invoiceController', ['$scope', '$
 
 		$scope.recalculateInvoice = function(invoice){
 			console.log(invoice.items);
+			invoice.priceTotal = 0;
+			invoice.discountTotal = 0;
+			invoice.netTotal = 0;
+			invoice.items.forEach(function(curItem){
+				curItem.finalPrice = curItem.price * curItem.multiplier;
+				curItem.finalDiscount = curItem.discount * curItem.multiplier;
+				curItem.finalNet = curItem.finalPrice - curItem.finalDiscount;
+				invoice.priceTotal += parseFloat(curItem.finalPrice);
+				invoice.discountTotal += parseFloat(curItem.finalDiscount);
+				invoice.netTotal += parseFloat(curItem.finalNet);
+			});
+			invoice.netTotal = parseFloat(invoice.netTotal).toFixed(2);
 		};
 
 		$scope.formatCurrency = function(value){
