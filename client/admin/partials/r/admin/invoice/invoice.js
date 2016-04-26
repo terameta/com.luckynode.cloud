@@ -77,7 +77,9 @@ angular.module('adminControllers').controller('invoiceController', ['$scope', '$
 
 		$scope.reAssignDetails = function(invoice){
 			$scope.users.forEach(function(curUser){
-				console.log(curUser);
+				if(curUser._id == $scope.curInvoice.details.user){
+					console.log(curUser);
+				}
 			});
 		};
 
