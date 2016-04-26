@@ -90,6 +90,10 @@ angular.module('adminControllers').controller('invoiceController', ['$scope', '$
 			invoice.netTotal = parseFloat(invoice.netTotal).toFixed(2);
 		};
 
+		$scope.addItem = function(){
+			$scope.curInvoice.items.push({name:'Please edit this item'});
+		};
+
 		$scope.formatCurrency = function(value){
 			return '$' + parseFloat(value).toFixed(2);
 		};

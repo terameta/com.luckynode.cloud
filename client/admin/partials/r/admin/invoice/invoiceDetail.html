@@ -41,7 +41,7 @@
 						<tr><td>			<b>E-Mail Address: 	</b></td><td>{{ curInvoice.details.toEmail }} 				</td></tr>
 						<tr><td>			<b>Pay To: 		</b></td><td><pre style="background:transparent;border:0;padding:0;margin:0">{{ curInvoice.details.payTo }}</pre></td></tr>
 						<tr>
-							<td><b>Items:</b></td>
+							<td><b>Items:<button type="button" ng-click="addItem()"><i class="fa fa-plus-circle" aria-hidden="true"></i></button></b></td>
 							<td>
 								<table class="table table-bordered table-condensed table-fluid">
 									<tr>
