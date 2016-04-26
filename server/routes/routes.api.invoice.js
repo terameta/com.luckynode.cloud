@@ -67,6 +67,7 @@ module.exports = function(app, express, db, tools) {
 		invoiceModule.getNextInvoiceNumber().
 		then(res.send).
 		fail(function(issue){
+			console.log(issue);
 			res.status(500).json({ status: "fail", message: issue});
 		});
 	});
