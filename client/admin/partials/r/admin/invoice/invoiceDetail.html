@@ -22,10 +22,11 @@
 						<tr>
 							<td> 			<b>User: 			</b></td>
 							<td>
-								{{ curInvoice.details.user }}
-								{{ (users | filter:{_id: curInvoice.details.user})[0].email || 'Not set' }}
-								{{ (users | filter:{_id: curInvoice.details.user})[0].name || '' }}
-								{{ (users | filter:{_id: curInvoice.details.user})[0].surname || '' }}
+								<a ui-sref="r.dashboard.user({id: curUser._id})" title="Go to user details">
+									{{ (users | filter:{_id: curInvoice.details.user})[0].name || '' }}
+									{{ (users | filter:{_id: curInvoice.details.user})[0].surname || '' }}
+									({{ (users | filter:{_id: curInvoice.details.user})[0].email || 'Not set' }})
+								</a>
 							</td>
 						</tr>
 						<tr><td> 			<b>Amount: 			</b></td><td>{{ formatCurrency(curInvoice.totalValue) }}</td></tr>
