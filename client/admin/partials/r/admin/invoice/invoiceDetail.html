@@ -45,6 +45,7 @@
 							<td>
 								<table class="table table-bordered table-condensed table-fluid">
 									<tr>
+										<th>&nbsp;</th>
 										<th>Name</th>
 										<th>Type</th>
 										<th>Effective Dates</th>
@@ -55,6 +56,7 @@
 										<th>Net</th>
 									</tr>
 									<tr ng-repeat="curItem in curInvoice.items">
+										<td><i class="fa fa-minus-circle" aria-hidden="true" ng-click="removeItem()" title="Remove this item" style="cursor:pointer;"></i></td>
 										<td><span editable-text="curItem.name">{{curItem.name}}</span></td>
 										<td><span editable-text="curItem.type">{{curItem.type}}</span></td>
 										<td>{{curItem.between}}</td>
