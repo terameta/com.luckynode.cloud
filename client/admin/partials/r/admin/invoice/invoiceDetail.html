@@ -32,6 +32,10 @@
 						<tr><td> 			<b>Amount: 			</b></td><td>{{ formatCurrency(curInvoice.totalValue) }}</td></tr>
 						<tr><td>			<b>Status: 			</b></td><td><span editable-text="curInvoice.details.status">{{ curInvoice.details.status }}</span></td></tr>
 						<tr><td>			<b>Date: 			</b></td><td>{{ formatDate(curInvoice.details.date) }} 		</td></tr>
+						<tr>
+							<td><b>Date: </b></td>
+							<td><span editable-combodate="curInvoice.details.date" e-max-year="2100">{{ (curInvoice.details.date | date:"yyyy-MM-dd HH:mm:ss Z") || 'empty' }}</span></td>
+						</tr>
 						<tr><td>			<b>To: 				</b></td><td>{{ curInvoice.details.to }} 					</td></tr>
 						<tr><td>			<b>Address: 		</b></td><td><pre style="background:transparent;border:0;padding:0;margin:0">{{ curInvoice.details.toAddress }}</pre></td></tr>
 						<tr><td>			<b>E-Mail Address: 	</b></td><td>{{ curInvoice.details.toEmail }} 				</td></tr>
