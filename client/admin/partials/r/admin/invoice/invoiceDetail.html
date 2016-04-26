@@ -36,6 +36,7 @@
 						<tr>
 							<td><b>Date: </b></td>
 							<td><span editable-combodate="curInvoice.details.date" e-max-year="2100">{{ (curInvoice.details.date | date:"yyyy-MM-Do HH:mm:ss Z") || 'empty' }}</span></td>
+							<td><span editable-combodate="curInvoice.details.date" e-max-year="2100">{{ (curInvoice.details.date | formatDate) || 'empty' }}</span></td>
 						</tr>
 						<tr><td>			<b>To: 				</b></td><td>{{ curInvoice.details.to }} 					</td></tr>
 						<tr><td>			<b>Address: 		</b></td><td><pre style="background:transparent;border:0;padding:0;margin:0">{{ curInvoice.details.toAddress }}</pre></td></tr>
