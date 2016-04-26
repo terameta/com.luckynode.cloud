@@ -84,7 +84,6 @@ angular.module('adminControllers').controller('invoiceController', ['$scope', '$
 		$scope.reAssignDetails = function(invoice){
 			$scope.users.forEach(function(curUser){
 				if(curUser._id == $scope.curInvoice.details.user){
-					console.log(curUser);
 					if(curUser.name && curUser.surname){
 						$scope.curInvoice.details.to = curUser.name + ' ' + curUser.surname;
 					} else {
@@ -100,7 +99,6 @@ angular.module('adminControllers').controller('invoiceController', ['$scope', '$
 		};
 
 		$scope.recalculateInvoice = function(invoice){
-			console.log(invoice.items);
 			invoice.priceTotal = 0;
 			invoice.discountTotal = 0;
 			invoice.netTotal = 0;
