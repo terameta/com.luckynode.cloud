@@ -57,7 +57,6 @@
 									<tr ng-repeat="curItem in curInvoice.items">
 										<td><span editable-text="curItem.name">{{curItem.name}}</span></td>
 										<td><span editable-text="curItem.type">{{curItem.type}}</span></td>
-										<td>{{curItem.type}}</td>
 										<td>{{curItem.between}}</td>
 										<td align="right"><span editable-text="curInvoice.items[$index].price">{{formatCurrency(curItem.price)}}</span></td>
 										<td align="right"><span editable-text="curInvoice.items[$index].discount">{{formatCurrency(curItem.discount)}}</span></td>
