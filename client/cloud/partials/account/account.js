@@ -90,8 +90,8 @@ angular.module('cloudControllers').controller('ctrlAccount', ['$scope', '$http',
 			console.log($("#expMonth").val(), $("#expYear").val());
 			console.log(typeof parseInt($("#expMonth").val(),10), typeof parseInt($("#expYear").val(),10));
 			console.log(parseInt($("#expMonth").val(),10), parseInt($("#expYear").val(),10));
-			if(!$("#expMonth").val()){ 	$scope.ccDetails.info = '<i class="fa fa-times fa-fw"></i> Please select an expiry month for the card.'; return false; }
-			if(!$("#expYear").val()){ 		$scope.ccDetails.info = '<i class="fa fa-times fa-fw"></i> Please select an expiry month for the card.'; return false; }
+			if(isNaN(parseInt($("#expMonth").val(),10))){ 	$scope.ccDetails.info = '<i class="fa fa-times fa-fw"></i> Please select an expiry month for the card.'; return false; }
+			if(isNaN(parseInt($("#expYear").val(),10))){ 	$scope.ccDetails.info = '<i class="fa fa-times fa-fw"></i> Please select an expiry year for the card.'; return false; }
 			return false;
 			$scope.submitCCdisabled = true;
 			$scope.ccDetails.info = '<i class="fa fa-circle-o-notch fa-spin"></i> Please wait validating...';
