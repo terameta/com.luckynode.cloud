@@ -63,7 +63,6 @@ angular.module('cloudControllers').controller('ctrlAccount', ['$scope', '$http',
 		for(var i = 0; i < 50; i++){
 			$scope.ccYears.push(moment().add(i, 'year').year());
 		}
-		console.log($scope.ccYears);
 
 		$scope.ccMonths = [
 			{value:'01', name:'Jan'},
@@ -84,7 +83,6 @@ angular.module('cloudControllers').controller('ctrlAccount', ['$scope', '$http',
 			expMonth: '01',
 			expYear: moment().year()
 		};
-		console.log($scope.ccMonths);
 
 		$scope.submitCC = function(){
 			if(isNaN(parseInt($("#expMonth").val(),10))){ 	$scope.ccDetails.info = '<i class="fa fa-times fa-fw"></i> Please select an expiry month for the card.'; return false; }
