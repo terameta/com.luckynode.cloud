@@ -47,6 +47,7 @@ module.exports = function(app, express, db, tools) {
 		} else {
 			var curid = req.body._id;
 			delete req.body._id;
+			req.body.details.user = mongojs.ObjectId(req.body.details.user);
 			console.log(req.body);
 			console.log(curid);
 			db.invoices.update({_id: parseInt(curid,10)}, {$set:req.body}, function(err, data){
