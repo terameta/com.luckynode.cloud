@@ -88,6 +88,7 @@ angular.module('adminControllers').controller('invoiceController', ['$scope', '$
 					if(curUser.address) $scope.curInvoice.details.toAddress = curUser.address;
 					if(curUser.city) $scope.curInvoice.details.toAddress += " / " + curUser.city;
 					if(curUser.country) $scope.curInvoice.details.toAddress += " / " + curUser.country;
+					$scope.curInvoice.details.toEmail = curUser.email;
 				}
 			});
 		};
