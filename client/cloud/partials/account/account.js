@@ -80,6 +80,8 @@ angular.module('cloudControllers').controller('ctrlAccount', ['$scope', '$http',
 			{value:'12', name:'Dec'}
 		];
 
+		$scope.ccDetails.expMonth = '01';
+		$scope.ccDetails.expYear = moment().year();
 		console.log($scope.ccMonths);
 
 		$scope.submitCC = function(){
