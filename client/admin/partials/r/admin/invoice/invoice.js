@@ -91,7 +91,7 @@ angular.module('adminControllers').controller('invoiceController', ['$scope', '$
 		};
 
 		$scope.addItem = function(){
-			$scope.curInvoice.items.push({name:'Please edit this item'});
+			$scope.curInvoice.items.push({name:'Please edit this item', multiplier:1});
 		};
 
 		$scope.formatCurrency = function(value){
