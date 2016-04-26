@@ -65,9 +65,8 @@ module.exports = function(app, express, db, tools) {
 
 	apiRoutes.post('/', tools.checkToken, function(req, res){
 		invoiceModule.getNextInvoiceNumber().
-		then(function(result){
-			res.send(result.invoicenumber);
-		}).fail(function(issue){
+		then(res.send).
+		fail(function(issue){
 			res.status(500).json({ status: "fail", message: issue});
 		});
 	});
