@@ -19,6 +19,7 @@
 				<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
 					<tbody>
 						<tr><td width="120"><b>Number: 			</b></td><td>{{ curInvoice._id }}</td></tr>
+						<tr><td> 			<b>User: 			</b></td><td>{{ curInvoice.user }}</td></tr>
 						<tr><td> 			<b>Amount: 			</b></td><td>{{ formatCurrency(curInvoice.totalValue) }}</td></tr>
 						<tr><td>			<b>Status: 			</b></td><td><span editable-text="curInvoice.details.status">{{ curInvoice.details.status }}</span></td></tr>
 						<tr><td>			<b>Date: 			</b></td><td>{{ formatDate(curInvoice.details.date) }} 		</td></tr>
