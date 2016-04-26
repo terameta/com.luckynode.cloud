@@ -56,7 +56,7 @@
 										<th>Net</th>
 									</tr>
 									<tr ng-repeat="curItem in curInvoice.items">
-										<td><i class="fa fa-minus-circle" aria-hidden="true" ng-click="removeItem()" title="Remove this item" style="cursor:pointer;"></i></td>
+										<td><i class="fa fa-minus-circle" aria-hidden="true" ng-click="removeItem($index)" title="Remove this item" style="cursor:pointer;"></i></td>
 										<td><span editable-text="curItem.name">{{curItem.name}}</span></td>
 										<td><span editable-text="curItem.type">{{curItem.type}}</span></td>
 										<td>{{curItem.between}}</td>

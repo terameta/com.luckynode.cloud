@@ -94,6 +94,10 @@ angular.module('adminControllers').controller('invoiceController', ['$scope', '$
 			$scope.curInvoice.items.push({name:'Please edit this item', multiplier:1});
 		};
 
+		$scope.removeItem = function(curIndex){
+			console.log(curIndex);
+		};
+
 		$scope.formatCurrency = function(value){
 			return '$' + parseFloat(value).toFixed(2);
 		};
