@@ -68,6 +68,7 @@ module.exports = function(app, express, refdb, tools) {
 	apiRoutes.post('/', tools.checkToken, function(req, res){
 		console.log("We reached 1");
 		invoiceModule.getNextInvoiceNumber().
+		then(invoiceModule.createEmptyInvoice).
 		then(function(result){
 			res.json(result);
 		}).fail(function(issue){

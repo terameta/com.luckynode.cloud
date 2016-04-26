@@ -38,10 +38,12 @@ function getNextInvoiceNumber(tokenObject){
 function createEmptyInvoice(tokenObject){
 	var deferred = Q.defer();
 	if(!tokenObject){ deferred.reject("No invoice ID is provided"); return deferred.promise; }
+	console.log("We are creating the invoice");
 	db.invoices.insert({_id:parseInt(tokenObject.invoicenumber, 10)}, function(err, result){
 		if(err){
 			deferred.reject(err);
 		} else {
+			console.log(result);
 			deferred.resolve(tokenObject);
 		}
 	});
