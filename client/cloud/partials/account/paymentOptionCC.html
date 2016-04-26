@@ -20,6 +20,11 @@
 			</div>
 			<div class="row">
 				<div class="input-group">
+					<!--span class="input-group-addon" style="padding:0;border:0">
+						<select name="repeatSelect" id="repeatSelect" ng-model="data.repeatSelect">
+							<option ng-repeat="option in data.availableOptions" value="{{option.id}}">{{option.name}}</option>
+						</select>
+					</span-->
 					<span class="input-group-addon" style="padding:0;border:0"><input type="text" ng-model="ccDetails.expMonth" class="form-control" id="expMonth" placeholder="MM" ng-disabled="submitCCdisabled" required /></span>
 					<span class="input-group-addon" style="padding:0;border:0"><input type="text" ng-model="ccDetails.expYear" class="form-control" id="expYear" placeholder="YYYY" ng-disabled="submitCCdisabled" required /></span>
 					<span class="input-group-addon" style="padding:0;border:0"><input type="text" ng-model="ccDetails.cvv" class="form-control" id="cvv" placeholder="CVV/CVC" ng-disabled="submitCCdisabled" required /></span>

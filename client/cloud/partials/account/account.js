@@ -83,6 +83,8 @@ angular.module('cloudControllers').controller('ctrlAccount', ['$scope', '$http',
 		console.log($scope.ccMonths);
 
 		$scope.submitCC = function(){
+			console.log($("#expMonth").val(), $("#expYear").val());
+			return false;
 			$scope.submitCCdisabled = true;
 			$scope.ccDetails.info = '<i class="fa fa-circle-o-notch fa-spin"></i> Please wait validating...';
 			TCO.loadPubKey('production', $scope.submitCCTokenRequest);
