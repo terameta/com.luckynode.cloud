@@ -89,7 +89,6 @@ angular.module('cloudControllers').controller('ctrlAccount', ['$scope', '$http',
 		$scope.submitCC = function(){
 			if(isNaN(parseInt($("#expMonth").val(),10))){ 	$scope.ccDetails.info = '<i class="fa fa-times fa-fw"></i> Please select an expiry month for the card.'; return false; }
 			if(isNaN(parseInt($("#expYear").val(),10))){ 	$scope.ccDetails.info = '<i class="fa fa-times fa-fw"></i> Please select an expiry year for the card.'; return false; }
-			$scope.ccDetails.info = '';
 			$scope.submitCCdisabled = true;
 			$scope.ccDetails.info = '<i class="fa fa-circle-o-notch fa-spin"></i> Please wait validating...';
 			TCO.loadPubKey('production', $scope.submitCCTokenRequest);
