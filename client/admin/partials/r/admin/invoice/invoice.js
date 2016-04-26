@@ -79,7 +79,11 @@ angular.module('adminControllers').controller('invoiceController', ['$scope', '$
 			$scope.users.forEach(function(curUser){
 				if(curUser._id == $scope.curInvoice.details.user){
 					console.log(curUser);
-					if(curUser.name && curUser.surname) $scope.curInvoice.details.to = curUser.name + ' ' + curUser.surname;
+					if(curUser.name && curUser.surname){
+						$scope.curInvoice.details.to = curUser.name + ' ' + curUser.surname;
+					} else {
+						$scope.curInvoice.details.to = curUser.email;
+					}
 					if(curUser.payto) $scope.curInvoice.details.payTo = curUser.payto;
 					if(curUser.address) $scope.curInvoice.details.toAddress = curUser.address;
 					if(curUser.city) $scope.curInvoice.details.toAddress += " / " + curUser.city;
