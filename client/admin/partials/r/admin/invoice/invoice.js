@@ -57,8 +57,8 @@ angular.module('adminServices').service('srvcInvoice', ['$resource', '$rootScope
 	}
 ]);
 
-angular.module('adminControllers').controller('invoiceController', ['$scope', '$rootScope', 'srvcInvoice', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage', 'srvcUser',
-	function($scope, $rootScope, srvcInvoice, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage, srvcUser){
+angular.module('adminControllers').controller('invoiceController', ['$scope', '$rootScope', 'srvcInvoice', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage', 'srvcUsers',
+	function($scope, $rootScope, srvcInvoice, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage, srvcUsers){
 		var lnToastr = toastr;
 
 		srvcInvoice.fetchAll();
