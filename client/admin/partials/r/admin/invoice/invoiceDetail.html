@@ -22,7 +22,7 @@
 						<tr>
 							<td> 			<b>User: 			</b></td>
 							<td>
-								<a ui-sref="r.dashboard.user({id: curUser._id})" title="Go to user details">
+								<a ui-sref="r.dashboard.user({id: curInvoice.details.user})" title="Go to user details">
 									{{ (users | filter:{_id: curInvoice.details.user})[0].name || '' }}
 									{{ (users | filter:{_id: curInvoice.details.user})[0].surname || '' }}
 									({{ (users | filter:{_id: curInvoice.details.user})[0].email || 'Not set' }})
