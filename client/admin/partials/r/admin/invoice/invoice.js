@@ -65,12 +65,17 @@ angular.module('adminControllers').controller('invoiceController', ['$scope', '$
 		if($stateParams.id){ srvcInvoice.fetchOne($stateParams.id);	}
 
 		$scope.saveInvoice = function(){
+			$scope.recalculateInvoice($scope.curInvoice);
 			$scope.curInvoice.$update(function(result){
-			//	srvcInvoice.fetchAll();
-			//	srvcInvoice.fetchOne($stateParams.id);
+				srvcInvoice.fetchAll();
+				srvcInvoice.fetchOne($stateParams.id);
 			}, function(error){
 				lnToastr.error(error);
 			});
+		};
+
+		$scope.recalculateInvoice = function(invoice){
+			console.log(invoice.items);
 		};
 
 		$scope.formatCurrency = function(value){
