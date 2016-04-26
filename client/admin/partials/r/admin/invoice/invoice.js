@@ -95,6 +95,7 @@ angular.module('adminControllers').controller('invoiceController', ['$scope', '$
 		};
 
 		$scope.removeItem = function(curIndex){
+			$scope.curInvoice.items.splice(curIndex,1);
 			console.log(curIndex);
 		};
 
