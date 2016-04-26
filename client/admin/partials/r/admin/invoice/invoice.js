@@ -104,6 +104,7 @@ angular.module('adminControllers').controller('invoiceController', ['$scope', '$
 			invoice.priceTotal = 0;
 			invoice.discountTotal = 0;
 			invoice.netTotal = 0;
+			if(!invoice.items) invoice.items = [];
 			invoice.items.forEach(function(curItem){
 				curItem.finalPrice = curItem.price * curItem.multiplier;
 				curItem.finalDiscount = curItem.discount * curItem.multiplier;
@@ -116,6 +117,7 @@ angular.module('adminControllers').controller('invoiceController', ['$scope', '$
 		};
 
 		$scope.addItem = function(){
+			if(!$scope.curInvoice.items) $scope.curInvoice.items = [];
 			$scope.curInvoice.items.push({name:'Please edit this item', multiplier:1});
 		};
 
