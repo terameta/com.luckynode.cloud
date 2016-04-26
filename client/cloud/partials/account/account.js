@@ -88,7 +88,8 @@ angular.module('cloudControllers').controller('ctrlAccount', ['$scope', '$http',
 
 		$scope.submitCC = function(){
 			console.log($("#expMonth").val(), $("#expYear").val());
-			console.log(typeof $("#expMonth").val(), typeof $("#expYear").val());
+			console.log(typeof parseInt($("#expMonth").val(),10), typeof parseInt($("#expYear").val(),10));
+			console.log(parseInt($("#expMonth").val(),10), parseInt($("#expYear").val(),10));
 			if(!$("#expMonth").val()){ 	$scope.ccDetails.info = '<i class="fa fa-times fa-fw"></i> Please select an expiry month for the card.'; return false; }
 			if(!$("#expYear").val()){ 		$scope.ccDetails.info = '<i class="fa fa-times fa-fw"></i> Please select an expiry month for the card.'; return false; }
 			return false;
