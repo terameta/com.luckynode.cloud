@@ -76,7 +76,7 @@ angular.module('adminControllers').controller('invoiceController', ['$scope', '$
 		};
 
 		$scope.newInvoice = function(){
-			srvcInvoice.save({}, function(result){
+			srvcInvoice.resource.save({}, function(result){
 				console.log(result);
 			});
 		};
