@@ -22,6 +22,7 @@
 						<tr>
 							<td> 			<b>User: 			</b></td>
 							<td>
+								<span editable-select="curInvoice.details.user" e-ng-options="user._id as user.name+' '+user.surname+' ('+user.email+')' for user in users">
 								<a ui-sref="r.dashboard.user({id: curInvoice.details.user})" title="Go to user details">
 									{{ (users | filter:{_id: curInvoice.details.user})[0].name || '' }}
 									{{ (users | filter:{_id: curInvoice.details.user})[0].surname || '' }}
