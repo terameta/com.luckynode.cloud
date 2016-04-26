@@ -1,7 +1,9 @@
 var commander;
 var invoiceModule;
+var db;
 
-module.exports = function(app, express, db, tools) {
+module.exports = function(app, express, refdb, tools) {
+	db = refdb;
 	var mongojs 		= require('mongojs');
 	commander 		= require('../tools/tools.node.commander.js')(db);
 	invoiceModule 	= require('../modules/module.invoice.js')(db);

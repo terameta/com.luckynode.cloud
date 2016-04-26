@@ -15,7 +15,8 @@ module.exports = function(refdb){
 		list							: list,
 		getUserBalance 			: getUserBalance,
 		fetchOne						: fetchOne,
-		getNextInvoiceNumber 	: getNextInvoiceNumber
+		getNextInvoiceNumber 	: getNextInvoiceNumber,
+		createEmptyInvoice		: createEmptyInvoice
 	};
 	return module;
 };
@@ -25,10 +26,22 @@ function getNextInvoiceNumber(tokenObject){
 	var deferred = Q.defer();
 	db.counters.findAndModify({ query: { _id: 'invoicenumber' }, update: { $inc: { seq: 1 } }, new: true }, function(err, result){
 		if(err){
-			console.log("DB issue:", err);
 			deferred.reject(err);
 		} else {
 			tokenObject.invoicenumber = result.seq;
+			deferred.resolve(tokenObject);
+		}
+	});
+	return deferred.promise;
+}
+
+function createEmptyInvoice(tokenObject){
+	var deferred = Q.defer();
+	if(!tokenObject){ deferred.reject("No invoice ID is provided"); return deferred.promise; }
+	db.invoices.insert({_id:parseInt(tokenObject.invoicenumber, 10)}, function(err, result){
+		if(err){
+			deferred.reject(err);
+		} else {
 			deferred.resolve(tokenObject);
 		}
 	});
