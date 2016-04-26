@@ -66,11 +66,18 @@ angular.module('adminControllers').controller('invoiceController', ['$scope', '$
 
 		$scope.saveInvoice = function(){
 			$scope.recalculateInvoice($scope.curInvoice);
+			$scope.reAssignDetails($scope.curInvoice);
 			$scope.curInvoice.$update(function(result){
 				srvcInvoice.fetchAll();
 				srvcInvoice.fetchOne($stateParams.id);
 			}, function(error){
 				lnToastr.error(error);
+			});
+		};
+
+		$scope.reAssignDetails = function(invoice){
+			$scope.users.forEach(function(curUser){
+				console.log(curUser);
 			});
 		};
 
