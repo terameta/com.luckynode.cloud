@@ -25,6 +25,7 @@ function getNextInvoiceNumber(tokenObject){
 	var deferred = Q.defer();
 	db.counters.findAndModify({ query: { _id: 'invoicenumber' }, update: { $inc: { seq: 1 } }, new: true }, function(err, result){
 		if(err){
+			console.log("DB issue:", err);
 			deferred.reject(err);
 		} else {
 			tokenObject.invoicenumber = result.seq;
