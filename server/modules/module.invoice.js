@@ -11,13 +11,28 @@ module.exports = function(refdb){
 	templateModule = require("../modules/module.template.js")(db);
 	tools = require("../tools/tools.main.js")(db);
 	var module = {
-		startProcess	: startProcess,
-		list				: list,
-		getUserBalance : getUserBalance,
-		fetchOne			: fetchOne
+		startProcess				: startProcess,
+		list							: list,
+		getUserBalance 			: getUserBalance,
+		fetchOne						: fetchOne,
+		getNextInvoiceNumber 	: getNextInvoiceNumber
 	};
 	return module;
 };
+
+function getNextInvoiceNumber(tokenObject){
+	if(!tokenObject) tokenObject = {};
+	var deferred = Q.defer();
+	db.counters.findAndModify({ query: { _id: 'invoicenumber' }, update: { $inc: { seq: 1 } }, new: true }, function(err, result){
+		if(err){
+			deferred.reject(err);
+		} else {
+			tokenObject.invoicenumber = result.seq;
+			deferred.resolve(tokenObject);
+		}
+	});
+	return deferred.promise;
+}
 
 function getUserBalance(refObj){
 	var deferred = Q.defer();

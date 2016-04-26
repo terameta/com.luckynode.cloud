@@ -1,8 +1,10 @@
 var commander;
+var invoiceModule;
 
 module.exports = function(app, express, db, tools) {
 	var mongojs 		= require('mongojs');
-	commander 	= require('../tools/tools.node.commander.js')(db);
+	commander 		= require('../tools/tools.node.commander.js')(db);
+	invoiceModule 	= require('../modules/module.invoice.js')(db);
 	var apiRoutes = express.Router();
 
 	apiRoutes.get('/', tools.checkToken, function(req, res) {
@@ -60,29 +62,15 @@ module.exports = function(app, express, db, tools) {
 			});
 		}
 	});
-/*
-	apiRoutes.post('/', tools.checkToken, function(req, res) {
-		if (!req.body) {
-			res.status(400).json({ status: "fail", detail: "no data provided" });
-		} else if (!req.body.name) {
-			res.status(400).json({ status: "fail", detail: "storage should at least have a name" });
-		} else {
-			var curNewDC = req.body;
-			//curNewDC.name = req.body.name;
-			db.isofiles.insert(curNewDC, function(err, data) {
-				if (err) {
-					res.status(500).json({ status: "fail" });
-				}
-				else {
-					res.send(data);
-				}
-			});
-		}
+
+	apiRoutes.post('/', tools.checkToken, function(req, res){
+		invoiceModule.getNextInvoiceNumber().
+		then(function(result){
+			res.send(result.invoicenumber);
+		}).fail(function(issue){
+			res.status(500).json({ status: "fail", message: issue});
+		});
 	});
 
-
-
-
-*/
 	app.use('/api/invoice', apiRoutes);
 };

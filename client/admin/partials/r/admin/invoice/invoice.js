@@ -75,6 +75,12 @@ angular.module('adminControllers').controller('invoiceController', ['$scope', '$
 			});
 		};
 
+		$scope.newInvoice = function(){
+			srvcInvoice.save({}, function(result){
+				console.log(result);
+			});
+		};
+
 		$scope.reAssignDetails = function(invoice){
 			$scope.users.forEach(function(curUser){
 				if(curUser._id == $scope.curInvoice.details.user){
