@@ -59,6 +59,12 @@ angular.module('cloudControllers').controller('ctrlAccount', ['$scope', '$http',
 			return moment(value).format('Do MMMM, YYYY - HH:mm');
 		};
 
+		$scope.ccYears = [];
+		for(var i = 0; i < 50; i++){
+			$scope.ccYears.push(moment().add(i, 'year').year());
+		}
+		console.log($scope.ccYears);
+
 		$scope.submitCC = function(){
 			$scope.submitCCdisabled = true;
 			$scope.ccDetails.info = '<i class="fa fa-circle-o-notch fa-spin"></i> Please wait validating...';
