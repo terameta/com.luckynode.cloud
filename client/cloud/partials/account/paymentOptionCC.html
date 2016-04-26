@@ -21,12 +21,12 @@
 			<div class="row">
 				<div class="input-group">
 					<span class="input-group-addon" style="padding:0;border:0">
-						<select name="expMonth" id="expMonth" class="form-control" ng-model="ccDetails.expMonth">
+						<select name="expMonth" id="expMonth" class="form-control" ng-model="ccDetails.expMonth" required>
 							<option ng-repeat="month in ccMonths" value="{{month.value}}">{{month.name}}</option>
 						</select>
 					</span>
 					<span class="input-group-addon" style="padding:0;border:0">
-						<select name="expYear" id="expYear" class="form-control" ng-model="ccDetails.expYear">
+						<select name="expYear" id="expYear" class="form-control" ng-model="ccDetails.expYear" required>
 							<option ng-repeat="year in ccYears" value="{{year}}">{{year}}</option>
 						</select>
 					</span>
