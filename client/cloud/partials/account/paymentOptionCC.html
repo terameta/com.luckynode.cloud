@@ -21,12 +21,17 @@
 			<div class="row">
 				<div class="input-group">
 					<span class="input-group-addon" style="padding:0;border:0">
-						<select name="expMonth" id="expMonth">
+						<select name="expMonth" id="expMonth" class="form-control" ng-model="ccDetails.expMonth">
 							<option ng-repeat="month in ccMonths" value="{{month.value}}">{{month.name}}</option>
 						</select>
 					</span>
+					<span class="input-group-addon" style="padding:0;border:0">
+						<select name="expYear" id="expYear" class="form-control" ng-model="ccDetails.expYear">
+							<option ng-repeat="year in ccYears" value="{{year}}">{{year}}</option>
+						</select>
+					</span>
 					<!--span class="input-group-addon" style="padding:0;border:0"><input type="text" ng-model="ccDetails.expMonth" class="form-control" id="expMonth" placeholder="MM" ng-disabled="submitCCdisabled" required /></span-->
-					<span class="input-group-addon" style="padding:0;border:0"><input type="text" ng-model="ccDetails.expYear" class="form-control" id="expYear" placeholder="YYYY" ng-disabled="submitCCdisabled" required /></span>
+					<!--span class="input-group-addon" style="padding:0;border:0"><input type="text" ng-model="ccDetails.expYear" class="form-control" id="expYear" placeholder="YYYY" ng-disabled="submitCCdisabled" required /></span-->
 					<span class="input-group-addon" style="padding:0;border:0"><input type="text" ng-model="ccDetails.cvv" class="form-control" id="cvv" placeholder="CVV/CVC" ng-disabled="submitCCdisabled" required /></span>
 				</div>
 			</div>
