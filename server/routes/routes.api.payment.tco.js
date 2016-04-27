@@ -209,6 +209,7 @@ function fixUsers(cObject){
 					}
 				});
 			} else {
+				console.log("User's payemails are NOT updated:", curUser._id);
 				deferred.resolve();
 			}
 		});
