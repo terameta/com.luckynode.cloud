@@ -178,6 +178,7 @@ function transposeTCO(cObject){
 		curTrx.fullDetail.sale.invoices.forEach(function(curInvoice){
 			curInvoice.customer_email = curTrx.fullDetail.sale.customer.email_address;
 			curInvoice.pay_method = curTrx.fullDetail.sale.customer.pay_method;
+			console.log(curInvoice.invoice_id, " will be recalculated");
 			curInvoice.calculatedTotal = 0;
 			curInvoice.lineItems.forEach(function(curLineItem){
 				if(curLineItem.status == "bill"){
