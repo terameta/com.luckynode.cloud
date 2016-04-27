@@ -192,14 +192,31 @@ function keySorter(key,desc) {
 }
 
 function fixUsers(cObject){
-	var deferred = Q.defer();
+	var promises = [];
+	var topDeferred = Q.defer();
 	db.users.find(function(err, users){
 		users.forEach(function(curUser){
+			var deferred = Q.defer();
+			promises.push(deferred.promise);
+			if(!curUser.payemails){
+				curUser.payemails = [curUser.email];
+				db.users.update({_id:mongojs.ObjectId(curUser._id)}, {$set:{payemails:curUser.payemails}}, function(err, uResult){
+					if(err){
+						deferred.reject(err);
+					} else {
+						console.log("User updated:", curUser._id);
+						deferred.resolve();
+					}
+				});
+			} else {
+				deferred.resolve();
+			}
 			console.log(curUser);
 			deferred.resolve(cObject);
 		});
 	});
-	return deferred.promise;
+	Q.all(promises).then(function(){topDeferred.resolve(cObject)}).fail(topDeferred.reject);
+	return topDeferred.promise;
 }
 
 function getUser(cObject){
