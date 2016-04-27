@@ -98,7 +98,7 @@ angular.module('adminControllers').controller('transactionController', ['$scope'
 
 		$scope.list2CO = function(){
 			$http.get('/api/payment/tco/list').then(function(result){
-				$scope.listof2CO = result;
+				$scope.listof2CO = result.data;
 			}, function(issue){
 				console.log(issue);
 			});
