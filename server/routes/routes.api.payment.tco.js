@@ -136,9 +136,6 @@ function listTCO(cObject, listPage){
 				console.log("There are more records to come");
 				deferred.resolve(listTCO(cObject, ++listPage));
 			} else {
-				cObject.transactionList.forEach(function(curTrx){
-					detailTCO(cObject, curTrx.sale_id);
-				});
 				deferred.resolve(detailTCO(cObject));
 			}
 		}
