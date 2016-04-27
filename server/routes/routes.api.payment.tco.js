@@ -192,7 +192,8 @@ function transposeTCO(cObject){
 			} else {
 				curInvoice.calculatedFee = parseFloat(curInvoice.fees_2co);
 			}
-			cObject.invoiceList.push(curInvoice);
+			console.log(curInvoice.invoice_id, curInvoice.calculatedTotal, curInvoice.calculatedFee);
+			cObject.invoiceList.push(curInvoice);)
 		});
 	});
 	cObject.invoiceList.sort(keySorter("customer_name", false));
