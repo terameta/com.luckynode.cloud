@@ -54,6 +54,35 @@
 				</uib-tab>
 				<uib-tab index="1" heading="2CO">
 					<button type="button" class="btn btn-default btn-md" ng-click="list2CO()">Get List From 2CO Server</button>
+					<table class="table table-striped table-bordered table-hover">
+						<thead>
+							<tr>
+								<th>Customer Name</th>
+								<th>Date Placed</th>
+								<th>Decline Code</th>
+								<th>isRecurring</th>
+								<th>Recurring Declined</th>
+								<th>Sale ID</th>
+								<th>USD Total</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat-start="sale in listof2CO">
+								<td>{{sale.customer_name}}</td>
+								<td>{{sale.date_placed}}</td>
+								<td>{{sale.decline_code}}</td>
+								<td>{{sale.recurring}}</td>
+								<td>{{sale.recurring_declined}}</td>
+								<td>{{sale.sale_id}}</td>
+								<td>{{sale.usd_total}}</td>
+							</tr>
+							<tr ng-repeat-end>
+								<td colspan="100">
+									<pre>{{sale.fullDetail | json}}</pre>
+								</td>
+							</tr>
+						</tbody>
+					</table>
 					<pre>{{listof2CO.length}}</pre>
 					<pre>{{listof2CO | json}}</pre>
 				</uib-tab>
