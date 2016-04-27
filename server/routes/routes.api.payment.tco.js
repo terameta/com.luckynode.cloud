@@ -139,25 +139,28 @@ function listTCO(cObject, listPage){
 				cObject.transactionList.forEach(function(curTrx){
 					detailTCO(cObject, curTrx.sale_id);
 				});
-				deferred.resolve(cObject);
+				deferred.resolve(detailTCO(cObject));
 			}
 		}
 	});
 	return deferred.promise;
 }
 
-function detailTCO(cObject, saleid){
-	var deferred = Q.defer();
-	if(!cObject){ deferred.reject({onFunction:"detailTCO", err:"No Object Passed"}); return deferred.promise;}
-	if(!cObject.tco){ deferred.reject({onFunction:"detailTCO", err:"No TCO detail passed in the object"}); return deferred.promise;}
-	cObject.tco.sales.retrieve({sale_id:saleid}, function(err, data){
-		if(err){
-			console.log("DetailTCO Error:", err);
-		} else {
-			console.log("Sale Detail:", data);
-		}
+function detailTCO(cObject){
+	var promises = [];
+	cObject.transactionList.forEach(function(curTrx){
+		var deferred = Q.defer();
+		promises.push(deferred.promise);
+		cObject.tco.sales.retrieve({sale_id:curTrx.sale_id}, function(err, data){
+			if(err){
+				deferred.reject(err);
+			} else {
+				curTrx.fullDetail = data;
+				deferred.resolve(data);
+			}
+		});
 	});
-	return deferred.promise;
+	return Q.all(promises);
 }
 
 function getUser(cObject){
