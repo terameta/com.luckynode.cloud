@@ -128,8 +128,10 @@ function listTCO(cObject, listPage){
 		if(err){
 			deferred.reject({onFunction:"listTCO", err:err});
 		} else {
-			cObject.transactionList = data;
-			console.log(data.sale_summary);
+			if(!cObject.transactionList) cObject.transactionList = [];
+			cObject.transactionList = cObject.transactionList.concat(data.sale_summary);
+			console.log("Cur Page:", data.page_info.cur_page);
+			console.log("LastPage:", data.page_info.last_page);
 			deferred.resolve(cObject);
 		}
 	});
