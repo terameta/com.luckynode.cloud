@@ -150,6 +150,7 @@ function detailTCO(cObject){
 		promises.push(deferred.promise);
 		cObject.tco.sales.retrieve({sale_id:curTrx.sale_id}, function(err, data){
 			if(err){
+				console.log(err);
 				deferred.reject(err);
 			} else {
 				console.log("Pulled ", curTrx.sale_id, curIndex);
