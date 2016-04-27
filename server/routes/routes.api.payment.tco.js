@@ -204,15 +204,13 @@ function fixUsers(cObject){
 					if(err){
 						deferred.reject(err);
 					} else {
-						console.log("User updated:", curUser._id);
+						console.log("User's payemails are updated:", curUser._id);
 						deferred.resolve();
 					}
 				});
 			} else {
 				deferred.resolve();
 			}
-			console.log(curUser);
-			deferred.resolve(cObject);
 		});
 	});
 	Q.all(promises).then(function(){topDeferred.resolve(cObject)}).fail(topDeferred.reject);
