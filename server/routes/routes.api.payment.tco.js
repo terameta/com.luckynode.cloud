@@ -75,10 +75,11 @@ module.exports = function(app, express, refdb, tools) {
 		getSettings(cObject).
 		then(setTCO).
 		then(listTCO).
+		then(transposeTCO).
 		then(function(result){
 			console.log("We resulted", result);
 			console.log("TRXLIST:", result.transactionList);
-			res.send(result.transactionList);
+			res.send(result.invoiceList);
 		}).
 		fail(function(issue){
 			console.log("We issued");
@@ -165,6 +166,28 @@ function detailTCO(cObject){
 	});
 	Q.all(promises).then(function(){topDeferred.resolve(cObject)}).fail(topDeferred.reject);
 	return topDeferred.promise;
+}
+
+function transposeTCO(cObject){
+	var deferred = Q.defer();
+	cObject.invoiceList = [];
+	cObject.transactionList.forEach(function(curTrx){
+		curTrx.fullDetail.sale.invoices.forEach(function(curInvoice){
+			curInvoice.customer_email = curTrx.fullDetail.sale.customer.email_address;
+			curInvoice.pay_method = curTrx.fullDetail.sale.customer.pay_method;
+			cObject.invoiceList.push(curInvoice);
+		});
+	});
+	cObject.invoiceList.sort(keySorter("date_placed", false));
+	deferred.resolve(cObject);
+	return deferred.promise;
+}
+
+// sort on key values
+function keySorter(key,desc) {
+  return function(a,b){
+   return desc ? ~~(a[key] < b[key]) : ~~(a[key] > b[key]);
+  };
 }
 
 function getUser(cObject){
