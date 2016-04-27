@@ -77,6 +77,8 @@ module.exports = function(app, express, refdb, tools) {
 		then(listTCO).
 		then(transposeTCO).
 		then(fixUsers).
+		then(getUsers).
+		then(matchUsers).
 		then(function(result){
 			//console.log("We resulted", result);
 			//console.log("TRXLIST:", result.transactionList);
@@ -216,6 +218,25 @@ function fixUsers(cObject){
 	});
 	Q.all(promises).then(function(){topDeferred.resolve(cObject)}).fail(topDeferred.reject);
 	return topDeferred.promise;
+}
+
+function getUsers(cObject){
+	var deferred = Q.defer();
+	db.users.find(function(err, users){
+		if(err){
+			deferred.reject(err);
+		} else {
+			cObject.users = users;
+			deferred.resolve(cObject);
+		}
+	});
+	return deferred.promise;
+}
+
+function matchUsers(cObject){
+	var deferred = Q.defer();
+	deferred.resolve(cObject);
+	return deferred.promise;
 }
 
 function getUser(cObject){
