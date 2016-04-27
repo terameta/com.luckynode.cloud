@@ -136,8 +136,25 @@ function listTCO(cObject, listPage){
 				console.log("There are more records to come");
 				deferred.resolve(listTCO(cObject, ++listPage));
 			} else {
+				cObject.transactionList.forEach(function(curTrx){
+					detailTCO(cObject, curTrx.sale_id);
+				});
 				deferred.resolve(cObject);
 			}
+		}
+	});
+	return deferred.promise;
+}
+
+function detailTCO(cObject, saleid){
+	var deferred = Q.defer();
+	if(!cObject){ deferred.reject({onFunction:"detailTCO", err:"No Object Passed"}); return deferred.promise;}
+	if(!cObject.tco){ deferred.reject({onFunction:"detailTCO", err:"No TCO detail passed in the object"}); return deferred.promise;}
+	cObject.tco.sales.retrieve({sale_id:saleid}, function(err, data){
+		if(err){
+			console.log("DetailTCO Error:", err);
+		} else {
+			console.log("Sale Detail:", data);
 		}
 	});
 	return deferred.promise;
