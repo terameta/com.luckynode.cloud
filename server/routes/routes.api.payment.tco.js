@@ -129,7 +129,7 @@ function listTCO(cObject, listPage){
 			deferred.reject({onFunction:"listTCO", err:err});
 		} else {
 			cObject.transactionList = data;
-			console.log(data.page_info.sale_summary);
+			console.log(data.sale_summary);
 			deferred.resolve(cObject);
 		}
 	});
