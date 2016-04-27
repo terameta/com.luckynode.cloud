@@ -76,14 +76,15 @@ module.exports = function(app, express, refdb, tools) {
 		then(setTCO).
 		then(listTCO).
 		then(transposeTCO).
+		then(fixUsers).
 		then(function(result){
-			console.log("We resulted", result);
-			console.log("TRXLIST:", result.transactionList);
+			//console.log("We resulted", result);
+			//console.log("TRXLIST:", result.transactionList);
 			res.send(result.invoiceList);
 		}).
 		fail(function(issue){
-			console.log("We issued");
-			console.log(issue);
+			//console.log("We issued");
+			//console.log(issue);
 			res.status(500).json({status:"fail", message:issue});
 		});
 	});
@@ -158,7 +159,7 @@ function detailTCO(cObject){
 				console.log(err);
 				deferred.reject(err);
 			} else {
-				console.log("Pulled ", curTrx.sale_id, curIndex);
+				//console.log("Pulled ", curTrx.sale_id, curIndex);
 				curTrx.fullDetail = data;
 				deferred.resolve(data);
 			}
@@ -188,6 +189,17 @@ function keySorter(key,desc) {
   return function(a,b){
    return desc ? ~~(a[key] < b[key]) : ~~(a[key] > b[key]);
   };
+}
+
+function fixUsers(cObject){
+	var deferred = Q.defer();
+	db.users.find(function(err, users){
+		users.forEach(function(curUser){
+			console.log(curUser);
+			deferred.resolve(cObject);
+		});
+	});
+	return deferred.promise;
 }
 
 function getUser(cObject){
