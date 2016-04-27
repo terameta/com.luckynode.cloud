@@ -148,13 +148,14 @@ function listTCO(cObject, listPage){
 
 function detailTCO(cObject){
 	var promises = [];
-	cObject.transactionList.forEach(function(curTrx){
+	cObject.transactionList.forEach(function(curTrx, curIndex){
 		var deferred = Q.defer();
 		promises.push(deferred.promise);
 		cObject.tco.sales.retrieve({sale_id:curTrx.sale_id}, function(err, data){
 			if(err){
 				deferred.reject(err);
 			} else {
+				console.log("Pulled ", curTrx.sale_id, curIndex);
 				curTrx.fullDetail = data;
 				deferred.resolve(data);
 			}
