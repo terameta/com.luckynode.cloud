@@ -132,7 +132,12 @@ function listTCO(cObject, listPage){
 			cObject.transactionList = cObject.transactionList.concat(data.sale_summary);
 			console.log("Cur Page:", data.page_info.cur_page);
 			console.log("LastPage:", data.page_info.last_page);
-			deferred.resolve(cObject);
+			if(parseInt(data.page_info.cur_page, 10) < parseInt(data.page_info.lastModifiedDate, 10)){
+				console.log("There are more records to come");
+				deferred.resolve(listTCO(cObject, ++listPage));
+			} else {
+				deferred.resolve(cObject);
+			}
 		}
 	});
 	return deferred.promise;
