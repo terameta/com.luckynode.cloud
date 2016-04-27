@@ -76,7 +76,7 @@ module.exports = function(app, express, refdb, tools) {
 		then(setTCO).
 		then(listTCO).
 		then(function(result){
-			console.log("We resulted");
+			console.log("We resulted", result);
 			res.send(result.transactionList);
 		}).
 		fail(function(issue){
