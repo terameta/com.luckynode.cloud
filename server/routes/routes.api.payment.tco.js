@@ -120,7 +120,7 @@ function setTCO(cObject){
 function listTCO(cObject){
 	var deferred = Q.defer();
 	if(!cObject){ deferred.reject({onFunction:"listTCO", err:"No Object Passed"}); return deferred.promise;}
-	if(!cObject.tco){ deferred.reject({onFunction:"listTCO", err:"No Object Passed"}); return deferred.promise;}
+	if(!cObject.tco){ deferred.reject({onFunction:"listTCO", err:"No TCO detail passed in the object"}); return deferred.promise;}
 
 	cObject.tco.sales.list({pagesize:"100", sort_col:"date_placed", sort_dir:"ASC", cur_page:2}, function(err, data){
 		if(err){
