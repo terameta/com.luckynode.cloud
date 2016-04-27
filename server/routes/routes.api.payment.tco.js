@@ -187,6 +187,11 @@ function transposeTCO(cObject){
 					curInvoice.calculatedTotal -= parseFloat(curLineItem.usd_amount);
 				}
 			});
+			if(curInvoice.calculatedTotal == 0){
+				curInvoice.calculatedFee = 0;
+			} else {
+				curInvoice.calculatedFee = parseFloat(curInvoice.fees_2co);
+			}
 			cObject.invoiceList.push(curInvoice);
 		});
 	});
