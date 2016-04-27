@@ -148,6 +148,7 @@ function listTCO(cObject, listPage){
 
 function detailTCO(cObject){
 	var promises = [];
+	var topDeferred = Q.defer();
 	cObject.transactionList.forEach(function(curTrx, curIndex){
 		var deferred = Q.defer();
 		promises.push(deferred.promise);
@@ -162,7 +163,8 @@ function detailTCO(cObject){
 			}
 		});
 	});
-	return Q.all(promises);
+	Q.all(promises).then(function(){topDeferred.resolve(cObject)}).fail(topDeferred.reject);
+	return topDeferred.promise;
 }
 
 function getUser(cObject){
