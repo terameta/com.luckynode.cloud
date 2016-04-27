@@ -178,6 +178,15 @@ function transposeTCO(cObject){
 		curTrx.fullDetail.sale.invoices.forEach(function(curInvoice){
 			curInvoice.customer_email = curTrx.fullDetail.sale.customer.email_address;
 			curInvoice.pay_method = curTrx.fullDetail.sale.customer.pay_method;
+			curInvoice.calculatedTotal = 0;
+			curInvoice.lineItems.forEach(function(curLineItem){
+				if(curLineItem.status == "bill"){
+					curInvoice.calculatedTotal += parseFloat(curLineItem.usd_amount);
+				}
+				if(curLineItem.status == "refund"){
+					curInvoice.calculatedTotal -= parseFloat(curLineItem.usd_amount);
+				}
+			});
 			cObject.invoiceList.push(curInvoice);
 		});
 	});
