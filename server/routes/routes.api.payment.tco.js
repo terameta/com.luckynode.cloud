@@ -235,6 +235,16 @@ function getUsers(cObject){
 
 function matchUsers(cObject){
 	var deferred = Q.defer();
+	cObject.invoiceList.forEach(function(curInvoice){
+		cObject.users.forEach(function(curUser){
+			curUser.payemails.forEach(function(curemail){
+				if(curemail.toString().toLowerCase() == curInvoice.customer_email.toString().toLowerCase()){
+					curInvoice.userid = curUser._id.toString();
+				}
+			});
+		});
+	});
+	console.log(cObject.transactionList);
 	deferred.resolve(cObject);
 	return deferred.promise;
 }
