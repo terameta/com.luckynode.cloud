@@ -181,7 +181,7 @@ function transposeTCO(cObject){
 			cObject.invoiceList.push(curInvoice);
 		});
 	});
-	cObject.invoiceList.sort(keySorter("date_placed", false));
+	cObject.invoiceList.sort(keySorter("customer_name", false));
 	deferred.resolve(cObject);
 	return deferred.promise;
 }
