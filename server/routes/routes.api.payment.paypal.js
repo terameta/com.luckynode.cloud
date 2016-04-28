@@ -2,7 +2,7 @@ var db;
 var Q					= require('q');
 var mongojs 		= require('mongojs');
 var request 		= require('request');
-var url 				= require('url');
+var querystring 	= require('querystring');
 var invoiceModule;
 
 module.exports = function(app, express, refdb, tools) {
@@ -179,7 +179,7 @@ function listPaypal(cObject, listPage){
 			console.log(body);
 			console.log("=======================================================");
 			console.log("=======================================================");
-			body = url.parse(body);
+			body = querystring.parse(body);
 			console.log(body);
 			console.log("=======================================================");
 			console.log("=======================================================");
