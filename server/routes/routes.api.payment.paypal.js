@@ -177,15 +177,58 @@ function listPaypal(cObject, listDate){
 		} else {
 			console.log("=======================================================");
 			console.log("=======================================================");
-			body = querystring.parse(body, null, null, {maxKeys:0});
+			var result = querystring.parse(body, null, null, {maxKeys:0});
 			/*
 				From official nodejs docs:
 				Options object may contain maxKeys property (equal to 1000 by default), it'll be used to limit processed keys. Set it to 0 to remove key count limitation.
 			*/
-			console.log(body);
+			console.log(result);
 			console.log("=======================================================");
 			console.log("=======================================================");
-			cObject.invoiceList = body;
+			if(!cObject.invoiceList) cObject.invoiceList = [];
+			var curTrx = {};
+			if(result.L_TIMESTAMP){
+				curTrx = {
+					id:result.L_TRANSACTIONID,
+					amount: parseFloat(result.L_AMT),
+					fee: parseFloat(result.L_FEEAMT),
+					net: parseFloat(result.L_NETAMT),
+					currency: result.L_CURRENCYCODE,
+					userid: "pleasefind",
+					detail: result.L_TYPE,
+					status: result.L_STATUS,
+					email: result.L_EMAIL,
+					counterpartname: result.L_NAME,
+					method: "PayPal",
+					date: result.L_TIMESTAMP,
+					feeChecked: true
+				};
+				cObject.invoiceList.push(curTrx);
+			} else if(result.L_TIMESTAMP0){
+				for(var i = 0; i < 100; i++){
+					curTrx = {};
+					curTrx = {
+						id:result["L_TRANSACTIONID"+i],
+						amount: parseFloat(result["L_AMT"+i]),
+						fee: parseFloat(result["L_FEEAMT"+i]),
+						net: parseFloat(result["L_NETAMT"+i]),
+						currency: result["L_CURRENCYCODE"+i],
+						userid: "pleasefind",
+						detail: result["L_TYPE"+i],
+						status: result["L_STATUS"+i],
+						email: result["L_EMAIL"+i],
+						counterpartname: result["L_NAME"+i],
+						method: "PayPal",
+						date: result["L_TIMESTAMP"+i],
+						feeChecked: true
+					};
+					cObject.invoiceList.push(curTrx);
+				}
+			} else {
+
+			}
+
+			cObject.invoiceList = result;
 			console.log(listDate.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z');
 			listDate = listDate.subtract(1,'days');
 			console.log(listDate.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z');
