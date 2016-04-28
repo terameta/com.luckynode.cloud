@@ -164,7 +164,7 @@ function listPaypal(cObject, listPage){
 	});
 
 	var options = {
-		host: 'https://api-3t.paypal.com',
+		host: 'api-3t.paypal.com',
 		//port: '80',
 		path: '/nvp',
 		method: 'POST',
