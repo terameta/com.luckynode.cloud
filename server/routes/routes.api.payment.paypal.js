@@ -155,6 +155,7 @@ function listPaypal(cObject, listPage){
 			console.log(JSON.stringify(payment));
 		}
 	});
+	deferred.reject();
 	/*
 	listPage = listPage || 1;
 	console.log("Currently listing 2CO Page: ", listPage);
