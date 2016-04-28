@@ -155,6 +155,8 @@ function listPaypal(cObject, listDate){
 	if(!cObject){ deferred.reject({onFunction:"listPaypal", err:"No Object Passed"}); return deferred.promise;}
 	if(!cObject.paypal){ deferred.reject({onFunction:"listPaypal", err:"No Paypal detail passed in the object"}); return deferred.promise;}
 	if(!listDate) listDate = moment().add(1,'days').startOf('day');
+	var startdate = listDate.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z';
+	var enddate = listDate.endOf('day').format('YYYY-MM-DDTHH:mm:ss').toString()+'Z';
 
 
 	var data = {
@@ -168,7 +170,8 @@ function listPaypal(cObject, listDate){
 	};
 	console.log("=======================================================");
 	console.log("=======================================================");
-	console.log(listDate.format('YYYY-MM-DDT00:00:00'));
+	console.log(startdate);
+	console.log(enddate);
 	console.log("=======================================================");
 	console.log("=======================================================");
 	deferred.resolve(cObject);
