@@ -206,7 +206,7 @@ function listPaypal(cObject, listDate){
 				cObject.invoiceList.push(curTrx);
 			} else if(result.L_TIMESTAMP0){
 				for(var i = 0; i < 100; i++){
-					if(!result["L_TIMESTAMP"+i]) break;
+					if(!result["L_TIMESTAMP"+i]){ break; }
 					curTrx = {};
 					curTrx = {
 						id:result["L_TRANSACTIONID"+i],
