@@ -176,19 +176,20 @@ function listPaypal(cObject, listDate, listPeriod){
 			console.log("Error: ", err);
 			deferred.reject(err);
 		} else {
-			console.log("=======================================================");
-			console.log("=======================================================");
 			var result = querystring.parse(body, null, null, {maxKeys:0});
 			/*
 				From official nodejs docs:
 				Options object may contain maxKeys property (equal to 1000 by default), it'll be used to limit processed keys. Set it to 0 to remove key count limitation.
 			*/
-			console.log(result);
+			//console.log(result);
 			console.log("=======================================================");
+			console.log(result.ACK);
 			console.log("=======================================================");
 			if(!cObject.invoiceList) cObject.invoiceList = [];
 			var curTrx = {};
-			if(result.L_TIMESTAMP){
+			/*if(result.ACK != "Success"){
+
+			} else */if(result.L_TIMESTAMP){
 				curTrx = {
 					id:result.L_TRANSACTIONID,
 					amount: parseFloat(result.L_AMT),
