@@ -67,6 +67,11 @@ angular.module('adminControllers').controller('userController', ['$scope', '$roo
 			$scope.curUser.payemails.push("");
 		};
 
+		$scope.deletePayEmail = function(curIndex){
+			$scope.curUser.payemails.splice(curIndex,1);
+			$scope.saveUser();
+		};
+
 		$scope.saveUser = function(){
 			$scope.curUser.$update(function(result){
 				lnToastr.success("User is saved");

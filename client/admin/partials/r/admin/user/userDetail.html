@@ -36,7 +36,7 @@
 								<td><b>Pay Emails: 		<i class="fa fa-plus-circle" aria-hidden="true" ng-click="addPayEmail()" title="Add new item" style="cursor:pointer;"></i></b></td>
 								<td>
 									<div ng-repeat="curPayEmail in curUser.payemails">
-										<span editable_text="curPayEmail" e-size="100">{{curPayEmail}}</span>
+										<span editable_text="curPayEmail" e-size="100">{{curPayEmail}}</span><i class="fa fa-minus-circle" aria-hidden="true" ng-click="deletePayEmail($index)" title="Remove this item" style="cursor:pointer;"></i>
 									</div>
 								</td>
 							</tr>
