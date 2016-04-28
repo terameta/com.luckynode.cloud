@@ -20,6 +20,11 @@
 									<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid" style="width: auto;">
 										<tbody>
 											<tr><td width=200><b>Company Name: 		</b></td><td><span editable-text="settings.companyname">{{ settings.companyname }}</span></td></tr>
+											<tr>
+												<td><b>Company Start Date:</b></td>
+												<td>
+													<td><span editable-combodate="settings.companystart" e-max-year="2100">{{ (settings.companystart | date:"dd-MMM-yyyy") || 'empty' }}</span>
+												</td>
 											<tr><td><b>Admin Email Address: 		</b></td><td><span editable-text="settings.adminemail">{{ settings.adminemail }}</span></td></tr>
 											<tr><td><b>Support Email Address: 		</b></td><td><span editable-text="settings.supportemail">{{ settings.supportemail }}</span></td></tr>
 											<tr><td><b>Accounting Email Address: 	</b></td><td><span editable-text="settings.accountingemail">{{ settings.accountingemail }}</span></td></tr>
