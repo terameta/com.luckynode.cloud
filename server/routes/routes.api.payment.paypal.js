@@ -1,7 +1,7 @@
 var db;
 var Q					= require('q');
 var mongojs 		= require('mongojs');
-var http 			= require('http');
+var https 			= require('https');
 var invoiceModule;
 
 module.exports = function(app, express, refdb, tools) {
@@ -165,7 +165,7 @@ function listPaypal(cObject, listPage){
 
 	var options = {
 		host: 'https://api-3t.paypal.com',
-		port: '80',
+		//port: '80',
 		path: '/nvp',
 		method: 'POST',
 		headers: {
@@ -174,7 +174,7 @@ function listPaypal(cObject, listPage){
 		}
 	};
 
-	var req = http.request(options, function(res) {
+	var req = https.request(options, function(res) {
 		var msg = '';
 
 		res.setEncoding('utf8');
