@@ -95,10 +95,10 @@ module.exports = function(app, express, refdb, tools) {
 		getSettings(cObject).
 		then(setPaypal).
 		then(listPaypal).
-		then(transposeTCO).
+	/*	then(transposeTCO).
 		then(fixUsers).
 		then(getUsers).
-		then(matchUsers).
+		then(matchUsers).*/
 		then(function(result){
 			//console.log("We resulted", result);
 			//console.log("TRXLIST:", result.transactionList);
