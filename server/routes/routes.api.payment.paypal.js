@@ -150,12 +150,13 @@ function setPaypal(cObject){
 	return deferred.promise;
 }
 
-function listPaypal(cObject, listDate){
+function listPaypal(cObject, listDate, listPeriod){
 	var deferred = Q.defer();
 	if(!cObject){ deferred.reject({onFunction:"listPaypal", err:"No Object Passed"}); return deferred.promise;}
 	if(!cObject.paypal){ deferred.reject({onFunction:"listPaypal", err:"No Paypal detail passed in the object"}); return deferred.promise;}
 	if(!listDate) listDate = moment().add(1,'days').startOf('day');
-	var startdate = listDate.subtract(30, 'days').startOf('day').format('YYYY-MM-DDTHH:mm:ss').toString()+'Z';
+	if(!listPeriod) listPeriod = 'year';
+	var startdate = listDate.subtract(1, listPeriod).startOf('day').format('YYYY-MM-DDTHH:mm:ss').toString()+'Z';
 	var enddate = listDate.endOf('day').format('YYYY-MM-DDTHH:mm:ss').toString()+'Z';
 	var companystart = moment(cObject.settings.companystart).subtract(1,'days').startOf('day');
 	var shouldContinue = listDate.diff(companystart);
@@ -231,7 +232,7 @@ function listPaypal(cObject, listDate){
 			console.log("Start Date  :", startdate);
 			console.log("End Date    :", enddate);
 			console.log("Should Cont.:", shouldContinue);
-			listDate = listDate.subtract(1,'days');
+			listDate = listDate.subtract(1, listPeriod);
 
 			if(shouldContinue >=0){
 				console.log("We will continue");
