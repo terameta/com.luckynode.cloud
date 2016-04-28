@@ -151,11 +151,12 @@ function listPaypal(cObject, listPage){
 		if (error) {
 			throw error;
 		} else {
+			cObject.invoiceList = payment;
 			console.log("List Payments Response");
 			console.log(JSON.stringify(payment));
+			deferred.resolve(cObject);
 		}
 	});
-	deferred.reject();
 	/*
 	listPage = listPage || 1;
 	console.log("Currently listing 2CO Page: ", listPage);
