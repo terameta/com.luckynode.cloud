@@ -98,10 +98,9 @@ module.exports = function(app, express, refdb, tools) {
 		getSettings(cObject).
 		then(setPaypal).
 		then(listPaypal).
-	/*	then(transposeTCO).
 		then(fixUsers).
 		then(getUsers).
-		then(matchUsers).*/
+		then(matchUsers).
 		then(function(result){
 			//console.log("We resulted", result);
 			//console.log("TRXLIST:", result.transactionList);
@@ -135,7 +134,7 @@ function getSettings(cObject){
 function setPaypal(cObject){
 	var deferred = Q.defer();
 	if(!cObject){ deferred.reject({onFunction:"setPaypal", err:"No Object Passed"}); return deferred.promise;}
-	cObject.paypal = require('paypal-rest-sdk');
+	/*cObject.paypal = require('paypal-rest-sdk');
 	cObject.paypal.configure({
 		'mode': (cObject.settings.paypal.issandbox === 'true' ? 'sandbox' : 'live'),
 		'client_id': cObject.settings.paypal.clientid,
@@ -146,6 +145,7 @@ function setPaypal(cObject){
 	console.log("SetPaypal: ", (cObject.settings.paypal.issandbox === 'true' ? 'sandbox' : 'live'));
 	console.log("=============================================================");
 	console.log("=============================================================");
+	*/
 	deferred.resolve(cObject);
 	return deferred.promise;
 }
@@ -298,6 +298,62 @@ function listPaypal(cObject, listDate, listPeriod){
 			}
 		}
 	});*/
+	return deferred.promise;
+}
+
+function fixUsers(cObject){
+	var promises = [];
+	var topDeferred = Q.defer();
+	db.users.find(function(err, users){
+		users.forEach(function(curUser){
+			var deferred = Q.defer();
+			promises.push(deferred.promise);
+			if(!curUser.payemails){
+				curUser.payemails = [curUser.email];
+				db.users.update({_id:mongojs.ObjectId(curUser._id)}, {$set:{payemails:curUser.payemails}}, function(err, uResult){
+					if(err){
+						deferred.reject(err);
+					} else {
+						console.log("User's payemails are updated:", curUser._id);
+						deferred.resolve();
+					}
+				});
+			} else {
+				console.log("User's payemails are NOT updated:", curUser._id);
+				deferred.resolve();
+			}
+		});
+	});
+	Q.all(promises).then(function(){topDeferred.resolve(cObject)}).fail(topDeferred.reject);
+	return topDeferred.promise;
+}
+
+function getUsers(cObject){
+	var deferred = Q.defer();
+	db.users.find(function(err, users){
+		if(err){
+			deferred.reject(err);
+		} else {
+			cObject.users = users;
+			deferred.resolve(cObject);
+		}
+	});
+	return deferred.promise;
+}
+
+function matchUsers(cObject){
+	var deferred = Q.defer();
+	cObject.invoiceList.forEach(function(curInvoice){
+		cObject.users.forEach(function(curUser){
+			curUser.payemails.forEach(function(curemail){
+				if(curemail.toString().toLowerCase() == curInvoice.email.toString().toLowerCase()){
+					curInvoice.userid = curUser._id.toString();
+				}
+			});
+		});
+	});
+	//console.log(cObject.transactionList);
+	deferred.resolve(cObject);
 	return deferred.promise;
 }
 
