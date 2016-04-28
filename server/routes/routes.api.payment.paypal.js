@@ -165,11 +165,11 @@ function listPaypal(cObject, listDate){
 		PWD:cObject.settings.paypal.password,
 		SIGNATURE:cObject.settings.paypal.signature,
 		METHOD:'TransactionSearch',
-		STARTDATE:startdate,  					//'2015-01-01T00:00:01Z',
-		ENDDATE:enddate, 							//'2015-08-31T05:38:48Z',
+		STARTDATE:/*startdate,  					/*/'2015-01-01T00:00:01Z',
+		ENDDATE:/*enddate, 							/*/'2015-08-31T05:38:48Z',
 		VERSION:94
 	};
-/*
+
 	request.post({url:'https://api-3t.paypal.com/nvp', form: data, gzip: true}, function(err,httpResponse,body){
 		if(err){
 			console.log("Error: ", err);
@@ -185,16 +185,22 @@ function listPaypal(cObject, listDate){
 			console.log("=======================================================");
 			body = querystring.parse(body);
 			console.log(body);
+			console.log(body.TIMESTAMP);
+			console.log(body.CORRELATIONID);
+			console.log(body.ACK);
+			console.log(body.VERSION);
+			console.log(body.BUILD);
 			console.log("=======================================================");
 			console.log("=======================================================");
 			cObject.invoiceList = body;
-			if(shouldContinue >=0){
+			deferred.resolve(cObject);
+			/*if(shouldContinue >=0){
 				console.log("We will continue");
 				deferred.resolve(listPaypal(cObject, listDate.subtract(1,'days')));
 			} else {
 				console.log("We will not continue");
 				deferred.resolve(cObject);
-			}
+			}*/
 		}
 	});
 	/*
