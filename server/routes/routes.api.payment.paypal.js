@@ -138,6 +138,7 @@ function setPaypal(cObject){
 		'client_id': cObject.settings.paypal.clientid,
 		'client_secret': cObject.settings.paypal.secret
 	});
+	console.log("SetPaypal: ", (cObject.settings.paypal.issandbox === 'true' ? 'sandbox' : 'live'));
 	deferred.resolve(cObject);
 	return deferred.promise;
 }
