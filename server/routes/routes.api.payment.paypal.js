@@ -169,7 +169,7 @@ function listPaypal(cObject, listDate){
 		ENDDATE:enddate, 							//'2015-08-31T05:38:48Z',
 		VERSION:94
 	};
-
+/*
 	request.post({url:'https://api-3t.paypal.com/nvp', form: data, gzip: true}, function(err,httpResponse,body){
 		if(err){
 			console.log("Error: ", err);
