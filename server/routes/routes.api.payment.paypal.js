@@ -189,6 +189,7 @@ function listPaypal(cObject, listDate){
 			console.log(listDate.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z');
 			listDate = listDate.subtract(1,'days');
 			console.log(listDate.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z');
+			console.log(companystart.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z');
 
 			//deferred.resolve(cObject);
 			if(shouldContinue >=0){
