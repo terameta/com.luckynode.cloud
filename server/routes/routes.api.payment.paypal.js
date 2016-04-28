@@ -168,10 +168,11 @@ function listPaypal(cObject, listPage){
 	};
 	console.log("=======================================================");
 	console.log("=======================================================");
-	console.log(moment().format('YYYY-MM-DDT00:00:00Z'));
+	console.log(moment().format('YYYY-MM-DDT00:00:00'));
 	console.log("=======================================================");
 	console.log("=======================================================");
-	request.post({url:'https://api-3t.paypal.com/nvp', form: data, gzip: true}, function(err,httpResponse,body){
+	deferred.resolve(cObject);
+	/*request.post({url:'https://api-3t.paypal.com/nvp', form: data, gzip: true}, function(err,httpResponse,body){
 		if(err){
 			console.log("Error: ", err);
 			deferred.reject(err);
@@ -192,6 +193,7 @@ function listPaypal(cObject, listPage){
 			deferred.resolve(cObject);
 		}
 	});
+	*/
 
 /*
 	cObject.paypal.payment.list({ "count": 20 }, function(error, payment) {
