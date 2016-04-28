@@ -226,13 +226,13 @@ function listPaypal(cObject, listDate){
 					cObject.invoiceList.push(curTrx);
 				}
 			}
-			console.log(listDate.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z');
+			console.log("Company Date:", companystart.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z');
+			console.log("List Date   :", listDate.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z');
+			console.log("Start Date  :", startdate);
+			console.log("End Date    :", enddate);
+			console.log("Should Cont.:", shouldContinue);
 			listDate = listDate.subtract(1,'days');
-			console.log(listDate.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z');
-			console.log(companystart.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z');
-			console.log(shouldContinue);
 
-			//deferred.resolve(cObject);
 			if(shouldContinue >=0){
 				console.log("We will continue");
 				deferred.resolve(listPaypal(cObject, listDate));
