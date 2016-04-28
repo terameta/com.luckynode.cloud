@@ -73,6 +73,7 @@ angular.module('adminControllers').controller('userController', ['$scope', '$roo
 		};
 
 		$scope.saveUser = function(){
+			console.log("Saving user");
 			$scope.curUser.$update(function(result){
 				lnToastr.success("User is saved");
 			}, function(error){
