@@ -1,7 +1,12 @@
-module.exports = function(app, express, db, tools) {
-	var mongojs 		= require('mongojs');
+var db;
+var Q					= require('q');
+var mongojs 		= require('mongojs');
+var invoiceModule;
+
+module.exports = function(app, express, refdb, tools) {
+	db 					= refdb;
+	invoiceModule 		= require('../modules/module.invoice.js')(db);
 	var apiRoutes 		= express.Router();
-	var querystring 	= require("querystring");
 
 	apiRoutes.post('/IPN',  function(req, res) {
 		console.log("==========================================================");
@@ -87,6 +92,20 @@ module.exports = function(app, express, db, tools) {
 
 	app.use('/api/payment/paypal', apiRoutes);
 };
+
+function getSettings(cObject){
+	if(!cObject) cObject = {};
+	var deferred = Q.defer();
+	db.settings.findOne(function(err, settings){
+		if(err){
+			deferred.reject({onFunction:"getSettings", err:err});
+		} else {
+			cObject.settings = settings;
+			deferred.resolve(cObject);
+		}
+	});
+	return deferred.promise;
+}
 
 function parseTrx(transaction){
 	var toReturn = {};
