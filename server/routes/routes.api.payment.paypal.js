@@ -165,7 +165,7 @@ function listPaypal(cObject, listPage){
 		VERSION:94
 	});
 
-	request.post({url:'https://api-3t.paypal.com/nvp', form: data}, function(err,httpResponse,body){
+	request.get({url:'https://api-3t.paypal.com/nvp', form: data}, function(err,httpResponse,body){
 		if(err){
 			console.log("Error: ", err);
 			deferred.reject(err);
