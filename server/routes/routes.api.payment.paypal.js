@@ -156,7 +156,7 @@ function listPaypal(cObject, listDate, listPeriod){
 	if(!cObject.paypal){ deferred.reject({onFunction:"listPaypal", err:"No Paypal detail passed in the object"}); return deferred.promise;}
 	if(!listDate) listDate = moment().add(1,'days').startOf('day');
 	if(!listPeriod) listPeriod = 'year';
-	var startdate = listDate.subtract(1, listPeriod).startOf('day').format('YYYY-MM-DDTHH:mm:ss').toString()+'Z';
+	var startdate = moment(listDate).subtract(1, listPeriod).startOf('day').format('YYYY-MM-DDTHH:mm:ss').toString()+'Z';
 	var enddate = listDate.endOf('day').format('YYYY-MM-DDTHH:mm:ss').toString()+'Z';
 	var companystart = moment(cObject.settings.companystart).subtract(1,'days').startOf('day');
 	var shouldContinue = listDate.diff(companystart);
