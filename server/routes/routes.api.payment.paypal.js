@@ -179,7 +179,7 @@ function listPaypal(cObject, listDate){
 	console.log("=======================================================");
 	if(shouldContinue >=0){
 		console.log("We will continue");
-		deferred.resolve(cObject, listDate.subtract(1,'days'));
+		deferred.resolve(listPaypal(cObject, listDate.subtract(1,'days')));
 	} else {
 		console.log("We will not continue");
 		deferred.resolve(cObject);
