@@ -157,8 +157,8 @@ function listPaypal(cObject, listDate){
 	if(!listDate) listDate = moment().add(1,'days').startOf('day');
 	var startdate = listDate.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z';
 	var enddate = listDate.endOf('day').format('YYYY-MM-DDTHH:mm:ss').toString()+'Z';
-	var companystart = moment(cObject.settings.companystart).startOf('day');
-
+	var companystart = moment(cObject.settings.companystart).subtract(1,'days').startOf('day');
+	var shouldContinue = listDate.diff(companystart);
 
 	var data = {
 		USER:cObject.settings.paypal.username,
@@ -173,7 +173,8 @@ function listPaypal(cObject, listDate){
 	console.log("=======================================================");
 	console.log(startdate);
 	console.log(enddate);
-	console.log(companystart);
+	console.log(companystart.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z');
+	console.log("Difference between dates:", shouldContinue);
 	console.log("=======================================================");
 	console.log("=======================================================");
 	deferred.resolve(cObject);
