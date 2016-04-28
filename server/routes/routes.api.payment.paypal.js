@@ -124,7 +124,7 @@ function getSettings(cObject){
 		if(err){
 			deferred.reject({onFunction:"getSettings", err:err});
 		} else {
-			console.log(settings);
+			//console.log(settings);
 			cObject.settings = settings;
 			deferred.resolve(cObject);
 		}
