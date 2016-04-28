@@ -147,7 +147,7 @@ function listPaypal(cObject, listPage){
 	if(!cObject){ deferred.reject({onFunction:"listPaypal", err:"No Object Passed"}); return deferred.promise;}
 	if(!cObject.paypal){ deferred.reject({onFunction:"listPaypal", err:"No Paypal detail passed in the object"}); return deferred.promise;}
 
-	cObject.paypal.payment.list(function(error, payment) {
+	cObject.paypal.payment.list({ "count": 20 }, function(error, payment) {
 		if (error) {
 			throw error;
 		} else {
