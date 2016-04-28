@@ -131,13 +131,12 @@ function getSettings(cObject){
 
 function setPaypal(cObject){
 	var deferred = Q.defer();
-	return false;
 	if(!cObject){ deferred.reject({onFunction:"setPaypal", err:"No Object Passed"}); return deferred.promise;}
 	cObject.paypal = require('paypal-rest-sdk');
 	cObject.paypal.configure({
-		'mode': 'sandbox', //sandbox or live
-		'client_id': '***REMOVED***',
-		'client_secret': '***REMOVED***'
+		'mode': (cObject.settings.paypal.issandbox === 'true' ? 'sandbox' : 'live'),
+		'client_id': cObject.settings.paypal.clientid,
+		'client_secret': cObject.settings.paypal.secret
 	});/* = new Twocheckout({
 		apiUser: 	cObject.settings.tco.username, 										// Admin API Username, required for Admin API bindings
 		apiPass: 	cObject.settings.tco.password, 										// Admin API Password, required for Admin API bindings
@@ -147,6 +146,9 @@ function setPaypal(cObject){
 		demo: 		cObject.settings.tco.isdemo.toString() === 'true', 			// Set to true if testing response with demo sales
 		sandbox: 	cObject.settings.tco.issandbox.toString() === 'true' 			// Uses 2Checkout sandbox URL for all bindings
 	});*/
+	console.log(cObject.settings);
+	console.log(cObject.paypal);
+	return false;
 	deferred.resolve(cObject);
 	return deferred.promise;
 }
