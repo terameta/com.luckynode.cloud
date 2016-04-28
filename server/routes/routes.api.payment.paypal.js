@@ -165,8 +165,8 @@ function listPaypal(cObject, listDate){
 		PWD:cObject.settings.paypal.password,
 		SIGNATURE:cObject.settings.paypal.signature,
 		METHOD:'TransactionSearch',
-		STARTDATE:startdate,  					//'2015-01-01T00:00:01Z',
-		ENDDATE:enddate, 							//'2015-08-31T05:38:48Z',
+		STARTDATE:/*startdate,  					/*/'2016-04-01T00:00:01Z',
+		ENDDATE:/*enddate, 							/*/'2016-04-29T00:00:01Z',
 		VERSION:94
 	};
 
