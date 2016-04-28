@@ -314,12 +314,12 @@ function fixUsers(cObject){
 					if(err){
 						deferred.reject(err);
 					} else {
-						console.log("User's payemails are updated:", curUser._id);
+						//console.log("User's payemails are updated:", curUser._id);
 						deferred.resolve();
 					}
 				});
 			} else {
-				console.log("User's payemails are NOT updated:", curUser._id);
+				//console.log("User's payemails are NOT updated:", curUser._id);
 				deferred.resolve();
 			}
 		});
@@ -332,8 +332,10 @@ function getUsers(cObject){
 	var deferred = Q.defer();
 	db.users.find(function(err, users){
 		if(err){
+			console.log(">>>Function getUsers (error):", err);
 			deferred.reject(err);
 		} else {
+			console.log(">>>Function getUsers completed");
 			cObject.users = users;
 			deferred.resolve(cObject);
 		}
