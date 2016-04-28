@@ -94,7 +94,7 @@ module.exports = function(app, express, refdb, tools) {
 		var cObject = {};
 		getSettings(cObject).
 		then(setPaypal).
-		then(listTCO).
+		then(listPaypal).
 		then(transposeTCO).
 		then(fixUsers).
 		then(getUsers).
@@ -137,19 +137,44 @@ function setPaypal(cObject){
 		'mode': (cObject.settings.paypal.issandbox === 'true' ? 'sandbox' : 'live'),
 		'client_id': cObject.settings.paypal.clientid,
 		'client_secret': cObject.settings.paypal.secret
-	});/* = new Twocheckout({
-		apiUser: 	cObject.settings.tco.username, 										// Admin API Username, required for Admin API bindings
-		apiPass: 	cObject.settings.tco.password, 										// Admin API Password, required for Admin API bindings
-		sellerId: 	cObject.settings.tco.sellerid, 										// Seller ID, required for all non Admin API bindings
-		privateKey:	cObject.settings.tco.privatekey, 									// Payment API private key, required for checkout.authorize binding
-		secretWord: cObject.settings.tco.secret, 											// Secret Word, required for response and notification checks
-		demo: 		cObject.settings.tco.isdemo.toString() === 'true', 			// Set to true if testing response with demo sales
-		sandbox: 	cObject.settings.tco.issandbox.toString() === 'true' 			// Uses 2Checkout sandbox URL for all bindings
-	});*/
-	console.log(cObject.settings);
-	console.log(cObject.paypal);
-	return false;
+	});
 	deferred.resolve(cObject);
+	return deferred.promise;
+}
+
+function listPaypal(cObject, listPage){
+	var deferred = Q.defer();
+	if(!cObject){ deferred.reject({onFunction:"listPaypal", err:"No Object Passed"}); return deferred.promise;}
+	if(!cObject.paypal){ deferred.reject({onFunction:"listPaypal", err:"No Paypal detail passed in the object"}); return deferred.promise;}
+
+	cObject.paypal.payment.list(function(error, payment) {
+		if (error) {
+			throw error;
+		} else {
+			console.log("List Payments Response");
+			console.log(JSON.stringify(payment));
+		}
+	});
+	/*
+	listPage = listPage || 1;
+	console.log("Currently listing 2CO Page: ", listPage);
+
+	cObject.tco.sales.list({pagesize:"100", sort_col:"date_placed", sort_dir:"ASC", cur_page:listPage}, function(err, data){
+		if(err){
+			deferred.reject({onFunction:"listTCO", err:err});
+		} else {
+			if(!cObject.transactionList) cObject.transactionList = [];
+			cObject.transactionList = cObject.transactionList.concat(data.sale_summary);
+			console.log("Cur Page:", data.page_info.cur_page);
+			console.log("LastPage:", data.page_info.last_page);
+			if(parseInt(data.page_info.cur_page, 10) < parseInt(data.page_info.last_page, 10)){
+				console.log("There are more records to come");
+				deferred.resolve(listTCO(cObject, ++listPage));
+			} else {
+				deferred.resolve(detailTCO(cObject));
+			}
+		}
+	});*/
 	return deferred.promise;
 }
 
