@@ -107,8 +107,8 @@ module.exports = function(app, express, refdb, tools) {
 			res.send(result.invoiceList);
 		}).
 		fail(function(issue){
-			//console.log("We issued");
-			//console.log(issue);
+			console.log("We issued");
+			console.log(issue);
 			res.status(500).json({status:"fail", message:issue});
 		});
 	});
