@@ -103,5 +103,13 @@ angular.module('adminControllers').controller('transactionController', ['$scope'
 				console.log(issue);
 			});
 		};
+
+		$scope.listPaypal = function(){
+			$http.get('/api/payment/paypal/list').then(function(result){
+				$scope.listofPaypal = result.data;
+			}, function(issue){
+				console.log(issue);
+			});
+		};
 	}
 ]);

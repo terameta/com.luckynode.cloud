@@ -121,6 +121,7 @@ function getSettings(cObject){
 		if(err){
 			deferred.reject({onFunction:"getSettings", err:err});
 		} else {
+			console.log(settings);
 			cObject.settings = settings;
 			deferred.resolve(cObject);
 		}
@@ -130,8 +131,12 @@ function getSettings(cObject){
 
 function setPaypal(cObject){
 	var deferred = Q.defer();
-	if(!cObject){ deferred.reject({onFunction:"setTCO", err:"No Object Passed"}); return deferred.promise;}
-	cObject.tco = new Twocheckout({
+	return false;
+	if(!cObject){ deferred.reject({onFunction:"setPaypal", err:"No Object Passed"}); return deferred.promise;}
+	cObject.paypal = require('paypal-rest-sdk');
+	cObject.paypal.configure({
+
+	}); = new Twocheckout({
 		apiUser: 	cObject.settings.tco.username, 										// Admin API Username, required for Admin API bindings
 		apiPass: 	cObject.settings.tco.password, 										// Admin API Password, required for Admin API bindings
 		sellerId: 	cObject.settings.tco.sellerid, 										// Seller ID, required for all non Admin API bindings
