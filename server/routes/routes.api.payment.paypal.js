@@ -155,11 +155,18 @@ function listPaypal(cObject, listDate, listPeriod){
 	if(!cObject){ deferred.reject({onFunction:"listPaypal", err:"No Object Passed"}); return deferred.promise;}
 	if(!cObject.paypal){ deferred.reject({onFunction:"listPaypal", err:"No Paypal detail passed in the object"}); return deferred.promise;}
 	if(!listDate) listDate = moment().add(1,'days').startOf('day');
-	if(!listPeriod) listPeriod = 'year';
-	var startdate = moment(listDate).subtract(1, listPeriod).startOf('day').format('YYYY-MM-DDTHH:mm:ss').toString()+'Z';
-	var enddate = listDate.endOf('day').format('YYYY-MM-DDTHH:mm:ss').toString()+'Z';
+	if(!listPeriod) listPeriod = 'years';
+	var startdate = moment(listDate).subtract(1, listPeriod).format('YYYY-MM-DDTHH:mm:ss').toString()+'Z';
+	var enddate = listDate.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z';
 	var companystart = moment(cObject.settings.companystart).subtract(1,'days').startOf('day');
 	var shouldContinue = listDate.diff(companystart);
+	console.log("*************************************************************");
+	console.log("List Period:", listPeriod);
+	console.log("List Date  :", listDate.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z');
+	console.log("Start Date :", startdate);
+	console.log("End Date   :", enddate);
+	console.log("CompanyDate:", companystart.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z');
+	console.log("ShouldConti:", shouldContinue);
 
 	var data = {
 		USER:cObject.settings.paypal.username,
@@ -187,9 +194,15 @@ function listPaypal(cObject, listDate, listPeriod){
 			console.log("=======================================================");
 			if(!cObject.invoiceList) cObject.invoiceList = [];
 			var curTrx = {};
-			/*if(result.ACK != "Success"){
-
-			} else */if(result.L_TIMESTAMP){
+			if(result.ACK != "Success"){
+				if( listPeriod == 'hours' 		) listPeriod = 'minutes';
+				if( listPeriod == 'days' 		) listPeriod = 'hours';
+				if( listPeriod == 'weeks' 		) listPeriod = 'days';
+				if( listPeriod == 'months' 	) listPeriod = 'weeks';
+				if( listPeriod == 'quarters' 	) listPeriod = 'months';
+				if( listPeriod == 'years'		) listPeriod = 'quarters';
+				deferred.resolve(listPaypal(cObject, listDate, listPeriod));
+			} else if(result.L_TIMESTAMP){
 				curTrx = {
 					id:result.L_TRANSACTIONID,
 					amount: parseFloat(result.L_AMT),
@@ -228,19 +241,17 @@ function listPaypal(cObject, listDate, listPeriod){
 					cObject.invoiceList.push(curTrx);
 				}
 			}
-			console.log("Company Date:", companystart.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z');
-			console.log("List Date   :", listDate.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z');
-			console.log("Start Date  :", startdate);
-			console.log("End Date    :", enddate);
-			console.log("Should Cont.:", shouldContinue);
-			listDate = listDate.subtract(1, listPeriod);
 
-			if(shouldContinue >=0){
-				console.log("We will continue");
-				deferred.resolve(listPaypal(cObject, listDate));
-			} else {
-				console.log("We will not continue");
-				deferred.resolve(cObject);
+			if(result.ACK == "Success"){
+				listDate = listDate.subtract(1, listPeriod);
+
+				if(shouldContinue >=0){
+					console.log("We will continue");
+					deferred.resolve(listPaypal(cObject, listDate, listPeriod));
+				} else {
+					console.log("We will not continue");
+					deferred.resolve(cObject);
+				}
 			}
 		}
 	});
