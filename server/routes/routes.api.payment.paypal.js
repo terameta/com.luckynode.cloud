@@ -3,6 +3,7 @@ var Q					= require('q');
 var mongojs 		= require('mongojs');
 var request 		= require('request');
 var querystring 	= require('querystring');
+var moment			= require('moment');
 var invoiceModule;
 
 module.exports = function(app, express, refdb, tools) {
@@ -165,7 +166,11 @@ function listPaypal(cObject, listPage){
 		ENDDATE:'2015-08-31T05:38:48Z',
 		VERSION:94
 	};
-
+	console.log("=======================================================");
+	console.log("=======================================================");
+	console.log(moment().format('YYYY-MM-DDT00:00:00Z'));
+	console.log("=======================================================");
+	console.log("=======================================================");
 	request.post({url:'https://api-3t.paypal.com/nvp', form: data, gzip: true}, function(err,httpResponse,body){
 		if(err){
 			console.log("Error: ", err);
