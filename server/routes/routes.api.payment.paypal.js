@@ -153,7 +153,7 @@ function setPaypal(cObject){
 function listPaypal(cObject, listDate, listPeriod){
 	var deferred = Q.defer();
 	if(!cObject){ deferred.reject({onFunction:"listPaypal", err:"No Object Passed"}); return deferred.promise;}
-	if(!cObject.paypal){ deferred.reject({onFunction:"listPaypal", err:"No Paypal detail passed in the object"}); return deferred.promise;}
+	//if(!cObject.paypal){ deferred.reject({onFunction:"listPaypal", err:"No Paypal detail passed in the object"}); return deferred.promise;}
 	if(!listDate) listDate = moment().add(1,'days').startOf('day');
 	if(!listPeriod) listPeriod = 'years';
 	var startdate = moment(listDate).subtract(1, listPeriod).format('YYYY-MM-DDTHH:mm:ss').toString()+'Z';
