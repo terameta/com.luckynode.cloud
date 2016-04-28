@@ -206,6 +206,7 @@ function listPaypal(cObject, listDate){
 				cObject.invoiceList.push(curTrx);
 			} else if(result.L_TIMESTAMP0){
 				for(var i = 0; i < 100; i++){
+					if(!result["L_TIMESTAMP"+i]) break;
 					curTrx = {};
 					curTrx = {
 						id:result["L_TRANSACTIONID"+i],
@@ -224,11 +225,7 @@ function listPaypal(cObject, listDate){
 					};
 					cObject.invoiceList.push(curTrx);
 				}
-			} else {
-
 			}
-
-			cObject.invoiceList = result;
 			console.log(listDate.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z');
 			listDate = listDate.subtract(1,'days');
 			console.log(listDate.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z');
