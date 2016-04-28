@@ -32,6 +32,12 @@
 							<tr><td><b>Profession: 		</b></td><td><span editable-text="curUser.profession" e-size="100">{{ curUser.profession }}</span></td></tr>
 							<tr><td><b>Address: 		</b></td><td><span editable-textarea="curUser.address" e-rows="5" e-cols="100"><pre style="background:transparent;border:0;padding:0">{{ curUser.address }}</pre></span></td></tr>
 							<tr><td><b>hasPicture: 		</b></td><td>{{ curUser.haspicture }}</td></tr>
+							<tr>
+								<td><b>Pay Emails: 		</b></td>
+								<td>
+									<div ng-repeat="curPayEmail in curUser.payemails">{{curPayEmail}}</div>
+								</td>
+							</tr>
 							<tr><td><b>Pay to: 			</b></td><td><span editable-textarea="curUser.payto" e-rows="5" e-cols="100"><pre style="background:transparent;border:0;padding:0">{{ curUser.payto }}</pre></span></td></tr>
 							<tr>
 								<td><b>Discount: 		</b></td>
