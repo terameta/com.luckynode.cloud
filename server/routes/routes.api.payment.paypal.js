@@ -201,14 +201,14 @@ function listPaypal(cObject, listDate){
 			listDate = listDate.subtract(1,'days');
 			console.log(listDate.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z');
 
-			deferred.resolve(cObject);
-			/*if(shouldContinue >=0){
+			//deferred.resolve(cObject);
+			if(shouldContinue >=0){
 				console.log("We will continue");
 				deferred.resolve(listPaypal(cObject, listDate.subtract(1,'days')));
 			} else {
 				console.log("We will not continue");
 				deferred.resolve(cObject);
-			}*/
+			}
 		}
 	});
 	/*
