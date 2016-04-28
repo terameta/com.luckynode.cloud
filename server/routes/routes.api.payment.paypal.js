@@ -346,14 +346,16 @@ function getUsers(cObject){
 function matchUsers(cObject){
 	var deferred = Q.defer();
 	cObject.invoiceList.forEach(function(curInvoice){
-		cObject.users.forEach(function(curUser){
-			console.log(">>>Checking Emails for user:", curUser._id, curUser.payemails);
-			curUser.payemails.forEach(function(curemail){
-				if(curemail.toString().toLowerCase() == curInvoice.email.toString().toLowerCase()){
-					curInvoice.userid = curUser._id.toString();
-				}
+		if(curInvoice.email){
+			cObject.users.forEach(function(curUser){
+				console.log(">>>Checking Emails for user:", curUser._id, curUser.payemails);
+				curUser.payemails.forEach(function(curemail){
+					if(curemail.toString().toLowerCase() == curInvoice.email.toString().toLowerCase()){
+						curInvoice.userid = curUser._id.toString();
+					}
+				});
 			});
-		});
+		}
 	});
 	//console.log(cObject.transactionList);
 	deferred.resolve(cObject);
