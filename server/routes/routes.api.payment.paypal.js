@@ -136,7 +136,7 @@ function setPaypal(cObject){
 	cObject.paypal = require('paypal-rest-sdk');
 	cObject.paypal.configure({
 
-	}); = new Twocheckout({
+	});/* = new Twocheckout({
 		apiUser: 	cObject.settings.tco.username, 										// Admin API Username, required for Admin API bindings
 		apiPass: 	cObject.settings.tco.password, 										// Admin API Password, required for Admin API bindings
 		sellerId: 	cObject.settings.tco.sellerid, 										// Seller ID, required for all non Admin API bindings
@@ -144,7 +144,7 @@ function setPaypal(cObject){
 		secretWord: cObject.settings.tco.secret, 											// Secret Word, required for response and notification checks
 		demo: 		cObject.settings.tco.isdemo.toString() === 'true', 			// Set to true if testing response with demo sales
 		sandbox: 	cObject.settings.tco.issandbox.toString() === 'true' 			// Uses 2Checkout sandbox URL for all bindings
-	});
+	});*/
 	deferred.resolve(cObject);
 	return deferred.promise;
 }
