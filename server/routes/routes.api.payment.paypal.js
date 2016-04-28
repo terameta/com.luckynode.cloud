@@ -155,7 +155,7 @@ function listPaypal(cObject, listPage){
 
 
 
-	var data = JSON.stringify({
+	var data = {
 		USER:cObject.settings.paypal.username,
 		PWD:cObject.settings.paypal.password,
 		SIGNATURE:cObject.settings.paypal.signature,
@@ -163,7 +163,7 @@ function listPaypal(cObject, listPage){
 		STARTDATE:'2012-01-01T00:00:01Z',
 		ENDDATE:'2016-08-31T05:38:48Z',
 		VERSION:94
-	});
+	};
 
 	request.get({url:'https://api-3t.paypal.com/nvp', form: data}, function(err,httpResponse,body){
 		if(err){
