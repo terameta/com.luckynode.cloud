@@ -68,7 +68,7 @@
 						</thead>
 						<tbody>
 							<!--tr ng-repeat-start="sale in listof2CO"-->
-							<tr ng-repeat="sale in listof2CO">
+							<tr ng-repeat="sale in listof2CO | orderBy:'customer_name'">
 								<td>{{sale.invoice_id}}</td>
 								<td>{{sale.userid}}</td>
 								<td>{{sale.calculatedTotal}}</td>
