@@ -177,7 +177,11 @@ function listPaypal(cObject, listDate){
 	console.log("Difference between dates:", shouldContinue);
 	console.log("=======================================================");
 	console.log("=======================================================");
-	deferred.resolve(cObject);
+	if(shouldContinue >=0){
+		deferred.resolve(cObject, listDate.subtract(1,'days'));
+	} else {
+		deferred.resolve(cObject);
+	}
 	/*request.post({url:'https://api-3t.paypal.com/nvp', form: data, gzip: true}, function(err,httpResponse,body){
 		if(err){
 			console.log("Error: ", err);
