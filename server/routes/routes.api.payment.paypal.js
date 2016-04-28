@@ -90,6 +90,27 @@ module.exports = function(app, express, refdb, tools) {
 		});
 	});
 
+	apiRoutes.get('/list', tools.checkToken, function(req, res){
+		var cObject = {};
+		getSettings(cObject).
+		then(setPaypal).
+		then(listTCO).
+		then(transposeTCO).
+		then(fixUsers).
+		then(getUsers).
+		then(matchUsers).
+		then(function(result){
+			//console.log("We resulted", result);
+			//console.log("TRXLIST:", result.transactionList);
+			res.send(result.invoiceList);
+		}).
+		fail(function(issue){
+			//console.log("We issued");
+			//console.log(issue);
+			res.status(500).json({status:"fail", message:issue});
+		});
+	});
+
 	app.use('/api/payment/paypal', apiRoutes);
 };
 
@@ -104,6 +125,22 @@ function getSettings(cObject){
 			deferred.resolve(cObject);
 		}
 	});
+	return deferred.promise;
+}
+
+function setPaypal(cObject){
+	var deferred = Q.defer();
+	if(!cObject){ deferred.reject({onFunction:"setTCO", err:"No Object Passed"}); return deferred.promise;}
+	cObject.tco = new Twocheckout({
+		apiUser: 	cObject.settings.tco.username, 										// Admin API Username, required for Admin API bindings
+		apiPass: 	cObject.settings.tco.password, 										// Admin API Password, required for Admin API bindings
+		sellerId: 	cObject.settings.tco.sellerid, 										// Seller ID, required for all non Admin API bindings
+		privateKey:	cObject.settings.tco.privatekey, 									// Payment API private key, required for checkout.authorize binding
+		secretWord: cObject.settings.tco.secret, 											// Secret Word, required for response and notification checks
+		demo: 		cObject.settings.tco.isdemo.toString() === 'true', 			// Set to true if testing response with demo sales
+		sandbox: 	cObject.settings.tco.issandbox.toString() === 'true' 			// Uses 2Checkout sandbox URL for all bindings
+	});
+	deferred.resolve(cObject);
 	return deferred.promise;
 }
 
