@@ -62,6 +62,11 @@ angular.module('adminControllers').controller('userController', ['$scope', '$roo
 			});
 		}
 
+		$scope.addPayEmail = function(){
+			if(!$scope.curUser.payemails) $scope.curUser.payemails = [];
+			$scope.curUser.payemails.push("");
+		};
+
 		$scope.saveUser = function(){
 			$scope.curUser.$update(function(result){
 				lnToastr.success("User is saved");

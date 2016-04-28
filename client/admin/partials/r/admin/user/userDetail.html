@@ -33,9 +33,11 @@
 							<tr><td><b>Address: 		</b></td><td><span editable-textarea="curUser.address" e-rows="5" e-cols="100"><pre style="background:transparent;border:0;padding:0">{{ curUser.address }}</pre></span></td></tr>
 							<tr><td><b>hasPicture: 		</b></td><td>{{ curUser.haspicture }}</td></tr>
 							<tr>
-								<td><b>Pay Emails: 		</b></td>
+								<td><b>Pay Emails: 		<i class="fa fa-plus-circle" aria-hidden="true" ng-click="addPayEmail()" title="Add new item" style="cursor:pointer;"></i></b></td>
 								<td>
-									<div ng-repeat="curPayEmail in curUser.payemails">{{curPayEmail}}</div>
+									<div ng-repeat="curPayEmail in curUser.payemails">
+										<span editable_text="curPayEmail" e-size="100">{{curPayEmail}}</span>
+									</div>
 								</td>
 							</tr>
 							<tr><td><b>Pay to: 			</b></td><td><span editable-textarea="curUser.payto" e-rows="5" e-cols="100"><pre style="background:transparent;border:0;padding:0">{{ curUser.payto }}</pre></span></td></tr>
