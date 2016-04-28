@@ -1,6 +1,7 @@
 var db;
 var Q					= require('q');
 var mongojs 		= require('mongojs');
+var http 			= require('http');
 var invoiceModule;
 
 module.exports = function(app, express, refdb, tools) {
@@ -152,6 +153,46 @@ function listPaypal(cObject, listPage){
 	if(!cObject){ deferred.reject({onFunction:"listPaypal", err:"No Object Passed"}); return deferred.promise;}
 	if(!cObject.paypal){ deferred.reject({onFunction:"listPaypal", err:"No Paypal detail passed in the object"}); return deferred.promise;}
 
+	var data = JSON.stringify({
+		USER:cObject.settings.paypal.username,
+		PWD:cObject.settings.paypal.password,
+		SIGNATURE:cObject.settings.paypal.signature,
+		METHOD:'TransactionSearch',
+		STARTDATE:'2012-01-01T00:00:01Z',
+		ENDDATE:'2016-08-31T05:38:48Z',
+		VERSION:94
+	});
+
+	var options = {
+		host: 'https://api-3t.paypal.com',
+		port: '80',
+		path: '/nvp',
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json; charset=utf-8',
+			'Content-Length': data.length
+		}
+	};
+
+	var req = http.request(options, function(res) {
+		var msg = '';
+
+		res.setEncoding('utf8');
+		res.on('data', function(chunk) {
+			msg += chunk;
+		});
+		res.on('end', function() {
+			console.log(JSON.parse(msg));
+			cObject.invoiceList = msg;
+			deferred.resolve(cObject);
+		});
+	});
+
+	req.write(data);
+	req.end();
+
+
+/*
 	cObject.paypal.payment.list({ "count": 20 }, function(error, payment) {
 		if (error) {
 			throw error;
