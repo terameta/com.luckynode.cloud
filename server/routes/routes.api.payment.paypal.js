@@ -183,7 +183,11 @@ function listPaypal(cObject, listDate){
 			console.log(body);
 			console.log("=======================================================");
 			console.log("=======================================================");
-			body = querystring.parse(body);
+			body = querystring.parse(body, null, null, {maxKeys:0});
+			/*
+				From officel nodejs docs:
+				Options object may contain maxKeys property (equal to 1000 by default), it'll be used to limit processed keys. Set it to 0 to remove key count limitation.
+			*/
 			console.log(body);
 			console.log(body.TIMESTAMP);
 			console.log(body.CORRELATIONID);
