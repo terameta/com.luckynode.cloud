@@ -135,7 +135,9 @@ function setPaypal(cObject){
 	if(!cObject){ deferred.reject({onFunction:"setPaypal", err:"No Object Passed"}); return deferred.promise;}
 	cObject.paypal = require('paypal-rest-sdk');
 	cObject.paypal.configure({
-
+		'mode': 'sandbox', //sandbox or live
+		'client_id': '***REMOVED***',
+		'client_secret': '***REMOVED***'
 	});/* = new Twocheckout({
 		apiUser: 	cObject.settings.tco.username, 										// Admin API Username, required for Admin API bindings
 		apiPass: 	cObject.settings.tco.password, 										// Admin API Password, required for Admin API bindings
