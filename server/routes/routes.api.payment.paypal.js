@@ -178,8 +178,10 @@ function listPaypal(cObject, listDate){
 	console.log("=======================================================");
 	console.log("=======================================================");
 	if(shouldContinue >=0){
+		console.log("We will continue");
 		deferred.resolve(cObject, listDate.subtract(1,'days'));
 	} else {
+		console.log("We will not continue");
 		deferred.resolve(cObject);
 	}
 	/*request.post({url:'https://api-3t.paypal.com/nvp', form: data, gzip: true}, function(err,httpResponse,body){
