@@ -67,8 +67,8 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat-start="sale in listof2CO">
-							<!--tr ng-repeat="sale in listof2CO | orderBy:['customer_name','date_placed']"-->
+							<!--tr ng-repeat-start="sale in listof2CO"-->
+							<tr ng-repeat="sale in listof2CO | orderBy:['customer_name','date_placed']">
 								<td>{{sale.invoice_id}}</td>
 								<td>{{sale.userid}}</td>
 								<td>{{sale.calculatedTotal}}</td>
@@ -78,11 +78,11 @@
 								<td>{{sale.sale_id}}</td>
 								<td>{{sale.customer_email}}</td>
 							</tr>
-							<tr ng-repeat-end>
+							<!--tr ng-repeat-end>
 								<td colspan="100">
 									<pre>{{sale | json}}</pre>
 								</td>
-							</tr>
+							</tr-->
 						</tbody>
 					</table>
 				</uib-tab>
