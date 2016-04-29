@@ -178,7 +178,7 @@ function transposeTCO(cObject){
 		curTrx.fullDetail.sale.invoices.forEach(function(curInvoice){
 			curInvoice.customer_email = curTrx.fullDetail.sale.customer.email_address;
 			curInvoice.pay_method = curTrx.fullDetail.sale.customer.pay_method;
-			console.log(curInvoice.invoice_id, " will be recalculated");
+		//	console.log(curInvoice.invoice_id, " will be recalculated");
 			curInvoice.calculatedTotal = 0;
 			curInvoice.lineitems.forEach(function(curLineItem){
 				if(curLineItem.status == "bill"){
@@ -193,7 +193,8 @@ function transposeTCO(cObject){
 			} else {
 				curInvoice.calculatedFee = parseFloat(curInvoice.fees_2co);
 			}
-			console.log(curInvoice.invoice_id, curInvoice.calculatedTotal, curInvoice.calculatedFee);
+		//	console.log(curInvoice.invoice_id, curInvoice.calculatedTotal, curInvoice.calculatedFee);
+			curInvoice.id = curInvoice.invoice_id;
 			cObject.invoiceList.push(curInvoice);
 		});
 	});
