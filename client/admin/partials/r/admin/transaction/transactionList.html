@@ -103,8 +103,8 @@
 							</tr>
 						</thead>
 						<tbody>
-							<!--tr ng-repeat-start="sale in listof2CO"-->
-							<tr ng-repeat="sale in listofPaypal | orderBy:['counterpartname','date']">
+							<tr ng-repeat-start="sale in listof2CO">
+							<!--tr ng-repeat="sale in listofPaypal | orderBy:['counterpartname','date']"-->
 								<td>{{sale.id}}</td>
 								<td>{{sale.userid}}</td>
 								<td>{{sale.amount}}</td>
@@ -115,11 +115,11 @@
 								<td>{{sale.date}}</td>
 								<td>{{sale.email}}</td>
 							</tr>
-							<!--tr ng-repeat-end>
+							<tr ng-repeat-end>
 								<td colspan="100">
 									<pre>{{sale | json}}</pre>
 								</td>
-							</tr-->
+							</tr>
 						</tbody>
 					</table>
 					<pre>{{listofPaypal | json}}</pre>
