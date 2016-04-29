@@ -348,7 +348,7 @@ function matchUsers(cObject){
 	cObject.invoiceList.forEach(function(curInvoice){
 		if(curInvoice.email){
 			cObject.users.forEach(function(curUser){
-				console.log(">>>Checking Emails for user:", curUser._id, curUser.payemails);
+			//	console.log(">>>Checking Emails for user:", curUser._id, curUser.payemails);
 				curUser.payemails.forEach(function(curemail){
 					if(curemail.toString().toLowerCase() == curInvoice.email.toString().toLowerCase()){
 						curInvoice.userid = curUser._id.toString();
