@@ -121,8 +121,8 @@ function refreshPayPal(){
 	then(fixUsers).
 	then(getUsers).
 	then(matchUsers).
-	then(filterUsers).
-	then(updateTRXonDB).
+	//then(filterUsers).
+	//then(updateTRXonDB).
 	then(deferred.resolve).
 	fail(deferred.reject);
 	return deferred.promise;
@@ -185,6 +185,7 @@ function listPaypal(cObject, listDate, listPeriod){
 		PWD:cObject.settings.paypal.password,
 		SIGNATURE:cObject.settings.paypal.signature,
 		METHOD:'TransactionSearch',
+		RECEIVER:'admin@epmvirtual.com',
 		STARTDATE:startdate,  					//'2016-04-01T00:00:01Z',
 		ENDDATE:enddate, 							//'2016-04-29T00:00:01Z',
 		VERSION:94
