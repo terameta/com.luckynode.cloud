@@ -346,7 +346,7 @@ function chargeCard(cObject){
 			"city": 				cObject.user.city,
 			"state": 			cObject.user.state,
 			"zipCode": 			cObject.user.postcode,
-			"country": 			cObject.user.country,
+			"country": 			cObject.user.countrycode,
 			"email": 			cObject.user.email,
 			"phoneNumber": 	cObject.user.phone
 		}
