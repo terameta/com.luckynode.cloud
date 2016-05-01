@@ -193,7 +193,7 @@ function transposeTCO(cObject){
 			} else {
 				curInvoice.calculatedFee = parseFloat(curInvoice.fees_2co);
 			}
-		//	console.log(curInvoice.invoice_id, curInvoice.calculatedTotal, curInvoice.calculatedFee);
+			console.log(curInvoice.invoice_id, curInvoice.calculatedTotal, curInvoice.calculatedFee);
 			curInvoice.id = curInvoice.invoice_id;
 			curInvoice.amount = curInvoice.calculatedTotal;
 			curInvoice.fee = curInvoice.calculatedFee;
