@@ -122,7 +122,7 @@ function refreshPayPal(){
 	then(getUsers).
 	then(matchUsers).
 	then(filterUsers).
-	//then(updateTRXonDB).
+	then(updateTRXonDB).
 	then(deferred.resolve).
 	fail(deferred.reject);
 	return deferred.promise;
