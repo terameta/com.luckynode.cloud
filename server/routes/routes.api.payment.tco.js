@@ -2,6 +2,7 @@ var db;
 var Q					= require('q');
 var mongojs 		= require('mongojs');
 var Twocheckout 	= require('2checkout-node');
+var moment			= require('moment');
 var invoiceModule;
 
 module.exports = function(app, express, refdb, tools) {
