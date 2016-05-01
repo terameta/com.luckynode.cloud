@@ -80,6 +80,7 @@ module.exports = function(app, express, refdb, tools) {
 		then(fixUsers).
 		then(getUsers).
 		then(matchUsers).
+		then(updateTRXonDB).
 		then(function(result){
 			//console.log("We resulted", result);
 			//console.log("TRXLIST:", result.transactionList);
@@ -269,10 +270,31 @@ function matchUsers(cObject){
 			});
 		});
 	});
-	console.log(cObject.transactionList);
+	//console.log(cObject.transactionList);
 	deferred.resolve(cObject);
 	return deferred.promise;
 }
+
+function updateTRXonDB(cObject){
+	var topDeferred = Q.defer();
+	var promises = [];
+	cObject.invoiceList.forEach(function(curInvoice){
+		var deferred = Q.defer();
+		promises.push(deferred.promise);
+		db.transactions.update({id:curInvoice.id}, { $set:curInvoice }, {upsert:true}, function(err, uresult){
+			if(err){
+				console.log("Transaction add issue:", err);
+				deferred.reject(err);
+			} else {
+				deferred.resolve();
+				console.log("Transaction recorded to account", curInvoice.userid);
+			}
+		});
+	});
+	Q.all(promises).then(function(){topDeferred.resolve(cObject)}).fail(topDeferred.reject);
+	return topDeferred.promise;
+}
+
 
 function getUser(cObject){
 	if(!cObject) cObject = {};
