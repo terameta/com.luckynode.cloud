@@ -35,7 +35,7 @@
 					<td>{{curUser._id}}</td>
 					<td>{{curUser.name}}</td>
 					<td>{{curUser.surname}}</td>
-					<td>{{curUser.joindate}}</td>
+					<td>{{curUser.joindate | date:'yyyy-MM-dd'}}</td>
 					<td>{{curUser.isAdmin || false}}</td>
 					<td>{{curUser.role}}</td>
 					<td>{{curUser.email}}</td>
