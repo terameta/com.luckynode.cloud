@@ -12,6 +12,7 @@ module.exports = function(app, express, refdb, tools) {
 	var apiRoutes 		= express.Router();
 
 	apiRoutes.post('/IPN',  function(req, res) {
+		refreshPayPal();
 		console.log("==========================================================");
 		console.log("==========================================================");
 		console.log("IPN Body");
@@ -44,6 +45,7 @@ module.exports = function(app, express, refdb, tools) {
 	});
 
 	apiRoutes.post('/success/', function(req, res){
+		refreshPayPal();
 		console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 		console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 		console.log("Success Body");

@@ -13,7 +13,7 @@ module.exports = function(app, express, refdb, tools) {
 	invoiceModule 		= require('../modules/module.invoice.js')(db);
 
 	apiRoutes.post('/IPN',  function(req, res) {
-
+		refresh2CO();
 		console.log("==========================================================");
 		console.log("==========================================================");
 		console.log("IPN Body");
@@ -26,6 +26,7 @@ module.exports = function(app, express, refdb, tools) {
 	});
 
 	apiRoutes.get('/IPN',  function(req, res) {
+		refresh2CO();
 		console.log("==========================================================");
 		console.log("==========================================================");
 		console.log("IPN Body GET");
@@ -72,15 +73,7 @@ module.exports = function(app, express, refdb, tools) {
 	});
 
 	apiRoutes.get('/list', tools.checkToken, function(req, res){
-		var cObject = {};
-		getSettings(cObject).
-		then(setTCO).
-		then(listTCO).
-		then(transposeTCO).
-		then(fixUsers).
-		then(getUsers).
-		then(matchUsers).
-		then(updateTRXonDB).
+		refresh2CO().
 		then(function(result){
 			//console.log("We resulted", result);
 			//console.log("TRXLIST:", result.transactionList);
@@ -95,6 +88,22 @@ module.exports = function(app, express, refdb, tools) {
 
 	app.use('/api/payment/tco', apiRoutes);
 };
+
+function refresh2CO(){
+	var deferred = Q.defer();
+	var cObject = {};
+	getSettings(cObject).
+	then(setTCO).
+	then(listTCO).
+	then(transposeTCO).
+	then(fixUsers).
+	then(getUsers).
+	then(matchUsers).
+	then(updateTRXonDB).
+	then(deferred.resolve).
+	fail(deferred.reject);
+	return deferred.promise;
+}
 
 function getSettings(cObject){
 	if(!cObject) cObject = {};
