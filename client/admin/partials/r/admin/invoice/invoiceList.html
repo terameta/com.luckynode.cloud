@@ -20,6 +20,7 @@
 				<th>User</th>
 				<th># items</th>
 				<th>Total Value</th>
+				<th>Date</th>
 				<th>Status</th>
 				<th>Actions</th>
 				<!--th>Details</th-->
@@ -31,6 +32,7 @@
 				<td>{{invoice.details.to}}</td>
 				<td>{{invoice.items.length}}</td>
 				<td>${{invoice.totalValue.toFixed(2)}}</td>
+				<td>{{invoice.details.date | date:'yyyy-MM-dd'}}</td>
 				<td>{{invoice.details.status || 'Unpaid'}}</td>
 				<td><a ui-sref="r.dashboard.invoice({id: invoice._id})" title="Details"><i class="fa fa-cog fa-fw"></i></a></td>
 				<!--td>{{ isofile || json }}</td-->
