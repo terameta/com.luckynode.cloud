@@ -61,6 +61,21 @@ angular.module('adminServices').service('srvcSettings', ['$resource', '$rootScop
 			return deferred.promise;
 		};
 
+		service.fetchCountries = function(){
+			var deferred = $q.defer();
+			$http({
+				method: 'GET',
+				url: '/api/settings/countries'
+			}).then(function successCallback(response) {
+				$rootScope.countries = response.data;
+				deferred.resolve(response.data);
+			}, function errorCallback(response) {
+				deferred.reject(response.data);
+				toastr.error("Countries Fetch Error:<br />" + response.data);
+			});
+			return deferred.promise;
+		};
+
 		service.save = function(){
 			$http({
 				method: 'POST',

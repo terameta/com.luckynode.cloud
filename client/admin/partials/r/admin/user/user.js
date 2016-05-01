@@ -47,11 +47,13 @@ angular.module('adminServices').service('srvcUsers', ['$resource', '$rootScope',
 ]);
 
 
-angular.module('adminControllers').controller('userController', ['$scope', '$rootScope', 'srvcUsers', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage',
-	function($scope, $rootScope, srvcUsers, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage){
+angular.module('adminControllers').controller('userController', ['$scope', '$rootScope', 'srvcUsers', '$state', '$stateParams', '$localStorage', '$datacenter', '$http', '$q', '$uibModal', '$storage', 'srvcSettings',
+	function($scope, $rootScope, srvcUsers, $state, $stateParams, $localStorage, $datacenter, $http, $q, $uibModal, $storage, srvcSettings){
 		var lnToastr = toastr;
 
 		srvcUsers.fetchAll();
+
+		srvcSettings.fetchCountries();
 
 		$scope.discountTypes = [{name: '%', value: 'percentage'}, {name: '$', value: 'currency'}];
 

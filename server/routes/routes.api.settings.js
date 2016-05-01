@@ -51,6 +51,16 @@ module.exports = function(app, express, db, tools) {
 		});
 	});
 
+	apiRoutes.get('/collections', tools.checkToken, function(req, res){
+		db.countries.find(function(err, countries) {
+			if (err){
+				res.status(500).json({status: 'fail', error: err});
+			} else {
+				res.json(countries);
+			}
+		});
+	});
+
 	apiRoutes.post('/', tools.checkToken, function(req, res){
 		if ( !req.body ) {
 			res.status(400).json({ status: "fail", detail: "no data provided" });
