@@ -51,7 +51,7 @@ module.exports = function(app, express, db, tools) {
 		});
 	});
 
-	apiRoutes.get('/countries', tools.checkToken, function(req, res){
+	apiRoutes.get('/countries', function(req, res){
 		db.countries.find(function(err, countries) {
 			if (err){
 				res.status(500).json({status: 'fail', error: err});
