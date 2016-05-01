@@ -199,6 +199,8 @@ function transposeTCO(cObject){
 			curInvoice.fee = curInvoice.calculatedFee;
 			curInvoice.detail = curInvoice.status;
 			curInvoice.method = "2CO";
+			curInvoice.date = moment(curInvoice.date_placed).toDate();
+			curInvoice.feeChecked = true;
 			cObject.invoiceList.push(curInvoice);
 		});
 	});

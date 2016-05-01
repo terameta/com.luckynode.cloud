@@ -94,13 +94,7 @@ module.exports = function(app, express, refdb, tools) {
 	});
 
 	apiRoutes.get('/list', tools.checkToken, function(req, res){
-		var cObject = {};
-		getSettings(cObject).
-		then(setPaypal).
-		then(listPaypal).
-		then(fixUsers).
-		then(getUsers).
-		then(matchUsers).
+		refreshPayPal().
 		then(function(result){
 			//console.log("We resulted", result);
 			//console.log("TRXLIST:", result.transactionList);
@@ -115,6 +109,20 @@ module.exports = function(app, express, refdb, tools) {
 
 	app.use('/api/payment/paypal', apiRoutes);
 };
+
+function refreshPayPal(){
+	var deferred = Q.defer();
+	var cObject = {};
+	getSettings(cObject).
+	then(setPaypal).
+	then(listPaypal).
+	then(fixUsers).
+	then(getUsers).
+	then(matchUsers).
+	then(deferred.resolve).
+	fail(deferred.reject);
+	return deferred.promise;
+}
 
 function getSettings(cObject){
 	if(!cObject) cObject = {};
@@ -255,49 +263,6 @@ function listPaypal(cObject, listDate, listPeriod){
 			}
 		}
 	});
-	/*
-	console.log("=======================================================");
-	console.log("=======================================================");
-	console.log(startdate);
-	console.log(enddate);
-	console.log(companystart.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z');
-	console.log("Difference between dates:", shouldContinue);
-	console.log("=======================================================");
-	console.log("=======================================================");
-
-	*/
-
-/*
-	cObject.paypal.payment.list({ "count": 20 }, function(error, payment) {
-		if (error) {
-			throw error;
-		} else {
-			cObject.invoiceList = payment;
-			console.log("List Payments Response");
-			console.log(JSON.stringify(payment));
-			deferred.resolve(cObject);
-		}
-	});
-	/*
-	listPage = listPage || 1;
-	console.log("Currently listing 2CO Page: ", listPage);
-
-	cObject.tco.sales.list({pagesize:"100", sort_col:"date_placed", sort_dir:"ASC", cur_page:listPage}, function(err, data){
-		if(err){
-			deferred.reject({onFunction:"listTCO", err:err});
-		} else {
-			if(!cObject.transactionList) cObject.transactionList = [];
-			cObject.transactionList = cObject.transactionList.concat(data.sale_summary);
-			console.log("Cur Page:", data.page_info.cur_page);
-			console.log("LastPage:", data.page_info.last_page);
-			if(parseInt(data.page_info.cur_page, 10) < parseInt(data.page_info.last_page, 10)){
-				console.log("There are more records to come");
-				deferred.resolve(listTCO(cObject, ++listPage));
-			} else {
-				deferred.resolve(detailTCO(cObject));
-			}
-		}
-	});*/
 	return deferred.promise;
 }
 
@@ -359,6 +324,12 @@ function matchUsers(cObject){
 	});
 	//console.log(cObject.transactionList);
 	deferred.resolve(cObject);
+	return deferred.promise;
+}
+
+function updateTRXonDB(cObject){
+	var deferred = Q.defer();
+	cObject.invoiceList.forEach(function(curInvoice))
 	return deferred.promise;
 }
 
