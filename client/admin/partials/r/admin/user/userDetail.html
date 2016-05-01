@@ -36,12 +36,11 @@
 							<tr>
 								<td><b>Country: 		</b></td>
 								<td>
-									<span editable-select="curUser.countrycode" e-ng-options="countryCode._id as countryCode.name for countryCode in countries | orderBy:'_id'">
+									<span editable-select="curUser.countrycode" e-ng-options="countryCode._id as countryCode.name for countryCode in countries | orderBy:'name'">
 										{{countryCode.name}}
 									</span>
 								</td>
 							</tr>
-							<tr><td colspan="2"><pre>{{countries | json}}</pre></td></tr>
 							<tr><td><b>hasPicture: 		</b></td><td>{{ curUser.haspicture }}</td></tr>
 							<tr>
 								<td><b>Pay Emails: 		<i class="fa fa-plus-circle" aria-hidden="true" ng-click="addPayEmail()" title="Add new item" style="cursor:pointer;"></i></b></td>
@@ -110,6 +109,9 @@
 					</tr>
 				</tbody>
 			</table>
+		</uib-tab>
+		<uib-tab index="2" heading="Source Code">
+			<pre>{{curUser | json}}</pre>
 		</uib-tab>
 	</uib-tabset>
 	</div>
