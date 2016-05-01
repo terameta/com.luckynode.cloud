@@ -364,6 +364,7 @@ function filterUsers(cObject){
 		if(curInvoice.email == "billing@whmcs.com") shouldAppend = false;
 		if(curInvoice.email == "badoo-paypal@corp.badoo.com") shouldAppend = false;
 		if(curInvoice.email == "paypal-releve-int@gandi.net") shouldAppend = false;
+		if(curInvoice.email == "paypal@souq.com") shouldAppend = false;
 		if(!curInvoice.email ) shouldAppend = false;
 		if(shouldAppend) newInvoices.push(curInvoice);
 	});
