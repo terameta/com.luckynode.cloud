@@ -119,6 +119,7 @@ function refreshPayPal(){
 	then(fixUsers).
 	then(getUsers).
 	then(matchUsers).
+	then(filterUsers).
 	then(deferred.resolve).
 	fail(deferred.reject);
 	return deferred.promise;
@@ -323,6 +324,48 @@ function matchUsers(cObject){
 		}
 	});
 	//console.log(cObject.transactionList);
+	deferred.resolve(cObject);
+	return deferred.promise;
+}
+
+function filterUsers(cObject){
+	var deferred = Q.defer();
+	var newInvoices = [];
+	var shouldAppend;
+	cObject.invoiceList.forEach(function(curInvoice){
+		shouldAppend = true;
+		if(curInvoice.detail == "Currency Conversion (debit)") shouldAppend = false;
+		if(curInvoice.detail == "Currency Conversion (credit)") shouldAppend = false;
+		if(curInvoice.detail == "Transfer" && !curInvoice.email ) shouldAppend = false;
+		if(curInvoice.email == "paypal@hetzner.de") shouldAppend = false;
+		if(curInvoice.email == "fxpaypalsales@2co.com") shouldAppend = false;
+		if(curInvoice.email == "paypal.ae@aramex.com") shouldAppend = false;
+		if(curInvoice.email == "paypal@digitalocean.com") shouldAppend = false;
+		if(curInvoice.email == "paypal@dreamhost.com") shouldAppend = false;
+		if(curInvoice.email == "paypal_owner@elance.com") shouldAppend = false;
+		if(curInvoice.email == "paypal@envato.com") shouldAppend = false;
+		if(curInvoice.email == "paypal@fiverr.com") shouldAppend = false;
+		if(curInvoice.email == "paypalbig@fiverr.com") shouldAppend = false;
+		if(curInvoice.email == "paypal@hetzner.de") shouldAppend = false;
+		if(curInvoice.email == "paypal@manning.com") shouldAppend = false;
+		if(curInvoice.email == "billing@soluslabs.com") shouldAppend = false;
+		if(curInvoice.email == "paypal-ca-admin@ovh.ca") shouldAppend = false;
+		if(curInvoice.email == "ecom.paypal@penti.com.tr") shouldAppend = false;
+		if(curInvoice.email == "nicheweirdo@gmail.com") shouldAppend = false;
+		if(curInvoice.email == "shahulhameed184@yahoo.com") shouldAppend = false;
+		if(curInvoice.email == "shameel_13@yahoo.com") shouldAppend = false;
+		if(curInvoice.email == "social@sharedesk.net") shouldAppend = false;
+		if(curInvoice.email == "billing@singlehop.com") shouldAppend = false;
+		if(curInvoice.email == "payments@siteorigin.com") shouldAppend = false;
+		if(curInvoice.email == "h@softaculous.com") shouldAppend = false;
+		if(curInvoice.email == "paypal@sonetel.com") shouldAppend = false;
+		if(curInvoice.email == "info@statuspeople.com") shouldAppend = false;
+		if(curInvoice.email == "mb@screencastify.com") shouldAppend = false;
+		if(curInvoice.email == "billing@whmcs.com") shouldAppend = false;
+		if(curInvoice.email == "badoo-paypal@corp.badoo.com") shouldAppend = false;
+		if(shouldAppend) newInvoices.push(curInvoice);
+	});
+	cObject.invoiceList = newInvoices;
 	deferred.resolve(cObject);
 	return deferred.promise;
 }
