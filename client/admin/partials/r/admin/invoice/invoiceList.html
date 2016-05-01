@@ -27,7 +27,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="invoice in invoices | orderBy:'-_id'">
+			<tr ng-repeat="invoice in invoices | orderBy:'details.date'">
 				<td>{{invoice._id}}</td>
 				<td>{{invoice.details.to}}</td>
 				<td>{{invoice.items.length}}</td>
