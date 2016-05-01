@@ -16,7 +16,7 @@
 			<thead>
 				<tr>
 					<th>Row</th>
-					<th>ID</th>
+					<!--th>ID</th-->
 					<th>Name</th>
 					<th>Surname</th>
 					<th>JoinDate</th>
@@ -32,7 +32,7 @@
 			<tbody>
 				<tr ng-repeat="curUser in users | orderBy:'name'">
 					<td>{{$index +1}}</td>
-					<td>{{curUser._id}}</td>
+					<!--td>{{curUser._id}}</td-->
 					<td>{{curUser.name}}</td>
 					<td>{{curUser.surname}}</td>
 					<td>{{curUser.joindate | date:'yyyy-MM-dd'}}</td>
