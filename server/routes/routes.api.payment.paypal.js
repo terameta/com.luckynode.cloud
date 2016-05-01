@@ -380,6 +380,7 @@ function updateTRXonDB(cObject){
 	var topDeferred = Q.defer();
 	var promises = [];
 	cObject.invoiceList.forEach(function(curInvoice){
+		curInvoice.fee = parseFloat(curInvoice.fee) * (-1);
 		var deferred = Q.defer();
 		promises.push(deferred.promise);
 		db.transactions.update({id:curInvoice.id}, { $set:curInvoice }, {upsert:true}, function(err, uresult){
