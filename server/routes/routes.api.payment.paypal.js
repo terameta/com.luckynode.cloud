@@ -326,12 +326,12 @@ function matchUsers(cObject){
 	deferred.resolve(cObject);
 	return deferred.promise;
 }
-
+/*
 function updateTRXonDB(cObject){
 	var deferred = Q.defer();
 	cObject.invoiceList.forEach(function(curInvoice))
 	return deferred.promise;
-}
+}*/
 
 function parseTrx(transaction){
 	var toReturn = {};
