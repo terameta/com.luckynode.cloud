@@ -67,7 +67,7 @@ angular.module('adminControllers').controller('transactionController', ['$scope'
 		$scope.newTransaction = function(){
 			srvcTransaction.resource.save({}, function(result){
 				console.log(result);
-				$state.go('r.dashboard.transaction', { id: result.invoicenumber });
+				$state.go('r.dashboard.transaction', { id: result._id });
 			});
 		};
 
