@@ -63,6 +63,13 @@ module.exports = function(app, express, db, tools) {
 		console.log(req.body);
 		console.log("===");
 		res.send("OK");
+		db.transactions.insert(req.body, function(err, trx){
+			if(err){
+				res.status(500).json({status: "fail", message:err});
+			} else {
+				res.send(trx);
+			}
+		});
 		/*invoiceModule.getNextInvoiceNumber().
 		then(invoiceModule.createEmptyInvoice).
 		then(function(result){
