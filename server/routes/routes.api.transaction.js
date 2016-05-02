@@ -57,6 +57,21 @@ module.exports = function(app, express, db, tools) {
 			});
 		}
 	});
+
+	apiRoutes.post('/', tools.checkToken, function(req, res){
+		console.log("We reached 1");
+		console.log(req.body);
+		console.log("===");
+		res.send("OK");
+		/*invoiceModule.getNextInvoiceNumber().
+		then(invoiceModule.createEmptyInvoice).
+		then(function(result){
+			res.json(result);
+		}).fail(function(issue){
+			console.log(issue);
+			res.status(500).json({ status: "fail", message: issue});
+		});*/
+	});
 /*
 	apiRoutes.post('/', tools.checkToken, function(req, res) {
 		if (!req.body) {

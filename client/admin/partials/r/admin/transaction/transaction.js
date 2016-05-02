@@ -64,6 +64,12 @@ angular.module('adminControllers').controller('transactionController', ['$scope'
 		srvcTransaction.fetchAll();
 		if($stateParams.id){ srvcTransaction.fetchOne($stateParams.id);	}
 
+		$scope.newTransaction = function(){
+			srvcTransaction.resource.save({}, function(result){
+				$state.go('r.dashboard.transaction', { id: result.invoicenumber });
+			});
+		};
+
 		$scope.saveTransaction = function(){
 			$scope.curTransaction.$update(function(result){
 				srvcTransaction.fetchAll();
