@@ -5,13 +5,15 @@ angular.module('adminApp').config(function($stateProvider, $urlRouterProvider){
 				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/invoice/invoiceList.html", controller: 'invoiceController' }
 			},
 			data: { requireSignin: true }
-		}).state('r.dashboard.invoicenew', {
+		})/*
+		This part is not necessary anymore. Below there is a function for new invoice that creates and goes to edit of the invoice.
+		.state('r.dashboard.invoicenew', {
 			url:"/invoicenew",
 			views: {
 				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/invoice/invoiceNew.html", controller: 'invoiceController' }
 			},
 			data: { requireSignin: true }
-		}).state('r.dashboard.invoice', {
+		})*/.state('r.dashboard.invoice', {
 			url:"/invoice/:id",
 			views: {
 				'content@r.dashboard': { templateUrl: "/admin/partials/r/admin/invoice/invoiceDetail.html", controller: 'invoiceController' }
