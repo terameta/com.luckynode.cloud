@@ -135,6 +135,8 @@ angular.module('cloudControllers').controller('ctrlAccount', ['$scope', '$http',
 			});
 			if(!$scope.curUser.fullName){
 				$userService.getCurUserDetails().then(function(result){
+					console.log("Cur User Details");
+					console.log(result);
 					$scope.curUser.fullName = result.name + ' ' + result.surname;
 					$scope.ccDetails.holder = $scope.curUser.fullName.toUpperCase();
 
