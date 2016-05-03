@@ -32,6 +32,10 @@ angular.module('cloudControllers').controller('ctrlAccount', ['$scope', '$http',
 	function($scope, $http, $q, $rootScope, $state, $stateParams, $uibModal, srvcConfirm, $userService, $window, srvcSettings, $sce, srvcAccount) {
 		srvcAccount.accountBalance();
 
+		$userService.getCurUserDetails().then(function(result){
+			console.log(result);
+		});
+
 		var lnToastr = toastr;
 
 		srvcSettings.get().then(function(result){
@@ -135,8 +139,6 @@ angular.module('cloudControllers').controller('ctrlAccount', ['$scope', '$http',
 			});
 			if(!$scope.curUser.fullName){
 				$userService.getCurUserDetails().then(function(result){
-					console.log("Cur User Details");
-					console.log(result);
 					$scope.curUser.fullName = result.name + ' ' + result.surname;
 					$scope.ccDetails.holder = $scope.curUser.fullName.toUpperCase();
 
