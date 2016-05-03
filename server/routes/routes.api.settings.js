@@ -46,6 +46,7 @@ module.exports = function(app, express, db, tools) {
 			if (err){
 				res.status(500).json({status: 'fail', error: err});
 			} else {
+				console.log("Collection Names:", colNames);
 				res.json(colNames);
 			}
 		});
