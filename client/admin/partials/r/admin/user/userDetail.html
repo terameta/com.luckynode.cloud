@@ -30,7 +30,8 @@
 							<tr><td><b>Role: 			</b></td><td>{{ curUser.role }}</td></tr>
 							<tr><td><b>isVerified: 		</b></td><td>{{ curUser.verified }}</td></tr>
 							<tr><td><b>Profession: 		</b></td><td><span editable-text="curUser.profession" e-size="100">{{ curUser.profession }}</span></td></tr>
-							<tr><td><b>Address: 		</b></td><td><span editable-textarea="curUser.address" e-rows="5" e-cols="100"><pre style="background:transparent;border:0;padding:0">{{ curUser.address }}</pre></span></td></tr>
+							<tr><td><b>Address: 		</b></td><td><span editable-text="curUser.address" e-size="10" e-maxlength="64">{{ curUser.address }}</span></td></tr>
+							<tr><td><b>Address 2: 		</b></td><td><span editable-text="curUser.address2" e-size="10" e-maxlength="64">{{ curUser.address2 }}</span></td></tr>
 							<tr><td><b>City: 			</b></td><td><span editable-text="curUser.city" e-size="100">{{curUser.city}}</span></td></tr>
 							<tr><td><b>State: 			</b></td><td><span editable-text="curUser.state" e-size="100">{{curUser.state}}</span></td></tr>
 							<tr><td><b>Post Code: 		</b></td><td><span editable-text="curUser.postcode" e-size="50">{{ curUser.postcode }}</span></td></tr>
