@@ -50,6 +50,10 @@
 					<h3 class="box-title">About You</h3>
 				</div>
 				<div class="box-body box-profile">
+					<div class="row">
+						<div class="col-xs-6">Name:</div>
+						<div class="col-xs-6"><span editable-text="curEndUser.name" e-placeholder="Name" e-maxlength="64">{{ curEndUser.name || 'Name' }}</span></div>
+					</div>
 					<ul class="list-group list-group-unbordered">
 						<li class="list-group-item">Name: <span editable-text="curEndUser.name" e-placeholder="Name" e-maxlength="64">{{ curEndUser.name || 'Name' }}</span></li>
 						<li class="list-group-item">Surname: <span editable-text="curEndUser.surname" e-placeholder="Surname" e-maxlength="63">{{ curEndUser.surname || 'Surname' }}</span></li>
