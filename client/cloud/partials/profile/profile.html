@@ -51,16 +51,33 @@
 				</div>
 				<div class="box-body box-profile">
 					<div class="row">
-						<div class="col-xs-6">Name:</div>
-						<div class="col-xs-6"><span editable-text="curEndUser.name" e-placeholder="Name" e-maxlength="64">{{ curEndUser.name || 'Name' }}</span></div>
+						<div class="col-xs-3">Name:</div>
+						<div class="col-xs-9"><span editable-text="curEndUser.name" e-placeholder="Name" e-maxlength="64">{{ curEndUser.name || 'Name' }}</span></div>
 					</div>
-					<ul class="list-group list-group-unbordered">
-						<li class="list-group-item">Name: <span editable-text="curEndUser.name" e-placeholder="Name" e-maxlength="64">{{ curEndUser.name || 'Name' }}</span></li>
-						<li class="list-group-item">Surname: <span editable-text="curEndUser.surname" e-placeholder="Surname" e-maxlength="63">{{ curEndUser.surname || 'Surname' }}</span></li>
-						<li class="list-group-item">Profession: <span editable-text="curEndUser.profession" e-placeholder="Profession">{{ curEndUser.profession || 'Profession' }}</span></li>
-						<li class="list-group-item">Email Address: <span editable-text="curEndUser.email" e-required e-size="100" e-maxlength="64" e-placeholder="Email Address">{{curEndUser.email || 'Email Address'}}</span></li>
-						<li class="list-group-item">Phone Number:<span editable-text="curEndUser.phone" e-required e-size="100" e-placeholder="Phone number">{{curEndUser.phone || 'Please edit phone number'}}</span></li>
-					</ul>
+					<div class="row">
+						<div class="col-xs-3">Surname:</div>
+						<div class="col-xs-9"><span editable-text="curEndUser.surname" e-placeholder="Surname" e-maxlength="63">{{ curEndUser.surname || 'Surname' }}</span></div>
+					</div>
+					<div class="row">
+						<div class="col-xs-3">Profession:</div>
+						<div class="col-xs-9">Profession: <span editable-text="curEndUser.profession" e-placeholder="Profession">{{ curEndUser.profession || 'Profession' }}</span></div>
+					</div>
+					<div class="row">
+						<div class="col-xs-3">Company:</div>
+						<div class="col-xs-9">Profession: <span editable-text="curEndUser.company" e-placeholder="Company">{{ curEndUser.company || 'Company' }}</span></div>
+					</div>
+					<div class="row">
+						<div class="col-xs-3">E-mail Address:</div>
+						<div class="col-xs-9"><span editable-text="curEndUser.email" e-required e-size="100" e-maxlength="64" e-placeholder="Email Address">{{curEndUser.email || 'Email Address'}}</span></div>
+					</div>
+					<div class="row">
+						<div class="col-xs-3">Phone Number:</div>
+						<div class="col-xs-9"><span editable-text="curEndUser.phone" e-required e-size="100" e-placeholder="Phone number">{{curEndUser.phone || 'Please edit phone number'}}</span></div>
+					</div>
+					<div class="row">
+						<div class="col-xs-3"></div>
+						<div class="col-xs-9"></div>
+					</div>
 				</div>
 			</div>
 		</div>
