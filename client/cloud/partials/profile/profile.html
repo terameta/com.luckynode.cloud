@@ -74,6 +74,10 @@
 						<div class="col-xs-4">Phone Number:</div>
 						<div class="col-xs-8"><span editable-text="curEndUser.phone" e-required e-size="100" e-placeholder="Phone number">{{curEndUser.phone || 'Please edit phone number'}}</span></div>
 					</div>
+					<div class="row">
+						<div class="col-xs-4">Member Since:</div>
+						<div class="col-xs-8">{{ memberSince || 'JoinDate' }}</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -111,10 +115,6 @@
 								{{ (countries | filter:{_id: curEndUser.countrycode})[0].name || 'Not set' }}
 							</span>
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-xs-4"></div>
-						<div class="col-xs-8"></div>
 					</div>
 				</div>
 			</div>
