@@ -41,7 +41,7 @@
 							<button class="btn btn-xs btn-success" type="submit" ng-click="uploadProfilePicture()" ng-show="profileMainEditForm.$visible">Upload</button>
 						</div>
 					</div>
-					<div class="row" ng-if="ppicprogress">
+					<div class="row" ng-if="ppicprogress && profileMainEditForm.$visible">
 						{{ppicprogress}}% uploaded.
 					</div>
 				</div>
