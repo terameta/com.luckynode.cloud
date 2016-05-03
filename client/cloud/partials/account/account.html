@@ -54,25 +54,6 @@
 
 					<button type="submit"><i class="fa fa-paypal fa-fw"></i> Pay with PayPal</button>
 				</form>
-				<form action='https://www.2checkout.com/checkout/purchase' method='post' ng-if="curUser.id=='56e706756337414e45283cc6'">
-					<input type='text' name='sid' value='1303908' />
-					<input type='text' name='mode' value='2CO' />
-					<input type='text' name='li_0_type' value="product" />
-					<input type='text' name='li_0_name' value="Account: {{ curUser.id }}" />
-					<input type='text' name='li_0_price' value="{{ formatCurrency(accountBalance) }}" />
-					<input type='text' name='card_holder_name' value="{{curUser.card_holder_name}}" />
-					<input type='text' name='street_address' value="{{curUser.address}}" />
-					<input type='text' name='street_address2' value="{{curUser.address2}}" />
-					<input type='text' name='city' value='Columbus' />
-					<input type='text' name='state' value='OH' />
-					<input type='text' name='zip' value='43228' />
-					<input type='text' name='country' value='USA' />
-					<input type='text' name='email' value='example@2co.com' />
-					<input type='text' name='phone' value='614-921-2450' />
-					<!--input name='submit' type='submit' value='Checkout' /-->
-					<button type="submit"><i class="fa fa-credit-card-alt fa-fw"></i> Pay with 2CheckOut</button>
-					<pre>{{curUser}}</pre>
-				</form>
 			</div>
 		</div>
 	</div>

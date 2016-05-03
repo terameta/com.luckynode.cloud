@@ -343,12 +343,12 @@ function chargeCard(cObject){
 		"billingAddr": {
 			"name": 				cObject.holder,
 			"addrLine1": 		cObject.user.address,
+			"addrLine2": 		cObject.user.address2,
 			"city": 				cObject.user.city,
 			"state": 			cObject.user.state,
 			"zipCode": 			cObject.user.postcode,
 			"country": 			cObject.user.countrycode,
-			"email": 			cObject.user.email,
-			"phoneNumber": 	cObject.user.phone
+			"email": 			cObject.user.email
 		}
 	};
 	var theItem = {
