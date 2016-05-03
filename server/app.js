@@ -1,3 +1,9 @@
+var opbeat = require('opbeat').start({
+  appId: '***REMOVED***',
+  organizationId: '***REMOVED***',
+  secretToken: '***REMOVED***'
+});
+
 var cluster         = require( 'cluster' );
 var cCPUs           = require('os').cpus().length;
 var fs 				= require("fs");
