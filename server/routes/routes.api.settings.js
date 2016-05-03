@@ -42,19 +42,22 @@ module.exports = function(app, express, db, tools) {
 	});
 
 	apiRoutes.get('/collections', tools.checkToken, function(req, res){
-		db.getCollectionNames(function(err, colNames) {
+		/*db.getCollectionNames(function(err, colNames) {
 			if (err){
 				res.status(500).json({status: 'fail', error: err});
 			} else {
 				console.log("Collection Names:", colNames);
 				res.json(colNames);
 			}
-		});
+		});*/
 
 		//console.log(db);
+		var colNames = [];
 		Object.keys(db).forEach(function(key) {
+			if(key != '_dbname' && key != '_server' && key !='_getServer' && key != 'ObjectId' ) colNames.push(key);
 			console.log(key);
 		});
+		res.json(colNames);
 	});
 
 	apiRoutes.get('/countries', function(req, res){
