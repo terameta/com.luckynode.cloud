@@ -11,7 +11,7 @@ module.exports = function(app, express, db, tools) {
 		} else if(!req.user.id){
 			res.status(400).json({ status: "fail", detail: "no user provided" });
 		} else {
-			db.users.findOne({_id:mongojs.ObjectId(req.user.id)},{name:1,surname:1,profession:1,address:1,haspicture:1},function(err, user){
+			db.users.findOne({_id:mongojs.ObjectId(req.user.id)},{accountTransactions:0},function(err, user){
 				if(err || !user){
 					res.status(500).json({status:"fail", message:"Failed to receive user details"});
 				} else {
