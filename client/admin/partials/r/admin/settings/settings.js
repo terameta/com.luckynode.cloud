@@ -51,11 +51,12 @@ angular.module('adminServices').service('srvcSettings', ['$resource', '$rootScop
 				method: 'GET',
 				url: '/api/settings/collections'
 			}).then(function successCallback(response) {
+				console.log("Fetch Collections result:", response);
 				$rootScope.collections = response.data;
 				deferred.resolve(response.data);
 			}, function errorCallback(response) {
 				deferred.reject(response.data);
-				toastr.error("Counters Fetch Error:<br />" + response.data);
+				toastr.error("Collections Fetch Error:<br />" + response.data);
 			});
 
 			return deferred.promise;
