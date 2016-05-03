@@ -34,6 +34,14 @@ angular.module('cloudControllers').controller('ctrlAccount', ['$scope', '$http',
 
 		$userService.getCurUserDetails().then(function(result){
 			console.log(result, $scope.curUser);
+			$scope.curUser.card_holder_name = result.name + ' ' + result.surname;
+			$scope.curUser.address = result.address;
+			$scope.curUser.city = result.city;
+			$scope.curUser.state = result.state;
+			$scope.curUser.zip = result.postcode;
+			$scope.curUser.country = result.countrycode;
+			$scope.curUser.email = result.email;
+			$scope.curUser.phone = result.phone;
 		});
 
 		var lnToastr = toastr;

@@ -57,10 +57,10 @@
 				<form action='https://www.2checkout.com/checkout/purchase' method='post' ng-if="curUser.id=='56e706756337414e45283cc6'">
 					<input type='hidden' name='sid' value='1303908' />
 					<input type='hidden' name='mode' value='2CO' />
-					<input type='hidden' name='li_0_type' value='product' />
-					<input type='hidden' name='li_0_name' value='invoice123' />
-					<input type='hidden' name='li_0_price' value='25.99' />
-					<input type='hidden' name='card_holder_name' value='Checkout Shopper' />
+					<input type='hidden' name='li_0_type' value="product" />
+					<input type='hidden' name='li_0_name' value="Account: {{ curUser.id }}" />
+					<input type='hidden' name='li_0_price' value="{{ formatCurrency(accountBalance) }}" />
+					<input type='hidden' name='card_holder_name' value="{{curUser.card_holder_name}}" />
 					<input type='hidden' name='street_address' value='123 Test Address' />
 					<input type='hidden' name='street_address2' value='Suite 200' />
 					<input type='hidden' name='city' value='Columbus' />
