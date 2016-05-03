@@ -51,12 +51,7 @@ module.exports = function(app, express, db, tools) {
 			}
 		});
 
-		db.collections(function(e, cols) {
-			cols.forEach(function(col) {
-				console.log("====================================================");
-				console.log(col.collectionName);
-			});
-		});
+		console.log(db);
 	});
 
 	apiRoutes.get('/countries', function(req, res){
