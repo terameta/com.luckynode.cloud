@@ -61,8 +61,8 @@
 					<input type='text' name='li_0_name' value="Account: {{ curUser.id }}" />
 					<input type='text' name='li_0_price' value="{{ formatCurrency(accountBalance) }}" />
 					<input type='text' name='card_holder_name' value="{{curUser.card_holder_name}}" />
-					<input type='text' name='street_address' value='123 Test Address' />
-					<input type='text' name='street_address2' value='Suite 200' />
+					<input type='text' name='street_address' value="{{curUser.address}}" />
+					<input type='text' name='street_address2' value="{{curUser.address2}}" />
 					<input type='text' name='city' value='Columbus' />
 					<input type='text' name='state' value='OH' />
 					<input type='text' name='zip' value='43228' />

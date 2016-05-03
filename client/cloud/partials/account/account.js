@@ -35,7 +35,8 @@ angular.module('cloudControllers').controller('ctrlAccount', ['$scope', '$http',
 		$userService.getCurUserDetails().then(function(result){
 			console.log(result, $scope.curUser);
 			$scope.curUser.card_holder_name = result.name + ' ' + result.surname;
-			$scope.curUser.address = result.address;
+			$scope.curUser.address = result.address.substring(0,64);
+			$scope.curUser.address2 = result.address.substring(64,64);
 			$scope.curUser.city = result.city;
 			$scope.curUser.state = result.state;
 			$scope.curUser.zip = result.postcode;
