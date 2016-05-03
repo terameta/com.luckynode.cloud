@@ -29,17 +29,20 @@
 					<h3 class="box-title">Your Profile Picture</h3>
 				</div>
 				<div class="box-body box-profile">
-					<span class="btn btn-xs btn-primary" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="10MB" ngf-min-height="100" ngf-resize="{width: 100, height: 100}" ng-show="profileMainEditForm.$visible">Change Picture</span>
-					<button class="btn btn-xs btn-success" type="submit" ng-click="uploadProfilePicture()" ng-show="profileMainEditForm.$visible">Upload</button>
-					<span ng-show="profileMainEditForm.$visible">{{ppicprogress}}% uploaded</span>
-
 					<div class="row">
 						<div class="col-xs-4">Your Picture:</div>
 						<div class="col-xs-8"><img class="profile-user-img img-responsive img-circle" ng-src="{{ppicurl}}" alt="User profile picture" ngf-thumbnail="file || ppicurl"></div>
 					</div>
-					<div class="row">
-						<div class="col-xs-4"></div>
-						<div class="col-xs-8"></div>
+					<div class="row" ng-show="profileMainEditForm.$visible">
+						<div class="col-xs-4">
+							<span class="btn btn-xs btn-primary" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="10MB" ngf-min-height="100" ngf-resize="{width: 100, height: 100}">Change Picture</span>
+						</div>
+						<div class="col-xs-8">
+							<button class="btn btn-xs btn-success" type="submit" ng-click="uploadProfilePicture()" ng-show="profileMainEditForm.$visible">Upload</button>
+						</div>
+					</div>
+					<div class="row" ng-if="ppicprogress">
+						{{ppicprogress}}% uploaded.
 					</div>
 				</div>
 				</form>
