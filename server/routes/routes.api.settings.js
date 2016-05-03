@@ -51,7 +51,10 @@ module.exports = function(app, express, db, tools) {
 			}
 		});
 
-		console.log(db);
+		//console.log(db);
+		Object.keys(db).forEach(function(key) {
+			console.log(key);
+		});
 	});
 
 	apiRoutes.get('/countries', function(req, res){
