@@ -362,6 +362,8 @@ function chargeCard(cObject){
 	params.lineItems.push(theItem);
 	cObject.tco.checkout.authorize(params, function(error, data) {
 		if (error) {
+			console.log("2CO Error");
+			console.log(error);
 			console.log(error.message);
 			deferred.reject(error.message);
 		} else {
