@@ -33,7 +33,7 @@ angular.module('cloudControllers').controller('ctrlAccount', ['$scope', '$http',
 		srvcAccount.accountBalance();
 
 		$userService.getCurUserDetails().then(function(result){
-			console.log(result);
+			console.log(result, curUser);
 		});
 
 		var lnToastr = toastr;
