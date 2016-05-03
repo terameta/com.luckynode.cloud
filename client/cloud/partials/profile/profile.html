@@ -68,7 +68,7 @@
 				</div>
 				<div class="box-body box-profile">
 					<ul class="list-group list-group-unbordered">
-						<li class="list-group-item">Address: <span editable-text="curEndUser.address" e-required e-size="64" e-placeholder="Address">{{curEndUser.address || 'Please edit your address'}}</span></li>
+						<li class="list-group-item">Address: <span editable-text="curEndUser.address" e-required e-size="64" e-maxlength="64" e-placeholder="Address">{{curEndUser.address || 'Please edit your address'}}</span></li>
 						<li class="list-group-item">Address 2: <span editable-text="curEndUser.address2" e-required e-size="64" e-placeholder="Address 2">{{curEndUser.address2 || 'Please edit your address'}}</span></li>
 						<li class="list-group-item">Post Code:<span editable-text="curEndUser.postcode" e-required e-size="100" e-placeholder="Post Code">{{curEndUser.postcode || 'Please edit your post code'}}</span></li>
 						<li class="list-group-item">City:<span editable-text="curEndUser.city" e-required e-size="100" e-placeholder="City" >{{curEndUser.city || 'Please edit your city'}}</span></li>
