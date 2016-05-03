@@ -368,6 +368,7 @@ function chargeCard(cObject){
 			cObject.tcoresult = data;
 			deferred.resolve(cObject);
 		}
+		db.cclogs.insert({date: new Date(), params:params, error:error, data: data, processor: '2CO'});
 	});
 	return deferred.promise;
 }
