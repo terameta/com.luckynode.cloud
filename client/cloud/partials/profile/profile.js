@@ -24,6 +24,15 @@ angular.module('cloudControllers').controller('ctrlProfile', ['$scope', '$http',
 
 		$scope.pd = function(e){e.preventDefault();};
 
+		$http({
+			method: 'GET',
+			url: '/api/settings/countries'
+		}).then(function successCallback(response) {
+			$rootScope.countries = response.data;
+		}, function errorCallback(response) {
+			toastr.error("Countries Fetch Error:<br />" + response.data);
+		});
+
 		$scope.ppicprogress = 0;
 
 		$scope.uploadProfilePicture = function(){

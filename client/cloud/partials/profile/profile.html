@@ -51,8 +51,8 @@
 				</div>
 				<div class="box-body box-profile">
 					<ul class="list-group list-group-unbordered">
-						<li class="list-group-item">Name: <span editable-text="curEndUser.name" e-placeholder="Name">{{ curEndUser.name || 'Name' }}</span></li>
-						<li class="list-group-item">Surname: <span editable-text="curEndUser.surname" e-placeholder="Surname">{{ curEndUser.surname || 'Surname' }}</span></li>
+						<li class="list-group-item">Name: <span editable-text="curEndUser.name" e-placeholder="Name" e-maxlength="64">{{ curEndUser.name || 'Name' }}</span></li>
+						<li class="list-group-item">Surname: <span editable-text="curEndUser.surname" e-placeholder="Surname" e-maxlength="63">{{ curEndUser.surname || 'Surname' }}</span></li>
 						<li class="list-group-item">Profession: <span editable-text="curEndUser.profession" e-placeholder="Profession">{{ curEndUser.profession || 'Profession' }}</span></li>
 						<li class="list-group-item">Email Address: <span editable-text="curEndUser.email" e-required e-size="100" e-placeholder="Email Address">{{curEndUser.email || 'Email Address'}}</span></li>
 						<li class="list-group-item">Phone Number:<span editable-text="curEndUser.phone" e-required e-size="100" e-placeholder="Phone number">{{curEndUser.phone || 'Please edit phone number'}}</span></li>
@@ -69,11 +69,17 @@
 				<div class="box-body box-profile">
 					<ul class="list-group list-group-unbordered">
 						<li class="list-group-item">Address: <span editable-text="curEndUser.address" e-required e-size="64" e-maxlength="64" e-placeholder="Address">{{curEndUser.address || 'Please edit your address'}}</span></li>
-						<li class="list-group-item">Address 2: <span editable-text="curEndUser.address2" e-required e-size="64" e-placeholder="Address 2">{{curEndUser.address2 || 'Please edit your address'}}</span></li>
-						<li class="list-group-item">Post Code:<span editable-text="curEndUser.postcode" e-required e-size="100" e-placeholder="Post Code">{{curEndUser.postcode || 'Please edit your post code'}}</span></li>
-						<li class="list-group-item">City:<span editable-text="curEndUser.city" e-required e-size="100" e-placeholder="City" >{{curEndUser.city || 'Please edit your city'}}</span></li>
-						<li class="list-group-item">State:<span editable-text="curEndUser.state" e-required e-size="100" e-placeholder="State">{{curEndUser.state || 'Please edit your state'}}</span></li>
+						<li class="list-group-item">Address 2: <span editable-text="curEndUser.address2" e-required e-size="64" e-maxlength="64" e-placeholder="Address 2">{{curEndUser.address2 || 'Please edit your address'}}</span></li>
+						<li class="list-group-item">Post Code:<span editable-text="curEndUser.postcode" e-required e-size="100" e-maxlength="16" e-placeholder="Post Code">{{curEndUser.postcode || 'Please edit your post code'}}</span></li>
+						<li class="list-group-item">City:<span editable-text="curEndUser.city" e-required e-size="100" e-maxlength="64" e-placeholder="City" >{{curEndUser.city || 'Please edit your city'}}</span></li>
+						<li class="list-group-item">State:<span editable-text="curEndUser.state" e-required e-size="100" e-maxlength="64" e-placeholder="State">{{curEndUser.state || 'Please edit your state'}}</span></li>
 						<li class="list-group-item">Country:<span editable-text="curEndUser.country" e-required e-size="100" e-placeholder="Country">{{curEndUser.country || 'Please edit your country'}}</span></li>
+						<li class="list-group-item">
+							Country:
+							<span editable-select="curEndUser.countrycode" e-ng-options="countryCode._id as countryCode.name for countryCode in countries | orderBy:'name'">
+								{{ (countries | filter:{_id: curEndUser.countrycode})[0].name || 'Not set' }}
+							</span>
+						</li>
 					</ul>
 				</div>
 			</div>
