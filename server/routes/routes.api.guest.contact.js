@@ -15,7 +15,7 @@ module.exports = function(app, express, db, tools) {
 				console.log("Hede1");
 				res.status(500).json({status:"Fail", message: "Database issue. Please try again later."});
 			} else {
-				tools.mailer.sendTemplateMail("Contact Form", result._id, "Contact Form: "+req.body.name, "sales@epmvirtual.com", "sales@epmvirtual.com", req.body.email, false, false, req.body.email).
+				tools.mailer.sendTemplateMail("Contact Form", result._id, "Contact Form: "+req.body.name, "sales@epmvirtual.com", "sales@epmvirtual.com", req.body.email, "marketing@epmvirtual.com", false, req.body.email).
 				then(function(result){
 					res.send("OK");
 				}).
