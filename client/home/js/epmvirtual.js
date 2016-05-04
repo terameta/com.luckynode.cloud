@@ -1,4 +1,4 @@
-var homeApp 			= angular.module('homeApp', ['ui.router', 'homeControllers', 'homeServices', 'ui.bootstrap', 'angular-loading-bar', 'treeControl', 'vcRecaptcha']);
+var homeApp 			= angular.module('homeApp', ['ui.router', 'homeControllers', 'homeServices', 'ui.bootstrap', 'angular-loading-bar', 'treeControl', 'vcRecaptcha', 'angulartics', 'angulartics.google.analytics']);
 var homeServices 		= angular.module('homeServices', ['ngResource']);
 var homeControllers 	= angular.module('homeControllers', []);
 
