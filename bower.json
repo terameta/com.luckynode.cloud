@@ -35,6 +35,7 @@
     "flag-icon-css": "~0.8.5",
     "angular-ui-ace": "~0.2.3",
     "angular-tree-control": "~0.2.23",
-    "angular-recaptcha": "~2.5.0"
+    "angular-recaptcha": "~2.5.0",
+    "angulartics-google-analytics": "~0.1.4"
   }
 }
