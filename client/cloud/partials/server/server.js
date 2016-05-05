@@ -207,9 +207,9 @@ angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', 
 			if(!$scope.curNewServer.plan) return false;
 			if(!$scope.curNewServer.img) return false;
 			if(!$scope.curNewServer.requirements){ 											$scope.curNewServer.issue = 'No image requirements defined'; return false; }
-			if($scope.curNewServer.cpu < $scope.curNewServer.requirements.cpu){		$scope.curNewServer.issue = 'Not enough CPU cores on the selected plan'; return false; }
-			if($scope.curNewServer.ram < $scope.curNewServer.requirements.ram){		$scope.curNewServer.issue = 'Not enough memory on the selected plan'; return false; }
-			if($scope.curNewServer.hdd < $scope.curNewServer.requirements.hdd){		$scope.curNewServer.issue = 'Not enough disk space on the selected plan'; return false; }
+			if(parseFloat($scope.curNewServer.cpu) < parseFloat($scope.curNewServer.requirements.cpu)){		$scope.curNewServer.issue = 'Not enough CPU cores on the selected plan'; return false; }
+			if(parseFloat($scope.curNewServer.ram) < parseFloat($scope.curNewServer.requirements.ram)){		$scope.curNewServer.issue = 'Not enough memory on the selected plan'; return false; }
+			if(parseFloat($scope.curNewServer.hdd) < parseFloat($scope.curNewServer.requirements.hdd)){		$scope.curNewServer.issue = 'Not enough disk space on the selected plan'; return false; }
 			return true;
 		};
 
