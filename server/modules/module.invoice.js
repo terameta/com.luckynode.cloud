@@ -42,8 +42,17 @@ function informBalance(refObj){
 	} else {
 		//console.log("Balancing: ", refObj.user._id, refObj.user.email);
 		refObj.userid = refObj.user._id.toString();
-		getUserBalance(refObj).then(decideBalance);
+		getUserBalance(refObj).
+		then(balanceDatesCheck).
+		then(decideBalance);
 	}
+	return deferred.promise;
+}
+
+function balanceDatesCheck(refObj){
+	var deferred = Q.defer();
+	console.log(moment().format());
+	deferred.resolve(refObj);
 	return deferred.promise;
 }
 
