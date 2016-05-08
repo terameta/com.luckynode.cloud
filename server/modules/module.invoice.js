@@ -75,6 +75,7 @@ function decideBalance(refObj){
 		console.log(moment(refObj.user.dayofMonthToCheckBalance,"D").toDate());
 		console.log(refObj.user.lastBalanceCheck);
 		console.log(refObj.user.lastBalanceCheck > moment(refObj.user.dayofMonthToCheckBalance,"D").toDate());
+		console.log(moment(refObj.user.lastBalanceCheck).add(2,"days").toDate());
 	} else {
 		refObj.shouldWeSend = false;
 	}
