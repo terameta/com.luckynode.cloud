@@ -53,11 +53,6 @@ function decideBalance(refObj){
 	} else {
 	//	console.log(refObj.userid, refObj.accountBalance, "No need to communicate");
 	}
-
-	if(refObj.userid == "5721c82db1bb8bd5fbbc5d76"){
-		console.log(refObj);
-	}
-
 }
 
 function getNextInvoiceNumber(tokenObject){
@@ -140,7 +135,7 @@ function getUserTransactions(refObj){
 			if(refObj.userid == "5721c82db1bb8bd5fbbc5d76"){
 				console.log("====================================================");
 				console.log("====================================================");
-				console.log(trxList);
+				console.log(refObj);
 				console.log("====================================================");
 				console.log("====================================================");
 			}
