@@ -54,6 +54,10 @@ function decideBalance(refObj){
 		console.log(refObj.userid, refObj.accountBalance, "No need to communicate");
 	}
 
+	if(refObj.userid == "5721c82db1bb8bd5fbbc5d76"){
+		console.log(refObj);
+	}
+
 }
 
 function getNextInvoiceNumber(tokenObject){
