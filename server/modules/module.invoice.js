@@ -44,7 +44,7 @@ function informBalance(refObj){
 		refObj.userid = refObj.user._id.toString();
 		getUserBalance(refObj).
 		then(balanceDatesCheck).
-		then(decideBalance);
+		then(decideBalance).fail(console.log);
 	}
 	return deferred.promise;
 }
