@@ -49,9 +49,9 @@ function informBalance(refObj){
 
 function decideBalance(refObj){
 	if(refObj.accountBalance > 0){
-		console.log(refObj.userid, refObj.accountBalance, "We should communicate");
+	//	console.log(refObj.userid, refObj.accountBalance, "We should communicate");
 	} else {
-		console.log(refObj.userid, refObj.accountBalance, "No need to communicate");
+	//	console.log(refObj.userid, refObj.accountBalance, "No need to communicate");
 	}
 
 	if(refObj.userid == "5721c82db1bb8bd5fbbc5d76"){
