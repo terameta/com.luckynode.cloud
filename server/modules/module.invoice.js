@@ -41,6 +41,8 @@ function informBalance(refObj){
 		deferred.reject("No reference object is given");
 	} else {
 		console.log("Balancing: ", refObj.user._id, refObj.user.email);
+		refObj.userid = refObj.user._id;
+		getUserBalance(refObj).then(console.log);
 	}
 	return deferred.promise;
 }
