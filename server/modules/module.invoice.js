@@ -82,11 +82,7 @@ function decideBalance(refObj){
 	} else {
 		refObj.shouldWeSend = false;
 	}
-	if(refObj.shouldWeSend){
-		deferred.resolve(refObj);
-	} else {
-		deferred.reject("No need to send warning");
-	}
+	deferred.resolve(refObj);
 	return deferred.promise;
 }
 
