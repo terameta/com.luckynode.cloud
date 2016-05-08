@@ -71,11 +71,13 @@ function decideBalance(refObj){
 	refObj.shouldWeSend = true;
 	if(refObj.accountBalance > 0){
 		console.log(refObj.userid, refObj.accountBalance, refObj.user.email, "We should communicate");
-		console.log(refObj.user.dayofMonthToCheckBalance);
-		console.log(moment(refObj.user.dayofMonthToCheckBalance,"D").toDate());
-		console.log(refObj.user.lastBalanceCheck);
-		console.log(refObj.user.lastBalanceCheck > moment(refObj.user.dayofMonthToCheckBalance,"D").toDate());
-		console.log(moment(refObj.user.lastBalanceCheck).add(2,"days").toDate());
+		if(moment(refObj.user.lastBalanceCheck).add(2,"days").toDate() > moment().toDate()){
+			refObj.shouldWeSend = false;
+		}
+		if(moment(refObj.user.dayofMonthToCheckBalance,"D").toDate() > moment().toDate()){
+			refObj.shouldWeSend = false;
+		}
+		console.log("ShouldWeSend:", refObj.shouldWeSend);
 	} else {
 		refObj.shouldWeSend = false;
 	}
