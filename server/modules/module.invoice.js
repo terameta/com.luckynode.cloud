@@ -68,13 +68,15 @@ function balanceDatesCheck(refObj){
 }
 
 function decideBalance(refObj){
+	refObj.shouldWeSend = true;
 	if(refObj.accountBalance > 0){
 		console.log(refObj.userid, refObj.accountBalance, refObj.user.email, "We should communicate");
 		console.log(refObj.user.dayofMonthToCheckBalance);
 		console.log(moment(refObj.user.dayofMonthToCheckBalance,"D").toDate());
 		console.log(refObj.user.lastBalanceCheck);
+		console.log(refObj.user.lastBalanceCheck > moment(refObj.user.dayofMonthToCheckBalance,"D").toDate());
 	} else {
-		//console.log(refObj.userid, refObj.accountBalance, "No need to communicate");
+		refObj.shouldWeSend = false;
 	}
 }
 
