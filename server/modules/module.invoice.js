@@ -25,7 +25,13 @@ module.exports = function(refdb){
 function informBalances(){
 	console.log(moment().format(), "We will now inform balances");
 	db.users.find(function(err, users){
-		console.log(users._id, users.email);
+		if(err){
+			console.log("We can't get the list of users");
+		} else {
+			users.forEach(function(curUser){
+				console.log(curUser._id, curUser.email);
+			});
+		}
 	});
 }
 
