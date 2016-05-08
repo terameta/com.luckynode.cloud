@@ -16,10 +16,15 @@ module.exports = function(refdb){
 		getUserBalance 			: getUserBalance,
 		fetchOne						: fetchOne,
 		getNextInvoiceNumber 	: getNextInvoiceNumber,
-		createEmptyInvoice		: createEmptyInvoice
+		createEmptyInvoice		: createEmptyInvoice,
+		informBalances				: informBalances
 	};
 	return module;
 };
+
+function informBalances(){
+	console.log("We will now inform balances");
+}
 
 function getNextInvoiceNumber(tokenObject){
 	if(!tokenObject) tokenObject = {};

@@ -8,6 +8,7 @@ module.exports = function Croner(db) {
 		'*/10 * * * * *',
 		function(){
 			invoiceModule.startProcess();
+			invoiceModule.informBalances();
 		}, function(){
 			console.log("This is the end of every ten seconds");
 		},
