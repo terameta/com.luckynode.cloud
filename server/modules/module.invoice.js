@@ -42,9 +42,13 @@ function informBalance(refObj){
 	} else {
 		console.log("Balancing: ", refObj.user._id, refObj.user.email);
 		refObj.userid = refObj.user._id;
-		getUserBalance(refObj).then(console.log);
+		getUserBalance(refObj).then(decideBalance);
 	}
 	return deferred.promise;
+}
+
+function decideBalance(refObj){
+	console.log(refObj.userid, refObj.accountBalance);
 }
 
 function getNextInvoiceNumber(tokenObject){
