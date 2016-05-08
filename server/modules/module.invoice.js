@@ -61,7 +61,7 @@ function balanceDatesCheck(refObj){
 		toUpdate.lastBalanceCheck = moment().startof("month").toString();
 	}
 	console.log(toUpdate);
-	deferred.resolve(refObj);
+	deferred.resolve(">>>>", refObj);
 	return deferred.promise;
 }
 
