@@ -68,6 +68,7 @@ function balanceDatesCheck(refObj){
 }
 
 function decideBalance(refObj){
+	var deferred = Q.defer();
 	refObj.shouldWeSend = true;
 	if(refObj.accountBalance > 0){
 		console.log(refObj.userid, refObj.accountBalance, refObj.user.email, "We should communicate");
@@ -81,6 +82,12 @@ function decideBalance(refObj){
 	} else {
 		refObj.shouldWeSend = false;
 	}
+	if(refObj.shouldWeSend){
+		deferred.resolve(refObj);
+	} else {
+		deferred.reject("No need to send warning");
+	}
+	return deferred.promise;
 }
 
 function getNextInvoiceNumber(tokenObject){
