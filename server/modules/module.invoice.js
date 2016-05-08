@@ -23,7 +23,7 @@ module.exports = function(refdb){
 };
 
 function informBalances(){
-	console.log(moment().format(), "We will now inform balances");
+	//console.log(moment().format(), "We will now inform balances");
 	//Below line will reset every user
 	//db.users.update({reminderStat:{ $ne: 'OK'}},{$set:{reminderStat:'OK', lastBalanceCheck:moment().startOf("month").toDate()}}, {multi:true});
 	db.users.find(function(err, users){
@@ -114,7 +114,7 @@ function lockReminder(refObj){
 function sendReminder(refObj){
 	var deferred = Q.defer();
 	if(refObj.lockedbyme && refObj.shouldWeSend){
-		tools.mailer.sendTemplateMail("Balance Reminder", refObj.userid, "Payment Reminder for account " + refObj.user.email, refObj.settings.accountingemail,refObj.settings.accountingemail,null,null,null,null).
+		tools.mailer.sendTemplateMail("Balance Reminder", refObj.userid, "Payment Reminder for account " + refObj.user.email, refObj.settings.accountingemail,refObj.user.email,refObj.settings.accountingemail,null,null,refObj.settings.accountingemail).
 		then(function(result){ console.log(result); deferred.resolve(refObj);}).
 		fail(deferred.reject);
 	} else {
