@@ -125,7 +125,7 @@ function sendReminder(refObj){
 
 function unlockReminder(refObj){
 	var deferred = Q.defer();
-	if(refObj.lockedbyme){
+	if(refObj.lockedbyme && refObj.shouldWeSend){
 		db.users.update({_id:mongojs.ObjectId(refObj.userid)}, {$set:{reminderStat:'OK', lastBalanceCheck: moment().toDate()}, $inc:{numberofRemindersSent:1}}, function(err, result){
 			if(err){
 				deferred.reject(err);
