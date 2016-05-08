@@ -40,7 +40,7 @@ function informBalance(refObj){
 	if(!refObj){
 		deferred.reject("No reference object is given");
 	} else {
-		console.log("Balancing: ", refObj.user._id, refObj.user.email);
+		//console.log("Balancing: ", refObj.user._id, refObj.user.email);
 		refObj.userid = refObj.user._id.toString();
 		getUserBalance(refObj).then(decideBalance);
 	}
@@ -51,7 +51,7 @@ function decideBalance(refObj){
 	if(refObj.accountBalance > 0){
 		console.log(refObj.userid, refObj.accountBalance, "We should communicate");
 	} else {
-		console.log(refObj.userid, refObj.accountBalance, "No need to communicate");
+		//console.log(refObj.userid, refObj.accountBalance, "No need to communicate");
 	}
 }
 
