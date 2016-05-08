@@ -25,7 +25,7 @@ module.exports = function(refdb){
 function informBalances(){
 	console.log(moment().format(), "We will now inform balances");
 	db.users.find(function(err, users){
-		console.log(users);
+		console.log(users._id, users.email);
 	});
 }
 
