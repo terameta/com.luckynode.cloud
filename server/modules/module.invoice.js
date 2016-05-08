@@ -51,7 +51,7 @@ function informBalance(refObj){
 
 function balanceDatesCheck(refObj){
 	var deferred = Q.defer();
-	console.log(moment().format());
+	console.log(moment().format(), refObj.user.lastBalanceCheck);
 	deferred.resolve(refObj);
 	return deferred.promise;
 }
