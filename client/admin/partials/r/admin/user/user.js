@@ -57,7 +57,7 @@ angular.module('adminControllers').controller('userController', ['$scope', '$roo
 
 		$scope.selectedGoToUser = '';
 		$scope.gotoSelectedUser = function(){
-			console.log($scope.selectedGoToUser);
+			$state.go('r.dashboard.user', { id: $scope.selectedGoToUser });
 		};
 
 		$scope.discountTypes = [{name: '%', value: 'percentage'}, {name: '$', value: 'currency'}];
