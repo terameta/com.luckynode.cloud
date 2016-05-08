@@ -48,7 +48,12 @@ function informBalance(refObj){
 }
 
 function decideBalance(refObj){
-	console.log(refObj.userid, refObj.accountBalance);
+	if(refObj.accountBalance > 0){
+		console.log(refObj.userid, refObj.accountBalance, "We should communicate");
+	} else {
+		console.log(refObj.userid, refObj.accountBalance, "No need to communicate");
+	}
+
 }
 
 function getNextInvoiceNumber(tokenObject){
