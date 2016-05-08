@@ -178,7 +178,7 @@ function assignDate(){
 }
 
 function processAll(){
-	console.log("We are at processAll");
+	//console.log("We are at processAll");
 	var deferred = Q.defer();
 	db.servers.find({invoicestat: 'OK'}, function(err, serverList){
 		if(err){
@@ -192,16 +192,16 @@ function processAll(){
 					break;
 				}
 			}
-			console.log(toProcess);
+			//console.log(toProcess);
 
 			if(toProcess == "No more invoices to process"){
-				db.invoices.update({},{$set:{"details.status":"Paid"}}, {multi: true}, function(err, result){
+				/*db.invoices.update({},{$set:{"details.status":"Paid"}}, {multi: true}, function(err, result){
 					if(err){
 						console.log("Invoices are not updated to paid", err);
 					} else {
 						console.log("Invoices updated to paid", result.nModified);
 					}
-				});
+				});*/
 				deferred.resolve(toProcess);
 			} else {
 				console.log("We will now process " + toProcess);
