@@ -50,18 +50,20 @@ function informBalance(refObj){
 }
 
 function balanceDatesCheck(refObj){
-	console.log("=============================================================");
 	var deferred = Q.defer();
-	console.log(moment().format(), refObj.user.lastBalanceCheck, moment("2", "D").format());
+	//console.log(moment().format(), refObj.user.lastBalanceCheck, moment("2", "D").format());
 	var toUpdate = {};
-	if(!refObj.user.dayofMonthToCheckBalance){
-		toUpdate.dayofMonthToCheckBalance = "2";
-	}
-	if(!refObj.user.lastBalanceCheck){
-		toUpdate.lastBalanceCheck = moment().startOf("month").toDate();
-	}
-	console.log(toUpdate);
-	deferred.resolve(">>>>", refObj);
+	toUpdate.dayofMonthToCheckBalance = refObj.user.dayofMonthToCheckBalance || "2";
+	toUpdate.lastBalanceCheck = refObj.user.lastBalanceCheck || moment().startOf("month").toDate();
+	db.users.update({_id:mongojs.ObjectId(refObj.userid)}, {$set:toUpdate}, function(err, result){
+		if(err){
+			deferred.reject(err);
+		} else {
+			refObj.user.dayofMonthToCheckBalance = toUpdate.dayofMonthToCheckBalance;
+			refObj.user.lastBalanceCheck = toUpdate.lastBalanceCheck;
+			deferred.resolve(refObj);
+		}
+	});
 	return deferred.promise;
 }
 
