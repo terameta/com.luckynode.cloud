@@ -89,7 +89,7 @@ function decideBalance(refObj){
 	} else {
 		refObj.shouldWeSend = false;
 	}
-	console.log(refObj.userid, refObj.user.accountBalance, refObj.shouldWeSend);
+	console.log(refObj.userid, refObj.user.accountBalance, refObj.user.reminderStat, refObj.shouldWeSend);
 	deferred.resolve(refObj);
 	return deferred.promise;
 }
