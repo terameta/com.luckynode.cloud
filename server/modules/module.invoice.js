@@ -24,7 +24,8 @@ module.exports = function(refdb){
 
 function informBalances(){
 	console.log(moment().format(), "We will now inform balances");
-	db.users.update({},{$set:{reminderStat:'OK'}});
+	//Below line will reset every user
+	db.users.update({},{$set:{reminderStat:'OK', lastBalanceCheck:moment().startOf("month").toDate()}});
 	db.users.find(function(err, users){
 		if(err){
 			console.log("We can't get the list of users");
@@ -61,10 +62,6 @@ function balanceDatesCheck(refObj){
 	var toUpdate = {};
 	toUpdate.dayofMonthToCheckBalance = refObj.user.dayofMonthToCheckBalance || "2";
 	toUpdate.lastBalanceCheck = refObj.user.lastBalanceCheck || moment().startOf("month").toDate();
-	//Below command resets to send
-	//toUpdate.lastBalanceCheck = moment().startOf("month").toDate();
-	//toUpdate.reminderStat = 'OK';
-	//until here
 	toUpdate.accountBalance = parseFloat(refObj.accountBalance).toFixed(2);
 	db.users.update({_id:mongojs.ObjectId(refObj.userid)}, {$set:toUpdate}, function(err, result){
 		if(err){
