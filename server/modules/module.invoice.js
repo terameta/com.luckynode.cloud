@@ -49,7 +49,7 @@ function informBalance(refObj){
 
 function decideBalance(refObj){
 	if(refObj.accountBalance > 0){
-		console.log(refObj.userid, refObj.accountBalance, "We should communicate");
+		console.log(refObj.userid, refObj.accountBalance, refObj.user.email, "We should communicate");
 	} else {
 		//console.log(refObj.userid, refObj.accountBalance, "No need to communicate");
 	}
