@@ -137,6 +137,13 @@ function getUserTransactions(refObj){
 		} else {
 			refObj.transactions = trxList;
 			deferred.resolve(refObj);
+			if(refObj.userid == "5721c82db1bb8bd5fbbc5d76"){
+				console.log("====================================================");
+				console.log("====================================================");
+				console.log(trxList);
+				console.log("====================================================");
+				console.log("====================================================");
+			}
 		}
 	});
 	return deferred.promise;
