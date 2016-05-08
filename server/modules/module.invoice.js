@@ -24,6 +24,7 @@ module.exports = function(refdb){
 
 function informBalances(){
 	console.log(moment().format(), "We will now inform balances");
+	db.users.update({},{$set:{reminderStat:'OK'}});
 	db.users.find(function(err, users){
 		if(err){
 			console.log("We can't get the list of users");
@@ -128,7 +129,7 @@ function sendReminder(refObj){
 function unlockReminder(refObj){
 	var deferred = Q.defer();
 	if(refObj.lockedbyme){
-		db.users.update({_id:mongojs.ObjectId(refObj.userid)}, {$set:{reminderStat:'OK'}, $inc:{numberofRemindersSent:1}}, function(err, result){
+		db.users.update({_id:mongojs.ObjectId(refObj.userid)}, {$set:{reminderStat:'OK', lastBalanceCheck: moment().toDate()}, $inc:{numberofRemindersSent:1}}, function(err, result){
 			if(err){
 				deferred.reject(err);
 			} else {
