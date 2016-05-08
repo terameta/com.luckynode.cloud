@@ -158,7 +158,7 @@ function assignDate(){
 	db.servers.find( { nextinvoicedate: { $exists: false } }, { createdat:1}, function(err, result) {
 		if(err){
 			deferred.reject(err);
-			console.log("Assigning dates failed");
+			console.log("Assigning dates failed!");
 		} else if(result.length == 0) {
 			//console.log("Assigning dates: ALL OK, every server is assigned");
 			deferred.resolve("All OK");
