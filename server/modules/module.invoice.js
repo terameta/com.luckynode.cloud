@@ -89,6 +89,7 @@ function decideBalance(refObj){
 	} else {
 		refObj.shouldWeSend = false;
 	}
+	console.log(refObj.userid, refObj.shouldWeSend);
 	deferred.resolve(refObj);
 	return deferred.promise;
 }
