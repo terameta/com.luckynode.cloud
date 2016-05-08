@@ -70,6 +70,8 @@ function balanceDatesCheck(refObj){
 function decideBalance(refObj){
 	if(refObj.accountBalance > 0){
 		console.log(refObj.userid, refObj.accountBalance, refObj.user.email, "We should communicate");
+		console.log(refObj.user.dayofMonthToCheckBalance);
+		console.log(refObj.user.lastBalanceCheck);
 	} else {
 		//console.log(refObj.userid, refObj.accountBalance, "No need to communicate");
 	}
