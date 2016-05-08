@@ -106,7 +106,7 @@ function calculateUserBalance(refObj){
 	var allTransactions = [];
 	if(refObj.invoiceList){
 		refObj.invoiceList.forEach(function(curInvoice){
-			console.log("Invoice:::", curInvoice);
+			//console.log("Invoice:::", curInvoice);
 			accountBalance += parseFloat(curInvoice.netTotal);
 			allTransactions.push({id:curInvoice._id, date:curInvoice.details.date, transactionBy:'Invoice', amountSpent:curInvoice.netTotal, details:'Invoice Generated'});
 		});
