@@ -143,7 +143,7 @@ function list(userid){
 }
 
 function startProcess(){
-	console.log("Invoicing process is starting:", new Date());
+	//console.log("Invoicing process is starting:", new Date());
 	assignDate().
 	then(processAll).
 	then(processAllMail).
@@ -154,13 +154,13 @@ function startProcess(){
 
 function assignDate(){
 	var deferred = Q.defer();
-	console.log("Assigning dates");
+	//console.log("Assigning dates");
 	db.servers.find( { nextinvoicedate: { $exists: false } }, { createdat:1}, function(err, result) {
 		if(err){
 			deferred.reject(err);
 			console.log("Assigning dates failed");
 		} else if(result.length == 0) {
-			console.log("Assigning dates: ALL OK, every server is assigned");
+			//console.log("Assigning dates: ALL OK, every server is assigned");
 			deferred.resolve("All OK");
 		} else {
 			db.servers.update({_id:result[0]._id, nextinvoicedate: { $exists: false }, invoicestat: {$exists: false} }, { $set:{nextinvoicedate:result[0].createdat, invoicestat:'OK'} }, function(uerr, uresult){
