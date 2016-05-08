@@ -24,6 +24,9 @@ module.exports = function(refdb){
 
 function informBalances(){
 	console.log("We will now inform balances");
+	db.users.find(function(err, users){
+		console.log(users);
+	});
 }
 
 function getNextInvoiceNumber(tokenObject){
