@@ -43,8 +43,13 @@ function informBalance(refObj){
 		//console.log("Balancing: ", refObj.user._id, refObj.user.email);
 		refObj.userid = refObj.user._id.toString();
 		getUserBalance(refObj).
+		then(getSystemSettings).
 		then(balanceDatesCheck).
-		then(decideBalance).fail(console.log);
+		then(decideBalance).
+		then(lockReminder).
+		then(sendReminder).
+		then(unlockReminder).
+		fail(console.log);
 	}
 	return deferred.promise;
 }
@@ -83,6 +88,52 @@ function decideBalance(refObj){
 		refObj.shouldWeSend = false;
 	}
 	deferred.resolve(refObj);
+	return deferred.promise;
+}
+
+function lockReminder(refObj){
+	var deferred = Q.defer();
+	db.users.update({_id:mongojs.ObjectId(refObj.userid), reminderStat:{ $ne: 'Processing'}}, { $set:{reminderStat:'Processing'}}, function(err, result){
+		if(err){
+			deferred.reject(err);
+		} else {
+			console.log(refObj.userid, result);
+			if(result.nModified){
+				refObj.lockedbyme = true;
+			} else {
+				refObj.lockedbyme = false;
+			}
+			deferred.resolve(refObj);
+		}
+	});
+	return deferred.promise;
+}
+
+function sendReminder(refObj){
+	var deferred = Q.defer();
+	if(refObj.lockedbyme){
+		tools.mailer.sendTemplateMail("Balance Reminder", refObj.userid, "Payment Reminder", refObj.settings.accountingemail,refObj.settings.accountingemail,null,null,null,null).
+		then(function(result){ console.log(result); deferred.resolve(refObj);}).
+		fail(deferred.reject);
+	} else {
+		deferred.resolve(refObj);
+	}
+	return deferred.promise;
+}
+
+function unlockReminder(refObj){
+	var deferred = Q.defer();
+	if(refObj.lockedbyme){
+		db.users.update({_id:mongojs.ObjectId(refObj.userid)}, {$set:{reminderStat:'OK'}, $inc:{numberofRemindersSent:1}}, function(err, result){
+			if(err){
+				deferred.reject(err);
+			} else {
+				deferred.resolve(refObj);
+			}
+		});
+	} else {
+		deferred.resolve(refObj);
+	}
 	return deferred.promise;
 }
 
