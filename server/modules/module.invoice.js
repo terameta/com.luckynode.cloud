@@ -29,10 +29,20 @@ function informBalances(){
 			console.log("We can't get the list of users");
 		} else {
 			users.forEach(function(curUser){
-				console.log(curUser._id, curUser.email);
+				informBalance({user:curUser});
 			});
 		}
 	});
+}
+
+function informBalance(refObj){
+	var deferred = Q.defer();
+	if(!refObj){
+		deferred.reject("No reference object is given");
+	} else {
+		console.log("Balancing: ", refObj.user._id, refObj.user.email);
+	}
+	return deferred.promise;
 }
 
 function getNextInvoiceNumber(tokenObject){
