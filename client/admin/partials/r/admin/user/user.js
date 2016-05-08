@@ -55,6 +55,11 @@ angular.module('adminControllers').controller('userController', ['$scope', '$roo
 
 		srvcSettings.fetchCountries();
 
+		$scope.selectedGoToUser = '';
+		$scope.gotoSelectedUser = function(){
+			console.log($scope.selectedGoToUser);
+		};
+
 		$scope.discountTypes = [{name: '%', value: 'percentage'}, {name: '$', value: 'currency'}];
 
 		if($stateParams.id){

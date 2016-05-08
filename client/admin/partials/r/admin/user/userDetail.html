@@ -7,9 +7,9 @@
 		<li><a ui-sref="r.dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
 		<li><a ui-sref="r.dashboard.users">Users</a></li>
 		<li class="active">User</li>
-		<li><tr ng-repeat="curUser in users | orderBy:'name' | filter: { email: '!admin@local' }">
-			<select ng-model="selectedUser">
-				<option ng-repeat="cUser in users | orderBy:'name' | filter: { email: '!admin@local'}" value="{{cUser._id}}">{{cUser.name}}</option>
+		<li>
+			<select ng-model="selectedGoToUser" ng-change="gotoSelectedUser()">
+				<option ng-repeat="cUser in users | orderBy:'name' | filter: { email: '!admin@local'}" value="{{cUser._id}}">{{cUser.name}} {{cUser.surname}} ({{cUser.email}})</option>
 			</select>
 		</li>
 	</ol>
