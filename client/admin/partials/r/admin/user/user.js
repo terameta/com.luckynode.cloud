@@ -26,8 +26,8 @@ angular.module('adminServices').service('srvcUsers', ['$resource', '$rootScope',
 
 		service.accountBalance = function(user){
 			$http.get('/api/users/balance/'+user._id).then(function /*success*/(response){
-				console.log(user);
-				console.log(response);
+				//console.log(user);
+				//console.log(response);
 				user.accountBalance = response.data.accountBalance;
 				user.shouldMakePayment = (user.accountBalance > 0);
 				user.accountTransactions = response.data.transactions;
