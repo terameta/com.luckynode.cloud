@@ -96,18 +96,23 @@ function decideBalance(refObj){
 
 function lockReminder(refObj){
 	var deferred = Q.defer();
-	db.users.update({_id:mongojs.ObjectId(refObj.userid), reminderStat:{ $ne: 'Processing'}}, { $set:{reminderStat:'Processing'}}, function(err, result){
-		if(err){
-			deferred.reject(err);
-		} else {
-			if(result.nModified){
-				refObj.lockedbyme = true;
+	if(refObj.shouldWeSend){
+		db.users.update({_id:mongojs.ObjectId(refObj.userid), reminderStat:{ $ne: 'Processing'}}, { $set:{reminderStat:'Processing'}}, function(err, result){
+			if(err){
+				deferred.reject(err);
 			} else {
-				refObj.lockedbyme = false;
+				if(result.nModified){
+					refObj.lockedbyme = true;
+				} else {
+					refObj.lockedbyme = false;
+				}
+				deferred.resolve(refObj);
 			}
-			deferred.resolve(refObj);
-		}
-	});
+		});
+	} else {
+		refObj.lockedbyme = false;
+		deferred.resolve(refObj);
+	}
 	return deferred.promise;
 }
 
