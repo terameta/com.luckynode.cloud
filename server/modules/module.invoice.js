@@ -97,7 +97,6 @@ function lockReminder(refObj){
 		if(err){
 			deferred.reject(err);
 		} else {
-			console.log(refObj.userid, result);
 			if(result.nModified){
 				refObj.lockedbyme = true;
 			} else {
@@ -112,7 +111,7 @@ function lockReminder(refObj){
 function sendReminder(refObj){
 	var deferred = Q.defer();
 	if(refObj.lockedbyme && refObj.shouldWeSend){
-		tools.mailer.sendTemplateMail("Balance Reminder", refObj.userid, "Payment Reminder", refObj.settings.accountingemail,refObj.settings.accountingemail,null,null,null,null).
+		tools.mailer.sendTemplateMail("Balance Reminder", refObj.userid, "Payment Reminder for account " + refObj.userid, refObj.settings.accountingemail,refObj.settings.accountingemail,null,null,null,null).
 		then(function(result){ console.log(result); deferred.resolve(refObj);}).
 		fail(deferred.reject);
 	} else {
