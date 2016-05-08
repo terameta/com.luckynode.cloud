@@ -58,7 +58,7 @@ function balanceDatesCheck(refObj){
 		toUpdate.dayofMonthToCheckBalance = "2";
 	}
 	if(!refObj.user.lastBalanceCheck){
-		toUpdate.lastBalanceCheck = moment().startOf("month").toString();
+		toUpdate.lastBalanceCheck = moment().startOf("month").toDate();
 	}
 	console.log(toUpdate);
 	deferred.resolve(">>>>", refObj);
