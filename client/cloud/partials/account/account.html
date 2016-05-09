@@ -63,7 +63,11 @@
 						</td>
 						<td>&nbsp;</td>
 						<td>
-							<form action="https://www.2checkout.com/checkout/purchase" method="post">
+
+						</td>
+					</tr>
+				</table>
+				<form action="https://www.2checkout.com/checkout/purchase" method="post">
 								<input type='hidden' name='sid' value="{{systemSettings.tco.sellerid}}" />
 								<input type='hidden' name='mode' value="2CO" />
 								<input type='hidden' name='currency_code' value="USD" />
@@ -83,10 +87,6 @@
 								<input name='submit' type='submit' value='Checkout' />
 							</form>
 							<script src="https://www.2checkout.com/static/checkout/javascript/direct.min.js"></script>
-							<script>console.log($);</script>
-						</td>
-					</tr>
-				</table>
 			</div>
 		</div>
 	</div>
