@@ -39,6 +39,7 @@
 						<td>
 							<button type="button" ng-click="paywithCC()"><i class="fa fa-credit-card-alt fa-fw"></i> Pay with Credit Card</button>
 						</td>
+						<td>&nbsp;</td>
 						<td>
 							<form action="{{systemSettings.paypalformlink}}" method="post" style=" display:inline!important;">
 								<input type="hidden" name="business" value="{{systemSettings.paypal.email}}">
@@ -60,13 +61,16 @@
 								<button type="submit"><i class="fa fa-paypal fa-fw"></i> Pay with PayPal</button>
 							</form>
 						</td>
+						<td>&nbsp;</td>
 						<td>
+							<script src="https://www.2checkout.com/static/checkout/javascript/direct.min.js"></script>
 							<form action="https://www.2checkout.com/checkout/purchase" method="post">
 								<input type='hidden' name='sid' value="{{systemSettings.tco.sellerid}}" />
 								<input type='hidden' name='mode' value="2CO" />
 								<input type='hidden' name='li_0_type' value="product" />
 								<input type='hidden' name='li_0_name' value="Account: {{ curUser.id }}" />
 								<input type='hidden' name='li_0_price' value="{{ formatCurrency(accountBalance) }}" />
+								<input type='hidden' name='li_0_tangible' value="N" />
 								<input type='hidden' name='card_holder_name' value="{{ curUser.name }} {{curUser.surname}}" />
 								<input type='hidden' name='street_address' value="{{curUser.address}}" />
 								<input type='hidden' name='street_address2' value="{{curUser.address}}" />
