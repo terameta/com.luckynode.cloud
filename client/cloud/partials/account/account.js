@@ -64,6 +64,10 @@ angular.module('cloudControllers').controller('ctrlAccount', ['$scope', '$http',
 			}
 		};
 
+		$scope.formatCurrencyNoSign = function(value){
+			return parseFloat(value).toFixed(2);
+		};
+
 		$scope.formatDate = function(value){
 			return moment(value).format('Do MMMM, YYYY');
 		};

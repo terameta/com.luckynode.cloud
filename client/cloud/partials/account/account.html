@@ -47,7 +47,7 @@
 								<input type="hidden" name="cmd" value="_xclick">
 
 								<input type="hidden" name="item_name" value="Account: {{ curUser.id }}">
-								<input type="hidden" name="amount" value="{{ formatCurrency(accountBalance) }}">
+								<input type="hidden" name="amount" value="{{ formatCurrencyNoSign(accountBalance) }}">
 								<input type="hidden" name="currency_code" value="USD">
 
 								<input type="hidden" name="no_note" value="1">
@@ -67,9 +67,10 @@
 							<form action="https://www.2checkout.com/checkout/purchase" method="post">
 								<input type='hidden' name='sid' value="{{systemSettings.tco.sellerid}}" />
 								<input type='hidden' name='mode' value="2CO" />
+								<input type='hidden' name='currency_code' value="USD" />
 								<input type='hidden' name='li_0_type' value="product" />
 								<input type='hidden' name='li_0_name' value="Account: {{ curUser.id }}" />
-								<input type='hidden' name='li_0_price' value="{{ formatCurrency(accountBalance) }}" />
+								<input type='hidden' name='li_0_price' value="{{ formatCurrencyNoSign(accountBalance) }}" />
 								<input type='hidden' name='li_0_tangible' value="N" />
 								<input type='hidden' name='card_holder_name' value="{{ curUser.name }} {{curUser.surname}}" />
 								<input type='hidden' name='street_address' value="{{curUser.address}}" />
