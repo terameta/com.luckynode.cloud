@@ -132,7 +132,7 @@
 						</div>
 					</div>
 				</uib-tab>
-				<uib-tab index="3" heading="Mail Server">
+				<uib-tab index="3" heading="SMTP Mail Server">
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<form editable-form name="settingsEditFormMailServer" onaftersave="save()">
@@ -159,7 +159,34 @@
 						</div>
 					</div>
 				</uib-tab>
-				<uib-tab index="4" heading="Back Blaze">
+				<uib-tab index="4" heading="SparkPost Mail Server">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<form editable-form name="settingsEditFormSparkPostMailServer" onaftersave="save()">
+								<div class="table-responsive">
+									<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid" style="width: auto;">
+										<tbody>
+											<tr><td><b>Host:</b></td><td><span editable-text="settings.sparkpost.host">{{settings.sparkpost.host}}</span></td></tr>
+											<tr><td><b>Port:</b></td><td><span editable-text="settings.sparkpost.port">{{settings.sparkpost.port}}</span></td></tr>
+											<tr><td><b>isSecure:</b></td><td><span editable-text="settings.sparkpost.authentication">{{settings.sparkpost.authentication}}</span></td></tr>
+											<tr><td><b>Reject Unauthorized:</b></td><td><span editable-text="settings.sparkpost.encryption">{{settings.sparkpost.encryption}}</span></td></tr>
+											<tr><td><b>User:</b></td><td><span editable-text="settings.sparkpost.user">{{settings.sparkpost.user}}</span></td></tr>
+											<tr><td><b>Pass:</b></td><td><span editable-text="settings.sparkpost.pass">{{settings.sparkpost.pass}}</span></td></tr>
+											<tr>
+												<td colspan=2>
+													<button type="button" class="btn btn-primary btn-xs" ng-click="settingsEditFormSparkPostMailServer.$show()" ng-show="!settingsEditFormSparkPostMailServer.$visible">Edit</button>
+													<button type="submit" class="btn btn-success btn-xs" ng-disabled="settingsEditFormSparkPostMailServer.$waiting" ng-show="settingsEditFormSparkPostMailServer.$visible">Save</button>
+													<button type="button" class="btn btn-warning btn-xs" ng-disabled="settingsEditFormSparkPostMailServer.$waiting" ng-click="settingsEditFormSparkPostMailServer.$cancel()" ng-show="settingsEditFormSparkPostMailServer.$visible">Cancel</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</form>
+						</div>
+					</div>
+				</uib-tab>
+				<uib-tab index="5" heading="Back Blaze">
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<form editable-form name="settingsEditFormBackBlaze" onaftersave="save()">
