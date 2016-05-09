@@ -63,7 +63,6 @@
 						</td>
 						<td>&nbsp;</td>
 						<td>
-							<script src="https://www.2checkout.com/static/checkout/javascript/direct.min.js"></script>
 							<form action="https://www.2checkout.com/checkout/purchase" method="post">
 								<input type='hidden' name='sid' value="{{systemSettings.tco.sellerid}}" />
 								<input type='hidden' name='mode' value="2CO" />
@@ -83,6 +82,7 @@
 								<input type='hidden' name='phone' value="{{curUser.phone}}" />
 								<input name='submit' type='submit' value='Checkout' />
 							</form>
+							<script src="https://www.2checkout.com/static/checkout/javascript/direct.min.js"></script>
 						</td>
 					</tr>
 				</table>
