@@ -28,49 +28,59 @@
 		</div>
 	</div>
 
-	<div class="col-xs-12 col-sm-6 col-md-3" ng-if="shouldMakePayment">
+	<div class="col-xs-12 col-sm-6 col-md-9" ng-if="shouldMakePayment">
 		<div class="box box-default">
 			<div class="box-header with-border">
 				<h2 class="box-title"><b>Make a Payment</b></h2>
 			</div>
 			<div class="box-body">
-				<button type="button" ng-click="paywithCC()"><i class="fa fa-credit-card-alt fa-fw"></i> Pay with Credit Card</button><br />
-				<form action="{{systemSettings.paypalformlink}}" method="post" style=" display:inline!important;">
-					<input type="hidden" name="business" value="{{systemSettings.paypal.email}}">
+				<table>
+					<tr>
+						<td>
+							<button type="button" ng-click="paywithCC()"><i class="fa fa-credit-card-alt fa-fw"></i> Pay with Credit Card</button>
+						</td>
+						<td>
+							<form action="{{systemSettings.paypalformlink}}" method="post" style=" display:inline!important;">
+								<input type="hidden" name="business" value="{{systemSettings.paypal.email}}">
 
-					<input type="hidden" name="cmd" value="_xclick">
+								<input type="hidden" name="cmd" value="_xclick">
 
-					<input type="hidden" name="item_name" value="Account: {{ curUser.id }}">
-					<input type="hidden" name="amount" value="{{ formatCurrency(accountBalance) }}">
-					<input type="hidden" name="currency_code" value="USD">
+								<input type="hidden" name="item_name" value="Account: {{ curUser.id }}">
+								<input type="hidden" name="amount" value="{{ formatCurrency(accountBalance) }}">
+								<input type="hidden" name="currency_code" value="USD">
 
-					<input type="hidden" name="no_note" value="1">
-					<input type="hidden" name="no_shipping" value="1">
-					<input type="hidden" name="charset" value="utf-8">
+								<input type="hidden" name="no_note" value="1">
+								<input type="hidden" name="no_shipping" value="1">
+								<input type="hidden" name="charset" value="utf-8">
 
-					<input type="hidden" name="return" value="{{systemSettings.domain}}/api/payment/paypal/success/">
-					<input type="hidden" name="cancel_return" value="{{systemSettings.domain}}/cloud/r/account">
-					<input type="hidden" name="notify_url" value="{{systemSettings.domain}}/api/payment/paypal/IPN">
+								<input type="hidden" name="return" value="{{systemSettings.domain}}/api/payment/paypal/success/">
+								<input type="hidden" name="cancel_return" value="{{systemSettings.domain}}/cloud/r/account">
+								<input type="hidden" name="notify_url" value="{{systemSettings.domain}}/api/payment/paypal/IPN">
 
-					<button type="submit"><i class="fa fa-paypal fa-fw"></i> Pay with PayPal</button>
-				</form><hr />
-				<form action="https://www.2checkout.com/checkout/purchase" method="post">
-					<input type='hidden' name='sid' value="{{systemSettings.tco.sellerid}}" />
-					<input type='hidden' name='mode' value="2CO" />
-					<input type='hidden' name='li_0_type' value="product" />
-					<input type='hidden' name='li_0_name' value="Account: {{ curUser.id }}" />
-					<input type='hidden' name='li_0_price' value="{{ formatCurrency(accountBalance) }}" />
-					<input type='hidden' name='card_holder_name' value="{{ curUser.name }} {{curUser.surname}}" />
-					<input type='hidden' name='street_address' value="{{curUser.address}}" />
-					<input type='hidden' name='street_address2' value="{{curUser.address}}" />
-					<input type='hidden' name='city' value="{{curUser.city}}" />
-					<input type='hidden' name='state' value="{{curUser.state}}" />
-					<input type='hidden' name='zip' value="{{curUser.postcode}}" />
-					<input type='hidden' name='country' value="{{curUser.countrycode}}" />
-					<input type='hidden' name='email' value="{{curUser.email}}" />
-					<input type='hidden' name='phone' value="{{curUser.phone}}" />
-					<input name='submit' type='submit' value='Checkout' />
-				</form>
+								<button type="submit"><i class="fa fa-paypal fa-fw"></i> Pay with PayPal</button>
+							</form>
+						</td>
+						<td>
+							<form action="https://www.2checkout.com/checkout/purchase" method="post">
+								<input type='hidden' name='sid' value="{{systemSettings.tco.sellerid}}" />
+								<input type='hidden' name='mode' value="2CO" />
+								<input type='hidden' name='li_0_type' value="product" />
+								<input type='hidden' name='li_0_name' value="Account: {{ curUser.id }}" />
+								<input type='hidden' name='li_0_price' value="{{ formatCurrency(accountBalance) }}" />
+								<input type='hidden' name='card_holder_name' value="{{ curUser.name }} {{curUser.surname}}" />
+								<input type='hidden' name='street_address' value="{{curUser.address}}" />
+								<input type='hidden' name='street_address2' value="{{curUser.address}}" />
+								<input type='hidden' name='city' value="{{curUser.city}}" />
+								<input type='hidden' name='state' value="{{curUser.state}}" />
+								<input type='hidden' name='zip' value="{{curUser.postcode}}" />
+								<input type='hidden' name='country' value="{{curUser.countrycode}}" />
+								<input type='hidden' name='email' value="{{curUser.email}}" />
+								<input type='hidden' name='phone' value="{{curUser.phone}}" />
+								<input name='submit' type='submit' value='Checkout' />
+							</form>
+						</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>
