@@ -72,13 +72,13 @@
 								<input type='hidden' name='li_0_name' value="Account: {{ curUser.id }}" />
 								<input type='hidden' name='li_0_price' value="{{ formatCurrencyNoSign(accountBalance) }}" />
 								<input type='hidden' name='li_0_tangible' value="N" />
-								<input type='hidden' name='card_holder_name' value="{{ curUser.name }} {{curUser.surname}}" />
+								<input type='hidden' name='card_holder_name' value="{{ curUser.card_holder_name }}" />
 								<input type='hidden' name='street_address' value="{{curUser.address}}" />
 								<input type='hidden' name='street_address2' value="{{curUser.address}}" />
 								<input type='hidden' name='city' value="{{curUser.city}}" />
 								<input type='hidden' name='state' value="{{curUser.state}}" />
 								<input type='hidden' name='zip' value="{{curUser.postcode}}" />
-								<input type='hidden' name='country' value="{{curUser.countrycode}}" />
+								<input type='hidden' name='country' value="{{curUser.country}}" />
 								<input type='hidden' name='email' value="{{curUser.email}}" />
 								<input type='hidden' name='phone' value="{{curUser.phone}}" />
 								<input name='submit' type='submit' value='Checkout' />
