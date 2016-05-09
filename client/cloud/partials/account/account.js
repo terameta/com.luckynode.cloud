@@ -33,7 +33,7 @@ angular.module('cloudControllers').controller('ctrlAccount', ['$scope', '$http',
 		srvcAccount.accountBalance();
 
 		$userService.getCurUserDetails().then(function(result){
-			console.log(result, $scope.curUser);
+			//console.log(result, $scope.curUser);
 			$scope.curUser.card_holder_name = result.name + ' ' + result.surname;
 			$scope.curUser.address = result.address.substring(0,64);
 			$scope.curUser.address2 = result.address.substring(64,64);
