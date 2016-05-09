@@ -28,13 +28,13 @@
 		</div>
 	</div>
 
-	<div class="col-xs-12 col-sm-6 col-md-3" ng-disabled="!shouldMakePayment">
+	<div class="col-xs-12 col-sm-6 col-md-3" ng-if="shouldMakePayment">
 		<div class="box box-default">
 			<div class="box-header with-border">
 				<h2 class="box-title"><b>Make a Payment</b></h2>
 			</div>
 			<div class="box-body">
-				<button type="button" ng-click="paywithCC()" ng-disabled="!shouldMakePayment"><i class="fa fa-credit-card-alt fa-fw"></i> Pay with Credit Card</button>
+				<button type="button" ng-click="paywithCC()"><i class="fa fa-credit-card-alt fa-fw"></i> Pay with Credit Card</button>
 				<form action="{{systemSettings.paypalformlink}}" method="post" style=" display:inline!important;">
 					<input type="hidden" name="business" value="{{systemSettings.paypal.email}}">
 
@@ -52,7 +52,7 @@
 					<input type="hidden" name="cancel_return" value="{{systemSettings.domain}}/cloud/r/account">
 					<input type="hidden" name="notify_url" value="{{systemSettings.domain}}/api/payment/paypal/IPN">
 
-					<button type="submit" ng-disabled="!shouldMakePayment"><i class="fa fa-paypal fa-fw"></i> Pay with PayPal</button>
+					<button type="submit"><i class="fa fa-paypal fa-fw"></i> Pay with PayPal</button>
 				</form>
 			</div>
 		</div>
