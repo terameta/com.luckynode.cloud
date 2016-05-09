@@ -34,7 +34,7 @@
 				<h2 class="box-title"><b>Make a Payment</b></h2>
 			</div>
 			<div class="box-body">
-				<button type="button" ng-click="paywithCC()"><i class="fa fa-credit-card-alt fa-fw"></i> Pay with Credit Card</button>
+				<button type="button" ng-click="paywithCC()"><i class="fa fa-credit-card-alt fa-fw"></i> Pay with Credit Card</button><br />
 				<form action="{{systemSettings.paypalformlink}}" method="post" style=" display:inline!important;">
 					<input type="hidden" name="business" value="{{systemSettings.paypal.email}}">
 
@@ -53,6 +53,23 @@
 					<input type="hidden" name="notify_url" value="{{systemSettings.domain}}/api/payment/paypal/IPN">
 
 					<button type="submit"><i class="fa fa-paypal fa-fw"></i> Pay with PayPal</button>
+				</form><br />
+				<form action="https://www.2checkout.com/checkout/purchase" method="post">
+					<input type='hidden' name='sid' value="{{systemSettings.tco.sellerid}}" />
+					<input type='hidden' name='mode' value="2CO" />
+					<input type='hidden' name='li_0_type' value="product" />
+					<input type='hidden' name='li_0_name' value="Account: {{ curUser.id }}" />
+					<input type='hidden' name='li_0_price' value="{{ formatCurrency(accountBalance) }}" />
+					<input type='hidden' name='card_holder_name' value="{{ curUser.name }} {{curUser.surname}}" />
+					<input type='hidden' name='street_address' value="{{curUser.address}}" />
+					<input type='hidden' name='street_address2' value="{{curUser.address}}" />
+					<input type='hidden' name='city' value="{{curUser.city}}" />
+					<input type='hidden' name='state' value="{{curUser.state}}" />
+					<input type='hidden' name='zip' value="{{curUser.postcode}}" />
+					<input type='hidden' name='country' value="{{curUser.countrycode}}" />
+					<input type='hidden' name='email' value="{{curUser.email}}" />
+					<input type='hidden' name='phone' value="{{curUser.phone}}" />
+					<input name='submit' type='submit' value='Checkout' />
 				</form>
 			</div>
 		</div>
