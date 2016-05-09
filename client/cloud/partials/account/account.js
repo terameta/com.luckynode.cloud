@@ -45,6 +45,8 @@ angular.module('cloudControllers').controller('ctrlAccount', ['$scope', '$http',
 			$scope.curUser.phone = result.phone;
 		});
 
+		console.log($);
+
 		var lnToastr = toastr;
 
 		srvcSettings.get().then(function(result){
