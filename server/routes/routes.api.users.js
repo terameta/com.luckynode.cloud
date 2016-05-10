@@ -181,9 +181,11 @@ module.exports = function(app, express, db, refTools) {
 		} else if ( !req.body._id ) {
 			res.status(400).json({ status: "fail", detail: "user should have an _id" });
 		} else {
+			console.log(req.body);
 			var curid = req.body._id;
 			delete req.body._id;
 			delete req.body.accountTransactions;
+			console.log(req.body);
 			db.users.update({_id: mongojs.ObjectId(curid)}, {$set:req.body}, function(err, data){
 				if( err ){
 					res.status(500).json({ status: "fail" });
