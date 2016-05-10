@@ -104,7 +104,7 @@ cloudApp.run(['$rootScope', '$state', '$signinModal', '$localStorage', 'editable
 
 		if (requireSignin && typeof $rootScope.apiToken === 'undefined') {
 			event.preventDefault();
-
+			$state.go('welcome');
 			/*$signinModal()
 			.then(function() {
 				return $state.go(toState.name, toParams);
