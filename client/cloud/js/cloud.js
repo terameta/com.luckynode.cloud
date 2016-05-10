@@ -166,7 +166,7 @@ cloudServices.service('$localStorage', function localStorage($window) {
 });
 
 cloudServices.service('$signinModal', function($uibModal, $rootScope, $localStorage, $timeout) {
-
+	console.log("We are at signin modal");
 	function assignCurrentUser(data) {
 		$rootScope.apiToken = data.token;
 		$localStorage.set('apiToken', data.token);
