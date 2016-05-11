@@ -63,6 +63,7 @@ function balanceDatesCheck(refObj){
 	toUpdate.dayofMonthToCheckBalance = refObj.user.dayofMonthToCheckBalance || "2";
 	toUpdate.lastBalanceCheck = refObj.user.lastBalanceCheck || moment().toDate();
 	toUpdate.accountBalance = parseFloat(refObj.accountBalance).toFixed(2);
+	if(parseFloat(refObj.accountBalance) <= 0) toUpdate.numberofRemindersSent = 0;
 	db.users.update({_id:mongojs.ObjectId(refObj.userid)}, {$set:toUpdate}, function(err, result){
 		if(err){
 			deferred.reject(err);
