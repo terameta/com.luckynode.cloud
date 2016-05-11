@@ -61,7 +61,7 @@ function balanceDatesCheck(refObj){
 	//console.log(moment().format(), refObj.user.lastBalanceCheck, moment("2", "D").format());
 	var toUpdate = {};
 	toUpdate.dayofMonthToCheckBalance = refObj.user.dayofMonthToCheckBalance || "2";
-	toUpdate.lastBalanceCheck = refObj.user.lastBalanceCheck || moment().startOf("month").toDate();
+	toUpdate.lastBalanceCheck = refObj.user.lastBalanceCheck || moment().toDate();
 	toUpdate.accountBalance = parseFloat(refObj.accountBalance).toFixed(2);
 	db.users.update({_id:mongojs.ObjectId(refObj.userid)}, {$set:toUpdate}, function(err, result){
 		if(err){
