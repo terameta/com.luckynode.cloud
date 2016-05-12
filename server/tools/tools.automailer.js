@@ -7,9 +7,12 @@ var smtpTransport 	= require('nodemailer-smtp-transport');
 
 module.exports = function mailerModule(refdb){
 	db = refdb;
-	console.log("AAAAAAAAAAAAA");
 	var module = {
-
+		theLogger: theLogger
 	};
 	return module;
 };
+
+function theLogger(){
+	console.log("I am theLogger");
+}
