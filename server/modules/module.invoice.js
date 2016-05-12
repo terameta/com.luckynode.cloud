@@ -210,6 +210,7 @@ function calculateUserBalance(refObj){
 	}
 	refObj.accountBalance = accountBalance;
 	refObj.transactions = allTransactions;
+	console.log("calculateUserBalance:", accountBalance);
 	delete refObj.invoiceList;
 	deferred.resolve(refObj);
 	return deferred.promise;
