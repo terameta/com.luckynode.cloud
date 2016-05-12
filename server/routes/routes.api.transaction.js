@@ -29,15 +29,6 @@ module.exports = function(app, express, refdb, tools) {
 		});
 	});
 
-	apiRoutes.get('/userbalance/:id', tools.checkToken, function(req, res){
-		invoiceModule.getUserBalance({userid:req.params.id}).then(function(refObj){
-			res.json(refObj);
-		}).fail(function(issue){
-			console.log(issue);
-			res.status(500).json({ status: 'fail', message: "Can't list invoices" });
-		});
-	});
-
 	apiRoutes.delete('/:id', tools.checkToken, function(req, res){
 		if(!req.params.id){
 			res.status(400).json({ status: "fail", detail: "no data provided" });

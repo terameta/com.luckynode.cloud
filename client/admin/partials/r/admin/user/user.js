@@ -36,18 +36,6 @@ angular.module('adminServices').service('srvcUsers', ['$resource', '$rootScope',
 			});
 		};
 
-		service.serverAccountBalance = function(user){
-			$http.get('/api/transaction/userbalance/'+user._id).then(function /*success*/(response){
-				console.log(user);
-				console.log(response);
-				user.accountBalance = response.data.accountBalance;
-				user.shouldMakePayment = (user.accountBalance > 0);
-				user.accountTransactions = response.data.transactions;
-			}, function /*fail*/(response){
-				console.log("Fail:", response);
-			});
-		}
-
 		service.fetchAll();
 
 		service.fetchOne = function(id){
@@ -78,7 +66,6 @@ angular.module('adminControllers').controller('userController', ['$scope', '$roo
 			$scope.curUser = srvcUsers.fetchOne($stateParams.id);
 			$scope.curUser.$promise.then(function(){
 				srvcUsers.accountBalance($scope.curUser);
-				srvcUsers.serverAccountBalance($scope.curUser);
 			});
 		}
 
