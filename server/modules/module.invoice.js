@@ -190,6 +190,7 @@ function getUserBalance(refObj){
 }
 
 function calculateUserBalance(refObj){
+	console.log("We are at calculateUserBalance");
 	var deferred = Q.defer();
 	var accountBalance = 0;
 	var allTransactions = [];
