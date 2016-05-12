@@ -190,7 +190,6 @@ function getUserBalance(refObj){
 }
 
 function calculateUserBalance(refObj){
-	console.log("We are at calculateUserBalance");
 	var deferred = Q.defer();
 	var accountBalance = 0;
 	var allTransactions = [];
@@ -210,18 +209,15 @@ function calculateUserBalance(refObj){
 	}
 	refObj.accountBalance = accountBalance;
 	refObj.transactions = allTransactions;
-	console.log("calculateUserBalance:", accountBalance);
 	delete refObj.invoiceList;
 	deferred.resolve(refObj);
 	return deferred.promise;
 }
 
 function getUserTransactions(refObj){
-	console.log("We are at getUserTransactions");
 	var deferred = Q.defer();
 	db.transactions.find({userid:refObj.userid}, function(err, trxList){
 		if(err){
-			console.log("getUserTransactions error:", err);
 			deferred.reject(err);
 		} else {
 			refObj.transactions = trxList;
@@ -233,7 +229,6 @@ function getUserTransactions(refObj){
 
 function listToObject(refObj){
 	var deferred = Q.defer();
-	console.log("We are at listToObject");
 	list(refObj.userid).then(function(invoiceList){
 		refObj.invoiceList = invoiceList;
 		deferred.resolve(refObj);
@@ -258,7 +253,6 @@ function fetchOne(userid, invoiceid){
 
 function list(userid){
 	var deferred = Q.defer();
-	console.log("We are at list");
 	var querier = {"details.user":mongojs.ObjectId(userid)};
 	if(!userid)	querier = {};
 	//console.log(querier);
