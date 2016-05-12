@@ -229,6 +229,7 @@ function getUserTransactions(refObj){
 
 function listToObject(refObj){
 	var deferred = Q.defer();
+	console.log("We are at listToObject");
 	list(refObj.userid).then(function(invoiceList){
 		refObj.invoiceList = invoiceList;
 		deferred.resolve(refObj);
