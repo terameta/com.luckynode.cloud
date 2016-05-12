@@ -8,6 +8,15 @@ module.exports = function Croner(db) {
 		'*/10 * * * * *',
 		function(){
 			invoiceModule.startProcess();
+		}, function(){
+			console.log("This is the end of every ten seconds");
+		},
+		true,
+		"America/Los_Angeles"
+	);
+	var jobM = new croner(
+		'0 * * * * *',
+		function(){
 			invoiceModule.informBalances();
 		}, function(){
 			console.log("This is the end of every ten seconds");
