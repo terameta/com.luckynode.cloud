@@ -215,6 +215,7 @@ function calculateUserBalance(refObj){
 }
 
 function getUserTransactions(refObj){
+	console.log("We are at getUserTransactions");
 	var deferred = Q.defer();
 	db.transactions.find({userid:refObj.userid}, function(err, trxList){
 		if(err){
