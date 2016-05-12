@@ -24,7 +24,6 @@ function defineTransporter(){
 		if(err){
 			console.log("error getting settings at defineTransporter");
 		} else {
-			console.log(result.sparkpost);
 			if(result.mailtransporter == "sparkpost"){
 				transporter = nodemailer.createTransport(sparkPostTransport({
 					sparkPostApiKey: result.sparkpost.pass,
@@ -34,7 +33,6 @@ function defineTransporter(){
 						transactional: true
 					}
 				}));
-
 			} else {
 				transporter = nodemailer.createTransport(
 					smtpTransport({
