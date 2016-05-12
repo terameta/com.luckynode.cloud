@@ -37,7 +37,7 @@ angular.module('adminServices').service('srvcUsers', ['$resource', '$rootScope',
 		};
 
 		service.serverAccountBalance = function(user){
-			$http.get('/api/transactions/userbalance/'+user._id).then(function /*success*/(response){
+			$http.get('/api/transaction/userbalance/'+user._id).then(function /*success*/(response){
 				console.log(user);
 				console.log(response);
 				user.accountBalance = response.data.accountBalance;
