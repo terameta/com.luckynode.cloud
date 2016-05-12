@@ -30,12 +30,11 @@ module.exports = function(app, express, refdb, tools) {
 	});
 
 	apiRoutes.get('/userbalance/:id', tools.checkToken, function(req, res){
-		console.log("The id is:", req.params.id);
-		var refObj = {};
-		refObj.userid = req.params.id;
-		invoiceModule.getUserBalance(refObj).then(res.send).fail(function(issue){
+		invoiceModule.getUserBalance({userid:req.params.id}).then(function(refObj){
+			res.json(refObj);
+		}).fail(function(issue){
 			console.log(issue);
-			res.status(500).json({status:"fail", details:issue});
+			res.status(500).json({ status: 'fail', message: "Can't list invoices" });
 		});
 	});
 
