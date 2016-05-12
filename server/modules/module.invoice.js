@@ -254,6 +254,7 @@ function fetchOne(userid, invoiceid){
 
 function list(userid){
 	var deferred = Q.defer();
+	console.log("We are at list");
 	var querier = {"details.user":mongojs.ObjectId(userid)};
 	if(!userid)	querier = {};
 	//console.log(querier);
