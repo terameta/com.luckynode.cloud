@@ -30,6 +30,7 @@ module.exports = function(app, express, refdb, tools) {
 	});
 
 	apiRoutes.get('/userbalance/:id', tools.checkToken, function(req, res){
+		console.log("The id is:", req.params.id);
 		invoiceModule.getUserBalance({userid:req.params.id}).then(res.send).fail(function(issue){
 			console.log(issue);
 			res.status(500).json({status:"fail", details:issue});
