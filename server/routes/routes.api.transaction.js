@@ -1,7 +1,11 @@
+var db;
 var commander;
+var invoiceModule;
 
-module.exports = function(app, express, db, tools) {
+module.exports = function(app, express, refdb, tools) {
+	db = refdb;
 	var mongojs 		= require('mongojs');
+	invoiceModule 		= require('../modules/module.invoice.js')(db);
 	commander 	= require('../tools/tools.node.commander.js')(db);
 	var apiRoutes = express.Router();
 
@@ -22,6 +26,12 @@ module.exports = function(app, express, db, tools) {
 			} else {
 				res.send(data);
 			}
+		});
+	});
+
+	apiRoutes.get('/userbalance/:id', tools.checkToken, function(req, res){
+		invoiceModule.getUserBalance({userid:req.params.id}).then(res.send).fail(function(issue){
+			res.status(500).json({status:"fail", details:issue});
 		});
 	});
 
