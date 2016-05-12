@@ -4,14 +4,13 @@ var mongojs 			= require('mongojs');
 var Q					= require('q');
 var nodemailer 			= require('nodemailer');
 var smtpTransport 		= require('nodemailer-smtp-transport');
-//var sparkPostTransport 	= require('nodemailer-sparkpost-transport');
 var transporter;
 var templateModule;
 
 module.exports = function mailerModule(refdb){
 	db = refdb;
 	templateModule = require('../modules/module.template.js')(db);
-	defineTransporter();
+	//defineTransporter();
 	var module = {
 		sendMail: sendMail,
 		sendTemplateMail: sendTemplateMail
@@ -20,20 +19,28 @@ module.exports = function mailerModule(refdb){
 };
 
 function defineTransporter(){
+	var deferred = Q.defer();
 	db.settings.findOne(function(err, result){
 		if(err){
 			console.log("error getting settings at defineTransporter");
+			deferred.reject(err);
 		} else {
 			if(result.mailtransporter == "sparkpost"){
-		/*		transporter = nodemailer.createTransport(sparkPostTransport({
-					sparkPostApiKey: result.sparkpost.pass,
-					options: {
-						open_tracking: true,
-						click_trackin: true,
-						transactional: true
-					}
-				}));
-		*/	} else {
+				transporter = nodemailer.createTransport(
+					smtpTransport({
+						host	: result.sparkpost.host,
+						port	: result.sparkpost.port,
+						secure	: true,
+						tls		: {
+							rejectUnauthorized: false
+						},
+						auth	: {
+							user: result.sparkpost.user,
+							pass: result.sparkpost.pass
+						}
+					})
+				);
+			} else {
 				transporter = nodemailer.createTransport(
 					smtpTransport({
 						host	: result.mailserver.host,
@@ -49,8 +56,10 @@ function defineTransporter(){
 					})
 				);
 			}
+			deferred.resolve();
 		}
 	});
+	return deferred.promise;
 }
 
 function sendMail(subject, content, from, to, cc, bcc, attachments, replyTo){
@@ -67,13 +76,18 @@ function sendMail(subject, content, from, to, cc, bcc, attachments, replyTo){
 	if(bcc) curVals.bcc = bcc;
 	if(attachments) curVals.attachments = attachments;
 	if(replyTo) curVals.replyTo		= replyTo;
-	transporter.sendMail(curVals, function(err, info){
-		if(err){
-			deferred.reject(err);
-		} else {
-			deferred.resolve(info);
-		}
-	});
+	defineTransporter().
+	then(function(){
+		transporter.sendMail(curVals, function(err, info){
+			if(err){
+				deferred.reject(err);
+			} else {
+				deferred.resolve(info);
+			}
+		});
+	}).
+	fail(deferred.reject);
+
 	return deferred.promise;
 }
 
