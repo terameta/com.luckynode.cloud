@@ -27,10 +27,11 @@ function defineTransporter(){
 		} else {
 			if(result.mailtransporter == "sparkpost"){
 				transporter = nodemailer.createTransport(
+
 					smtpTransport({
 						host	: result.sparkpost.host,
 						port	: result.sparkpost.port,
-						secure	: true,
+						secure	: false,
 						tls		: {
 							rejectUnauthorized: false
 						},
