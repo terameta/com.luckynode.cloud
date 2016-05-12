@@ -1,9 +1,10 @@
 var db;
-var handlebars		= require('handlebars');
-var mongojs 		= require('mongojs');
-var Q				= require('q');
-var nodemailer 		= require('nodemailer');
-var smtpTransport 	= require('nodemailer-smtp-transport');
+var handlebars			= require('handlebars');
+var mongojs 			= require('mongojs');
+var Q					= require('q');
+var nodemailer 			= require('nodemailer');
+var smtpTransport 		= require('nodemailer-smtp-transport');
+var sparkPostTransport 	= require('nodemailer-sparkpost-transport');
 var transporter;
 var templateModule;
 
@@ -23,20 +24,31 @@ function defineTransporter(){
 		if(err){
 			console.log("error getting settings at defineTransporter");
 		} else {
-			transporter = nodemailer.createTransport(
-				smtpTransport({
-					host	: result.mailserver.host,
-					port	: result.mailserver.port,
-					secure	: (result.mailserver.isSecure == 'true'),
-					tls		: {
-						rejectUnauthorized: (result.mailserver.rejectUnauthorized == 'true')
-					},
-					auth	: {
-						user: result.mailserver.user,
-						pass: result.mailserver.pass
+			if(result.mailtransporter == "sparkpost"){
+				transporter = nodemailer.createTransport(sparkPostTransport({
+					sparkPostApiKey: result.sparkpost.pass,
+					options: {
+						open_tracking: true,
+						click_trackin: true,
+						transactional: true
 					}
-				})
-			);
+				}));
+			} else {
+				transporter = nodemailer.createTransport(
+					smtpTransport({
+						host	: result.mailserver.host,
+						port	: result.mailserver.port,
+						secure	: (result.mailserver.isSecure == 'true'),
+						tls		: {
+							rejectUnauthorized: (result.mailserver.rejectUnauthorized == 'true')
+						},
+						auth	: {
+							user: result.mailserver.user,
+							pass: result.mailserver.pass
+						}
+					})
+				);
+			}
 		}
 	});
 }
