@@ -103,6 +103,11 @@ angular.module('adminControllers').controller('settingsController', ['$scope', '
 
 		$scope.save = srvcSettings.save;
 
+		$scope.transportOptions = [
+			{name:"SMTP Server", value: "smtp"},
+			{name:"SparkPost", value: "sparkpost"}
+		];
+
 		$scope.addPhone = function(){
 			if(!$rootScope.settings.phones) $rootScope.settings.phones = [];
 			$rootScope.settings.phones.push({country:'US', order:0, number:'000-000-000'});

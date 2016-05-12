@@ -59,6 +59,11 @@
 												</td>
 											</tr>
 											<tr><td><b>Counters: 					</b></td><td><ul><li ng-repeat="counter in counters">{{counter._id}} (seq: {{counter.seq}})</li></ul></td></tr>
+											<tr><td><b>Selected Email Transport: 	</b></td>
+												<td>
+													<span editable-select="settings.mailtransporter" e-ng-options="transporter.value as transporter.name for transporter in transportOptions">{{ settings.mailtransporter }}</span>
+												</td>
+											</tr>
 											<tr><td><b>Email Letter Head Color: 	</b></td><td><span editable-text="settings.emailletterheadcolor">{{settings.emailletterheadcolor}}</span></td></tr>
 											<tr><td><b>Email Letter Head Logo URL: 	</b></td><td><span editable-text="settings.emailletterheadlogourl">{{settings.emailletterheadlogourl}}</span></td></tr>
 											<tr>
