@@ -219,6 +219,7 @@ function getUserTransactions(refObj){
 	var deferred = Q.defer();
 	db.transactions.find({userid:refObj.userid}, function(err, trxList){
 		if(err){
+			console.log("getUserTransactions error:", err);
 			deferred.reject(err);
 		} else {
 			refObj.transactions = trxList;
