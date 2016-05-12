@@ -176,7 +176,7 @@ function createEmptyInvoice(tokenObject){
 
 function getUserBalance(refObj){
 	var deferred = Q.defer();
-	//console.log("We are at getUserBalance", refObj);
+	console.log("We are at getUserBalance", refObj);
 	if(!refObj){
 		deferred.reject("No information passed");
 		return deferred.promise;
