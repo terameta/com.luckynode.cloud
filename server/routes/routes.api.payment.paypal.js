@@ -11,6 +11,11 @@ module.exports = function(app, express, refdb, tools) {
 	invoiceModule 		= require('../modules/module.invoice.js')(db);
 	var apiRoutes 		= express.Router();
 
+	apiRoutes.get('/IPN', function(req, res) {
+		res.send("OK");
+		refreshPayPal();
+	});
+
 	apiRoutes.post('/IPN',  function(req, res) {
 		refreshPayPal();
 		console.log("==========================================================");
