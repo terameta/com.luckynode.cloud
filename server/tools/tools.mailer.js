@@ -34,6 +34,7 @@ function defineTransporter(){
 						transactional: true
 					}
 				}));
+
 			} else {
 				transporter = nodemailer.createTransport(
 					smtpTransport({
