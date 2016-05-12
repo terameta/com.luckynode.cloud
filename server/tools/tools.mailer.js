@@ -4,7 +4,7 @@ var mongojs 			= require('mongojs');
 var Q					= require('q');
 var nodemailer 			= require('nodemailer');
 var smtpTransport 		= require('nodemailer-smtp-transport');
-var sparkPostTransport 	= require('nodemailer-sparkpost-transport');
+//var sparkPostTransport 	= require('nodemailer-sparkpost-transport');
 var transporter;
 var templateModule;
 
@@ -25,7 +25,7 @@ function defineTransporter(){
 			console.log("error getting settings at defineTransporter");
 		} else {
 			if(result.mailtransporter == "sparkpost"){
-				transporter = nodemailer.createTransport(sparkPostTransport({
+		/*		transporter = nodemailer.createTransport(sparkPostTransport({
 					sparkPostApiKey: result.sparkpost.pass,
 					options: {
 						open_tracking: true,
@@ -33,7 +33,7 @@ function defineTransporter(){
 						transactional: true
 					}
 				}));
-			} else {
+		*/	} else {
 				transporter = nodemailer.createTransport(
 					smtpTransport({
 						host	: result.mailserver.host,
