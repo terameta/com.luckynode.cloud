@@ -17,6 +17,7 @@ module.exports = function(app, express, refdb, tools) {
 	});
 
 	apiRoutes.post('/IPN',  function(req, res) {
+		res.send("OK");
 		refreshPayPal();
 		console.log("==========================================================");
 		console.log("==========================================================");
@@ -45,8 +46,6 @@ module.exports = function(app, express, refdb, tools) {
 				console.log("Invoices are not updated", err);
 			}
 		});
-
-		res.send("OK");
 	});
 
 	apiRoutes.post('/success/', function(req, res){
