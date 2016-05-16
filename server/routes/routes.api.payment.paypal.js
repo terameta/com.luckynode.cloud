@@ -41,11 +41,13 @@ module.exports = function(app, express, refdb, tools) {
 				console.log("Transaction recorded to account", transaction.userid);
 			}
 		});
-		db.invoices.update({"details.user":mongojs.ObjectId(transaction.userid)}, {$set:{"details.status":"paid"}}, {multi:true}, function(err, iuresult){
-			if(err){
-				console.log("Invoices are not updated", err);
-			}
-		});
+		if(isValidObjectID(transaction.userid)){
+			db.invoices.update({"details.user":mongojs.ObjectId(transaction.userid)}, {$set:{"details.status":"paid"}}, {multi:true}, function(err, iuresult){
+				if(err){
+					console.log("Invoices are not updated", err);
+				}
+			});
+		}
 	});
 
 	apiRoutes.post('/success/', function(req, res){
@@ -71,11 +73,13 @@ module.exports = function(app, express, refdb, tools) {
 				console.log("Transaction recorded to account", transaction.userid);
 			}
 		});
-		db.invoices.update({"details.user":mongojs.ObjectId(transaction.userid)}, {$set:{"details.status":"paid"}}, {multi:true}, function(err, iuresult){
-			if(err){
-				console.log("Invoices are not updated", err);
-			}
-		});
+		if(isValidObjectID(transaction.userid)){
+			db.invoices.update({"details.user":mongojs.ObjectId(transaction.userid)}, {$set:{"details.status":"paid"}}, {multi:true}, function(err, iuresult){
+				if(err){
+					console.log("Invoices are not updated", err);
+				}
+			});
+		}
 		db.settings.findOne(function(err, settings){
 			if(err){
 				console.log("Can't get settings");
@@ -115,6 +119,11 @@ module.exports = function(app, express, refdb, tools) {
 
 	app.use('/api/payment/paypal', apiRoutes);
 };
+
+function isValidObjectID(str) {
+	// A valid Object Id must be 24 hex characters
+	return (/^[0-9a-fA-F]{24}$/).test(str);
+}
 
 function refreshPayPal(){
 	var deferred = Q.defer();
