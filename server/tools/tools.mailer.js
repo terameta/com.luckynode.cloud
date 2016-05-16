@@ -69,7 +69,7 @@ function sendMail(subject, content, from, to, cc, bcc, attachments, replyTo){
 	curVals.subject 	= subject || 'No Subject';
 	curVals.text 		= content || 'No Content';
 	curVals.html 		= content || 'No Content';
-	curVals.from		= from || 'admin@luckynode.com';
+	curVals.from		= from || 'admin@epmvirtual.com';
 	curVals.to 			= to;
 	//console.log(curVals);
 	if(!curVals.to) return false;
