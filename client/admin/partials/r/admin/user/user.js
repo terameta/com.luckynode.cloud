@@ -67,6 +67,7 @@ angular.module('adminControllers').controller('userController', ['$scope', '$roo
 			$scope.curUser.$promise.then(function(){
 				srvcUsers.accountBalance($scope.curUser);
 			});
+			$scope.selectedGoToUser = $stateParams.id;
 		}
 
 		$scope.addPayEmail = function(){
