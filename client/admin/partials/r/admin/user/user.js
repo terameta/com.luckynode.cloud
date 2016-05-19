@@ -21,6 +21,7 @@ angular.module('adminServices').service('srvcUsers', ['$resource', '$rootScope',
 		service.resource = $resource( '/api/users/:id', { id: '@_id' }, { update: { method: 'PUT' } });
 
 		service.fetchAll = function(){
+			console.log("We are fetching all users");
 			$rootScope.users = service.resource.query();
 		};
 
