@@ -79,7 +79,7 @@ function balanceDatesCheck(refObj){
 function decideBalance(refObj){
 	var deferred = Q.defer();
 	refObj.shouldWeSend = true;
-	if(refObj.accountBalance > 0){
+	if(parseFloat(refObj.accountBalance).toFixed(2) > 0){
 		//console.log(refObj.userid, refObj.accountBalance, refObj.user.email, "We should communicate");
 		if(moment(refObj.user.lastBalanceCheck).add(2,"days").toDate() > moment().toDate()){
 			refObj.shouldWeSend = false;
