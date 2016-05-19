@@ -203,7 +203,7 @@ function calculateUserBalance(refObj){
 		refObj.transactions.forEach(function(curTrx){
 			//console.log("Transaction:::", curTrx);
 			accountBalance -= parseFloat(curTrx.amount);
-			allTransactions.push({id:curTrx.id, date:curTrx.date, transactionBy:curTrx.method, amountPaid:curTrx.amount, details:curTrx.detail});
+			allTransactions.push({id:curTrx.id, date:curTrx.date, transactionBy:curTrx.method, amountPaid:curTrx.amount, details:curTrx.detail, dbid:curTrx._id});
 		});
 	}
 	refObj.accountBalance = accountBalance;

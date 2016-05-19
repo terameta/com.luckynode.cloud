@@ -119,7 +119,7 @@
 						<td align=right>{{formatCurrency(transaction.amountPaid || 0)}}</td>
 						<td>
 							<a ng-if="(transaction.transactionBy=='Invoice')" ui-sref="r.dashboard.invoice({id: transaction.id})"><i class="fa fa-cog fa-fw"></i></a>
-							<a ng-if="(transaction.transactionBy!='Invoice')" ui-sref="r.dashboard.transaction({id: transaction._id})"><i class="fa fa-cog fa-fw"></i></a>
+							<a ng-if="(transaction.transactionBy!='Invoice')" ui-sref="r.dashboard.transaction({id: transaction.dbid})"><i class="fa fa-cog fa-fw"></i></a>
 						</td>
 					</tr>
 				</tbody>
