@@ -36,9 +36,11 @@
 								<td><b>Owner: 		</b></td>
 								<td>
 									<span editable-select="curServer.owner" e-ng-options="user._id as user.name+' '+user.surname+' ('+user.email+')' for user in users">
-										{{ (users | filter:{_id: curServer.owner})[0].email || 'Not set' }}
-										{{ (users | filter:{_id: curServer.owner})[0].name || '' }}
-										{{ (users | filter:{_id: curServer.owner})[0].surname || '' }}
+										<a ui-sref="r.dashboard.user({id: curServer.owner})" title="Go to user details">
+											{{ (users | filter:{_id: curServer.owner})[0].name || '' }}
+											{{ (users | filter:{_id: curServer.owner})[0].surname || '' }}
+											( {{ (users | filter:{_id: curServer.owner})[0].email || 'Not set' }} )
+										</a>
 									</span>
 								</td>
 							</tr>
