@@ -22,7 +22,6 @@ angular.module('adminServices').service('srvcUsers', ['$resource', '$rootScope',
 
 		service.fetchAll = function(){
 			if(!$rootScope.users){
-				console.log("We are fetching all users");
 				$rootScope.users = service.resource.query();
 			}
 		};
