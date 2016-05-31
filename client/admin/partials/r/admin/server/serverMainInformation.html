@@ -27,8 +27,8 @@
 						<tr>
 							<td><b>Image: 		</b></td>
 							<td>
-								<a ui-sref="r.dashboard.image({id: curServer.image})" title="Details">
-									{{ (images | filter:{_id: curServer.image})[0].name || 'Not Set'}}
+								<a ui-sref="r.dashboard.image({id: srvImage._id})" title="Details" ng-repeat="srvImage in images | filter:{_id: curServer.image}">
+									{{ srvImage.name }}
 								</a>
 							</td>
 						</tr>
