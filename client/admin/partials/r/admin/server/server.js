@@ -146,9 +146,7 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 			$scope.images.forEach(function(curImage){
 				if(curImage._id == $scope.curServer.image) $scope.connectionInformation = curImage.connectionInformation;
 			});
-			console.log($scope.connectionInformation);
-			$scope.connectionInformation.replace(/__serverip__/g,$scope.curServer.ip);
-			console.log($scope.connectionInformation);
+			$scope.connectionInformation = $scope.connectionInformation.replace(/__serverip__/g,$scope.curServer.ip);
 		};
 
 		$scope.stopConsole = function(){
