@@ -152,6 +152,8 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 			} else {
 				$scope.connectionInformation = $scope.connectionInformation.replace(/__storedPassword__/g,"Your server's new password is not defined yet. This might take about 15 to 20 minutes after creation, please refresh the page to check the password.");
 			}
+
+			$scope.connectionInformation = $scope.connectionInformation.replace(/\n/g,"<br>");
 		};
 
 		$scope.stopConsole = function(){
