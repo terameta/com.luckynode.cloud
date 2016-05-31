@@ -47,7 +47,7 @@
 				<td>{{server.ip}}</td>
 				<td>{{server.mac}}</td>
 				<td>
-					<a ui-sref="r.dashboard.image({id: srvImage._id})" title="Details" ng-repeat="srvImage in images | filter:{_id: curServer.image || '000' }">
+					<a ui-sref="r.dashboard.image({id: srvImage._id})" title="Details" ng-repeat="srvImage in images | filter:{_id: server.image || '000' }">
 						{{ srvImage.name }}
 						({{ (imagegroups | filter:{_id:((images | filter:{_id:server.image})[0].group)})[0].name }})
 					</a>
