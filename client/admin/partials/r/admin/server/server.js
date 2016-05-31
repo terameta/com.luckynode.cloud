@@ -148,7 +148,9 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 				$scope.rfb = '';
 				$scope.shouldShowConsole = false;
 			}
-			$scope.activeServerDetailTab = 0;
+			if($scope.activeServerDetailTab == 1){
+				$scope.activeServerDetailTab == 0;
+			}
 		};
 
 		$scope.startConsole = function(){
