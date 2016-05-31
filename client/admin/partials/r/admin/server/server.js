@@ -32,6 +32,8 @@ angular.module('adminServices').service('$server', ['$resource',
 
 angular.module('adminControllers').controller('serverController',['$scope', '$rootScope', '$state', '$stateParams', '$server', '$datacenter', '$plan', '$ipblock', '$node', '$image', '$uibModal', '$http', '$q', 'srvcImageGroup', 'srvcUsers',
 	function($scope, $rootScope, $state, $stateParams, $server, $datacenter, $plan, $ipblock, $node, $image, $uibModal, $http, $q, srvcImageGroup, srvcUsers){
+		$scope.activeServerDetailTab = 0;
+
 		$scope.imageDiskDrivers = [{ value:'virtio', text: 'virtio' }, { value:'ide', text: 'ide'}];
 		$scope.imageNetDrivers = [{value:'virtio', text: 'virtio'}, {value:'rtl8139', text: 'Realtek 8139'}, {value:'e1000', text: 'Intel PRO/1000'}];
 
@@ -143,6 +145,7 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 			$scope.rfb.disconnect();
 			$scope.rfb = '';
 			$scope.shouldShowConsole = false;
+			$scope.activeServerDetailTab = 0;
 		};
 
 		$scope.startConsole = function(){
