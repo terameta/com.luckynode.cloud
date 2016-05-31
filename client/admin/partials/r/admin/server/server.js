@@ -145,6 +145,7 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 			$scope.rfb.disconnect();
 			$scope.rfb = '';
 			$scope.shouldShowConsole = false;
+			$scope.activeServerDetailTab = 1;
 			$scope.activeServerDetailTab = 0;
 		};
 
