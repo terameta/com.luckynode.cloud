@@ -122,11 +122,11 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 		};
 
 		$scope.consoleTabSelected = function(){
-			console.log("ConsoleTab Selected");
+			$scope.startConsole();
 		};
 
 		$scope.consoleTabDeselected = function(){
-			console.log("ConsoleTab De-Selected");
+			$scope.stopConsole();
 		};
 
 		$scope.toggleConsole = function(){
