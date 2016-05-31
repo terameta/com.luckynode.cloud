@@ -47,8 +47,11 @@
 				<td>{{server.ip}}</td>
 				<td>{{server.mac}}</td>
 				<td>
-					{{ (images | filter:{_id:server.image})[0].name}}
-					({{ (imagegroups | filter:{_id:((images | filter:{_id:server.image})[0].group)})[0].name }})
+					<a ui-sref="r.dashboard.image({id: srvImage._id})" title="Details" ng-repeat="srvImage in images | filter:{_id: curServer.image || '000' }">
+						{{ srvImage.name }}
+						({{ (imagegroups | filter:{_id:((images | filter:{_id:server.image})[0].group)})[0].name }})
+					</a>
+
 				</td>
 				<td>{{server.status}}</td>
 				<td>
