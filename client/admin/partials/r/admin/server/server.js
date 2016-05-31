@@ -141,6 +141,11 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 			}
 		};
 
+		$scope.connectionDetailsTabSelected = function(){
+			$scope.connectionInformation = "We are placing it here";
+			console.log($scope.images);
+		};
+
 		$scope.stopConsole = function(){
 			console.log("We are stopping console");
 			//console.log($scope.rfb);
