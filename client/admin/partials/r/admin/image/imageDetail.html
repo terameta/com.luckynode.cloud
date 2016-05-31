@@ -150,7 +150,19 @@
 						</div>
 					</div>
 				</uib-tab>
-				<uib-tab index="3" heading="Source Code">
+				<uib-tab index="3" heading="Connection Information">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<div class="btn-group">
+								<button type="button" class="btn btn-primary btn-xs" ng-click="saveImage()">Save</button>
+							</div>
+						</div>
+						<div class="panel-body" style="padding:0">
+							<div style="height:500px;" ui-ace="{ useWrapMode : false, showGutter: true, theme:'chrome', mode: 'html', onLoad: aceLoaded, onChange: aceChanged }" ng-model="curImage.connectionInformation"></div>
+						</div>
+					</div>
+				</uib-tab>
+				<uib-tab index="4" heading="Source Code">
 					<pre>{{curImage | json}}</pre>
 				</uib-tab>
 			</uib-tabset>
