@@ -143,7 +143,9 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 
 		$scope.connectionDetailsTabSelected = function(){
 			$scope.connectionInformation = "We are placing it here";
-			console.log($scope.images);
+			$scope.images.forEach(function(curImage){
+				console.log(curImage);
+			});
 		};
 
 		$scope.stopConsole = function(){
