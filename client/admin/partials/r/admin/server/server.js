@@ -144,8 +144,9 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 		$scope.connectionDetailsTabSelected = function(){
 			$scope.connectionInformation = "We are placing it here";
 			$scope.images.forEach(function(curImage){
-				if(curImage._id == $scope.curServer.image) console.log(curImage);
+				if(curImage._id == $scope.curServer.image) $scope.connectionInformation = curImage.connectionInformation;
 			});
+			$scope.connectionInformation.replace(/{{serverip}}/g,$scope.curServer.ip);
 		};
 
 		$scope.stopConsole = function(){
