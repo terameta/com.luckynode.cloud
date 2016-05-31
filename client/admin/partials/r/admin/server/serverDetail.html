@@ -29,6 +29,9 @@
 				<uib-tab index="4" heading="Source">
 					<div ng-include="'/admin/partials/r/admin/server/serverSource.html'"></div>
 				</uib-tab>
+				<uib-tab index="5" heading="Connection Details" ng-if="curServer.image">
+					<div ng-include="'/admin/partials/r/admin/server/serverConnectionDetails.html'"></div>
+				</uib-tab>
 			</uib-tabset>
 		</div>
 	</div>
