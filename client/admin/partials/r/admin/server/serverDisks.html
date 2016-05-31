@@ -1,0 +1,31 @@
+<div class="panel panel-default">
+	<div class="panel-body">
+		<div class="table-responsive">
+			<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+				<thead>
+					<tr>
+						<th>Type</th>
+						<th>Assigned Drive</th>
+						<th>Source File</th>
+						<th>Store</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tr ng-repeat="curDisk in curServer.diskList">
+					<td>{{curDisk.Device}}</td>
+					<td>{{curDisk.Target}}</td>
+					<td>
+						<span ng-if="(curDisk.Device=='disk')">Assigned Drive</span>
+						<span ng-if="(curDisk.Device!='disk')">{{curDisk.Source.split('/')[curDisk.Source.split('/').length-1]}}</span>
+					</td>
+					<td>{{curDisk.Store}}</td>
+					<td>
+						<button type="button" class="btn btn-default btn-xs" ng-if="(curDisk.Device=='disk')" 								ng-click="diskResize(curDisk)"><i class="fa fa-expand fa-fw" title="Resize Disk"></i></button>
+						<button type="button" class="btn btn-default btn-xs" ng-if="(curDisk.Source == '-' && curDisk.Device == 'cdrom')" 	ng-click="openAttachISOModal(curDisk.Target)"><i class="fa fa-paperclip fa-fw" title="Attach Disk"></i></button>
+						<button type="button" class="btn btn-default btn-xs" ng-if="(curDisk.Source != '-' && curDisk.Device == 'cdrom')" 	ng-click="ejectISO(curDisk.Target)"><i class="fa fa-eject fa-fw" title="Eject Disk"></i></button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
