@@ -143,9 +143,11 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 		$scope.stopConsole = function(){
 			console.log("We are stopping console");
 			//console.log($scope.rfb);
-			$scope.rfb.disconnect();
-			$scope.rfb = '';
-			$scope.shouldShowConsole = false;
+			if($scope.shouldShowConsole){
+				$scope.rfb.disconnect();
+				$scope.rfb = '';
+				$scope.shouldShowConsole = false;
+			}
 			$scope.activeServerDetailTab = 0;
 		};
 
