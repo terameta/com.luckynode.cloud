@@ -1,0 +1,59 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">Main Information</h3>
+	</div>
+	<div class="panel-body">
+		<form editable-form name="serverEditForm" onaftersave="saveServer()">
+			<div class="table-responsive">
+				<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+					<tbody>
+						<tr><td><b>Status: 		</b></td><td><span ng-if="!curServer.domstate"><i class="fa fa-circle-o-notch fa-spin"></i></span><span ng-if="curServer.domstate">{{ curServer.domstate }}</span></td></tr>
+						<tr><td><b>Name: 		</b></td><td><span editable-text="curServer.name">{{ curServer.name }}</span></td></tr>
+						<tr><td><b>CPU: 		</b></td><td><span editable-text="curServer.cpu">{{ curServer.cpu }} Core(s)</span></td></tr>
+						<tr><td><b>RAM: 		</b></td><td><span editable-text="curServer.ram">{{ curServer.ram }} MB</span></td></tr>
+						<tr><td><b>HDD: 		</b></td><td><span editable-text="curServer.hdd">{{ curServer.hdd }} GB</span></td></tr>
+						<tr><td><b>Bandwidth: 	</b></td><td><span editable-text="curServer.bandwidth">{{ curServer.bandwidth }} GB</span></td></tr>
+						<tr><td><b>IP Address: 	</b></td><td><span editable-text="curServer.ip">{{ curServer.ip }}</span></td></tr>
+						<tr><td><b>MAC Address:	</b></td><td><span editable-text="curServer.mac">{{ curServer.mac }}</span></td></tr>
+						<tr>
+							<td><b>Owner: 		</b></td>
+							<td>
+								<span editable-select="curServer.owner" e-ng-options="user._id as user.name+' '+user.surname+' ('+user.email+')' for user in users">
+									<a ui-sref="r.dashboard.user({id: curServer.owner})" title="Go to user details">
+										{{ (users | filter:{_id: curServer.owner})[0].name || '' }}
+										{{ (users | filter:{_id: curServer.owner})[0].surname || '' }}
+										( {{ (users | filter:{_id: curServer.owner})[0].email || 'Not set' }} )
+									</a>
+								</span>
+							</td>
+						</tr>
+						<tr>
+							<td><b>Next Invoice Date: </b></td>
+							<td><span editable-combodate="curServer.nextinvoicedate" e-max-year="2100">{{ (curServer.nextinvoicedate | date:"yyyy-MM-dd HH:mm:ss Z") || 'empty' }}</span></td>
+						</tr>
+						<tr>
+							<td><b>Plan: 		</b></td>
+							<td>
+								<span editable-select="curServer.plan" e-ng-options="plan._id as plan.name for plan in plans">
+									<span ng-if="curServer.plan">{{ (plans | filter:{_id: curServer.plan})[0].name || 'Not set' }}</span>
+									<span ng-if="(!curServer.plan)">Not set</span>
+								</span>
+							</td>
+						</tr>
+						<tr><td><b>Node: 		</b></td><td>{{ (nodes | filter:{_id:curServer.node})[0].name || 'Not set'}}</td></tr>
+						<tr><td><b>Price: 		</b></td><td><span editable-text="curServer.price">{{ curServer.price }}</span></td></tr>
+						<tr><td><b>Invoice Status: 		</b></td><td><span editable-text="curServer.invoicestat">{{ curServer.invoicestat }}</span></td></tr>
+						<tr>
+							<td colspan=2>
+								<button type="button" class="btn btn-primary btn-xs" ng-click="serverEditForm.$show()" ng-show="!serverEditForm.$visible">Edit</button>
+								<button type="button" class="btn btn-danger btn-xs" ng-click="deleteServer()" ng-show="!serverEditForm.$visible">Delete</button>
+								<button type="submit" class="btn btn-success btn-xs" ng-disabled="serverEditForm.$waiting" ng-show="serverEditForm.$visible">Save</button>
+								<button type="button" class="btn btn-warning btn-xs" ng-disabled="serverEditForm.$waiting" ng-click="serverEditForm.$cancel()" ng-show="serverEditForm.$visible">Cancel</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</form>
+	</div>
+</div>

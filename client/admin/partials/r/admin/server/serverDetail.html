@@ -11,8 +11,16 @@
 </section>
 
 <section class="content">
-<div class="row">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12">
+			<uib-tabset>
+				<uib-tab index="0" heading="Details" ng-include="/admin/partials/r/admin/server/serverMainInformation.html"></uib-tab>
+			</uib-tabset>
+		</div>
+	</div>
+</section>
 
+<!--
 <div class="col-xs-12" ng-if="(shouldShowConsole && curServer.domstate=='running')" ng-include="'/common/server/vnc.html'"></div>
 <div class="col-xs-6">
 	<div class="panel panel-default">
@@ -101,7 +109,6 @@
 				<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
 					<thead>
 						<tr>
-							<!--td>Type</td-->
 							<th>Type</th>
 							<th>Assigned Drive</th>
 							<th>Source File</th>
@@ -110,7 +117,6 @@
 						</tr>
 					</thead>
 					<tr ng-repeat="curDisk in curServer.diskList">
-						<!--td>{{curDisk.Type}}</td-->
 						<td>{{curDisk.Device}}</td>
 						<td>{{curDisk.Target}}</td>
 						<td>
@@ -142,7 +148,7 @@
 
 </div>
 </section>
-
+-->
 <script type="text/ng-template" id="serverAttachIsoModal.tmpl.html">
 	<div class="modal-header">
 		<h3><i class="fa fa-server fa-fw"></i> Attach ISO File to Server</h3>
