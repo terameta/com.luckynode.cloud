@@ -26,7 +26,11 @@
 						</tr>
 						<tr>
 							<td><b>Image: 		</b></td>
-							<td>{{ (images | filter:{_id: curServer.image})[0]}}</td>
+							<td>
+								<a ui-sref="r.dashboard.image({id: curServer.image})" title="Details">
+									{{ (images | filter:{_id: curServer.image})[0].name || 'Not Set'}}
+								</a>
+							</td>
 						</tr>
 						<tr>
 							<td><b>Next Invoice Date: </b></td>
