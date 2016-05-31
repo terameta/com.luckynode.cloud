@@ -1,5 +1,6 @@
 <div class="panel panel-default">
-	<div class="panel-body">
-		{{curServer.connectionDetails}}
+	<div class="panel-body" ng-repeat="srvImage in images | filter:{_id: curServer.image || '000' }">
+
+		{{srvImage.connectionDetails}}
 	</div>
 </div>
