@@ -13,6 +13,8 @@
 <section class="content">
 	<div class="row">
 		{{activeServerDetailTab}}
+		<button type="button" class="btn btn-default btn-xs" ng-click="activeServerDetailTab = 1">Go to Console</button>
+		<button type="button" class="btn btn-default btn-xs" ng-click="activeServerDetailTab = 0">Go to MainInfo</button>
 		<div class="col-xs-12 col-sm-12 col-md-12">
 			<uib-tabset active="activeServerDetailTab">
 				<uib-tab index="0" heading="Main Information">
