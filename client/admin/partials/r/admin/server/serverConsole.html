@@ -1,1 +1,5 @@
-<div class="col-xs-12" ng-if="(shouldShowConsole && curServer.domstate=='running')" ng-include="'/common/server/vnc.html'"></div>
+<div class="panel panel-default">
+	<div class="panel-body">
+		<div ng-if="(shouldShowConsole && curServer.domstate=='running')" ng-include="'/common/server/vnc.html'"></div>
+	</div>
+</div>
