@@ -456,6 +456,7 @@ angular.module('cloudControllers').controller('ctrlServer', ['$scope', '$http', 
 			$scope.images.forEach(function(curImage){
 				if(curImage._id == $scope.curServer.image) $scope.connectionInformation = curImage.connectionInformation;
 			});
+			if(!$scope.connectionInformation) $scope.connectionInformation = "";
 			$scope.connectionInformation = $scope.connectionInformation.replace(/__serverip__/g,$scope.curServer.ip);
 			if($scope.curServer.storedPassword){
 				$scope.connectionInformation = $scope.connectionInformation.replace(/__storedPassword__/g,$scope.curServer.storedPassword);
