@@ -23,10 +23,7 @@
 			<th>Name</th>
 			<!--th>Description</th-->
 			<th>Pool</th>
-			<th>Base File</th>
-			<th>Type</th>
 			<th>Status</th>
-			<th>Architecture</th>
 			<th>Disk Driver</th>
 			<th>Network Driver</th>
 			<th>Connection Info</th>
@@ -42,10 +39,7 @@
 			<td>{{image.name}}</td>
 			<!--td>{{image.description}}</td-->
 			<td><span ng-repeat="cnstorageshow in storages | filter:{_id:image.pool}">{{cnstorageshow.name}}</span></td>
-			<td>{{image.basefile}}</td>
-			<td>{{image.imagetype}}</td>
 			<td>{{image.status}}</td>
-			<td>{{image.architecture}}</td>
 			<td>{{image.diskdriver}}</td>
 			<td>{{image.netdriver}}</td>
 			<td>{{image.connectionInformation ? 'Yes': 'No'}}</td>
