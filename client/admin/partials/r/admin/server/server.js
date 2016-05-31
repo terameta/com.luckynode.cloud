@@ -121,6 +121,14 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 			$scope.shouldShowKeyboard = false;
 		};
 
+		$scope.consoleTabSelected = function(){
+			console.log("ConsoleTab Selected");
+		};
+
+		$scope.consoleTabDeselected = function(){
+			console.log("ConsoleTab De-Selected");
+		};
+
 		$scope.toggleConsole = function(){
 			if($scope.shouldShowConsole == true){
 				$scope.stopConsole();

@@ -17,7 +17,7 @@
 				<uib-tab index="0" heading="Main Information">
 					<div ng-include="'/admin/partials/r/admin/server/serverMainInformation.html'"></div>
 				</uib-tab>
-				<uib-tab index="1" heading="Console">
+				<uib-tab index="1" heading="Console" select="consoleTabSelected" deselect="consoleTabDeselected">
 					<div ng-include="'/admin/partials/r/admin/server/serverConsole.html'"></div>
 				</uib-tab>
 			</uib-tabset>
