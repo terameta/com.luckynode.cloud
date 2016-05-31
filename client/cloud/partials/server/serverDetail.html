@@ -15,81 +15,85 @@
 	<div class="col-xs-12 col-sm-12 col-md-12">
 		<uib-tabset active="activeServerDetailTab">
 			<uib-tab index="0" heading="Main Information">
-				<div class="col-xs-12" ng-if="(shouldShowConsole && curServer.domstate=='running')" ng-include="'/common/server/vnc.html'"></div>
-				<div class="col-xs-6">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h3 class="panel-title">Main Information</h3>
-						</div>
-						<div class="panel-body">
-							<form editable-form name="serverEditForm" onaftersave="saveServer()">
-								<div class="table-responsive">
-									<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
-										<tbody>
-											<tr><td><b>Status: 		</b></td><td><span ng-if="!curServer.domstate"><i class="fa fa-circle-o-notch fa-spin"></i></span><span ng-if="curServer.domstate">{{ curServer.domstate | titlecase }}</span></td></tr>
-											<tr><td><b>Name: 		</b></td><td><span editable-text="curServer.name">{{ curServer.name }}</span></td></tr>
-											<tr><td><b>CPU: 		</b></td><td><span editable-text="curServer.cpu">{{ curServer.cpu }} Core(s)</span></td></tr>
-											<tr><td><b>RAM: 		</b></td><td><span editable-text="curServer.ram">{{ curServer.ram }} MB</span></td></tr>
-											<tr><td><b>HDD: 		</b></td><td><span editable-text="curServer.hdd">{{ curServer.hdd }} GB</span></td></tr>
-											<tr><td><b>Bandwidth: 	</b></td><td><span editable-text="curServer.bandwidth">{{ curServer.bandwidth }} GB</span></td></tr>
-											<tr>
-												<td colspan=2>
-													<button type="button" class="btn btn-danger btn-xs" ng-click="deleteServerByConfirm(curServer._id)" ng-show="!serverEditForm.$visible">Delete</button>
-												</td>
-											</tr>
-										</tbody>
-									</table>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="col-xs-12" ng-if="(shouldShowConsole && curServer.domstate=='running')" ng-include="'/common/server/vnc.html'"></div>
+						<div class="col-xs-6">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">Main Information</h3>
 								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-6">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h3 class="panel-title">Actions</h3>
-						</div>
-						<div class="panel-body">
-							<div class="btn-group">
-								<button class="btn btn-default" ng-disabled="!(curServer.domstate=='running')" ng-click="toggleConsole()"><i class="fa fa-desktop"></i><br />Console</button>
-								<button class="btn btn-default" ng-disabled="!(curServer.domstate=='shut off')" ng-click="serverConverged('start');"><i class="fa fa-play"></i><br />Boot</button>
-								<button class="btn btn-default" ng-disabled="!(curServer.domstate=='running')" ng-click="serverConverged('shutdown');"><i class="fa fa-stop"></i><br />Shutdown</button>
-								<button class="btn btn-default" ng-disabled="!(curServer.domstate=='running')" ng-click="serverConverged('reboot');"><i class="fa fa-repeat"></i><br />Reboot</button>
-								<button class="btn btn-default" ng-disabled="!(curServer.domstate=='running')" ng-click="serverConverged('poweroff');"><i class="fa fa-plug"></i><br />Power Off</button>
+								<div class="panel-body">
+									<form editable-form name="serverEditForm" onaftersave="saveServer()">
+										<div class="table-responsive">
+											<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+												<tbody>
+													<tr><td><b>Status: 		</b></td><td><span ng-if="!curServer.domstate"><i class="fa fa-circle-o-notch fa-spin"></i></span><span ng-if="curServer.domstate">{{ curServer.domstate | titlecase }}</span></td></tr>
+													<tr><td><b>Name: 		</b></td><td><span editable-text="curServer.name">{{ curServer.name }}</span></td></tr>
+													<tr><td><b>CPU: 		</b></td><td><span editable-text="curServer.cpu">{{ curServer.cpu }} Core(s)</span></td></tr>
+													<tr><td><b>RAM: 		</b></td><td><span editable-text="curServer.ram">{{ curServer.ram }} MB</span></td></tr>
+													<tr><td><b>HDD: 		</b></td><td><span editable-text="curServer.hdd">{{ curServer.hdd }} GB</span></td></tr>
+													<tr><td><b>Bandwidth: 	</b></td><td><span editable-text="curServer.bandwidth">{{ curServer.bandwidth }} GB</span></td></tr>
+													<tr>
+														<td colspan=2>
+															<button type="button" class="btn btn-danger btn-xs" ng-click="deleteServerByConfirm(curServer._id)" ng-show="!serverEditForm.$visible">Delete</button>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</form>
+								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-				<div class="col-xs-6">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h3 class="panel-title">Disks</h3>
+						<div class="col-xs-6">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">Actions</h3>
+								</div>
+								<div class="panel-body">
+									<div class="btn-group">
+										<button class="btn btn-default" ng-disabled="!(curServer.domstate=='running')" ng-click="toggleConsole()"><i class="fa fa-desktop"></i><br />Console</button>
+										<button class="btn btn-default" ng-disabled="!(curServer.domstate=='shut off')" ng-click="serverConverged('start');"><i class="fa fa-play"></i><br />Boot</button>
+										<button class="btn btn-default" ng-disabled="!(curServer.domstate=='running')" ng-click="serverConverged('shutdown');"><i class="fa fa-stop"></i><br />Shutdown</button>
+										<button class="btn btn-default" ng-disabled="!(curServer.domstate=='running')" ng-click="serverConverged('reboot');"><i class="fa fa-repeat"></i><br />Reboot</button>
+										<button class="btn btn-default" ng-disabled="!(curServer.domstate=='running')" ng-click="serverConverged('poweroff');"><i class="fa fa-plug"></i><br />Power Off</button>
+									</div>
+								</div>
+							</div>
 						</div>
-						<div class="panel-body">
-							<div class="table-responsive">
-								<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
-									<thead>
-										<tr>
-											<th>Type</th>
-											<th>Assigned Drive</th>
-											<th>Source File</th>
-											<th>Action</th>
-										</tr>
-									</thead>
-									<tr ng-repeat="curDisk in curServer.diskList">
-										<td>{{curDisk.Device}}</td>
-										<td>{{curDisk.Target}}</td>
-										<td>
-											<span ng-if="(curDisk.Device=='disk')">Assigned Drive</span>
-											<span ng-if="(curDisk.Device!='disk')">{{curDisk.Source.split('/')[curDisk.Source.split('/').length-1]}}</span>
-										</td>
-										<td>
-											<!--button type="button" class="btn btn-default btn-xs" ng-if="(curDisk.Device=='disk')" 								ng-click="diskResize(curDisk)"><i class="fa fa-expand fa-fw" title="Resize Disk"></i></button-->
-											<button type="button" class="btn btn-default btn-xs" ng-if="(curDisk.Source == '-' && curDisk.Device == 'cdrom')" 	ng-click="openAttachISOModal(curDisk.Target)"><i class="fa fa-paperclip fa-fw" title="Attach Disk"></i></button>
-											<button type="button" class="btn btn-default btn-xs" ng-if="(curDisk.Source != '-' && curDisk.Device == 'cdrom')" 	ng-click="ejectISO(curDisk.Target)"><i class="fa fa-eject fa-fw" title="Eject Disk"></i></button>
-										</td>
-									</tr>
-								</table>
+						<div class="col-xs-6">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">Disks</h3>
+								</div>
+								<div class="panel-body">
+									<div class="table-responsive">
+										<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+											<thead>
+												<tr>
+													<th>Type</th>
+													<th>Assigned Drive</th>
+													<th>Source File</th>
+													<th>Action</th>
+												</tr>
+											</thead>
+											<tr ng-repeat="curDisk in curServer.diskList">
+												<td>{{curDisk.Device}}</td>
+												<td>{{curDisk.Target}}</td>
+												<td>
+													<span ng-if="(curDisk.Device=='disk')">Assigned Drive</span>
+													<span ng-if="(curDisk.Device!='disk')">{{curDisk.Source.split('/')[curDisk.Source.split('/').length-1]}}</span>
+												</td>
+												<td>
+													<!--button type="button" class="btn btn-default btn-xs" ng-if="(curDisk.Device=='disk')" 								ng-click="diskResize(curDisk)"><i class="fa fa-expand fa-fw" title="Resize Disk"></i></button-->
+													<button type="button" class="btn btn-default btn-xs" ng-if="(curDisk.Source == '-' && curDisk.Device == 'cdrom')" 	ng-click="openAttachISOModal(curDisk.Target)"><i class="fa fa-paperclip fa-fw" title="Attach Disk"></i></button>
+													<button type="button" class="btn btn-default btn-xs" ng-if="(curDisk.Source != '-' && curDisk.Device == 'cdrom')" 	ng-click="ejectISO(curDisk.Target)"><i class="fa fa-eject fa-fw" title="Eject Disk"></i></button>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
