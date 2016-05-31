@@ -147,6 +147,11 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 				if(curImage._id == $scope.curServer.image) $scope.connectionInformation = curImage.connectionInformation;
 			});
 			$scope.connectionInformation = $scope.connectionInformation.replace(/__serverip__/g,$scope.curServer.ip);
+			if($scope.curServer.storedPassword){
+				$scope.connectionInformation = $scope.connectionInformation.replace(/__storedPassword__/g,$scope.curServer.storedPassword);
+			} else {
+				$scope.connectionInformation = $scope.connectionInformation.replace(/__storedPassword__/g,"Your server's new password is not defined yet. This might take about 15 to 20 minutes after creation, please refresh the page to check the password.");
+			}
 		};
 
 		$scope.stopConsole = function(){
