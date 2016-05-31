@@ -126,6 +126,7 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 
 		$scope.consoleTabSelected = function(){
 			$scope.startConsole();
+			$scope.activeServerDetailTab = 1;
 		};
 
 		$scope.consoleTabDeselected = function(){
