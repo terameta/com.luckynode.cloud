@@ -14,7 +14,9 @@
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12">
 			<uib-tabset>
-				<uib-tab index="0" heading="Main Information" template-url="'/admin/partials/r/admin/server/serverMainInformation.html'"></uib-tab>
+				<uib-tab index="0" heading="Main Information">
+					<div ng-include="'/admin/partials/r/admin/server/serverMainInformation.html'"></div>
+				</uib-tab>
 			</uib-tabset>
 		</div>
 	</div>
