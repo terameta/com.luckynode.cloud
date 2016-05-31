@@ -25,6 +25,10 @@
 							</td>
 						</tr>
 						<tr>
+							<td><b>Image: 		</b></td>
+							<td>{{ (images | filter:{_id: curServer.image)}}</td>
+						</tr>
+						<tr>
 							<td><b>Next Invoice Date: </b></td>
 							<td><span editable-combodate="curServer.nextinvoicedate" e-max-year="2100">{{ (curServer.nextinvoicedate | date:"yyyy-MM-dd HH:mm:ss Z") || 'empty' }}</span></td>
 						</tr>
