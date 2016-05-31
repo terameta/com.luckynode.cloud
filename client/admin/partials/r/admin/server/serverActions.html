@@ -1,7 +1,8 @@
 <div class="panel panel-default">
 	<div class="panel-body">
 		<div class="btn-group">
-			<button class="btn btn-default" ng-disabled="!(curServer.domstate=='running')" ng-click="toggleConsole()"><i class="fa fa-desktop"></i><br />Console</button>
+			<!--button class="btn btn-default" ng-disabled="!(curServer.domstate=='running')" ng-click="toggleConsole()"><i class="fa fa-desktop"></i><br />Console</button-->
+			<button class="btn btn-default" ng-disabled="!(curServer.domstate=='running')" ng-click="activeServerDetailTab = 1"><i class="fa fa-desktop"></i><br />Console</button>
 			<button class="btn btn-default" ng-disabled="!(curServer.domstate=='shut off')" ng-click="serverConverged('start');"><i class="fa fa-play"></i><br />Boot</button>
 			<button class="btn btn-default" ng-disabled="!(curServer.domstate=='running')" ng-click="serverConverged('shutdown');"><i class="fa fa-stop"></i><br />Shutdown</button>
 			<button class="btn btn-default" ng-disabled="!(curServer.domstate=='running')" ng-click="serverConverged('reboot');"><i class="fa fa-repeat"></i><br />Reboot</button>
