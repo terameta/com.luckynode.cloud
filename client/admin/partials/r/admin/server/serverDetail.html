@@ -26,30 +26,14 @@
 				<uib-tab index="3" heading="Disks">
 					<div ng-include="'/admin/partials/r/admin/server/serverDisks.html'"></div>
 				</uib-tab>
+				<uib-tab index="4" heading="Source">
+					<div ng-include="'/admin/partials/r/admin/server/serverSource.html'"></div>
+				</uib-tab>
 			</uib-tabset>
 		</div>
 	</div>
 </section>
 
-<!--
-
-<div class="col-xs-6">
-
-</div>
-<div class="col-xs-6">
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3 class="panel-title">Details</h3>
-		</div>
-		<div class="panel-body">
-			<pre>{{ curServer | json }}</pre>
-		</div>
-	</div>
-</div>
-
-</div>
-</section>
--->
 <script type="text/ng-template" id="serverAttachIsoModal.tmpl.html">
 	<div class="modal-header">
 		<h3><i class="fa fa-server fa-fw"></i> Attach ISO File to Server</h3>
