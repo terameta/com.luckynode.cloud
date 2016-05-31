@@ -24,8 +24,6 @@
 			<!--th>Description</th-->
 			<th>Pool</th>
 			<th>Status</th>
-			<th>Disk Driver</th>
-			<th>Network Driver</th>
 			<th>Connection Info</th>
 			<th>&nbsp;</th>
 			<!--th>Details</th-->
@@ -40,8 +38,6 @@
 			<!--td>{{image.description}}</td-->
 			<td><span ng-repeat="cnstorageshow in storages | filter:{_id:image.pool}">{{cnstorageshow.name}}</span></td>
 			<td>{{image.status}}</td>
-			<td>{{image.diskdriver}}</td>
-			<td>{{image.netdriver}}</td>
 			<td>{{image.connectionInformation ? 'Yes': 'No'}}</td>
 			<!--td>{{ (imagegroups | filter:{_id:image.group}:true)[0].name }} {{image.group}}</td-->
 			<td><a ui-sref="r.dashboard.image({id: image._id})" title="Details"><i class="fa fa-cog fa-fw"></i></a></td>
