@@ -1,1 +1,2 @@
+<button type="button" ng-if="(curServer.domstate=='running' && !shouldShowConsole)" ng-click="toggleConsole()">Start Console</button>
 <div class="col-xs-12" ng-if="(shouldShowConsole && curServer.domstate=='running')" ng-include="'/common/server/vnc.html'"></div>
