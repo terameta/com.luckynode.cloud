@@ -99,5 +99,17 @@ module.exports = function(app, express, db, tools) {
 
 	});
 
+	apiRoutes.post('/definesecretuuid', tools.checkToken, function(req, res){
+		if(!req.body){
+			res.status(400).json({status: 'fail', message: 'Not enough data (nothing provided)'});
+		} else if(!req.body.id){
+			res.status(400).json({status: 'fail', message: 'Not enough data (no id provided)'});
+		} else {
+			var uuid = require('node-uuid');
+			console.log(uuid.v4());
+			res.send('OK');
+		}
+	});
+
 	app.use('/api/storage', apiRoutes);
 };
