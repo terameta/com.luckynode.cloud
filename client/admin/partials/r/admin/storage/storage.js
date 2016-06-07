@@ -71,10 +71,10 @@ angular.module('adminControllers').controller('storageController', ['$scope', '$
 			if(confirm("We will now redefine the pool's secret uuid, proceed?")){
 				$http.post('/api/storage/definesecretuuid', {id: $stateParams.id}).
 				success(function(data, status, headers, config){
-					console.log("Success", data, status);
+					$scope.fetchCurStorage();
 				}).
 				error(function(data, status, headers, config){
-					console.log("Error", data, status);
+					lnToastr.error("Failed to generade secret UUID");
 				});
 			}
 		};
