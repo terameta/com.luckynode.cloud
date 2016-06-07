@@ -70,7 +70,7 @@ angular.module('adminControllers').controller('storageController', ['$scope', '$
 		$scope.redefineSecretUUID = function(){
 			if(confirm("We will now redefine the pool's secret uuid, proceed?")){
 				$http.post('/api/storage/definesecretuuid', {id: $stateParams.id}).
-				succes(function(data, status, headers, config){
+				success(function(data, status, headers, config){
 					console.log("Success", data, status);
 				}).
 				error(function(data, status, headers, config){
