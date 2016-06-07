@@ -105,6 +105,9 @@ module.exports = function(app, express, db, tools) {
 		} else if(!req.body.id){
 			res.status(400).json({status: 'fail', message: 'Not enough data (no id provided)'});
 		} else {
+			db.storages.findOne({_id: mongojs.ObjectId(req.body.id)}, function(err, storage){
+				console.log(storage);
+			});
 			var uuid = require('node-uuid');
 			console.log(uuid.v4());
 			res.send('OK');
