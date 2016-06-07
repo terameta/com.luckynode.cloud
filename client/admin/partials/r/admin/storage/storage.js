@@ -54,6 +54,7 @@ angular.module('adminControllers').controller('storageController', ['$scope', '$
 				//here fetch is done.
 				console.log($scope.curStorage);
 				console.log("Secret UUID", $scope.curStorage.secretuuid);
+				if(!$scope.curStorage.secretuuid) $scope.redefineSecretUUID();
 			});
 
 			$http.post('/api/storage/converged/', { id: $stateParams.id, command: 'getFiles' }).
