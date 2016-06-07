@@ -106,9 +106,12 @@ module.exports = function(app, express, db, tools) {
 			res.status(400).json({status: 'fail', message: 'Not enough data (no id provided)'});
 		} else {
 			db.storages.update({_id: mongojs.ObjectId(req.body.id)}, {$set: {secretuuid: require('node-uuid').v4()}}, function(err, storage){
-				console.log(storage);
+				if(err){
+					res.status(500).json({status:'fail', message: 'Database is not updated'});
+				} else {
+					res.send("OK");
+				}
 			});
-			res.send('OK');
 		}
 	});
 
