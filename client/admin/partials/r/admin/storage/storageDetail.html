@@ -57,6 +57,10 @@
 										</td>
 									</tr>
 									<tr ng-show="(curStorage.type=='ceph')">
+										<td><b>Secret UUID:</b></td>
+										<td>{{curStorage.secretuuid}}</td>
+									</tr>
+									<tr ng-show="(curStorage.type=='ceph')">
 										<td><b>Key:</b></td>
 										<td>
 											<span editable-text="curStorage.key" e-placeholder="please enter to change saved value">{{ curStorage.key || 'this field is always hidden' }}</span>
