@@ -66,6 +66,11 @@ angular.module('adminControllers').controller('storageController', ['$scope', '$
 				});
 		};
 
+		$scope.redefineSecretUUID = function(){
+			var shouldWe = confirm("We will now redefine the pool's secret uuid");
+			console.log(shouldWe);
+		};
+
 		if($stateParams.id){
 			$scope.fetchCurStorage();
 		}
