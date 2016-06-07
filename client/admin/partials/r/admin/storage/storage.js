@@ -68,8 +68,15 @@ angular.module('adminControllers').controller('storageController', ['$scope', '$
 		};
 
 		$scope.redefineSecretUUID = function(){
-			var shouldWe = confirm("We will now redefine the pool's secret uuid");
-			console.log(shouldWe);
+			if(confirm("We will now redefine the pool's secret uuid, proceed?")){
+				$http.post('/api/storage/definesecretuuid', {id: $stateParams.id}).
+				succes(function(data, status, headers, config){
+					console.log("Success", data, status);
+				}).
+				error(function(data, status, headers, config){
+					console.log("Error", data, status);
+				});
+			}
 		};
 
 		if($stateParams.id){
