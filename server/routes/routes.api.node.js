@@ -427,7 +427,7 @@ module.exports = function(app, express, db, tools) {
 												if(cStep == 4) st2Command = 'echo \'' + curPass + '\' | sudo -S sed -i \'/Port 22/c\Port 14422\' /etc/ssh/sshd_config';
 												if(cStep == 5) st2Command = 'echo \'' + curPass + '\' | sudo -S sed -i \'/PermitRootLogin yes/c\PermitRootLogin no\' /etc/ssh/sshd_config';
 												if(cStep == 6) st2Command = 'echo \'' + curPass + '\' | sudo -S grep -q -F \'AllowUsers '+ data.user +'\' /etc/ssh/sshd_config || echo \'' + curPass + '\' | sudo -S echo \'AllowUsers '+ data.user +'\' >> /etc/ssh/sshd_config';
-												if(cStep == 7) st2Command = 'echo \'' + curPass + '\' | sudo -S service ssh reload';
+												if(cStep == 7) st2Command = 'echo \'' + curPass + '\' | sudo -S service ssh restart';
 											//	if(cStep == 8) st2Command = 'echo \'' + curPass + '\' | sudo -S grep -q -F \'nbd max_part=63\' /etc/modules || echo \'' + curPass + '\' | sudo -S echo \'nbd max_part=63\' | sudo tee --append /etc/modules';
 												console.log(st2Command);
 
