@@ -466,6 +466,7 @@ module.exports = function(app, express, db, tools) {
 														if(issue.error.toString().substring(0,14) == 'no crontab for'){
 															setStatforStep(cStep,nodeId,'success', 'This step succeeded' );
 														} else {
+															console.log(issue);
 															setStatforStep(cStep,nodeId,'fail', issue );
 														}
 													}
