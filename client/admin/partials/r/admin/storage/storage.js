@@ -50,6 +50,7 @@ angular.module('adminControllers').controller('storageController', ['$scope', '$
 		$scope.fetchStorages();
 
 		$scope.fetchCurStorage = function(){
+			console.log("FetchCurStorage called");
 			$scope.curStorage = $storage.get({id:$stateParams.id}, function(result){
 				//here fetch is done.
 				console.log($scope.curStorage);
@@ -68,6 +69,7 @@ angular.module('adminControllers').controller('storageController', ['$scope', '$
 		};
 
 		$scope.redefineSecretUUID = function(){
+			console.log("Redefining");
 			if(confirm("We will now redefine the pool's secret uuid, proceed?")){
 				$http.post('/api/storage/definesecretuuid', {id: $stateParams.id}).
 				success(function(data, status, headers, config){

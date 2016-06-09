@@ -298,7 +298,7 @@ module.exports = function(app, express, db, tools) {
 						steps.push({ order: steps.length,	Description: 'Upgrade Kernel',					command: 'apt-get -y dist-upgrade >> /tmp/install.log 2>&1'																});
 						steps.push({ order: steps.length,	Description: 'Remove unnecessary packages',	command: 'apt-get -y autoremove >> /tmp/install.log 2>&1' 																});
 						steps.push({ order: steps.length,	Description: 'Clean unnecessary packages',	command: 'apt-get -y autoclean >> /tmp/install.log 2>&1' 																});
-						steps.push({ order: steps.length,	Description: 'Install DHCP Server',				command: 'apt-get install isc-dhcp-server >> /tmp/install.log 2>&1' 													});
+						steps.push({ order: steps.length,	Description: 'Install DHCP Server',				command: 'apt-get -y install isc-dhcp-server >> /tmp/install.log 2>&1' 													});
 						steps.push({ order: steps.length,	Description: 'Install Firewall & Screen',		command: 'apt-get -y install curl htop iptables screen nfs-common netcf >> /tmp/install.log 2>&1'			});
 						steps.push({ order: steps.length,	Description: 'Activate Firewall',				command: 'service iptables start >> /tmp/install.log 2>&1' 																});
 						steps.push({ order: steps.length,	Description: 'Activate IPv4 Forwarding',		command: 'echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf' 															});
