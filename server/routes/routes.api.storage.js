@@ -112,7 +112,7 @@ module.exports = function(app, express, db, tools) {
 							res.status(500).json({status: "fail", message: err});
 						} else {
 							nodes.forEach(function(curNode){
-								console.log(curNode);
+								console.log(curNode.name);
 							});
 							res.send("OK");
 						}
