@@ -102,9 +102,22 @@ module.exports = function(app, express, db, tools) {
 		} else if(!req.body.id){
 			res.status(400).json({status: 'fail', message: 'Not enough data (no id provided)'});
 		} else {
-			res.send("OK");
-			db.storages.find({_id: mongojs.ObjectId(req.body.id)}, function(err, storages){
-				console.log(storages);
+			db.storages.findOne({_id: mongojs.ObjectId(req.body.id)}, function(err, storage){
+				if(err){
+					res.status(500).json({status: "fail", message: err});
+				} else {
+					console.log(storage);
+					db.nodes.find(function(err, nodes){
+						if(err){
+							res.status(500).json({status: "fail", message: err});
+						} else {
+							nodes.forEach(function(curNode){
+								console.log(curNode);
+							});
+							res.send("OK");
+						}
+					});
+				}
 			});
 		}
 	});
