@@ -80,6 +80,35 @@ module.exports = function(app, express, db, tools) {
 		}
 	});
 
+	apiRoutes.post('/definesecretuuid', tools.checkToken, function(req, res){
+		if(!req.body){
+			res.status(400).json({status: 'fail', message: 'Not enough data (nothing provided)'});
+		} else if(!req.body.id){
+			res.status(400).json({status: 'fail', message: 'Not enough data (no id provided)'});
+		} else {
+			db.storages.update({_id: mongojs.ObjectId(req.body.id)}, {$set: {secretuuid: require('node-uuid').v4()}}, function(err, storage){
+				if(err){
+					res.status(500).json({status:'fail', message: 'Database is not updated'});
+				} else {
+					res.send("OK");
+				}
+			});
+		}
+	});
+
+	apiRoutes.post('/pushSecrettoNodes', tools.checkToken, function(req, res){
+		if(!req.body){
+			res.status(400).json({status: 'fail', message: 'Not enough data (nothing provided)'});
+		} else if(!req.body.id){
+			res.status(400).json({status: 'fail', message: 'Not enough data (no id provided)'});
+		} else {
+			res.send("OK");
+			db.storages.find({_id: mongojs.ObjectId(req.body.id)}, function(err, storages){
+				console.log(storages);
+			});
+		}
+	});
+
 	apiRoutes.post('/converged', tools.checkToken,function(req, res) {
 		//console.log(req.body);
 		if(!req.body){
@@ -97,22 +126,6 @@ module.exports = function(app, express, db, tools) {
 			});
 		}
 
-	});
-
-	apiRoutes.post('/definesecretuuid', tools.checkToken, function(req, res){
-		if(!req.body){
-			res.status(400).json({status: 'fail', message: 'Not enough data (nothing provided)'});
-		} else if(!req.body.id){
-			res.status(400).json({status: 'fail', message: 'Not enough data (no id provided)'});
-		} else {
-			db.storages.update({_id: mongojs.ObjectId(req.body.id)}, {$set: {secretuuid: require('node-uuid').v4()}}, function(err, storage){
-				if(err){
-					res.status(500).json({status:'fail', message: 'Database is not updated'});
-				} else {
-					res.send("OK");
-				}
-			});
-		}
 	});
 
 	app.use('/api/storage', apiRoutes);
