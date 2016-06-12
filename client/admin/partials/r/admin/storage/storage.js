@@ -81,6 +81,22 @@ angular.module('adminControllers').controller('storageController', ['$scope', '$
 			}
 		};
 
+		$scope.pushSecrettoNodes = function(){
+			if(confirm("We will now push the secret definition to the nodes, proceed?")){
+				lnToastr.info("Secret definition is started");
+				$http.post('/api/storage/pushSecrettoNodes', {id: $stateParams.id}).
+				success(function(data, status, headers, config){
+
+				}).error(function(data, status, headers, config){
+					lnToastr.error("Failed to push the secret definition.");
+					console.log("Failed to push the secret definition.");
+					console.log(data);
+				});
+			} else {
+				lnToastr.info("Secret definition is cancelled");
+			}
+		};
+
 		if($stateParams.id){
 			$scope.fetchCurStorage();
 		}
