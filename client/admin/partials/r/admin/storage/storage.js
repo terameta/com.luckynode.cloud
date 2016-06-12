@@ -97,8 +97,21 @@ angular.module('adminControllers').controller('storageController', ['$scope', '$
 			}
 		};
 
+		$scope.getSecretAssignments = function(){
+			$http.get('/api/storage/getSecretAssignments', {id: $stateParams.id}).
+			success(function(data, status, headers, config){
+				console.log("GetSecretAssignments");
+				console.log(data);
+			}).error(function(data, status, headers, config){
+				lnToastr.error("Failed to push the secret assignments.");
+				console.log("Failed to push the secret assignments.");
+				console.log(data);
+			});
+		};
+
 		if($stateParams.id){
 			$scope.fetchCurStorage();
+			$scope.getSecretAssignments();
 		}
 
 		$scope.cancelStorageAdd = function(){
