@@ -1,4 +1,5 @@
 var commander;
+var Q = require('q');
 
 module.exports = function(app, express, db, tools) {
 	var mongojs 		= require('mongojs');
@@ -118,6 +119,35 @@ module.exports = function(app, express, db, tools) {
 						}
 					});
 				}
+			});
+		}
+	});
+
+	apiRoutes.get('/getSecretAssignments', tools.checkToken, function(req, res){
+		if(!req.body){
+			res.status(400).json({status: 'fail', message: 'Not enough data (nothing provided)'});
+		} else if(!req.body.id){
+			res.status(400).json({status: 'fail', message: 'Not enough data (no id provided)'});
+		} else {
+			var promises = [];
+			db.nodes.find(function(err, nodes){
+				if(err){
+					res.status(500).json({status: "fail", message: err});
+				} else {
+					nodes.forEach(function(curNode){
+						var deferred = Q.defer();
+						promises.push(deferred);
+						commander.sendVirsh(curNode._id, "secret", "list").then(function(result){
+							console.log("Send Virsh Result: ", result);
+							deferred.resolve();
+						}).fail(deferred.reject);
+					});
+				}
+			});
+			Q.all(promises).then(function(){
+
+			}).fail(function(issue){
+				res.status(500).json({status: "fail", message: issue});
 			});
 		}
 	});

@@ -304,8 +304,8 @@ function runNodeVirsh(node, nodequery, command){
 		then(getTokenN).
 		then( function(cNode){ node = cNode; return verifyToken(node, node.token); }).
 		then( function(token){ return runNodeVirshRemote(node, token, command); }).
-		then( function(result){ deferred.resolve(result); }).
-		fail( function(issue){ deferred.reject(issue); });
+		then( deferred.resolve ).
+		fail( deferred.reject );
 	return deferred.promise;
 }
 
