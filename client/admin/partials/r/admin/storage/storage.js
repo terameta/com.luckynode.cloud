@@ -103,9 +103,10 @@ angular.module('adminControllers').controller('storageController', ['$scope', '$
 				console.log("GetSecretAssignments");
 				console.log(data);
 			}).error(function(data, status, headers, config){
-				lnToastr.error("Failed to push the secret assignments.");
-				console.log("Failed to push the secret assignments.");
+				lnToastr.error("Failed to get the secret assignments.");
+				console.log("Failed to get the secret assignments.");
 				console.log(data);
+				lnToastr.error(data);
 			});
 		};
 
