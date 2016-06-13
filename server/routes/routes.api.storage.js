@@ -148,8 +148,10 @@ module.exports = function(app, express, db, tools) {
 									result = JSON.parse(result);
 									result.forEach(function(curResult){
 										console.log(curNode.name, curResult.UUID, storage.secretuuid);
+										if(storage.secretuuid == curResult.UUID){
+											results.push({id: curNode._id, name: curNode.name});
+										}
 									});
-									results.push(result);
 									deferred.resolve();
 								}).fail(deferred.reject);
 							});
