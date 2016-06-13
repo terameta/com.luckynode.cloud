@@ -151,7 +151,7 @@ module.exports = function(app, express, db, tools) {
 									deferred.resolve();
 								}).fail(deferred.reject);
 							});
-							Q.allSettled(promises).then(function(){
+							Q.all(promises).then(function(){
 								console.log(promises.length);
 								console.log(results);
 								res.send(results);
