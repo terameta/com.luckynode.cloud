@@ -130,23 +130,30 @@ module.exports = function(app, express, db, tools) {
 			res.status(400).json({status: 'fail', message: 'Not enough data (no id provided)'});
 		} else {
 			var promises = [];
-			console.log("zöbelek");
-			db.nodes.find(function(err, nodes){
-				console.log("kekeler");
+			db.storages.findOne({_id: mongojs.ObjectId(req.body.id)}, function(err, storage){
 				if(err){
-					res.status(500).json({status: "fail", message: err});
+					res.status(500).json({status:"fail", message: err});
+				} else if(!storage){
+					res.status(500).json({status:"fail", message: "No node is found"});
 				} else {
-					nodes.forEach(function(curNode){
-						var deferred = Q.defer();
-						promises.push(deferred);
-						console.log(curNode._id);
-						commander.sendVirsh(curNode._id, "secret", "list",{id:"-"}).then(function(result){
-							console.log("Send Virsh Result: ", result);
-							deferred.resolve();
-						}).fail(deferred.reject);
+					db.nodes.find(function(err, nodes){
+						if(err){
+							res.status(500).json({status: "fail", message: err});
+						} else {
+							nodes.forEach(function(curNode){
+								var deferred = Q.defer();
+								promises.push(deferred);
+								console.log(curNode._id);
+								commander.sendVirsh(curNode._id, "secret", "list",{id:"-"}).then(function(result){
+									console.log("Send Virsh Result: ", result, storage.secretuuid);
+									deferred.resolve();
+								}).fail(deferred.reject);
+							});
+						}
 					});
 				}
 			});
+
 			Q.all(promises).then(function(){
 				res.send("OK");
 			}).fail(function(issue){
