@@ -141,6 +141,7 @@ module.exports = function(app, express, db, tools) {
 						} else {
 							var promises = [];
 							var results = {};
+							var finalResults = [];
 							nodes.forEach(function(curNode){
 								results[curNode._id.toString()] = false;
 								var deferred = Q.defer();
@@ -154,12 +155,12 @@ module.exports = function(app, express, db, tools) {
 											results[curNode._id.toString()] = true;
 										}
 									});
+									finalResults.push({node:curNode._id.toString(), hasSecret: results[curNode._id.toString()]});
 									deferred.resolve();
 								}).fail(deferred.reject);
 							});
 							Q.all(promises).then(function(){
-								console.log(results);
-								res.send(results);
+								res.send(finalResults);
 							}).fail(function(issue){
 								res.status(500).json({status: "fail", message: issue});
 							});
