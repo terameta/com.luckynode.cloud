@@ -145,7 +145,7 @@ module.exports = function(app, express, db, tools) {
 								promises.push(deferred);
 								console.log(curNode._id);
 								commander.sendVirsh(curNode._id, "secret", "list",{id:"-"}).then(function(result){
-									console.log("Send Virsh Result: ", result, storage.secretuuid);
+									console.log("Send Virsh Result: ", result, storage.secretuuid, result.UUID);
 									deferred.resolve();
 								}).fail(deferred.reject);
 							});
