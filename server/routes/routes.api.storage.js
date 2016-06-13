@@ -143,7 +143,7 @@ module.exports = function(app, express, db, tools) {
 							var results = [];
 							nodes.forEach(function(curNode){
 								var deferred = Q.defer();
-								//promises.push(deferred);
+								promises.push(deferred);
 								console.log(curNode._id);
 								promises.push(commander.sendVirsh(curNode._id, "secret", "list",{id:"-"}));
 								/*commander.sendVirsh(curNode._id, "secret", "list",{id:"-"}).then(function(result){
