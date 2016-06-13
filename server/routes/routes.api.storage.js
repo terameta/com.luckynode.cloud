@@ -140,7 +140,7 @@ module.exports = function(app, express, db, tools) {
 						var deferred = Q.defer();
 						promises.push(deferred);
 						console.log(curNode._id);
-						commander.sendVirsh(curNode._id, "secret", "list").then(function(result){
+						commander.sendVirsh(curNode._id, "secret", "list",{id:"-"}).then(function(result){
 							console.log("Send Virsh Result: ", result);
 							deferred.resolve();
 						}).fail(deferred.reject);
