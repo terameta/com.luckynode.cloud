@@ -130,7 +130,9 @@ module.exports = function(app, express, db, tools) {
 			res.status(400).json({status: 'fail', message: 'Not enough data (no id provided)'});
 		} else {
 			var promises = [];
+			console.log("zöbelek");
 			db.nodes.find(function(err, nodes){
+				console.log("kekeler");
 				if(err){
 					res.status(500).json({status: "fail", message: err});
 				} else {
