@@ -65,7 +65,10 @@
 											<button type="button" class="btn btn-xs" ng-click="getSecretAssignments()">Get Assignments</button>
 											<hr />
 											<ul>
-												<li ng-repeat="sAssignment in storageSecretAssignments">{{sAssignment | json}} {{nodes | json}}</li>
+												<li ng-repeat="sAssignment in storageSecretAssignments">
+													{{sAssignment | json}}
+													{{ (nodes | filter:{_id: sAssignment.node})[0].name || '' }}
+												</li>
 											</ul>
 										</td>
 									</tr>
