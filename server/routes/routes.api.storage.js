@@ -153,7 +153,7 @@ module.exports = function(app, express, db, tools) {
 								}).fail(deferred.reject);
 							});
 							Q.all(promises).then(function(){
-								console.log(promises.length);
+								console.log(promises);
 								console.log(results);
 								res.send(results);
 							}).fail(function(issue){
