@@ -151,10 +151,8 @@ module.exports = function(app, express, db, tools) {
 									deferred.resolve();
 								}).fail(deferred.reject);
 							});
-							Q.all(promises).then(function(finalResult){
-								console.log(promises);
+							Q.all(promises).then(function(){
 								console.log(results);
-								console.log(finalResult);
 								res.send(results);
 							}).fail(function(issue){
 								res.status(500).json({status: "fail", message: issue});
