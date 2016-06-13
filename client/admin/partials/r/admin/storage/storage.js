@@ -100,8 +100,6 @@ angular.module('adminControllers').controller('storageController', ['$scope', '$
 		$scope.getSecretAssignments = function(){
 			$http.post('/api/storage/getSecretAssignments', {id: $stateParams.id}).
 			success(function(data, status, headers, config){
-				console.log("GetSecretAssignments");
-				console.log(data);
 				$scope.storageSecretAssignments = data;
 			}).error(function(data, status, headers, config){
 				lnToastr.error("Failed to get the secret assignments.");
