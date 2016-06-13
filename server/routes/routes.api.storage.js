@@ -160,6 +160,7 @@ module.exports = function(app, express, db, tools) {
 			});
 
 			Q.allSettled(promises).then(function(){
+				console.log(promises.length);
 				res.send(results);
 			}).fail(function(issue){
 				res.status(500).json({status: "fail", message: issue});
