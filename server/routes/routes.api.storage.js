@@ -144,11 +144,10 @@ module.exports = function(app, express, db, tools) {
 							nodes.forEach(function(curNode){
 								var deferred = Q.defer();
 								promises.push(deferred.promise);
-								console.log(curNode._id);
 								commander.sendVirsh(curNode._id, "secret", "list",{id:"-"}).then(function(result){
 									result = JSON.parse(result);
 									result.forEach(function(curResult){
-										console.log(curNode._id, curNode.name, curResult);
+										console.log(curNode.name, curResult.UUID, storage.secretuuid);
 									});
 									results.push(result);
 									deferred.resolve();
