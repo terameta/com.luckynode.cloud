@@ -146,6 +146,7 @@ module.exports = function(app, express, db, tools) {
 								promises.push(deferred.promise);
 								console.log(curNode._id);
 								commander.sendVirsh(curNode._id, "secret", "list",{id:"-"}).then(function(result){
+									result = JSON.parse(result);
 									result.forEach(function(curResult){
 										console.log(curNode._id, curNode.name, curResult);
 									});
