@@ -140,8 +140,9 @@ module.exports = function(app, express, db, tools) {
 							res.status(500).json({status: "fail", message: err});
 						} else {
 							var promises = [];
-							var results = [];
+							var results = {};
 							nodes.forEach(function(curNode){
+								results[curNode._id.toString()] = false;
 								var deferred = Q.defer();
 								promises.push(deferred.promise);
 								commander.sendVirsh(curNode._id, "secret", "list",{id:"-"}).then(function(result){
@@ -149,7 +150,8 @@ module.exports = function(app, express, db, tools) {
 									result.forEach(function(curResult){
 										console.log(curNode.name, curResult.UUID, storage.secretuuid);
 										if(storage.secretuuid == curResult.UUID){
-											results.push({id: curNode._id, name: curNode.name});
+											//results.push({id: curNode._id, name: curNode.name});
+											results[curNode._id.toString()] = true;
 										}
 									});
 									deferred.resolve();
