@@ -63,6 +63,10 @@
 											<button type="button" class="btn btn-xs" ng-click="redefineSecretUUID()">Redefine</button>
 											<button type="button" class="btn btn-xs" ng-click="pushSecrettoNodes()">Push to Nodes</button>
 											<button type="button" class="btn btn-xs" ng-click="getSecretAssignments()">Get Assignments</button>
+											<hr />
+											<ul>
+												<li ng-repeat="sAssignment in storageSecretAssignments">{{sAssignment | json}}</li>
+											</ul>
 										</td>
 									</tr>
 									<tr ng-show="(curStorage.type=='ceph')">

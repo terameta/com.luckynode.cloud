@@ -102,6 +102,7 @@ angular.module('adminControllers').controller('storageController', ['$scope', '$
 			success(function(data, status, headers, config){
 				console.log("GetSecretAssignments");
 				console.log(data);
+				$scope.storageSecretAssignments = data;
 			}).error(function(data, status, headers, config){
 				lnToastr.error("Failed to get the secret assignments.");
 				console.log("Failed to get the secret assignments.");
