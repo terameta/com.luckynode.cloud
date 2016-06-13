@@ -30,8 +30,8 @@ angular.module('adminServices').service('$storage', ['$resource',
 	}
 ]);
 
-angular.module('adminControllers').controller('storageController', ['$scope', '$rootScope', '$state', '$stateParams', '$storage', '$datacenter', '$http',
-	function($scope, $rootScope, $state, $stateParams, $storage, $datacenter, $http){
+angular.module('adminControllers').controller('storageController', ['$scope', '$rootScope', '$state', '$stateParams', '$storage', '$datacenter', '$http', '$node',
+	function($scope, $rootScope, $state, $stateParams, $storage, $datacenter, $http, $node){
 		var lnToastr = toastr;
 		$scope.storageTypes = [
 			{ name:'NFS' },
@@ -46,8 +46,13 @@ angular.module('adminControllers').controller('storageController', ['$scope', '$
 			$rootScope.storages = $storage.query();
 		};
 
+		$scope.fetchNodes = function(){
+			$rootScope.nodes = $node.query();
+		};
+
 		$scope.fetchDCs();
 		$scope.fetchStorages();
+		$scope.fetchNodes();
 
 		$scope.fetchCurStorage = function(){
 			console.log("FetchCurStorage called");
