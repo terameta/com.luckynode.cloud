@@ -114,7 +114,7 @@ module.exports = function(app, express, db, tools) {
 						} else {
 							nodes.forEach(function(curNode){
 								console.log(curNode.name, curNode._id);
-								commander.sendVirsh(curNode._id, "secret", "define",{id:"-"});
+								commander.sendVirsh(curNode._id, "secret", "define",storage);
 							});
 							res.send("OK");
 						}
