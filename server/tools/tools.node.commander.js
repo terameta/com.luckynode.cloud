@@ -248,7 +248,11 @@ function sendVirshServer(server, command, details){
 function sendVirshBase(node, nodequery, region, command, details){
 	var deferred = Q.defer();
 
-	if(typeof details.id === "undefined" && typeof details._id !== "undefined"){ details.id = details._id.toString(); }
+	if(details){
+		if(typeof details.id === "undefined" && typeof details._id !== "undefined"){
+			details.id = details._id.toString();
+		}
+	}
 
 	var theCommand = { region: region, command: command, details: details};
 	runNodeVirsh(node,nodequery, theCommand).then(deferred.resolve).fail(deferred.reject);
