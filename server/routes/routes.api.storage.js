@@ -143,18 +143,20 @@ module.exports = function(app, express, db, tools) {
 							var results = [];
 							nodes.forEach(function(curNode){
 								var deferred = Q.defer();
-								promises.push(deferred);
+								//promises.push(deferred);
 								console.log(curNode._id);
-								commander.sendVirsh(curNode._id, "secret", "list",{id:"-"}).then(function(result){
+								promises.push(commander.sendVirsh(curNode._id, "secret", "list",{id:"-"}));
+								/*commander.sendVirsh(curNode._id, "secret", "list",{id:"-"}).then(function(result){
 									console.log("Send Virsh Result: ", result, storage.secretuuid, result.UUID);
 									results.push(result);
 									console.log(results);
 									deferred.resolve();
-								}).fail(deferred.reject);
+								}).fail(deferred.reject);*/
 							});
-							Q.all(promises).then(function(){
+							Q.all(promises).then(function(finalResult){
 								console.log(promises);
 								console.log(results);
+								console.log(finalResult);
 								res.send(results);
 							}).fail(function(issue){
 								res.status(500).json({status: "fail", message: issue});
