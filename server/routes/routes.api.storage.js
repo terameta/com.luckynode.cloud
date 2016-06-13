@@ -123,7 +123,7 @@ module.exports = function(app, express, db, tools) {
 		}
 	});
 
-	apiRoutes.get('/getSecretAssignments', function(req, res){
+	apiRoutes.post('/getSecretAssignments', function(req, res){
 		if(!req.body){
 			res.status(400).json({status: 'fail', message: 'Not enough data (nothing provided)'});
 		} else if(!req.body.id){
