@@ -130,6 +130,7 @@ module.exports = function(app, express, db, tools) {
 			res.status(400).json({status: 'fail', message: 'Not enough data (no id provided)'});
 		} else {
 			var promises = [];
+			var results = [];
 			db.storages.findOne({_id: mongojs.ObjectId(req.body.id)}, function(err, storage){
 				if(err){
 					res.status(500).json({status:"fail", message: err});
@@ -146,6 +147,7 @@ module.exports = function(app, express, db, tools) {
 								console.log(curNode._id);
 								commander.sendVirsh(curNode._id, "secret", "list",{id:"-"}).then(function(result){
 									console.log("Send Virsh Result: ", result, storage.secretuuid, result.UUID);
+									results.push(result);
 									deferred.resolve();
 								}).fail(deferred.reject);
 							});
@@ -155,7 +157,7 @@ module.exports = function(app, express, db, tools) {
 			});
 
 			Q.all(promises).then(function(){
-				res.send("OK");
+				res.send(results);
 			}).fail(function(issue){
 				res.status(500).json({status: "fail", message: issue});
 			});
