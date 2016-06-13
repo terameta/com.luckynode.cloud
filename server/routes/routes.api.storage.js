@@ -149,9 +149,8 @@ module.exports = function(app, express, db, tools) {
 								commander.sendVirsh(curNode._id, "secret", "list",{id:"-"}).then(function(result){
 									result = JSON.parse(result);
 									result.forEach(function(curResult){
-										console.log(curNode.name, curResult.UUID, storage.secretuuid);
+										//console.log(curNode.name, curResult.UUID, storage.secretuuid);
 										if(storage.secretuuid == curResult.UUID){
-											//results.push({id: curNode._id, name: curNode.name});
 											results[curNode._id.toString()] = true;
 										}
 									});
