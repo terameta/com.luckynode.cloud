@@ -91,7 +91,8 @@ angular.module('adminControllers').controller('storageController', ['$scope', '$
 				lnToastr.info("Secret definition is started");
 				$http.post('/api/storage/pushSecrettoNodes', {id: $stateParams.id}).
 				success(function(data, status, headers, config){
-
+					lnToastr.info("Secret is pushed to nodes");
+					$scope.getSecretAssignments();
 				}).error(function(data, status, headers, config){
 					lnToastr.error("Failed to push the secret definition.");
 					console.log("Failed to push the secret definition.");
@@ -103,9 +104,11 @@ angular.module('adminControllers').controller('storageController', ['$scope', '$
 		};
 
 		$scope.getSecretAssignments = function(){
+			lnToastr.info("Refreshing secret assignments");
 			$http.post('/api/storage/getSecretAssignments', {id: $stateParams.id}).
 			success(function(data, status, headers, config){
 				$scope.storageSecretAssignments = data;
+				lnToastr.info("Received secret assignments");
 			}).error(function(data, status, headers, config){
 				lnToastr.error("Failed to get the secret assignments.");
 				console.log("Failed to get the secret assignments.");
