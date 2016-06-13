@@ -129,8 +129,6 @@ module.exports = function(app, express, db, tools) {
 		} else if(!req.body.id){
 			res.status(400).json({status: 'fail', message: 'Not enough data (no id provided)'});
 		} else {
-			var promises = [];
-			var results = [];
 			db.storages.findOne({_id: mongojs.ObjectId(req.body.id)}, function(err, storage){
 				if(err){
 					res.status(500).json({status:"fail", message: err});
@@ -141,6 +139,8 @@ module.exports = function(app, express, db, tools) {
 						if(err){
 							res.status(500).json({status: "fail", message: err});
 						} else {
+							var promises = [];
+							var results = [];
 							nodes.forEach(function(curNode){
 								var deferred = Q.defer();
 								promises.push(deferred);
