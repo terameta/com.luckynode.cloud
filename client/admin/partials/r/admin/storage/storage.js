@@ -98,7 +98,7 @@ angular.module('adminControllers').controller('storageController', ['$scope', '$
 		};
 
 		$scope.getSecretAssignments = function(){
-			$http.get('/api/storage/getSecretAssignments', {id: $stateParams.id}).
+			$http.post('/api/storage/getSecretAssignments', {id: $stateParams.id}).
 			success(function(data, status, headers, config){
 				console.log("GetSecretAssignments");
 				console.log(data);
