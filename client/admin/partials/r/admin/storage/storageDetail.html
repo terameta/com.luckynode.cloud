@@ -64,10 +64,10 @@
 											<button type="button" class="btn btn-xs" ng-click="pushSecrettoNodes()">Push to Nodes</button>
 											<button type="button" class="btn btn-xs" ng-click="getSecretAssignments()">Get Assignments</button>
 											<hr />
+											Assignments:
 											<ul>
 												<li ng-repeat="sAssignment in storageSecretAssignments">
-													{{sAssignment | json}}
-													{{ (nodes | filter:{_id: sAssignment.node})[0].name || '' }}
+													{{ (nodes | filter:{_id: sAssignment.node})[0].name || '' }} : {{sAssignment.hasSecret}}
 												</li>
 											</ul>
 										</td>
