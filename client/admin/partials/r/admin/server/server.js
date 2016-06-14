@@ -469,11 +469,11 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 			lnToastr.info("Source Node:"+$scope.curServer.node);
 			lnToastr.info("Target Node:"+targetNode);
 			$scope.serverConverged("migrate", {sourceNode: $scope.curServer.node, targetNode: targetNode}).then(function success(result){
-				lnToastr("Initiated migration");
-				lnToastr(result);
+				lnToastr.info("Initiated migration");
+				lnToastr.info(result);
 			},function(issue) {
 				lnToastr.error("Failed to initiate Migration");
-				lnToastr(issue);
+				lnToastr.error(issue);
 			});
 		};
 
