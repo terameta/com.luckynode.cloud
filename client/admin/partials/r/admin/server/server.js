@@ -468,7 +468,7 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 			lnToastr.info("Initiating migration");
 			lnToastr.info("Source Node:"+$scope.curServer.node);
 			lnToastr.info("Target Node:"+targetNode);
-			$scope.serverConverged("migrate", {sourceNode: $scope.curServer.node, targetNode: targetNode}).then(function success(result){
+			$scope.serverConverged("migrate", {sourceNode: $scope.curServer.node, targetNode: targetNode, server: $scope.curServer._id}).then(function success(result){
 				lnToastr.info("Initiated migration");
 				lnToastr.info(result);
 			},function(issue) {
