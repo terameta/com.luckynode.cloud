@@ -17,7 +17,7 @@
 					<tr>
 						<td colspan="2">
 							--{{targetNode}}--<br />
-							<button class="btn btn-default" ng-disabled="!(curServer.domstate=='running') || !targetNode || (curServer.migrating)" ng-click="initiateMigration();"><i class="fa fa-suitcase" aria-hidden="true"></i><br />Initiate</button>
+							<button class="btn btn-default" ng-disabled="!(curServer.domstate=='running') || !targetNode || (curServer.migrating)" ng-click="initiateMigration({{targetNode}});"><i class="fa fa-suitcase" aria-hidden="true"></i><br />Initiate</button>
 						</td>
 					</tr>
 				</tbody>
