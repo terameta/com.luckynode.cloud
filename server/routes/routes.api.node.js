@@ -495,6 +495,10 @@ module.exports = function(app, express, db, tools) {
 		});
 	});
 
+	apiRoutes.get('/nodegetnodes', function(req, res){
+		res.send("OK");
+	});
+
 	apiRoutes.get('/:id', tools.checkToken, function(req, res) {
 		db.nodes.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err, data){
 			res.send(data);

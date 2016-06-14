@@ -462,6 +462,10 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 			return deferred.promise;
 		};
 
+		$scope.initiateMigration = function(){
+			lnToastr.info("Initiating migration");
+		};
+
 		if($stateParams.id){
 			$scope.fetchCurServer();
 			$scope.fetchCurServerDisks();
