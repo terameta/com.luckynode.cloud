@@ -467,6 +467,8 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 		$scope.initiateMigration = function(){
 			$scope.curServer.migrating = true;
 			lnToastr.info("Initiating migration");
+			lnToastr.info("Source Node:"+$scope.curServer.node);
+			lnToastr.info("Target Node:"+$scope.targetNode);
 		};
 
 		if($stateParams.id){
