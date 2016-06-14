@@ -5,7 +5,7 @@
 		</div>
 		Source Node: {{ (nodes | filter:{_id:curServer.node})[0].name || 'Not set'}}
 		Choose Target Node:
-		<select ng-options="node as node.label for node in nodes track by item._id" ng-model="targetNode"></select>
+		<select ng-options="node as node.name for node in nodes track by item._id" ng-model="targetNode"></select>
 	</div>
 </div>
 
