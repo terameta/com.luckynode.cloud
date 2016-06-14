@@ -462,15 +462,11 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 			return deferred.promise;
 		};
 
-		$scope.targetNode = 'aaa';
-
 		$scope.initiateMigration = function(targetNode){
-			$scope.targetNode = targetNode;
 			$scope.curServer.migrating = true;
-			lnToastr.info($scope.targetNode);
 			lnToastr.info("Initiating migration");
 			lnToastr.info("Source Node:"+$scope.curServer.node);
-			lnToastr.info("Target Node:"+$scope.targetNode);
+			lnToastr.info("Target Node:"+targetNode);
 		};
 
 		if($stateParams.id){
