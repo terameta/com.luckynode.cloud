@@ -2,8 +2,8 @@
 	<div class="panel-body">
 		<div class="btn-group">
 			<button class="btn btn-default" ng-disabled="!(curServer.domstate=='running')" ng-click="initiateMigration();"><i class="fa fa-suitcase" aria-hidden="true"></i><br />Initiate</button>
-		</div>
-		Source Node: {{ (nodes | filter:{_id:curServer.node})[0].name || 'Not set'}}
+		</div><br />
+		Source Node: {{ (nodes | filter:{_id:curServer.node})[0].name || 'Not set'}}<br />
 		Choose Target Node:
 		<select ng-options="node as node.name for node in nodes track by item._id" ng-model="targetNode"></select>
 	</div>
