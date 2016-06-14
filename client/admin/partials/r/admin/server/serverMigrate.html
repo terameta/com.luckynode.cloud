@@ -11,8 +11,8 @@
 						<td>Target Node:</td>
 						<td><select ng-options="node._id as node.name for node in nodes track by node._id" ng-model="targetNode"></select></td>
 					</tr>
-					<tr>
-						<td colspan="2">{{targetNode}}</td>
+					<tr ng-if="!(curServer.domstate=='running')">
+						<td colspan="2" class="alert">Please start the server for migration</td>
 					</tr>
 					<tr>
 						<td colspan="2">
