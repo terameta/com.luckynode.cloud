@@ -464,9 +464,16 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 
 		$scope.initiateMigration = function(targetNode){
 			$scope.curServer.migrating = true;
+			$scope.saveServer();
 			lnToastr.info("Initiating migration");
 			lnToastr.info("Source Node:"+$scope.curServer.node);
 			lnToastr.info("Target Node:"+targetNode);
+		};
+
+		$scope.cancelMigration = function(){
+			delete $scope.curServer.migrating;
+			$scope.saveServer();
+			lnToastr.info("Cancelled migration");
 		};
 
 		if($stateParams.id){
