@@ -25,21 +25,31 @@
 							<div class="table-responsive">
 								<table class="table table-bordered table-condensed" style="width: auto !important">
 									<tbody>
-										<tr><td>Time Elapsed</td>			<td>{{migrationStats.timeElapsed}}</td></tr>
-										<tr><td>Data Progress</td>			<td>{{migrationStats.dataPercentage}}%</td></tr>
-										<tr><td>Memory Progress</td>		<td>{{migrationStats.memoryPercentage}}%</td></tr>
-										<tr><td>Data Processed</td>		<td>{{migrationStats.dataProcessed[0]}} {{migrationStats.dataProcessed[1]}}</td></tr>
-										<tr><td>Data Remaining</td>		<td>{{migrationStats.dataRemaining[0]}} {{migrationStats.dataRemaining[1]}}</td></tr>
-										<tr><td>Data Total</td>				<td>{{migrationStats.dataTotal[0]}} {{migrationStats.dataTotal[1]}}</td></tr>
-										<tr><td>Data Bandwidth</td>		<td>{{migrationStats.dataBandwidth[0]}} {{migrationStats.dataBandwidth[1]}}</td></tr>
-										<tr><td>Memory Processed</td>		<td>{{migrationStats.memoryProcessed[0]}} {{migrationStats.memoryProcessed[1]}}</td></tr>
-										<tr><td>Memory Remaining</td>		<td>{{migrationStats.memoryRemaining[0]}} {{migrationStats.memoryRemaining[1]}}</td></tr>
-										<tr><td>Memory Total</td>			<td>{{migrationStats.memoryTotal[0]}} {{migrationStats.memoryTotal[1]}}</td></tr>
-										<tr><td>Memory Bandwidth</td>		<td>{{migrationStats.memoryBandwidth[0]}} {{migrationStats.memoryBandwidth[1]}}</td></tr>
-										<tr><td>Constant Pages</td>		<td>{{migrationStats.constantPages[0]}}</td></tr>
-										<tr><td>Normal Pages</td>			<td>{{migrationStats.normalPages[0]}}</td></tr>
-										<tr><td>Expected Downtime</td>	<td>{{migrationStats.expectedDowntime[0]}}{{migrationStats.expectedDowntime[1]}}</td></tr>
-										<tr><td>Setup Time</td>				<td>{{migrationStats.setupTime[0]}}{{migrationStats.setupTime[1]}}</td></tr>
+										<tr>
+											<td>Time Elapsed</td>			<td>{{migrationStats.timeElapsed}}</td>
+											<td>Data Progress</td>			<td>{{migrationStats.dataPercentage}}%</td>
+											<td>Memory Progress</td>		<td>{{migrationStats.memoryPercentage}}%</td>
+										</tr>
+										<tr>
+											<td>Constant Pages</td>		<td>{{migrationStats.constantPages[0]}}</td>
+											<td>Data Bandwidth</td>		<td>{{migrationStats.dataBandwidth[0]}} {{migrationStats.dataBandwidth[1]}}</td>
+											<td>Memory Bandwidth</td>		<td>{{migrationStats.memoryBandwidth[0]}} {{migrationStats.memoryBandwidth[1]}}</td>
+										</tr>
+										<tr>
+											<td>Normal Pages</td>			<td>{{migrationStats.normalPages[0]}}</td>
+											<td>Data Processed</td>		<td>{{migrationStats.dataProcessed[0]}} {{migrationStats.dataProcessed[1]}}</td>
+											<td>Memory Processed</td>		<td>{{migrationStats.memoryProcessed[0]}} {{migrationStats.memoryProcessed[1]}}</td>
+										</tr>
+										<tr>
+											<td>Expected Downtime</td>	<td>{{migrationStats.expectedDowntime[0]}}{{migrationStats.expectedDowntime[1]}}</td>
+											<td>Data Remaining</td>		<td>{{migrationStats.dataRemaining[0]}} {{migrationStats.dataRemaining[1]}}</td>
+											<td>Memory Remaining</td>		<td>{{migrationStats.memoryRemaining[0]}} {{migrationStats.memoryRemaining[1]}}</td>
+										</tr>
+										<tr>
+											<td>Setup Time</td>				<td>{{migrationStats.setupTime[0]}}{{migrationStats.setupTime[1]}}</td>
+											<td>Data Total</td>				<td>{{migrationStats.dataTotal[0]}} {{migrationStats.dataTotal[1]}}</td>
+											<td>Memory Total</td>			<td>{{migrationStats.memoryTotal[0]}} {{migrationStats.memoryTotal[1]}}</td>
+										</tr>
 									</tbody>
 								</table>
 							</div>
