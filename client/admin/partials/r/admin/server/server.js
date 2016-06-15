@@ -485,7 +485,12 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 			$http.get('/api/server/migrationStatus/' + $scope.curServer._id).success(function(data, status, headers, config){
 				if(data == "finished") {
 					$scope.finishedCounter++;
-					if($scope.finishedCounter > 10) clearInterval($scope.progressInterval);
+					if($scope.finishedCounter > 10){
+						clearInterval($scope.progressInterval);
+						if(confirm("Migration is now complete. Please click ok to refresh")){
+							$state.go($state.current, {}, {reload: true});
+						}
+					}
 					$scope.migrationStats.dataPercentage = 100;
 					$scope.migrationStats.memoryPercentage = 100;
 					$scope.migrationStats.dataRemaining = 0;
