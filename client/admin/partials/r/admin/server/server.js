@@ -488,6 +488,8 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 					if($scope.finishedCounter > 10) clearInterval($scope.progressInterval);
 					console.log("Finished");
 				} else {
+					data.dataPercentage = parseFloat(data.dataProcessedRaw) / (parseFloat(data.dataProcessedRaw) + parseFloat(data.dataRemainingRaw));
+					data.memoryPercentage = parseFloat(data.memoryProcessedRaw) / (parseFloat(data.memoryProcessedRaw) + parseFloat(data.memoryRemainingRaw));
 					$scope.migrationStats = data;
 				}
 			}).error(function(data, status, headers, config){
