@@ -485,7 +485,7 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 				console.log("Success");
 				console.log(data);
 				$scope.migrationStats = data;
-				if(!data) {
+				if(data == "finished") {
 					console.log("Finished");
 				}
 			}).error(function(data, status, headers, config){
