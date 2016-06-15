@@ -26,8 +26,7 @@ module.exports = function(app, express, db, tools) {
 			if (err) {
 				res.status(500).json({ status: "fail" });
 			} else {
-				console.log(data);
-				res.send("OK");
+				res.send(data.migrationStats);
 			}
 		});
 	});
