@@ -20,6 +20,11 @@
 							<button class="btn btn-default" ng-click="cancelMigration();"><i class="fa fa-stop" aria-hidden="true"></i><br />Cancel</button>
 						</td>
 					</tr>
+					<tr ng-if="curServer.migrating">
+						<td colspan="2">
+							{{migrationStats | json}}
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
