@@ -486,6 +486,7 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 				console.log(data);
 				$scope.migrationStats = data;
 				if(data == "finished") {
+					clearInterval($scope.progressInterval);
 					console.log("Finished");
 				}
 			}).error(function(data, status, headers, config){
