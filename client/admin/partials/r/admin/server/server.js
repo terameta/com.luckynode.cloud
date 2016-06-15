@@ -464,6 +464,9 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 
 		$scope.initiateMigration = function(targetNode){
 			$scope.curServer.migrating = true;
+			$scope.progressInterval = setInterval(function() {
+				$scope.fetchMigrationStatus();
+			}, 1000);
 			$scope.saveServer();
 			lnToastr.info("Initiating migration");
 			lnToastr.info("Source Node:"+$scope.curServer.node);
@@ -474,6 +477,16 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 			},function(issue) {
 				lnToastr.error("Failed to initiate Migration");
 				lnToastr.error(issue);
+			});
+		};
+
+		$scope.fetchMigrationStatus = function(){
+			$http.get('/api/server/migrationStatus/' + $scope.curServer._id).success(function(data, status, headers, config){
+				console.log("Success");
+				console.log(data);
+			}).error(function(data, status, headers, config){
+				clearInterval($scope.progressInterval);
+				console.log("Error:", data);
 			});
 		};
 
