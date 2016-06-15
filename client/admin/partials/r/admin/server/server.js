@@ -487,7 +487,7 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 					$scope.finishedCounter++;
 					if($scope.finishedCounter > 10){
 						clearInterval($scope.progressInterval);
-						if(confirm("Migration is now complete. Please click ok to refresh")){
+						if(confirm("Migration is now complete. Please click ok to refresh.")){
 							$state.go($state.current, {}, {reload: true});
 						}
 					}
