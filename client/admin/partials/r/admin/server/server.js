@@ -484,6 +484,10 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 			$http.get('/api/server/migrationStatus/' + $scope.curServer._id).success(function(data, status, headers, config){
 				console.log("Success");
 				console.log(data);
+				$scope.migrationStats = data;
+				if(!data) {
+					console.log("Finished");
+				}
 			}).error(function(data, status, headers, config){
 				clearInterval($scope.progressInterval);
 				console.log("Error:", data);
