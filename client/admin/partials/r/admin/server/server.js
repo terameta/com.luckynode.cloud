@@ -486,10 +486,13 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 				if(data == "finished") {
 					$scope.finishedCounter++;
 					if($scope.finishedCounter > 10) clearInterval($scope.progressInterval);
-					console.log("Finished");
+					$scope.migrationStats.dataPercentage = 100;
+					$scope.migrationStats.memoryPercentage = 100;
 				} else {
-					data.dataPercentage = parseFloat(data.dataProcessedRaw) / (parseFloat(data.dataProcessedRaw) + parseFloat(data.dataRemainingRaw));
-					data.memoryPercentage = parseFloat(data.memoryProcessedRaw) / (parseFloat(data.memoryProcessedRaw) + parseFloat(data.memoryRemainingRaw));
+					data.dataPercentage = parseFloat(data.dataProcessedRaw) / (parseFloat(data.dataProcessedRaw) + parseFloat(data.dataRemainingRaw)) * 100;
+					data.memoryPercentage = parseFloat(data.memoryProcessedRaw) / (parseFloat(data.memoryProcessedRaw) + parseFloat(data.memoryRemainingRaw)) * 100;
+					data.dataPercentage = data.dataPercentage.toFixed(2);
+					data.memoryPercentage = data.memoryPercentage.toFixed(2);
 					$scope.migrationStats = data;
 				}
 			}).error(function(data, status, headers, config){
