@@ -483,13 +483,12 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 
 		$scope.fetchMigrationStatus = function(){
 			$http.get('/api/server/migrationStatus/' + $scope.curServer._id).success(function(data, status, headers, config){
-				console.log("Success");
-				console.log(data);
-				$scope.migrationStats = data;
 				if(data == "finished") {
 					$scope.finishedCounter++;
 					if($scope.finishedCounter > 10) clearInterval($scope.progressInterval);
 					console.log("Finished");
+				} else {
+					$scope.migrationStats = data;
 				}
 			}).error(function(data, status, headers, config){
 				clearInterval($scope.progressInterval);
