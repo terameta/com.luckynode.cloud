@@ -464,6 +464,7 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 
 		$scope.initiateMigration = function(targetNode){
 			$scope.curServer.migrating = true;
+			$scope.finishedCounter = 0;
 			$scope.progressInterval = setInterval(function() {
 				$scope.fetchMigrationStatus();
 			}, 1000);
@@ -486,7 +487,8 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 				console.log(data);
 				$scope.migrationStats = data;
 				if(data == "finished") {
-					clearInterval($scope.progressInterval);
+					$scope.finishedCounter++;
+					if($scope.finishedCounter > 0) clearInterval($scope.progressInterval);
 					console.log("Finished");
 				}
 			}).error(function(data, status, headers, config){
