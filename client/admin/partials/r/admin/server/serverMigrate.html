@@ -22,7 +22,6 @@
 					</tr>
 					<tr ng-if="curServer.migrating">
 						<td colspan="2">
-							<pre>{{migrationStats | json}}</pre>
 							<div class="table-responsive">
 								<table class="table table-bordered table-condensed" style="width: auto !important">
 									<tbody>
@@ -42,6 +41,7 @@
 									</tbody>
 								</table>
 							</div>
+							<pre>{{migrationStats | json}}</pre>
 						</td>
 					</tr>
 				</tbody>
