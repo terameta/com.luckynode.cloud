@@ -21,6 +21,17 @@ module.exports = function(app, express, db, tools) {
 		});
 	});
 
+	apiRoutes.get('/migrationStatus/:id', tools.checkToken, function(req, res) {
+		db.servers.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err, data) {
+			if (err) {
+				res.status(500).json({ status: "fail" });
+			} else {
+				console.log(data);
+				res.send("OK");
+			}
+		});
+	});
+
 	apiRoutes.get('/whatismypassword', function(req, res){
 		var newPassword = tools.generateLongString(32);
 		//console.log("New Password:", newPassword);
