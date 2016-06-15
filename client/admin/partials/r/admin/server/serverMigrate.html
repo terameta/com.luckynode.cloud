@@ -23,6 +23,25 @@
 					<tr ng-if="curServer.migrating">
 						<td colspan="2">
 							<pre>{{migrationStats | json}}</pre>
+							<div class="table-responsive">
+								<table class="table table-bordered table-condensed" style="width: auto !important">
+									<tbody>
+										<tr><td>Time Elapsed</td>			<td>{{migrationStats.timeElapsed}}</td></tr>
+										<tr><td>Data Processed</td>		<td>{{migrationStats.dataProcessed[0]}} {{migrationStats.dataProcessed[1]}}</td></tr>
+										<tr><td>Data Remaining</td>		<td>{{migrationStats.dataRemaining[0]}} {{migrationStats.dataRemaining[1]}}</td></tr>
+										<tr><td>Data Total</td>				<td>{{migrationStats.dataTotal[0]}} {{migrationStats.dataTotal[1]}}</td></tr>
+										<tr><td>Data Bandwidth</td>		<td>{{migrationStats.dataBandwidth[0]}} {{migrationStats.dataBandwidth[1]}}</td></tr>
+										<tr><td>Memory Processed</td>		<td>{{migrationStats.memoryProcessed[0]}} {{migrationStats.memoryProcessed[1]}}</td></tr>
+										<tr><td>Memory Remaining</td>		<td>{{migrationStats.memoryRemaining[0]}} {{migrationStats.memoryRemaining[1]}}</td></tr>
+										<tr><td>Memory Total</td>			<td>{{migrationStats.memoryTotal[0]}} {{migrationStats.memoryTotal[1]}}</td></tr>
+										<tr><td>Memory Bandwidth</td>		<td>{{migrationStats.memoryBandwidth[0]}} {{migrationStats.memoryBandwidth[1]}}</td></tr>
+										<tr><td>Constant Pages</td>		<td>{{migrationStats.constantPages}}</td></tr>
+										<tr><td>Normal Pages</td>			<td>{{migrationStats.normalPages}}</td></tr>
+										<tr><td>Expected Downtime</td>	<td>{{migrationStats.expectedDowntime}}</td></tr>
+										<tr><td>Setup Time</td>				<td>{{migrationStats.setupTime}}</td></tr>
+									</tbody>
+								</table>
+							</div>
 						</td>
 					</tr>
 				</tbody>
