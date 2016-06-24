@@ -16,7 +16,6 @@ var cloudColls		= ['users','datacenters','nodes','ipblocks','storages','nodecs',
 var db 				= mongojs(cloudConnStr, cloudColls, { authMechanism : 'ScramSHA1' });
 //db.servers.find(function(err, result){console.log(result);});
 
-
 var App             = require('./config/config.app.js');
 var cronerpid 		= 0;
 var Croner          = require('./config/config.croner.js');
