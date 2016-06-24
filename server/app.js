@@ -4,6 +4,7 @@ var opbeat = require('opbeat').start({
   secretToken: '***REMOVED***'
 });
 
+
 var cluster         = require( 'cluster' );
 var cCPUs           = require('os').cpus().length;
 var fs 				= require("fs");
