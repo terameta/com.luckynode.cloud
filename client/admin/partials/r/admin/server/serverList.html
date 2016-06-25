@@ -30,7 +30,6 @@
 				<th>MAC Address</th>
 				<th>Base Image</th>
 				<th>Owner</th>
-				<th>Details</th>
 			</tr>
 		</thead>
 
@@ -60,8 +59,6 @@
 					{{ (users | filter:{_id:server.owner})[0].name }}
 					{{ (users | filter:{_id:server.owner})[0].surname }}
 				</td>
-				<td><a ui-sref="r.dashboard.server({id: server._id})" title="Details"><i class="fa fa-cog fa-fw"></i></a></td>
-				<td></td>
 			</tr>
 		</tbody>
 	</table>
