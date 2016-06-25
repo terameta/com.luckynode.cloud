@@ -17,6 +17,7 @@
 		<thead>
 			<tr>
 				<th>Row</th>
+				<th>Details</th>
 				<th>Name</th>
 				<th>CPU</th>
 				<th>Disk Size</th>
@@ -37,6 +38,7 @@
 		<tbody>
 			<tr ng-repeat="server in servers | orderBy:'name'">
 				<td>{{$index +1}}</td>
+				<td><a ui-sref="r.dashboard.server({id: server._id})" title="Details"><i class="fa fa-cog fa-fw"></i></a></td>
 				<td>{{server.name}}</td>
 				<td>{{server.cpu}} vCores</td>
 				<td>{{server.hdd}}GB</td>
