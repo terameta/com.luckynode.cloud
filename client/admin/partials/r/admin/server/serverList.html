@@ -19,6 +19,7 @@
 				<th>Row</th>
 				<th>Details</th>
 				<th>Name</th>
+				<th>Status</th>
 				<th>CPU</th>
 				<th>Disk Size</th>
 				<th>RAM</th>
@@ -28,7 +29,6 @@
 				<th>IP Address</th>
 				<th>MAC Address</th>
 				<th>Base Image</th>
-				<th>Status</th>
 				<th>Owner</th>
 				<th>Details</th>
 			</tr>
@@ -40,6 +40,7 @@
 				<td>{{$index +1}}</td>
 				<td><a ui-sref="r.dashboard.server({id: server._id})" title="Details"><i class="fa fa-cog fa-fw"></i></a></td>
 				<td>{{server.name}}</td>
+				<td>{{server.status}}</td>
 				<td>{{server.cpu}} vCores</td>
 				<td>{{server.hdd}}GB</td>
 				<td>{{server.ram}}MB</td>
@@ -55,7 +56,6 @@
 					</a>
 
 				</td>
-				<td>{{server.status}}</td>
 				<td>
 					{{ (users | filter:{_id:server.owner})[0].name }}
 					{{ (users | filter:{_id:server.owner})[0].surname }}
