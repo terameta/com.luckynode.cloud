@@ -109,6 +109,9 @@ angular.module('adminControllers').controller('libraryController', ['$scope', '$
 		};
 
 		$scope.formatHTML = function(){
+			var curBeautifier = require('js-beautify').js_beautify;
+			$scope.curTutorial.content = curBeautifier($scope.curTutorial.content,{ indent_size: 2 });
+			return true;
 			var xml = $scope.curTutorial.content;
 			var formatted = '';
 			var reg = /(>)(<)(\/*)/g;
