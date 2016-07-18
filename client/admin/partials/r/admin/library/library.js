@@ -84,7 +84,7 @@ angular.module('adminControllers').controller('libraryController', ['$scope', '$
 		$scope.saveTutorial = function(){
 			$scope.curTutorial.$update(function(result){
 				srvcLibrary.fetchAll();
-				$state.go($state.current, {}, {reload: true});
+			//	$state.go($state.current, {}, {reload: true});
 			}, function(error){
 				lnToastr.error(error);
 			});
