@@ -108,7 +108,8 @@ angular.module('adminControllers').controller('libraryController', ['$scope', '$
 			//console.log($scope.curMailTemplate);
 		};
 
-		$scope.formatHTML = function (xml) {
+		$scope.formatHTML = function(){
+			var xml = $scope.curTutorial.content;
 			var formatted = '';
 			var reg = /(>)(<)(\/*)/g;
 			xml = xml.replace(reg, '$1\r\n$2$3');
@@ -134,7 +135,8 @@ angular.module('adminControllers').controller('libraryController', ['$scope', '$
 				formatted += padding + node + '\r\n';
 				pad += indent;
 			});
-			return formatted;
+			//return formatted;
+			$scope.curTutorial.content = formatted;
 		};
 
 
