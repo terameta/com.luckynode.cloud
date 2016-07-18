@@ -1,0 +1,10 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<div class="btn-group">
+			<button type="button" class="btn btn-primary btn-xs" ng-click="saveTutorial()">Save</button>
+		</div>
+	</div>
+	<div class="panel-body" style="padding:0">
+		<div style="height:500px;" ui-ace="{ useWrapMode : false, showGutter: true, theme:'chrome', mode: 'html', onLoad: aceLoaded, onChange: aceChanged }" ng-model="curTutorial.content"></div>
+	</div>
+</div>
