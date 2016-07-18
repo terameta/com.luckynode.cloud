@@ -113,7 +113,7 @@ angular.module('adminControllers').controller('libraryController', ['$scope', '$
 			var beautify = ace.require("ace/ext/beautify"); // get reference to extension
 			//var editor = ace.edit("editor"); // get reference to editor
 			beautify.beautify($scope.aceSession);
-
+			return 0;
 			var xml = $scope.curTutorial.content;
 			var formatted = '';
 			var reg = /(>)(<)(\/*)/g;
