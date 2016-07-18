@@ -10,32 +10,21 @@
 </section>
 
 <section class="content">
-<div class="row">
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<form editable-form name="tutorialEditForm" onaftersave="saveTutorial()">
-				<div class="table-responsive">
-					<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
-						<tbody>
-							<tr><td width="140px"><b>Name: 	</b></td><td><span editable-text="curTutorial.name">{{ curTutorial.name }}</span></td></tr>
-							<tr><td><b>Short Description: 	</b></td><td><span editable-textarea="curTutorial.shortDescription" e-rows="5" e-cols="100">{{ curTutorial.shortDescription }}</span></td></tr>
-							<tr><td><b>Description: 			</b></td><td><span editable-textarea="curTutorial.description" e-rows="5" e-cols="100">{{ curTutorial.description }}</span></td></tr>
-							<tr><td><b>Parent: 					</b></td><td><span editable-text="curTutorial.parent">{{ curTutorial.parent }}</span></td></tr>
-							<tr><td><b>Order: 					</b></td><td><span editable-text="curTutorial.order">{{ curTutorial.order }}</span></td></tr>
-							<tr>
-								<td colspan=2>
-									<button type="button" class="btn btn-primary btn-xs" ng-click="tutorialEditForm.$show()" ng-show="!tutorialEditForm.$visible">Edit</button>
-									<button type="button" class="btn btn-danger btn-xs" ng-click="deleteTutorial()" ng-show="!tutorialEditForm.$visible">Delete</button>
-									<button type="submit" class="btn btn-success btn-xs" ng-disabled="tutorialEditForm.$waiting" ng-show="tutorialEditForm.$visible">Save</button>
-									<button type="button" class="btn btn-warning btn-xs" ng-disabled="tutorialEditForm.$waiting" ng-click="tutorialEditForm.$cancel()" ng-show="tutorialEditForm.$visible">Cancel</button>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</form>
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12">
+			<uib-tabset active="activeServerDetailTab">
+				<uib-tab index="0" heading="Main Information">
+					<div ng-include="'/admin/partials/r/admin/library/libraryMainInformation.html'"></div>
+				</uib-tab>
+				<uib-tab index="1" heading="Code">
+					<div ng-include="'/admin/partials/r/admin/library/libraryCode.html'"></div>
+				</uib-tab>
+			</uib-tabset>
 		</div>
 	</div>
+</section>
+<!--section>
+
 </div>
 <div class="row">
 	<div class="container-fluid">
@@ -55,7 +44,7 @@
 				</div>
 				<div class="panel-body" style="padding:0">
 					<div style="height:500px;" ui-ace="{ useWrapMode : false, showGutter: true, theme:'chrome', mode: 'html', onLoad: aceLoaded, onChange: aceChanged }" ng-model="curTutorial.content"></div>
-					<!--textarea ng-model="curTutorial.content" rows="50" style="width:100%;"></textarea-->
+					<!--textarea ng-model="curTutorial.content" rows="50" style="width:100%;"></textarea-- >
 				</div>
 			</div>
 		</div>
@@ -73,4 +62,4 @@
 		</div>
 	</div>
 </div>
-</section>
+</section-->

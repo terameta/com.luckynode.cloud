@@ -1,0 +1,25 @@
+<div class="panel panel-default">
+	<div class="panel-body">
+		<form editable-form name="tutorialEditForm" onaftersave="saveTutorial()">
+			<div class="table-responsive">
+				<table class="table table-bordered table-condensed table-hover table-striped table-nonfluid">
+					<tbody>
+						<tr><td width="140px"><b>Name: 	</b></td><td><span editable-text="curTutorial.name">{{ curTutorial.name }}</span></td></tr>
+						<tr><td><b>Short Description: 	</b></td><td><span editable-textarea="curTutorial.shortDescription" e-rows="5" e-cols="100">{{ curTutorial.shortDescription }}</span></td></tr>
+						<tr><td><b>Description: 			</b></td><td><span editable-textarea="curTutorial.description" e-rows="5" e-cols="100">{{ curTutorial.description }}</span></td></tr>
+						<tr><td><b>Parent: 					</b></td><td><span editable-text="curTutorial.parent">{{ curTutorial.parent }}</span></td></tr>
+						<tr><td><b>Order: 					</b></td><td><span editable-text="curTutorial.order">{{ curTutorial.order }}</span></td></tr>
+						<tr>
+							<td colspan=2>
+								<button type="button" class="btn btn-primary btn-xs" ng-click="tutorialEditForm.$show()" ng-show="!tutorialEditForm.$visible">Edit</button>
+								<button type="button" class="btn btn-danger btn-xs" ng-click="deleteTutorial()" ng-show="!tutorialEditForm.$visible">Delete</button>
+								<button type="submit" class="btn btn-success btn-xs" ng-disabled="tutorialEditForm.$waiting" ng-show="tutorialEditForm.$visible">Save</button>
+								<button type="button" class="btn btn-warning btn-xs" ng-disabled="tutorialEditForm.$waiting" ng-click="tutorialEditForm.$cancel()" ng-show="tutorialEditForm.$visible">Cancel</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</form>
+	</div>
+</div>
