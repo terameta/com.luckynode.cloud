@@ -91,7 +91,6 @@ angular.module('adminControllers').controller('libraryController', ['$scope', '$
 		};
 
 		$scope.aceLoaded = function(_editor) {
-			$scope.aceSession = _editor.getSession();
 			// Options
 			//_editor.setReadOnly(true);
 			//console.log("AceLoaded");
@@ -110,10 +109,6 @@ angular.module('adminControllers').controller('libraryController', ['$scope', '$
 		};
 
 		$scope.formatHTML = function(){
-			var beautify = ace.require("ace/ext/beautify"); // get reference to extension
-			//var editor = ace.edit("editor"); // get reference to editor
-			beautify.beautify($scope.aceSession);
-			return 0;
 			var xml = $scope.curTutorial.content;
 			var formatted = '';
 			var reg = /(>)(<)(\/*)/g;
