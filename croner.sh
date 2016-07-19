@@ -10,6 +10,8 @@ if [ "$reslog" != "" ] ; then
     git reset --hard origin/master
     git merge origin/master
     forever restart cloudluckynode
+    bower install
+    npm install
 else
     echo nochange
 fi
