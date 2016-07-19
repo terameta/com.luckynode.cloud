@@ -1,4 +1,4 @@
-var adminApp = angular.module('adminApp', ['ui.router', 'adminControllers', 'adminServices', 'ngSanitize', 'ui.bootstrap', 'angular-loading-bar', 'xeditable', 'checklist-model', 'ui.ace', 'textAngular']);
+var adminApp = angular.module('adminApp', ['ui.router', 'adminControllers', 'adminServices', 'ngSanitize', 'ui.bootstrap', 'angular-loading-bar', 'xeditable', 'checklist-model', 'ui.ace', 'textAngular','naif.base64']);
 
 adminApp.config(['$locationProvider', function($locationProvider){
 	$locationProvider.html5Mode(true);
