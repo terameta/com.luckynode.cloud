@@ -33,8 +33,8 @@ angular.module('adminServices').service('srvcLibrary', ['$resource', '$rootScope
 	}
 ]);
 
-angular.module('adminControllers').controller('libraryController', ['$scope', '$rootScope', 'srvcLibrary', '$state', '$stateParams', '$localStorage', '$http', '$q', '$uibModal', '$sce', 'srvcSettings',
-	function($scope, $rootScope, srvcLibrary, $state, $stateParams, $localStorage, $http, $q, $uibModal, $sce, srvcSettings){
+angular.module('adminControllers').controller('libraryController', ['$scope', '$rootScope', 'srvcLibrary', '$state', '$stateParams', '$localStorage', '$http', '$q', '$uibModal', '$sce', 'srvcSettings', 'imageProcessor',
+	function($scope, $rootScope, srvcLibrary, $state, $stateParams, $localStorage, $http, $q, $uibModal, $sce, srvcSettings, imageProcessor){
 		var lnToastr = toastr;
 		$scope.curNewTutorial = {name:''};
 
@@ -141,6 +141,21 @@ angular.module('adminControllers').controller('libraryController', ['$scope', '$
 			});
 			//return formatted;
 			$scope.curTutorial.content = formatted;
+		};
+
+		$scope.resizeImage = function(file, base64_object) {
+
+			var deferred = $q.defer();
+
+			imageProcessor.run(file).then(function(resized) {
+				var modelVal = {
+					file: file,
+					resized: resized
+				};
+				deferred.resolve(modelVal); // resolved value is appended to the model
+			});
+
+			return deferred.promise;
 		};
 
 
