@@ -120,3 +120,16 @@ adminApp.run(['$rootScope', '$state', '$signinModal', '$localStorage', function(
 		}
 	});
 }]);
+
+adminApp.config(['$provide',function($provide) {
+	$provide.decorator('taOptions', ['taRegisterTool', '$delegate', function(taRegisterTool, taOptions) {
+		taRegisterTool('insertMyHtml', {
+			buttontext: 'insert my html',
+			action: function(taRegisterTool, taOptions) {
+				this.$editor().wrapSelection('insertHtml', '<h1>Hello, world!</h1>');
+			}
+		});
+		taOptions.toolbar = ['insertMyHtml'];
+		return taOptions;
+	}]);
+}]);
