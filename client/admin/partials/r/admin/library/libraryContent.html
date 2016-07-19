@@ -2,9 +2,13 @@
 	<div class="panel-heading">
 		<div class="btn-group">
 			<button type="button" class="btn btn-primary btn-xs" ng-click="saveTutorial()">Save</button>
+			<form>
+				<input type='file' ng-model='yourModel' base-sixty-four-input>
+			</form>
 		</div>
 	</div>
 	<div class="panel-body">
+		<div>{{yourModel}}</div>
 		<div text-angular ng-model="curTutorial.content"></div>
 	</div>
 </div>
