@@ -146,6 +146,7 @@ angular.module('adminControllers').controller('libraryController', ['$scope', '$
 		$scope.insertImage = function(file, base64_object) {
 			console.log(file);
 			console.log(base64_object);
+			insertTextAtCursor(base64_object.base64);
 			/*var deferred = $q.defer();
 
 			imageProcessor.run(file).then(function(resized) {
@@ -160,6 +161,18 @@ angular.module('adminControllers').controller('libraryController', ['$scope', '$
 			*/
 		};
 
-
+		function insertTextAtCursor(text) {
+			var sel, range;
+			if (window.getSelection) {
+				sel = window.getSelection();
+				if (sel.getRangeAt && sel.rangeCount) {
+					range = sel.getRangeAt(0);
+					range.deleteContents();
+					range.insertNode(document.createTextNode(text));
+				}
+			} else if (document.selection && document.selection.createRange) {
+				document.selection.createRange().text = text;
+			}
+		}
 	}
 ]);
