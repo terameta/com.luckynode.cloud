@@ -33,8 +33,8 @@ angular.module('adminServices').service('srvcLibrary', ['$resource', '$rootScope
 	}
 ]);
 
-angular.module('adminControllers').controller('libraryController', ['$scope', '$rootScope', 'srvcLibrary', '$state', '$stateParams', '$localStorage', '$http', '$q', '$uibModal', '$sce', 'srvcSettings', 'imageProcessor',
-	function($scope, $rootScope, srvcLibrary, $state, $stateParams, $localStorage, $http, $q, $uibModal, $sce, srvcSettings, imageProcessor){
+angular.module('adminControllers').controller('libraryController', ['$scope', '$rootScope', 'srvcLibrary', '$state', '$stateParams', '$localStorage', '$http', '$q', '$uibModal', '$sce', 'srvcSettings',
+	function($scope, $rootScope, srvcLibrary, $state, $stateParams, $localStorage, $http, $q, $uibModal, $sce, srvcSettings){
 		var lnToastr = toastr;
 		$scope.curNewTutorial = {name:''};
 
@@ -143,9 +143,10 @@ angular.module('adminControllers').controller('libraryController', ['$scope', '$
 			$scope.curTutorial.content = formatted;
 		};
 
-		$scope.resizeImage = function(file, base64_object) {
-
-			var deferred = $q.defer();
+		$scope.insertImage = function(file, base64_object) {
+			console.log(file);
+			console.log(base64_object);
+			/*var deferred = $q.defer();
 
 			imageProcessor.run(file).then(function(resized) {
 				var modelVal = {
@@ -156,6 +157,7 @@ angular.module('adminControllers').controller('libraryController', ['$scope', '$
 			});
 
 			return deferred.promise;
+			*/
 		};
 
 
