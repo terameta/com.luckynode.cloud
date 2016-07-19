@@ -132,7 +132,7 @@ adminApp.config(['$provide',function($provide) {
             }
         });
         // add the button to the default toolbar definition
-        taOptions.toolbar[1].push('colourRed');
+        taOptions.toolbar[0].push('colourRed');
         return taOptions;
     }]);
 }]);
