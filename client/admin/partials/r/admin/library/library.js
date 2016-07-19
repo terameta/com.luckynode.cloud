@@ -146,7 +146,9 @@ angular.module('adminControllers').controller('libraryController', ['$scope', '$
 		$scope.insertImage = function(file, base64_object) {
 			console.log(file);
 			console.log(base64_object);
-			insertTextAtCursor(base64_object.base64);
+			var theImageCode = "<img src=\"data:"+base64_object.filetype+";base64,"+base64_object.base64+"\" />";
+
+			insertTextAtCursor(theImageCode);
 			/*var deferred = $q.defer();
 
 			imageProcessor.run(file).then(function(resized) {
