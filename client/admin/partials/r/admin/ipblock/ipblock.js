@@ -178,10 +178,10 @@ angular.module('adminControllers').controller('ipblockController', ['$scope', '$
 				console.log($scope.curBlock);
 				$scope.curBlock.ips.forEach(function(curIP){
 					curIP.orderer = curIP.ip.split(".");
-					curIP.orderer[0] = ("000" + curIP.orderer[0]);		curIP.orderer[0] = curIP.orderer.substr(curIP.orderer[0].length -3);
-					curIP.orderer[1] = ("000" + curIP.orderer[1]);		curIP.orderer[1] = curIP.orderer.substr(curIP.orderer[1].length -3);
-					curIP.orderer[2] = ("000" + curIP.orderer[2]);		curIP.orderer[2] = curIP.orderer.substr(curIP.orderer[2].length -3);
-					curIP.orderer[3] = ("000" + curIP.orderer[3]);		curIP.orderer[3] = curIP.orderer.substr(curIP.orderer[3].length -3);
+					curIP.orderer[0] = ("000" + curIP.orderer[0]);		curIP.orderer[0] = curIP.orderer[0].substr(curIP.orderer[0].length -3);
+					curIP.orderer[1] = ("000" + curIP.orderer[1]);		curIP.orderer[1] = curIP.orderer[1].substr(curIP.orderer[1].length -3);
+					curIP.orderer[2] = ("000" + curIP.orderer[2]);		curIP.orderer[2] = curIP.orderer[2].substr(curIP.orderer[2].length -3);
+					curIP.orderer[3] = ("000" + curIP.orderer[3]);		curIP.orderer[3] = curIP.orderer[3].substr(curIP.orderer[3].length -3);
 					curIP.orderer = curIP.orderer.join(".");
 					console.log(curIP);
 				});
