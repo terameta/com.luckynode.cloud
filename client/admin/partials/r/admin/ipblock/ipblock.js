@@ -183,7 +183,7 @@ angular.module('adminControllers').controller('ipblockController', ['$scope', '$
 					curIP.orderer[2] = ("000" + curIP.orderer[2]);		curIP.orderer[2] = curIP.orderer[2].substr(curIP.orderer[2].length -3);
 					curIP.orderer[3] = ("000" + curIP.orderer[3]);		curIP.orderer[3] = curIP.orderer[3].substr(curIP.orderer[3].length -3);
 					curIP.orderer = curIP.orderer.join(".");
-					console.log(curIP);
+					//console.log(curIP);
 				});
 			});
 		};
