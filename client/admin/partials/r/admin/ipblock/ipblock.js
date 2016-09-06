@@ -175,6 +175,7 @@ angular.module('adminControllers').controller('ipblockController', ['$scope', '$
 		$scope.fetchIPBlock = function(){
 			$scope.curBlock = $ipblock.get({id:$stateParams.id}, function(result){
 				//here fetch is done.
+				console.log($scope.curBlock);
 			});
 		};
 
