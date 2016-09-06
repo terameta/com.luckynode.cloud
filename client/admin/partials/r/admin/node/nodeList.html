@@ -29,7 +29,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="node in nodes" ui-sref="r.dashboard.node({id: node._id})" style="cursor:pointer">
+			<tr ng-repeat="node in nodes | orderBy:'name'" ui-sref="r.dashboard.node({id: node._id})" style="cursor:pointer">
 				<td>{{node.name}}</td>
 				<td>{{node.ip}}</td>
 				<td>{{ (dataCenters | filter:{_id: node.datacenter})[0].name || 'Not set' }}</td>
