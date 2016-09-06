@@ -177,7 +177,7 @@ angular.module('adminControllers').controller('ipblockController', ['$scope', '$
 				//here fetch is done.
 				console.log($scope.curBlock);
 				$scope.curBlock.ips.forEach(function(curIP){
-					console.log(curIP);
+					console.log(curIP.ip.split("."));
 				});
 			});
 		};
