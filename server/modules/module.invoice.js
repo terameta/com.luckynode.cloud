@@ -8,11 +8,7 @@ var templateModule;
 
 module.exports = function(refdb){
 	db = refdb;
-	console.log("============================================================");
-	console.log("============================================================");
-	console.log("Invoice module called");
-	console.log("============================================================");
-	console.log("============================================================");
+
 	templateModule = require("../modules/module.template.js")(db);
 	tools = require("../tools/tools.main.js")(db);
 	var module = {
