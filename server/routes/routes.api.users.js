@@ -162,6 +162,7 @@ module.exports = function(app, express, db, refTools) {
 			if(err){
 				res.status(500).json({status: 'fail', error: err});
 			} else {
+				console.log("Users:", data);
 				res.send(data);
 			}
 		});
