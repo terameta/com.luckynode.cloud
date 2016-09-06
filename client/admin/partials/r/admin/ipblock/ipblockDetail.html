@@ -103,7 +103,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="curip in curBlock.ips | orderBy:'ip'">
+						<tr ng-repeat="curip in curBlock.ips | orderBy:'orderer'">
 							<td>{{curip.ip}}</td>
 							<td editable-text="curip.mac" onbeforesave="checkMAC($data)" onaftersave="saveIPBlock()">{{curip.mac || 'Dynamically Assigned'}}</td>
 							<td><span ng-if="curip.reserved">Yes</span><span ng-if="!curip.reserved">No</span></td>
