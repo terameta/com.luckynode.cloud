@@ -28,7 +28,7 @@ function informBalances(){
 	//db.users.update({reminderStat:{ $ne: 'OK'}},{$set:{reminderStat:'OK', lastBalanceCheck:moment().startOf("month").toDate()}}, {multi:true});
 	db.users.find(function(err, users){
 		if(err){
-			console.log("We can't get the list of users");
+			console.log("We can't get the list of users:", err);
 		} else {
 			users.forEach(function(curUser){
 				informBalance({user:curUser});
