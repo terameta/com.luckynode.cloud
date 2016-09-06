@@ -29,6 +29,7 @@ module.exports = function(app, express, db, refTools) {
 	apiRoutes.post('/authenticate', function(req, res) {
 		db.users.findOne({email:req.body.email},function(err, data){
 			if(err) {
+				console.log("Authenticate DB Error:", err);
 				res.status(400).json(err);
 			} else if(data == null){
 				res.status(401).json({status:'fail'});
