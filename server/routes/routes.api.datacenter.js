@@ -8,6 +8,7 @@ module.exports = function(app, express, db, tools) {
 			if (err) {
 				res.status(500).json({ status: "fail" });
 			} else {
+				console.log("Data Centers:", data);
 				res.send(data);
 			}
 		});
