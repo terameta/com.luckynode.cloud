@@ -1,6 +1,7 @@
 var express 		= require('express');
 var path 			= require('path');
 var logger			= require('morgan');
+var helmet			= require('helmet');
 var bodyParser		= require('body-parser');
 //var cookieParser	= require('cookie-parser');
 var config			= require('../config/config.main.js');
@@ -19,6 +20,8 @@ module.exports = function App(db) {
 	app.set('jwtsecret', config.secret);
 
 	app.enable("trust proxy");
+
+	app.use(helmet());
 
 	app.use(logger('short'));
 	app.use(bodyParser.json({ limit: '50mb' }));
