@@ -20,7 +20,7 @@ db.on('connect', function dbConnected(theResult){
 	console.log("=============================================================");
 	console.log("=============================================================");
 	console.log("Database connected");
-	console.log(theResult);
+	//console.log(theResult);
 	console.log("=============================================================");
 	console.log("=============================================================");
 });
