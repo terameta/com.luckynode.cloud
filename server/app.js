@@ -8,6 +8,7 @@ var opbeat = require('opbeat').start({
 
 var cluster         = require( 'cluster' );
 var cCPUs           = require('os').cpus().length;
+	 cCPUs = 2;
 var fs 				= require("fs");
 
 var mongojs 		= require('mongojs');
