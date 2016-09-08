@@ -19,11 +19,8 @@ var cloudColls		= ['users','datacenters','nodes','ipblocks','storages','nodecs',
 var db 				= mongojs(cloudConnStr, cloudColls, { authMechanism : 'ScramSHA1' });
 db.on('connect', function dbConnected(theResult){
 	console.log("=============================================================");
-	console.log("=============================================================");
-	console.log("=============================================================");
 	console.log("Database connected");
 	//console.log(theResult);
-	console.log("=============================================================");
 	console.log("=============================================================");
 });
 db.on('close', function dbClosed(theResult){
