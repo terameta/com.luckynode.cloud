@@ -58,7 +58,7 @@
 						<tr>
 							<td><b>Data Center: 		</b></td>
 							<td>
-								<span editable-select="curServer.dc" e-ng-options="datacenter as datacenter.name for datacenter in dataCenters">
+								<span editable-select="curServer.dc._id" e-ng-options="datacenter._id as datacenter.name for datacenter in dataCenters">
 									<a ui-sref="r.dashboard.datacenter({id: curServer.dc._id})" title="Go to data center details">
 										{{ (dataCenters | filter:{_id:curServer.dc._id})[0].name || 'Not set'}}
 									</a>
