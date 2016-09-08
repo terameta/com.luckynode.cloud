@@ -62,6 +62,7 @@
 									<a ui-sref="r.dashboard.datacenter({id: curServer.dc._id})" title="Go to data center details">
 										{{ (dataCenters | filter:{_id:curServer.dc})[0].name || 'Not set'}}
 									</a>
+									{{curServer.dc}}
 								</span>
 							</td>
 						</tr>
