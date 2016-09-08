@@ -35,6 +35,14 @@ db.on('disconnect', function dbDisconnected(theResult){
 	console.log(theResult);
 	console.log("=============================================================");
 });
+
+db.on('error', function(err) {
+	console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+   console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+   console.log('Catch ', err);
+   console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+   console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+});
 //db.servers.find(function(err, result){console.log(result);});
 
 var App             = require('./config/config.app.js');
