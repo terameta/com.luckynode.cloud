@@ -25,11 +25,8 @@ db.on('connect', function dbConnected(theResult){
 });
 db.on('close', function dbClosed(theResult){
 	console.log("=============================================================");
-	console.log("=============================================================");
-	console.log("=============================================================");
 	console.log("Database closed");
 	console.log(theResult);
-	console.log("=============================================================");
 	console.log("=============================================================");
 });
 db.on('disconnect', function dbDisconnected(theResult){
