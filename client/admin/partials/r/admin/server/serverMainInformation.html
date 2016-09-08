@@ -53,7 +53,16 @@
 										{{ (nodes | filter:{_id:curServer.node})[0].name || 'Not set'}}
 									</a>
 								</span>
-								{{ (nodes | filter:{_id:curServer.node})[0].name || 'Not set'}}
+							</td>
+						</tr>
+						<tr>
+							<td><b>Data Center: 		</b></td>
+							<td>
+								<span editable-select="curServer.dc" e-ng-options="datacenter in datacenters">
+									<a ui-sref="r.dashboard.datacenter({id: curServer.dc._id})" title="Go to data center details">
+										{{ (datacenters | filter:{_id:curServer.dc})[0].name || 'Not set'}}
+									</a>
+								</span>
 							</td>
 						</tr>
 						<tr><td><b>Price: 		</b></td><td><span editable-text="curServer.price">{{ curServer.price }}</span></td></tr>
