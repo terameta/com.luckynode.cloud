@@ -34,7 +34,6 @@ db.on('disconnect', function dbDisconnected(theResult){
 	console.log("Database disconnected");
 	console.log(theResult);
 	console.log("=============================================================");
-	console.log("=============================================================");
 });
 //db.servers.find(function(err, result){console.log(result);});
 
