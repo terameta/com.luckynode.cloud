@@ -576,6 +576,7 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 
 		$scope.saveServer = function(){
 			lnToastr.info("Saving server");
+			$scope.curServer.dc = {_id: $scope.curServer.dc._id};
 			$scope.curServer.$update(function(result){
 				lnToastr.success("Server is saved");
 				$scope.fetchServers();
