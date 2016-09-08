@@ -32,7 +32,6 @@ db.on('close', function dbClosed(theResult){
 db.on('disconnect', function dbDisconnected(theResult){
 	console.log("=============================================================");
 	console.log("=============================================================");
-	console.log("=============================================================");
 	console.log("Database disconnected");
 	console.log(theResult);
 	console.log("=============================================================");
