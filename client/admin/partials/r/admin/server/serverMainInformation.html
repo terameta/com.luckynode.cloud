@@ -45,7 +45,17 @@
 								</span>
 							</td>
 						</tr>
-						<tr><td><b>Node: 		</b></td><td>{{ (nodes | filter:{_id:curServer.node})[0].name || 'Not set'}}</td></tr>
+						<tr>
+							<td><b>Node: 		</b></td>
+							<td>
+								<span editable-select="curServer.node" e-ng-options="node._id as node.name for node in nodes">
+									<a ui-sref="r.dashboard.node({id: curServer.node})" title="Go to node details">
+										{{ (nodes | filter:{_id:curServer.node})[0].name || 'Not set'}}
+									</a>
+								</span>
+								{{ (nodes | filter:{_id:curServer.node})[0].name || 'Not set'}}
+							</td>
+						</tr>
 						<tr><td><b>Price: 		</b></td><td><span editable-text="curServer.price">{{ curServer.price }}</span></td></tr>
 						<tr><td><b>Invoice Status: 		</b></td><td><span editable-text="curServer.invoicestat">{{ curServer.invoicestat }}</span></td></tr>
 						<tr>
