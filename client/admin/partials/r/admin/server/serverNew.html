@@ -50,7 +50,7 @@
 			</div>
 			<div class="input-group" style="margin-bottom:2px;">
 				<span class="input-group-addon" style="min-width:200px;text-align:left;">Base Image*</span>
-				<select class="form-control" ng-model="newserver._image" ng-options="image._id as image.name for image in images">
+				<select class="form-control" ng-model="newserver._image" ng-options="image._id as image.name for image in images | orderBy: 'name'">
 					<option value="" selected="selected">Empty Disk</option>
 				</select>
 			</div>
