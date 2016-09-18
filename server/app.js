@@ -20,7 +20,7 @@ var db 				= mongojs(cloudConnStr, cloudColls);
 db.on('connect', function dbConnected(theResult){
 	console.log("=============================================================");
 	console.log("Database connected");
-	//console.log(theResult,"a");
+	//console.log(theResult);
 	console.log("=============================================================");
 });
 db.on('close', function dbClosed(theResult){
