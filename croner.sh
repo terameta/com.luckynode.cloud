@@ -9,9 +9,9 @@ if [ "$reslog" != "" ] ; then
     echo thereischange
     git reset --hard origin/master
     git merge origin/master
-    forever restart cloudluckynode
     bower install
     npm install
+    forever restart cloudluckynode
 else
     echo nochange
 fi
