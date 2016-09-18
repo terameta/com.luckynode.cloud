@@ -16,7 +16,7 @@ var lnconfiguration	= JSON.parse(fs.readFileSync('luckynode.conf', 'utf8'));
 //console.log(lnconfiguration);
 var cloudConnStr	= lnconfiguration.db.connstr;
 var cloudColls		= ['users','datacenters','nodes','ipblocks','storages','nodecs','nodetokens','managers','plans','servers','images', 'imagegroups','isofiles', 'logs', 'userfiles', 'settings', 'invoices', 'counters', 'mailtemplates', 'library', 'templateDocs', 'userRequests', 'transactions', 'countries', 'cclogs'];
-var db 				= mongojs(cloudConnStr, cloudColls, { authMechanism : 'ScramSHA1' });
+var db 				= mongojs(cloudConnStr, cloudColls, { authMechanism : 'ScramSHA1', autoReconnect:true });
 db.on('connect', function dbConnected(theResult){
 	console.log("=============================================================");
 	console.log("Database connected");
