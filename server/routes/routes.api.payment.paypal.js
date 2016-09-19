@@ -267,6 +267,7 @@ function listPaypal(cObject, listDate, listPeriod){
 					cObject.invoiceList.push(curTrx);
 				}
 			}
+			console.log(curTrx);
 
 			if(result.ACK == "Success"){
 				listDate = listDate.subtract(1, listPeriod);
