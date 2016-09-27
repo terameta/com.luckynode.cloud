@@ -432,7 +432,7 @@ angular.module('adminControllers').controller('serverController',['$scope', '$ro
 				}).error(function(data, status, headers, config) {
 					lnToastr.error("We couldn't get the server state! Details");
 				});
-				if(!$scope.curServer.diskList){
+				if(!$scope.curServer.diskList && !$scope.curServer.status != "defining"){
 					$scope.fetchCurServerDisks();
 				}
 			} else {
