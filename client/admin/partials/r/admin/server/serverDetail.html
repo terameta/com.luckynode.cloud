@@ -52,7 +52,7 @@
 					<tr><th>Name</th><th>File Name</th><th>Action</th><!--th>Details</th--></tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="curServerIso in curServerAvailableISOList">
+					<tr ng-repeat="curServerIso in curServerAvailableISOList | orderBy:'name'">
 
 						<td>{{curServerIso.name}}</td>
 						<td>{{curServerIso.file}}</td>
