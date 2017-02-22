@@ -217,6 +217,7 @@ function listPaypal(cObject, listDate, listPeriod){
 			//console.log(result);
 			console.log("=======================================================");
 			console.log(result.ACK);
+			console.log(result);
 			console.log("=======================================================");
 			if(!cObject.invoiceList) cObject.invoiceList = [];
 			var curTrx = {};
