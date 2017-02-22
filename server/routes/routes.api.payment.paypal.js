@@ -183,7 +183,7 @@ function listPaypal(cObject, listDate, listPeriod){
 	if(!listPeriod) listPeriod = 'years';
 	var startdate = moment(listDate).subtract(1, listPeriod).format('YYYY-MM-DDTHH:mm:ss').toString()+'Z';
 	var enddate = listDate.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z';
-	var companystart = moment().subtract(1,'years').startOf('day');
+	var companystart = moment().subtract(3,'years').startOf('day');
 	var shouldContinue = listDate.diff(companystart);
 	console.log("*************************************************************");
 	console.log("List Period:", listPeriod);
