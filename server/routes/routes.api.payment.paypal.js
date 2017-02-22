@@ -183,7 +183,7 @@ function listPaypal(cObject, listDate, listPeriod){
 	if(!listPeriod) listPeriod = 'years';
 	var startdate = moment(listDate).subtract(1, listPeriod).format('YYYY-MM-DDTHH:mm:ss').toString()+'Z';
 	var enddate = listDate.format('YYYY-MM-DDTHH:mm:ss').toString()+'Z';
-	var companystart = moment().subtract(3,'years').startOf('day');
+	var companystart = moment().subtract(35,'months').startOf('day');
 	var shouldContinue = listDate.diff(companystart);
 	console.log("*************************************************************");
 	console.log("List Period:", listPeriod);
@@ -222,10 +222,10 @@ function listPaypal(cObject, listDate, listPeriod){
 			if(!cObject.invoiceList) cObject.invoiceList = [];
 			var curTrx = {};
 			if(result.ACK != "Success"){
-				// if( listPeriod == 'hours' 		) listPeriod = 'minutes';
-				// if( listPeriod == 'days' 		) listPeriod = 'hours';
-				// if( listPeriod == 'weeks' 		) listPeriod = 'days';
-				// if( listPeriod == 'months' 	) listPeriod = 'weeks';
+				if( listPeriod == 'hours' 		) listPeriod = 'minutes';
+				if( listPeriod == 'days' 		) listPeriod = 'hours';
+				if( listPeriod == 'weeks' 		) listPeriod = 'days';
+				if( listPeriod == 'months' 	) listPeriod = 'weeks';
 				if( listPeriod == 'quarters' 	) listPeriod = 'months';
 				if( listPeriod == 'years'		) listPeriod = 'quarters';
 				deferred.resolve(listPaypal(cObject, listDate, listPeriod));
