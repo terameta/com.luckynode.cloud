@@ -222,10 +222,10 @@ function listPaypal(cObject, listDate, listPeriod){
 			if(!cObject.invoiceList) cObject.invoiceList = [];
 			var curTrx = {};
 			if(result.ACK != "Success"){
-				if( listPeriod == 'hours' 		) listPeriod = 'minutes';
-				if( listPeriod == 'days' 		) listPeriod = 'hours';
-				if( listPeriod == 'weeks' 		) listPeriod = 'days';
-				if( listPeriod == 'months' 	) listPeriod = 'weeks';
+				// if( listPeriod == 'hours' 		) listPeriod = 'minutes';
+				// if( listPeriod == 'days' 		) listPeriod = 'hours';
+				// if( listPeriod == 'weeks' 		) listPeriod = 'days';
+				// if( listPeriod == 'months' 	) listPeriod = 'weeks';
 				if( listPeriod == 'quarters' 	) listPeriod = 'months';
 				if( listPeriod == 'years'		) listPeriod = 'quarters';
 				deferred.resolve(listPaypal(cObject, listDate, listPeriod));
