@@ -21,12 +21,14 @@ module.exports = function App(db) {
 
 	app.enable("trust proxy");
 
+	app.use(bodyParser.json({ limit: '50mb' }));
+	app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+
 	app.use(helmet());
 	app.use(helmet.noCache());
 
 	app.use(logger('short'));
-	app.use(bodyParser.json({ limit: '50mb' }));
-	app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+
 
 	app.use(express.static(path.join(__dirname, '../../client')));
 
