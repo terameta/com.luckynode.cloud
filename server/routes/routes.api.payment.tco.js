@@ -177,6 +177,7 @@ function detailTCO(cObject){
 				deferred.reject(err);
 			} else {
 				console.log("Pulled ", curTrx.sale_id, curIndex);
+				console.log(data);
 				curTrx.fullDetail = data;
 				deferred.resolve(data);
 			}
