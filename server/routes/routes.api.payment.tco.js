@@ -177,7 +177,6 @@ function detailTCO(cObject){
 				deferred.reject(err);
 			} else {
 				console.log("Pulled ", curTrx.sale_id, curIndex);
-				console.log(data.invoices);
 				curTrx.fullDetail = data;
 				deferred.resolve(data);
 			}
@@ -198,7 +197,7 @@ function transposeTCO(cObject){
 			console.log(curInvoice.invoice_id, " will be recalculated with #lineitems:", curInvoice.lineitems.length);
 			curInvoice.calculatedTotal = 0;
 			curInvoice.lineitems.forEach(function(curLineItem){
-				console.log(curInvoice.invoice_id, curLineItem.status);
+				console.log(curInvoice.invoice_id, curLineItem);
 				if(curLineItem.status == "bill"){
 					curInvoice.calculatedTotal += parseFloat(curLineItem.usd_amount);
 				}
