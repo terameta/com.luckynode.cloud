@@ -192,12 +192,13 @@ function transposeTCO(cObject){
 	cObject.invoiceList = [];
 	cObject.transactionList.forEach(function(curTrx){
 		curTrx.fullDetail.sale.invoices.forEach(function(curInvoice){
-			console.log(curInvoice);
+			// console.log(curInvoice);
 			curInvoice.customer_email = curTrx.fullDetail.sale.customer.email_address;
 			curInvoice.pay_method = curTrx.fullDetail.sale.customer.pay_method;
-		//	console.log(curInvoice.invoice_id, " will be recalculated");
+			console.log(curInvoice.invoice_id, " will be recalculated with #lineitems:", curInvoice.lineitems.length);
 			curInvoice.calculatedTotal = 0;
 			curInvoice.lineitems.forEach(function(curLineItem){
+				console.log(curInvoice.invoice_id, curLineItem.status);
 				if(curLineItem.status == "bill"){
 					curInvoice.calculatedTotal += parseFloat(curLineItem.usd_amount);
 				}
