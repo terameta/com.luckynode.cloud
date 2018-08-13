@@ -198,10 +198,10 @@ function transposeTCO(cObject){
 			curInvoice.calculatedTotal = 0;
 			curInvoice.lineitems.forEach(function(curLineItem){
 				console.log(curInvoice.invoice_id, curLineItem.billing.status, curLineItem.billing.usd_amount);
-				if(curLineItem.status == "bill"){
+				if(curLineItem.billing.status == "bill"){
 					curInvoice.calculatedTotal += parseFloat(curLineItem.usd_amount);
 				}
-				if(curLineItem.status == "refund"){
+				if(curLineItem.billing.status == "refund"){
 					curInvoice.calculatedTotal -= parseFloat(curLineItem.usd_amount);
 				}
 			});
