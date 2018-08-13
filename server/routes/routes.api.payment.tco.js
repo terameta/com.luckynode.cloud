@@ -116,6 +116,7 @@ function getSettings(cObject){
 			deferred.resolve(cObject);
 		}
 	});
+	console.log('Settings received');
 	return deferred.promise;
 }
 
@@ -147,6 +148,9 @@ function listTCO(cObject, listPage){
 			deferred.reject({onFunction:"listTCO", err:err});
 		} else {
 			if(!cObject.transactionList) cObject.transactionList = [];
+			data.sale_summary.forEach(function(ss){
+				console.log('Sale Summary:', ss);
+			});
 			cObject.transactionList = cObject.transactionList.concat(data.sale_summary);
 			console.log("Cur Page:", data.page_info.cur_page);
 			console.log("LastPage:", data.page_info.last_page);
