@@ -197,7 +197,7 @@ function transposeTCO(cObject){
 			console.log(curInvoice.invoice_id, " will be recalculated with #lineitems:", curInvoice.lineitems.length);
 			curInvoice.calculatedTotal = 0;
 			curInvoice.lineitems.forEach(function(curLineItem){
-				console.log(curInvoice.invoice_id, curLineItem);
+				console.log(curInvoice.invoice_id, curLineItem.billing.status, curLineItem.billing.usd_amount);
 				if(curLineItem.status == "bill"){
 					curInvoice.calculatedTotal += parseFloat(curLineItem.usd_amount);
 				}
